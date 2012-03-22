@@ -1,0 +1,370 @@
+<mockup version="1.0" skin="sketch" measuredW="1472" measuredH="566" mockupW="1460" mockupH="530">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::Canvas" x="12" y="36" w="727" h="530" measuredW="100" measuredH="70" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderColor>0</borderColor>
+        <borderStyle>square</borderStyle>
+      </controlProperties>
+    </control>
+    <control controlID="24" controlTypeID="com.balsamiq.mockups::Title" x="240" y="51" w="-1" h="-1" measuredW="250" measuredH="50" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Pirates%20Away%21</text>
+      </controlProperties>
+    </control>
+    <control controlID="29" controlTypeID="com.balsamiq.mockups::CheckBoxGroup" x="387" y="513" w="-1" h="-1" measuredW="105" measuredH="42" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%5B%20%5D%20Mute%20Effects%0A%5Bx%5D%20Mute%20Music</text>
+      </controlProperties>
+    </control>
+    <control controlID="33" controlTypeID="com.balsamiq.mockups::Button" x="39" y="516" w="-1" h="-1" measuredW="150" measuredH="27" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <state>selected</state>
+        <text>Not%20hardcore%20enough%3F</text>
+      </controlProperties>
+    </control>
+    <control controlID="63" controlTypeID="com.balsamiq.mockups::Button" x="612" y="51" w="-1" h="-1" measuredW="118" measuredH="38" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>13576743</color>
+        <icon>CircledXIcon%7Cmedium</icon>
+        <state>up</state>
+        <text>TO%20LAND%21</text>
+      </controlProperties>
+    </control>
+    <control controlID="64" controlTypeID="com.balsamiq.mockups::HRule" x="21" y="488" w="709" h="-1" measuredW="100" measuredH="5" zOrder="5" locked="false" isInGroup="-1"/>
+    <control controlID="78" controlTypeID="com.balsamiq.mockups::FieldSet" x="14" y="101" w="725" h="392" measuredW="200" measuredH="170" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Hardcore%20Pirate%20Settings</text>
+      </controlProperties>
+    </control>
+    <control controlID="79" controlTypeID="com.balsamiq.mockups::Label" x="47" y="132" w="-1" h="-1" measuredW="96" measuredH="21" zOrder="7" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Random%20Setting</text>
+      </controlProperties>
+    </control>
+    <control controlID="80" controlTypeID="com.balsamiq.mockups::Label" x="368" y="132" w="-1" h="-1" measuredW="96" measuredH="21" zOrder="8" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Random%20Setting</text>
+      </controlProperties>
+    </control>
+    <control controlID="81" controlTypeID="com.balsamiq.mockups::Label" x="39" y="192" w="-1" h="-1" measuredW="96" measuredH="21" zOrder="9" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Random%20Setting</text>
+      </controlProperties>
+    </control>
+    <control controlID="82" controlTypeID="com.balsamiq.mockups::Label" x="368" y="192" w="-1" h="-1" measuredW="96" measuredH="21" zOrder="10" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Random%20Setting</text>
+      </controlProperties>
+    </control>
+    <control controlID="83" controlTypeID="com.balsamiq.mockups::Label" x="39" y="267" w="-1" h="-1" measuredW="96" measuredH="21" zOrder="11" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Random%20Setting</text>
+      </controlProperties>
+    </control>
+    <control controlID="84" controlTypeID="com.balsamiq.mockups::Label" x="368" y="267" w="-1" h="-1" measuredW="96" measuredH="21" zOrder="12" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Random%20Setting</text>
+      </controlProperties>
+    </control>
+    <control controlID="85" controlTypeID="com.balsamiq.mockups::Label" x="39" y="328" w="-1" h="-1" measuredW="96" measuredH="21" zOrder="13" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Random%20Setting</text>
+      </controlProperties>
+    </control>
+    <control controlID="86" controlTypeID="com.balsamiq.mockups::Label" x="361" y="328" w="-1" h="-1" measuredW="96" measuredH="21" zOrder="14" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Random%20Setting</text>
+      </controlProperties>
+    </control>
+    <control controlID="87" controlTypeID="com.balsamiq.mockups::Label" x="39" y="391" w="-1" h="-1" measuredW="96" measuredH="21" zOrder="15" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Random%20Setting</text>
+      </controlProperties>
+    </control>
+    <control controlID="88" controlTypeID="com.balsamiq.mockups::Label" x="361" y="391" w="96" h="21" measuredW="96" measuredH="21" zOrder="16" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Random%20Setting</text>
+      </controlProperties>
+    </control>
+    <control controlID="89" controlTypeID="com.balsamiq.mockups::NumericStepper" x="472" y="130" w="-1" h="-1" measuredW="41" measuredH="24" zOrder="17" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>3</text>
+      </controlProperties>
+    </control>
+    <control controlID="90" controlTypeID="com.balsamiq.mockups::CheckBox" x="169" y="132" w="-1" h="-1" measuredW="83" measuredH="22" zOrder="18" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Checkbox</text>
+      </controlProperties>
+    </control>
+    <control controlID="91" controlTypeID="com.balsamiq.mockups::Button" x="167" y="197" w="-1" h="-1" measuredW="59" measuredH="27" zOrder="19" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Button</text>
+      </controlProperties>
+    </control>
+    <control controlID="92" controlTypeID="com.balsamiq.mockups::NumericStepper" x="473" y="190" w="-1" h="-1" measuredW="41" measuredH="24" zOrder="20" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>3</text>
+      </controlProperties>
+    </control>
+    <control controlID="94" controlTypeID="com.balsamiq.mockups::ComboBox" x="152" y="264" w="-1" h="-1" measuredW="94" measuredH="23" zOrder="21" locked="false" isInGroup="-1"/>
+    <control controlID="95" controlTypeID="com.balsamiq.mockups::RadioButton" x="152" y="320" w="-1" h="-1" measuredW="92" measuredH="22" zOrder="22" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Radio%20Button</text>
+      </controlProperties>
+    </control>
+    <control controlID="96" controlTypeID="com.balsamiq.mockups::RadioButton" x="152" y="342" w="-1" h="-1" measuredW="92" measuredH="22" zOrder="23" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Radio%20Button</text>
+      </controlProperties>
+    </control>
+    <control controlID="97" controlTypeID="com.balsamiq.mockups::Button" x="659" y="461" w="-1" h="-1" measuredW="65" measuredH="27" zOrder="24" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Default</text>
+      </controlProperties>
+    </control>
+    <control controlID="98" controlTypeID="com.balsamiq.mockups::HSlider" x="493" y="271" w="106" h="-1" measuredW="33" measuredH="11" zOrder="25" locked="false" isInGroup="-1"/>
+    <control controlID="99" controlTypeID="com.balsamiq.mockups::HSlider" x="487" y="336" w="112" h="-1" measuredW="33" measuredH="11" zOrder="26" locked="false" isInGroup="-1"/>
+    <control controlID="100" controlTypeID="com.balsamiq.mockups::VolumeSlider" x="482" y="395" w="130" h="-1" measuredW="72" measuredH="16" zOrder="27" locked="false" isInGroup="-1"/>
+    <control controlID="101" controlTypeID="com.balsamiq.mockups::CheckBox" x="161" y="394" w="-1" h="-1" measuredW="83" measuredH="22" zOrder="28" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Checkbox</text>
+      </controlProperties>
+    </control>
+    <control controlID="102" controlTypeID="com.balsamiq.mockups::Canvas" x="745" y="36" w="727" h="530" measuredW="100" measuredH="70" zOrder="29" locked="false" isInGroup="-1">
+      <controlProperties>
+        <borderColor>0</borderColor>
+        <borderStyle>square</borderStyle>
+      </controlProperties>
+    </control>
+    <control controlID="103" controlTypeID="com.balsamiq.mockups::Title" x="973" y="51" w="-1" h="-1" measuredW="250" measuredH="50" zOrder="30" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Pirates%20Away%21</text>
+      </controlProperties>
+    </control>
+    <control controlID="104" controlTypeID="com.balsamiq.mockups::CheckBoxGroup" x="1120" y="513" w="-1" h="-1" measuredW="105" measuredH="42" zOrder="31" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>%5B%20%5D%20Mute%20Effects%0A%5Bx%5D%20Mute%20Music</text>
+      </controlProperties>
+    </control>
+    <control controlID="105" controlTypeID="com.balsamiq.mockups::Button" x="772" y="516" w="-1" h="-1" measuredW="150" measuredH="27" zOrder="32" locked="false" isInGroup="-1">
+      <controlProperties>
+        <state>selected</state>
+        <text>Not%20hardcore%20enough%3F</text>
+      </controlProperties>
+    </control>
+    <control controlID="106" controlTypeID="com.balsamiq.mockups::Button" x="1345" y="51" w="-1" h="-1" measuredW="118" measuredH="38" zOrder="33" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>13576743</color>
+        <icon>CircledXIcon%7Cmedium</icon>
+        <state>up</state>
+        <text>TO%20LAND%21</text>
+      </controlProperties>
+    </control>
+    <control controlID="107" controlTypeID="com.balsamiq.mockups::HRule" x="754" y="488" w="709" h="-1" measuredW="100" measuredH="5" zOrder="34" locked="false" isInGroup="-1"/>
+    <control controlID="131" controlTypeID="com.balsamiq.mockups::FieldSet" x="745" y="288" w="177" h="173" measuredW="200" measuredH="170" zOrder="35" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Boat%20One</text>
+      </controlProperties>
+    </control>
+    <control controlID="132" controlTypeID="com.balsamiq.mockups::FieldSet" x="922" y="288" w="183" h="173" measuredW="200" measuredH="170" zOrder="36" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Boat%20Two</text>
+      </controlProperties>
+    </control>
+    <control controlID="133" controlTypeID="com.balsamiq.mockups::FieldSet" x="1105" y="288" w="191" h="173" measuredW="200" measuredH="170" zOrder="37" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Boat%20Three</text>
+      </controlProperties>
+    </control>
+    <control controlID="134" controlTypeID="com.balsamiq.mockups::FieldSet" x="1296" y="288" w="176" h="173" measuredW="200" measuredH="170" zOrder="38" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Boat%20Four</text>
+      </controlProperties>
+    </control>
+    <control controlID="135" controlTypeID="com.balsamiq.mockups::Label" x="754" y="299" w="-1" h="-1" measuredW="69" measuredH="21" zOrder="39" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Shots%20fired</text>
+      </controlProperties>
+    </control>
+    <control controlID="136" controlTypeID="com.balsamiq.mockups::Label" x="754" y="315" w="-1" h="-1" measuredW="58" measuredH="21" zOrder="40" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Accuracy</text>
+      </controlProperties>
+    </control>
+    <control controlID="137" controlTypeID="com.balsamiq.mockups::Label" x="754" y="328" w="-1" h="-1" measuredW="94" measuredH="21" zOrder="41" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Damage%20Taken</text>
+      </controlProperties>
+    </control>
+    <control controlID="138" controlTypeID="com.balsamiq.mockups::Label" x="754" y="343" w="-1" h="-1" measuredW="87" measuredH="21" zOrder="42" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Damage%20Done</text>
+      </controlProperties>
+    </control>
+    <control controlID="139" controlTypeID="com.balsamiq.mockups::Label" x="754" y="364" w="-1" h="-1" measuredW="72" measuredH="21" zOrder="43" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Killing%20Blows</text>
+      </controlProperties>
+    </control>
+    <control controlID="140" controlTypeID="com.balsamiq.mockups::Label" x="754" y="376" w="-1" h="-1" measuredW="104" measuredH="21" zOrder="44" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>PowerUps%20Taken</text>
+      </controlProperties>
+    </control>
+    <control controlID="141" controlTypeID="com.balsamiq.mockups::Label" x="754" y="391" w="-1" h="-1" measuredW="72" measuredH="21" zOrder="45" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Rounds%20won</text>
+      </controlProperties>
+    </control>
+    <control controlID="142" controlTypeID="com.balsamiq.mockups::Label" x="757" y="427" w="-1" h="-1" measuredW="152" measuredH="21" zOrder="46" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Press%20Q%20to%20walk%20the%20plank</text>
+      </controlProperties>
+    </control>
+    <control controlID="143" controlTypeID="com.balsamiq.mockups::SubTitle" x="745" y="461" w="-1" h="-1" measuredW="724" measuredH="26" zOrder="47" locked="false" isInGroup="-1">
+      <controlProperties>
+        <size>18</size>
+        <text>Press%20SPACE%20to%20START%20the%20game%21%20%28Ya%20need%20atleast%20two%20ships%20so%20there%20is%20someone%20to%20kill%21%29</text>
+      </controlProperties>
+    </control>
+    <control controlID="152" controlTypeID="com.balsamiq.mockups::Label" x="922" y="300" w="-1" h="-1" measuredW="69" measuredH="21" zOrder="48" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Shots%20fired</text>
+      </controlProperties>
+    </control>
+    <control controlID="153" controlTypeID="com.balsamiq.mockups::Label" x="922" y="316" w="-1" h="-1" measuredW="58" measuredH="21" zOrder="49" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Accuracy</text>
+      </controlProperties>
+    </control>
+    <control controlID="154" controlTypeID="com.balsamiq.mockups::Label" x="922" y="329" w="-1" h="-1" measuredW="94" measuredH="21" zOrder="50" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Damage%20Taken</text>
+      </controlProperties>
+    </control>
+    <control controlID="155" controlTypeID="com.balsamiq.mockups::Label" x="922" y="344" w="-1" h="-1" measuredW="87" measuredH="21" zOrder="51" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Damage%20Done</text>
+      </controlProperties>
+    </control>
+    <control controlID="156" controlTypeID="com.balsamiq.mockups::Label" x="922" y="365" w="-1" h="-1" measuredW="72" measuredH="21" zOrder="52" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Killing%20Blows</text>
+      </controlProperties>
+    </control>
+    <control controlID="157" controlTypeID="com.balsamiq.mockups::Label" x="922" y="377" w="-1" h="-1" measuredW="104" measuredH="21" zOrder="53" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>PowerUps%20Taken</text>
+      </controlProperties>
+    </control>
+    <control controlID="158" controlTypeID="com.balsamiq.mockups::Label" x="922" y="392" w="-1" h="-1" measuredW="72" measuredH="21" zOrder="54" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Rounds%20won</text>
+      </controlProperties>
+    </control>
+    <control controlID="159" controlTypeID="com.balsamiq.mockups::Label" x="925" y="428" w="-1" h="-1" measuredW="152" measuredH="21" zOrder="55" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Press%20Q%20to%20walk%20the%20plank</text>
+      </controlProperties>
+    </control>
+    <control controlID="160" controlTypeID="com.balsamiq.mockups::Label" x="1307" y="300" w="-1" h="-1" measuredW="69" measuredH="21" zOrder="56" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Shots%20fired</text>
+      </controlProperties>
+    </control>
+    <control controlID="161" controlTypeID="com.balsamiq.mockups::Label" x="1307" y="316" w="-1" h="-1" measuredW="58" measuredH="21" zOrder="57" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Accuracy</text>
+      </controlProperties>
+    </control>
+    <control controlID="162" controlTypeID="com.balsamiq.mockups::Label" x="1307" y="329" w="-1" h="-1" measuredW="94" measuredH="21" zOrder="58" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Damage%20Taken</text>
+      </controlProperties>
+    </control>
+    <control controlID="163" controlTypeID="com.balsamiq.mockups::Label" x="1307" y="344" w="-1" h="-1" measuredW="87" measuredH="21" zOrder="59" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Damage%20Done</text>
+      </controlProperties>
+    </control>
+    <control controlID="164" controlTypeID="com.balsamiq.mockups::Label" x="1307" y="365" w="-1" h="-1" measuredW="72" measuredH="21" zOrder="60" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Killing%20Blows</text>
+      </controlProperties>
+    </control>
+    <control controlID="165" controlTypeID="com.balsamiq.mockups::Label" x="1307" y="377" w="-1" h="-1" measuredW="104" measuredH="21" zOrder="61" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>PowerUps%20Taken</text>
+      </controlProperties>
+    </control>
+    <control controlID="166" controlTypeID="com.balsamiq.mockups::Label" x="1307" y="392" w="-1" h="-1" measuredW="72" measuredH="21" zOrder="62" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Rounds%20won</text>
+      </controlProperties>
+    </control>
+    <control controlID="167" controlTypeID="com.balsamiq.mockups::Label" x="1310" y="428" w="-1" h="-1" measuredW="152" measuredH="21" zOrder="63" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Press%20Q%20to%20walk%20the%20plank</text>
+      </controlProperties>
+    </control>
+    <control controlID="168" controlTypeID="com.balsamiq.mockups::Label" x="1116" y="336" w="191" h="23" measuredW="175.43814537402895" measuredH="65.83659429011408" zOrder="64" locked="false" isInGroup="-1">
+      <controlProperties>
+        <bold>true</bold>
+        <text>If%20ye%20wanna%20join%2C%20just%20press%20E%21</text>
+        <textOrientation>slanted</textOrientation>
+      </controlProperties>
+    </control>
+    <control controlID="169" controlTypeID="com.balsamiq.mockups::FieldSet" x="746" y="101" w="726" h="184" measuredW="200" measuredH="170" zOrder="65" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Here%2C%20thy%20best%20pirate%20is%20crowned%21%20%27congrats%20matey%2C%20maybe%20celebrate%20with%20rum%3F</text>
+      </controlProperties>
+    </control>
+    <control controlID="170" controlTypeID="com.balsamiq.mockups::SubTitle" x="766" y="122" w="-1" h="-1" measuredW="88" measuredH="33" zOrder="66" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Winner%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="171" controlTypeID="com.balsamiq.mockups::Title" x="1033" y="122" w="-1" h="-1" measuredW="148" measuredH="50" zOrder="67" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>LOSER%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="172" controlTypeID="com.balsamiq.mockups::Tooltip" x="1226" y="173" w="136" h="83" measuredW="117" measuredH="83" zOrder="70" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>yer%20defiling%20thy%20sea%20me%20roam%21</text>
+        <tooltipDirection>NE</tooltipDirection>
+      </controlProperties>
+    </control>
+    <control controlID="173" controlTypeID="com.balsamiq.mockups::SubTitle" x="1181" y="131" w="-1" h="-1" measuredW="110" measuredH="33" zOrder="68" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Boat%20Four</text>
+      </controlProperties>
+    </control>
+    <control controlID="174" controlTypeID="com.balsamiq.mockups::Image" x="1345" y="112" w="94" h="70" measuredW="457" measuredH="408" zOrder="69" locked="false" isInGroup="-1">
+      <controlProperties>
+        <src>./scott_the_pirate.png</src>
+        <text/>
+      </controlProperties>
+    </control>
+    <control controlID="175" controlTypeID="com.balsamiq.mockups::Label" x="858" y="128" w="-1" h="-1" measuredW="63" measuredH="21" zOrder="71" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Boat%20Two</text>
+      </controlProperties>
+    </control>
+    <control controlID="176" controlTypeID="com.balsamiq.mockups::SubTitle" x="780" y="186" w="-1" h="-1" measuredW="142" measuredH="33" zOrder="72" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Time%20Played%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="177" controlTypeID="com.balsamiq.mockups::SubTitle" x="763" y="223" w="-1" h="-1" measuredW="166" measuredH="33" zOrder="73" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Rounds%20Played%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="178" controlTypeID="com.balsamiq.mockups::Label" x="1131" y="385" w="138" h="88" measuredW="481" measuredH="21" zOrder="74" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>But%20hear%20me%20warning%2C%20ye%20might%20lose%20all%20yer%20dignity%20and%20end%20up%20at%20Davy%20Jones%20Locker.</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>
