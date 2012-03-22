@@ -3,6 +3,7 @@ package Model;
 /**
  * A mutable Vector for the plane (2 dimensions).
  * @author Victor Lindhé
+ * @modified by Anton Lindgren
  */
 public class Vector {
     private float x;
@@ -44,6 +45,41 @@ public class Vector {
     }
     
     /**
+     * Sets the x-element
+     * @param x 
+     */
+    public void setX(float x) {
+        this.x = x;
+    }
+    
+    /**
+     * Sets the y-element
+     * @param y 
+     */
+    public void setY(float y) {
+        this.y = y;
+    }
+    
+    /**
+     * Normalizes the vector's length to 1
+     * @throws ArithmeticException if getLength() == 0
+     */
+    public void normalize() throws ArithmeticException {
+        if (x != 0 && y != 0) {
+        this.x = this.x/this.getLength();
+        this.y = this.y/this.getLength();
+        }
+    }
+    
+    /**
+     * Returns the length of the vector
+     * @return 
+     */
+    public float getLength() {        
+        return (float)Math.sqrt(x*x + y*y);
+    }
+    
+    /**
      * Returns a string with the format "X = X.XXXX, Y = Y.YYYY".
      * @return 
      */
@@ -60,7 +96,7 @@ public class Vector {
      */
     @Override
     public boolean equals(Object obj) {
-        if(obj.getClass() != this.getClass()) {
+        if(obj != null || obj.getClass() != this.getClass()) {
             return false;
         }
         Vector v = (Vector)obj;
