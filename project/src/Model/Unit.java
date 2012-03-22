@@ -11,37 +11,55 @@ public class Unit {
     
     private final Vector pos;
     private final Vector dir;
+    private final int hitPointsMax;
     
     private int speed;
     private int acceleration = 10;
     private int retardation = 10;
-    private int turnRadius;
-    
+    private int hitPoints;
 //    private PowerUp powerUp; TODO
     
-    public Unit(Vector pos, Vector dir){
+    public Unit(Vector pos, Vector dir, int hitPointsMax){
+        if(hitPointsMax <= 0 ){
+            throw new IllegalArgumentException("hit points must be positive");
+        }
+        
         this.pos = new Vector(pos);
         this.dir = new Vector(dir);
+        this.hitPointsMax = hitPointsMax;
+        this.hitPoints = hitPointsMax;
     }
 
+    public Unit(Vector pos, Vector dir){
+        this(pos,dir,100);
+    }
+    
     /**
      * Acceleratates the unit. As the unit accelerates, the turnRadius increases
-     * @return unit's speed after the acceleration.
      */
-    public int accelerate(){
-        this.speed += this.acceleration;
-        
-        return this.speed;
+    public void accelerate(){
+        this.setSpeed(speed+acceleration);
     }
     /**
      * Retardates the unit. As the unit retardates, turnRadius decreases.
-     * @return unit's speed after retardation
+     * 
      */
-    public int retardate(){
-        this.speed -= this.retardation;
-        
-        return this.speed;
+    public void retardate(){
+        this.setSpeed(this.speed-retardation);
     }
+
+    public void steerClockwise(float steerAngle){
+        if (this.speed != 0){
+            setDirection(dir.mult(UtilMath.rotate(-steerAngle))); // any other suggestion ? maybe a method in vector?   
+        }
+    }
+    
+    public void steerAntiClockwise(float steerAngle){
+        if (this.speed != 0){
+            setDirection(dir.mult(UtilMath.rotate(steerAngle)));
+        }
+    }
+    
     
     public void setDirection(Vector dir) {
         this.setDirection(dir.getX(), dir.getY());
@@ -68,11 +86,29 @@ public class Unit {
         this.speed = speed;
     }
 
-    public void setTurnRadius(int turnRadius) {
-        if(turnRadius < 0){
-            throw new IllegalArgumentException("Must be a postitive integer");
+
+    public void setAcceleration(int acceleration) {
+        if( acceleration < 0 ){
+            throw new IllegalArgumentException(
+                    "Must have a positive acceleration value");
         }
-        this.turnRadius = turnRadius;
+        this.acceleration = acceleration;
+    }
+
+    public void setHitPoints(int hitPoints) {
+        if( hitPoints <= 0 ){
+            throw new IllegalArgumentException(
+                    "Must have a positive hit points value");
+        }
+        this.hitPoints = hitPoints;
+    }
+
+    public void setRetardation(int retardation) {
+        if( retardation < 0 ){
+            throw new IllegalArgumentException(
+                    "Must have a positive retardation value");
+        }
+        this.retardation = retardation;
     }
     
     public Vector getPosition(){
@@ -83,59 +119,26 @@ public class Unit {
         return this.dir;
     }
     
+    public int getHitPoints() {
+        return this.hitPoints;
+    }
+    
+    public int getHitPointsMax(){
+        return this.hitPointsMax;
+    }
+    
     public int getAcceleration(){
         return this.acceleration;
     }
+    
+    public int getRetardation(){
+        return this.retardation;
+    }
+    
     public int getSpeed(){
         return this.speed;
     }
     
-    public int getTurnRadius(){
-        return this.turnRadius;
-    }
-    
-    @Override
-    public String toString() {
-        return "Unit{" + "pos=" + pos + ", dir=" + dir + ", speed=" + speed + ", acceleration=" + acceleration + ", retardation=" + retardation + ", turnRadius=" + turnRadius + '}';
-    }
-    
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Unit other = (Unit) obj;
-        if (this.pos != other.pos && (this.pos == null || !this.pos.equals(other.pos))) {
-            return false;
-        }
-        if (this.dir != other.dir && (this.dir == null || !this.dir.equals(other.dir))) {
-            return false;
-        }
-        if (this.speed != other.speed) {
-            return false;
-        }
-        if (this.acceleration != other.acceleration) {
-            return false;
-        }
-        if (this.turnRadius != other.turnRadius) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 53 * hash + (this.pos != null ? this.pos.hashCode() : 0);
-        hash = 53 * hash + (this.dir != null ? this.dir.hashCode() : 0);
-        hash = 53 * hash + this.speed;
-        hash = 53 * hash + this.acceleration;
-        hash = 53 * hash + this.turnRadius;
-        return hash;
-    }
-    
+    // TODO Equals HashCode toString, when finished.
     
 }
