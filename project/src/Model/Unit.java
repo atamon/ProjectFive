@@ -50,13 +50,13 @@ public class Unit {
 
     public void steerClockwise(float steerAngle){
         if (this.speed != 0){
-            setDirection(dir.mult(UtilMath.rotate(-steerAngle))); // any other suggestion ? maybe a method in vector?   
+       //     setDirection(dir.mult(UtilMath.rotate(-steerAngle))); // any other suggestion ? maybe a method in vector?   
         }
     }
     
     public void steerAntiClockwise(float steerAngle){
         if (this.speed != 0){
-            setDirection(dir.mult(UtilMath.rotate(steerAngle)));
+       //     setDirection(dir.mult(UtilMath.rotate(steerAngle)));
         }
     }
     

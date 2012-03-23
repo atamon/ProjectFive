@@ -3,10 +3,10 @@ package Model;
 
 /**
  * A simple class thats meant to bind a unit for each player.
- * @author johnhu
+ * @author John Hult
+ * Tested and modified by Victor Lindhé
  */
 public class Player {
-    
     private final int playerId;
     
     private Unit playerUnit;
@@ -32,7 +32,15 @@ public class Player {
      * @param Unit boat 
      */
     public void setUnit(Unit boat) {
-        this.playerUnit = boat;
+        if(boat != null) {
+            this.playerUnit = boat;
+        }
+    }
+    
+    public void steerUnit(Direction dir, float tpf) {
+        if(dir == Direction.ANTICLOCKWISE) {
+            
+        }
     }
     
     /**
@@ -45,7 +53,7 @@ public class Player {
     
     @Override
     public String toString() {
-        return ("Player: " + this.playerId + "Unit:" + this.playerUnit);
+        return ("Player: " + this.playerId + "Unit:" + this.playerUnit.toString());
     }
 
     @Override

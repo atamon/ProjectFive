@@ -4,10 +4,6 @@
  */
 package Model;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -16,51 +12,35 @@ import static org.junit.Assert.*;
  * @author victorlindhe
  */
 public class PlayerTest {
-    
-    public PlayerTest() {
-    }
-
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
 
     /**
      * Test of getUnit method, of class Player.
+     * Checks if we get null with no Unit set.
+     * Checks if we get the same unit that we set.
      */
     @Test
     public void testGetUnit() {
         System.out.println("getUnit");
-        Player instance = null;
-        Unit expResult = null;
-        Unit result = instance.getUnit();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Player instance = new Player(1);
+        assertNull(instance.getUnit());
+        Unit unit = new Unit(new Vector(5f,4f), new Vector(1f, 1f), 100);
+        instance.setUnit(unit);
+        assertTrue(instance.getUnit().equals(unit));
     }
 
     /**
      * Test of setUnit method, of class Player.
+     * Checks what happens if we set a null object (nothing should happen).
+     * Checks if a unit actually is set by comparing to get getters return.
      */
-    @Test
     public void testSetUnit() {
         System.out.println("setUnit");
         Unit boat = null;
-        Player instance = null;
+        Player instance = new Player(1);
         instance.setUnit(boat);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Unit unit = new Unit(new Vector(5f,4f), new Vector(1f, 1f), 100);
+        instance.setUnit(boat);
+        assertTrue(instance.getUnit().equals(unit));
     }
 
     /**
@@ -69,12 +49,10 @@ public class PlayerTest {
     @Test
     public void testGetId() {
         System.out.println("getId");
-        Player instance = null;
         int expResult = 0;
+        Player instance = new Player(expResult);
         int result = instance.getId();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -83,12 +61,10 @@ public class PlayerTest {
     @Test
     public void testToString() {
         System.out.println("toString");
-        Player instance = null;
+        Player instance = new Player(1);
         String expResult = "";
         String result = instance.toString();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
