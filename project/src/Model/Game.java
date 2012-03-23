@@ -1,21 +1,24 @@
 package Model;
 
+import Model.Round;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
  * Represents a Game consisting of rounds and players that compete to win!
  * @author Anton Lindgren
- * Modified by johnhu
+ * @modified by johnhu
  */
 public class Game {
     
     // Instances
     private final Battlefield battlefield;
     private final List<Player> players;
-    private int currentRound;
     private final int numberOfRounds;
-    private int[] playerScore;
+    
+    private List<Round> comingRounds;
+    private Round currentRound;
     
     /**
      * Create a game with given parameters.
@@ -30,8 +33,21 @@ public class Game {
         this.battlefield = battlefield;
         this.players = this.createPlayers(numberOfPlayers);
         this.numberOfRounds = numberOfRounds;
-        this.currentRound = 1;
-        this.playerScore = new int[numberOfPlayers];
+        this.comingRounds = this.createRounds(numberOfRounds);
+    }
+    
+    /**
+     * Creates a list of all the rounds this game includes
+     * @param numberOfRounds Number of rounds
+     */
+    private List<Round> createRounds(int numberOfRounds) {
+        List<Round> list = new LinkedList<Round>();
+        
+        for (int i = 0; i<numberOfRounds; i++) {
+            Round round = new Round(); //TODO Maybe needs an argument?
+            list.add(round);
+        }
+        return list;
     }
     
     /**
@@ -50,31 +66,22 @@ public class Game {
     
     /**
      * Start a new round.
-     * Sets position of all players,
-     * cleans up after previous round.
+     * Sets position of all players
      */
     private void startRound() {
-        battlefield.clear();
+        // TODO Insert stastics-handling for each round here in the future maybe?
+        currentRound = comingRounds.remove(0);
+    }
+    
+    /**
+     * Call when the round ends, ie one player is last man standing or the
+     * clock runs out.
+     * It delivers statistics from played round, sets score to the winner
+     * and clears the battlefield.
+     */
+    private void endRound() {
+        battlefield.removeItem();
         battlefield.positionUnits();
-    }
-    
-    /**
-     * Set the next round.
-     */
-    private void nextRound() {
-        if (this.currentRound == this.numberOfRounds) {
-//            TODO
-        }
-        this.currentRound++;
-        startRound();
-    }
-    
-    /**
-     * Give score to assigned player
-     * @param player The player last standing
-     */
-    private void giveScore(Player player) {
-        playerScore[player.getId()]++;        
-    }
-    
+        // TODO Add score for the winner here   
+    }    
 }

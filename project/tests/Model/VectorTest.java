@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package Model;
 
 import java.lang.ArithmeticException;
@@ -9,8 +5,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
- * @author atamon
+ * Test class for Vector.java
+ * @author Anton Lindgren
  */
 public class VectorTest {
 

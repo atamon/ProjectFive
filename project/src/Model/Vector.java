@@ -4,6 +4,7 @@ package Model;
  * A mutable Vector for the plane (2 dimensions).
  * @author Victor Lindhé
  * @modified by Anton Lindgren
+ * @tested by Anton Lindgren
  */
 public class Vector {
     private float x;
