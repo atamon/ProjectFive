@@ -16,7 +16,7 @@ public class Battlefield {
      */
     public Battlefield() {
         this.size = new Vector(100.0f, 100.0f);
-        this.item = ItemFactory.createNewItem();
+        this.item = ItemFactory.createNewItem(this.getSize());
     }
     
     /**
@@ -45,7 +45,7 @@ public class Battlefield {
         }
         
         this.size = new Vector(xWidth, yWidth);
-        this.item = ItemFactory.createNewItem();
+        this.item = ItemFactory.createNewItem(this.getSize());
     }
     
     /**
@@ -58,7 +58,7 @@ public class Battlefield {
         } else {
             this.size = new Vector(size);  
         }
-        this.item = ItemFactory.createNewItem();
+        this.item = ItemFactory.createNewItem(this.getSize());
     }
     
     /**
@@ -67,6 +67,56 @@ public class Battlefield {
      */
     public Vector getSize() {
         return new Vector(this.size);
+    }
+    
+    /**
+     * Returns all the Unit objects on the Battlefield.
+     * @return List
+     */
+    public List<Unit> getUnits() {
+        return this.units;
+    }
+    
+    /**
+     * Returns the Item object on the Battlefield.
+     * @return Item
+     */
+    public Item getItem() {
+        return this.item;
+    }
+    
+    /**
+     * Removes a Unit from the Battlefield
+     * @param unit Unit to remove.
+     */
+    public void deleteUnit(Unit unit) {
+        this.units.remove(unit);
+    }
+    
+    /**
+     * Clears the Battlefield.
+     * Removes all Units and Item.
+     */
+    public void clear() {
+        this.units.clear();
+        this.item = null;
+    }
+    
+    /**
+     * Removes Item from Battlefield.
+     */
+    public void removeItem() {
+        this.item = null;
+    }
+    
+    /**
+     * Adds Item to Battlefield.
+     * But not if there already is one there.
+     */
+    public void addItem() {
+        if(this.item == null) {
+            this.item = ItemFactory.createNewItem(this.getSize());
+        }
     }
     
     /**
