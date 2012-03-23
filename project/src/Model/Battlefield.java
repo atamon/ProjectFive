@@ -1,6 +1,7 @@
 package Model;
 
 import java.util.List;
+import java.util.ListIterator;
 
 /**
  * A class to represent a Battlefield.
@@ -89,17 +90,46 @@ public class Battlefield {
      * Removes a Unit from the Battlefield
      * @param unit Unit to remove.
      */
-    public void deleteUnit(Unit unit) {
+    public void removeUnit(Unit unit) {
         this.units.remove(unit);
     }
     
     /**
-     * Clears the Battlefield.
-     * Removes all Units and Item.
+     * Adds a unit to the board.
+     * Nothing will happen if there already are 4 units there.
+     * @param unit Unit
      */
-    public void clear() {
+    public void addUnit(Unit unit) {
+        if(unit != null && units.size() < 4) {
+            this.units.add(unit);
+        }
+    }
+    
+    /**
+     * Places the units in the corners of the Battlefield.
+     */
+    public void positionUnits() {
+        ListIterator<Unit> unitIterator = this.units.listIterator();
+        while(unitIterator.hasNext()) {
+            Unit unit = unitIterator.next();
+            if(unitIterator.nextIndex() == 0) {
+                unit.setPosition(2, 2);
+            } else if (unitIterator.nextIndex() == 1) {
+                unit.setPosition(this.size.getX()-2, 2);
+            } else if (unitIterator.nextIndex() == 2) {
+                unit.setPosition(2, this.size.getX()-2);
+            } else if (unitIterator.nextIndex() == 3) {
+                unit.setPosition(this.size.getX()-2, this.size.getX()-2);
+            }
+        }
+    }
+    
+    /**
+     * Clears the Battlefield.
+     * Removes all Units
+     */
+    public void removeUnits() {
         this.units.clear();
-        this.item = null;
     }
     
     /**
