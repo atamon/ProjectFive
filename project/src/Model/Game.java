@@ -6,13 +6,16 @@ import java.util.List;
 /**
  * Represents a Game consisting of rounds and players that compete to win!
  * @author Anton Lindgren
+ * Modified by johnhu
  */
 public class Game {
     
     // Instances
     private final Battlefield battlefield;
     private final List<Player> players;
-    private Round currentRound;
+    private int currentRound;
+    private final int numberOfRounds;
+    private int[] playerScore;
     
     /**
      * Create a game with given parameters.
@@ -26,6 +29,9 @@ public class Game {
     public Game(Battlefield battlefield, int numberOfRounds, int numberOfPlayers) {
         this.battlefield = battlefield;
         this.players = this.createPlayers(numberOfPlayers);
+        this.numberOfRounds = numberOfRounds;
+        this.currentRound = 1;
+        this.playerScore = new int[numberOfPlayers];
     }
     
     /**
@@ -45,9 +51,30 @@ public class Game {
     /**
      * Start a new round.
      * Sets position of all players,
-     * cleans up after (possible) previous round // TODO Anything else?
+     * cleans up after previous round.
      */
     private void startRound() {
-//        battlefield.positionPlayers();
+        battlefield.clear();
+        battlefield.positionUnits();
     }
+    
+    /**
+     * Set the next round.
+     */
+    private void nextRound() {
+        if (this.currentRound == this.numberOfRounds) {
+//            TODO
+        }
+        this.currentRound++;
+        startRound();
+    }
+    
+    /**
+     * Give score to assigned player
+     * @param player The player last standing
+     */
+    private void giveScore(Player player) {
+        playerScore[player.getId()]++;        
+    }
+    
 }
