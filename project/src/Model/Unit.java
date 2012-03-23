@@ -66,7 +66,7 @@ public class Unit {
      */
     public void steerClockwise(float tpf){
         if (this.speed != 0){
-            setDirection(dir.rotate(-this.steerAngle*tpf))); // any other suggestion ? maybe a method in vector?   
+//            setDirection(dir.rotate(-this.steerAngle*tpf))); // any other suggestion ? maybe a method in vector?   
         }
     }
     
@@ -76,7 +76,7 @@ public class Unit {
      */
     public void steerAntiClockwise(float tpf){
         if (this.speed != 0){
-            setDirection(dir.rotate(this.steerAngle*tpf)));
+//            setDirection(dir.rotate(this.steerAngle*tpf)));
         }
     }
     
