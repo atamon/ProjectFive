@@ -90,14 +90,14 @@ public class Battlefield {
      * Removes a Unit from the Battlefield
      * @param unit Unit to remove.
      */
-    public void deleteUnit(Unit unit) {
+    public void removeUnit(Unit unit) {
         this.units.remove(unit);
     }
     
     /**
      * Adds a unit to the board.
      * Nothing will happen if there already are 4 units there.
-     * @param unit 
+     * @param unit Unit
      */
     public void addUnit(Unit unit) {
         if(unit != null && units.size() < 4) {
@@ -126,11 +126,10 @@ public class Battlefield {
     
     /**
      * Clears the Battlefield.
-     * Removes all Units and Item.
+     * Removes all Units
      */
-    public void clear() {
+    public void removeUnits() {
         this.units.clear();
-        this.item = null;
     }
     
     /**
