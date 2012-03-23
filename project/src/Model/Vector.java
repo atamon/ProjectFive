@@ -65,9 +65,12 @@ public class Vector {
      * @throws ArithmeticException if getLength() == 0
      */
     public void normalize() throws ArithmeticException {
-        if (x != 0 && y != 0) {
+        if (x != 0 || y != 0) {
         this.x = this.x/this.getLength();
         this.y = this.y/this.getLength();
+        } else {
+            throw new ArithmeticException(
+                    "ERROR: Vector.normalize(), division by Zero!");
         }
     }
     
@@ -96,7 +99,7 @@ public class Vector {
      */
     @Override
     public boolean equals(Object obj) {
-        if(obj != null || obj.getClass() != this.getClass()) {
+        if(obj == null || obj.getClass() != this.getClass()) {
             return false;
         }
         Vector v = (Vector)obj;

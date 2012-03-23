@@ -4,11 +4,7 @@
  */
 package Model;
 
-import junit.framework.Assert;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import java.lang.ArithmeticException;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -48,7 +44,7 @@ public class VectorTest {
         float getY = vector.getY();
         assertTrue(y == getY && getY == vector.getY());
     }
-    
+
     /**
      * 
      */
@@ -60,7 +56,7 @@ public class VectorTest {
         vector.setX(x);
         assertTrue(x == vector.getX());
     }
-    
+
     /**
      * 
      */
@@ -70,7 +66,44 @@ public class VectorTest {
         float y = 4f;
         Vector vector = new Vector(0, y);
         vector.setY(y);
-        assertTrue(y == vector.getY());        
+        assertTrue(y == vector.getY());
+    }
+
+    /**
+     * Tests if all vectors returned by getLength() have length 1 after normalized.
+     * Except the 0 vector which returns an arithmetic exception
+     */
+    @Test(expected = ArithmeticException.class)
+    public void testNormalize() {
+        // 0 vector should cast ArithmeticException
+        Vector zeroVector = new Vector(0, 0);
+        zeroVector.normalize();
+
+        // Test a known vector
+        Vector vector1 = new Vector(1f, 3f);
+        vector1.normalize();
+        assertTrue(1 == vector1.getLength());
+
+        // Test a few random vectors
+        for (int i = 0; i < 10; i++) {
+            Vector randVector = new Vector((float) Math.random()*10, (float) Math.random()*10);
+            randVector.normalize();
+            assertTrue(1 == randVector.getLength());
+        }
+    }
+
+    /**
+     * Makes sure getLength() follows pythagoras
+     */
+    @Test
+    public void testGetLength() {
+        // A vector which should have the length (float)Math.sqrt(2)
+        Vector vector1 = new Vector(1f, 1f);
+        assertTrue(vector1.getLength() == (float)Math.sqrt(2));
+        // A vector with length (float)Math.sqrt(8)
+        Vector vector2 = new Vector(2f, 2f);
+        assertTrue(vector2.getLength() == (float)Math.sqrt(8));
+        
     }
 
     /**
