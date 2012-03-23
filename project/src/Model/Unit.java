@@ -5,20 +5,26 @@ package Model;
  * @author Johannes Wikner
  */
 public class Unit {
-    public static final int MAX_SPEED = 100;
-    public static final int MIN_TURN_RADIUS = 1;
-    public static final int MAX_TURN_RADIUS = 10;
     
     private final Vector pos;
     private final Vector dir;
     private final int hitPointsMax;
     
+    private double steerAngle = Math.PI/4;
+    
     private int speed;
     private int acceleration = 10;
     private int retardation = 10;
+    private int maxSpeed = 100;
     private int hitPoints;
 //    private PowerUp powerUp; TODO
     
+    /**
+     * Creates a new unit
+     * @param pos Initial position
+     * @param dir Initial position
+     * @param hitPointsMax 
+     */
     public Unit(Vector pos, Vector dir, int hitPointsMax){
         if(hitPointsMax <= 0 ){
             throw new IllegalArgumentException("hit points must be positive");
@@ -29,37 +35,56 @@ public class Unit {
         this.hitPointsMax = hitPointsMax;
         this.hitPoints = hitPointsMax;
     }
-
+    /**
+     * Create a unit with default hp set to 100
+     * @param pos initial position
+     * @param dir initial direction
+     */
     public Unit(Vector pos, Vector dir){
         this(pos,dir,100);
     }
     
     /**
-     * Acceleratates the unit. As the unit accelerates, the turnRadius increases
+     * Acceleratates the unit.
      */
     public void accelerate(){
         this.setSpeed(speed+acceleration);
     }
     /**
-     * Retardates the unit. As the unit retardates, turnRadius decreases.
-     * 
+     * Retardates the unit.  
      */
     public void retardate(){
-        this.setSpeed(this.speed-retardation);
-    }
-
-    public void steerClockwise(float steerAngle){
-        if (this.speed != 0){
-            setDirection(dir.mult(UtilMath.rotate(-steerAngle))); // any other suggestion ? maybe a method in vector?   
+        if (speed > 0) {
+            this.setSpeed(this.speed-retardation);
         }
     }
     
-    public void steerAntiClockwise(float steerAngle){
+    
+    /**
+     * Steers the unit clockwise
+     * @param tpf Time per frame
+     */
+    public void steerClockwise(float tpf){
         if (this.speed != 0){
-            setDirection(dir.mult(UtilMath.rotate(steerAngle)));
+            setDirection(dir.rotate(-this.steerAngle*tpf))); // any other suggestion ? maybe a method in vector?   
         }
     }
     
+    /**
+     * Steers the unit anti-clockwise
+     * @param tpf Time per frame
+     */
+    public void steerAntiClockwise(float tpf){
+        if (this.speed != 0){
+            setDirection(dir.rotate(this.steerAngle*tpf)));
+        }
+    }
+    
+    public void setSteerAngle(double steerAngle){
+        if (steerAngle < 0 || steerAngle > Math.PI*2){
+            throw new IllegalArgumentException("Angle must be positive 0 < angle < pi*2");
+        }
+    }
     
     public void setDirection(Vector dir) {
         this.setDirection(dir.getX(), dir.getY());
@@ -112,11 +137,11 @@ public class Unit {
     }
     
     public Vector getPosition(){
-        return this.pos;
+        return new Vector(this.pos);
     }
     
     public Vector getDirection(){
-        return this.dir;
+        return new Vector(this.dir);
     }
     
     public int getHitPoints() {
