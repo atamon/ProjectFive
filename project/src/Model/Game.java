@@ -54,7 +54,7 @@ public class Game {
      * cleans up after previous round.
      */
     private void startRound() {
-        battlefield.clear();
+        battlefield.removeUnits();
         battlefield.positionUnits();
     }
     
