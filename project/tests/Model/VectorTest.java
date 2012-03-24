@@ -141,4 +141,15 @@ public class VectorTest {
             assertTrue(vector1.hashCode() == vector2.hashCode());
         }
     }
+    
+    @Test
+    public void testRotate(){
+        Vector v = new Vector(1f, 2f);
+        
+        for (int i = 0; i < 2000; i++){
+            v.rotate(2*Math.PI/2000);
+        }
+        // Floats arn't 100% accurate. We are ok with a diff less than 0.03
+        assertTrue(1f-v.getX() < 0.03 && 2f-v.getY() < 0.03);
+    }
 }

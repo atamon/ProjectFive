@@ -82,7 +82,14 @@ public class Vector {
     public float getLength() {        
         return (float)Math.sqrt(x*x + y*y);
     }
-    
+    /**
+     * Rotates a vector by multiplying with the rotating matrix
+     * @param degree 
+     */
+    public void rotate(double radian){
+        this.x = (float)(Math.cos(radian)*x - Math.sin(radian)*y);
+        this.y = (float)(Math.sin(radian)*x + Math.cos(radian)*y);
+    }
     /**
      * Returns a string with the format "X = X.XXXX, Y = Y.YYYY".
      * @return 
