@@ -23,7 +23,7 @@ public class KeyBoardListener implements ActionListener {
             
     public void onAction(String name, boolean isPressed, float tpf) {
         if(name.equals("Forward")) {
-            this.game.acceleratePlayer(this.playerID, tpf);
+            this.game.acceleratePlayerUnit(this.playerID, tpf);
         } else if (name.equals("Left")) {
             this.game.steerPlayer(Direction.ANTICLOCKWISE, this.playerID, tpf);
         } else if (name.equals("Right")) {
