@@ -36,11 +36,6 @@ public class Controller {
         }
         
         this.game.startRound();
-        
-        this.view.initGround(this.game.getBattlefieldSize());
-        this.view.setLighting();
-        this.view.placeCamera();
-        this.view.initUnits();
     }
     
     private void initKeys(int playerIndex) {
@@ -60,7 +55,6 @@ public class Controller {
     
     private void update(double tpf) {
         this.game.update(tpf);
-        this.view.update(tpf);
     }
     
 }

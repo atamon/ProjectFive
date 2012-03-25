@@ -1,5 +1,7 @@
 package model;
 
+import java.beans.PropertyChangeListener;
+
 /**
  * A simple class thats meant to bind a unit for each player.
  * @author John Hult
@@ -95,6 +97,14 @@ public class Player {
      */
     public int getId() {
         return this.playerId;
+    }
+    
+    public void addUnitListener(PropertyChangeListener pl) {
+        this.playerUnit.addPropertyChangeListener(pl);
+    }
+    
+    public void removeUnitListener(PropertyChangeListener pl) {
+        this.playerUnit.removePropertyChangeListener(pl);
     }
     
     @Override

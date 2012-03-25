@@ -1,5 +1,6 @@
 package model;
 
+import java.beans.PropertyChangeListener;
 import model.Round;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -111,6 +112,14 @@ public class Game {
     public void steerPlayer(Direction direction, int playerID, double tpf) {
         Player player = players.get(playerID-1);
         player.steerUnit(direction, tpf);
+    }
+    
+    public void addUnitListener(int playerID, PropertyChangeListener pl) {
+        this.players.get(playerID-1).addUnitListener(pl);
+    }
+    
+    public void removeUnitListener(int playerID, PropertyChangeListener pl) {
+        this.players.get(playerID-1).removeUnitListener(pl);
     }
 
     /**
