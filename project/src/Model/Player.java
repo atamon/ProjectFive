@@ -4,7 +4,8 @@ package Model;
 /**
  * A simple class thats meant to bind a unit for each player.
  * @author John Hult
- * Tested and modified by Victor Lindhé
+ * @tested Victor Lindhé
+ * @modified Victor Lindhé
  */
 public class Player {
     private final int playerId;
@@ -78,7 +79,11 @@ public class Player {
     
     @Override
     public String toString() {
-        return ("Player: " + this.playerId + "Unit:" + this.playerUnit.toString());
+        if(this.playerUnit != null) {
+            return "Player: " + this.playerId + "Unit:" + this.playerUnit.toString();
+        } else {
+            return "Player: " + this.playerId + "Unit: NONE";
+        }
     }
 
     @Override
