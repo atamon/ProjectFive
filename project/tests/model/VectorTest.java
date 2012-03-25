@@ -1,5 +1,6 @@
-package Model;
+package model;
 
+import model.Vector;
 import java.lang.ArithmeticException;
 import org.junit.Test;
 import static org.junit.Assert.*;

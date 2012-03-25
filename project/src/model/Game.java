@@ -1,6 +1,6 @@
-package Model;
+package model;
 
-import Model.Round;
+import model.Round;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;

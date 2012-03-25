@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 /**
  * A simple class thats meant to bind a unit for each player.

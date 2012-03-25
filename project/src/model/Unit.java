@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 /**
  * A unit. Probably a ship.

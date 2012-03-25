@@ -4,7 +4,7 @@
  */
 package view;
 
-import Model.Game;
+import model.Game;
 import com.jme3.app.SimpleApplication;
 
 /**

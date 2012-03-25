@@ -2,10 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controller;
+package controller;
 
-import Model.Direction;
-import Model.Game;
+import model.Direction;
+import model.Game;
 import com.jme3.input.controls.ActionListener;
 
 /**

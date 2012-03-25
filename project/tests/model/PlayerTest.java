@@ -2,8 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Model;
+package model;
 
+import model.Vector;
+import model.Unit;
+import model.Player;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

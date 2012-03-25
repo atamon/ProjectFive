@@ -1,6 +1,6 @@
 package main;
 
-import Model.Game;
+import model.Game;
 import controller.Controller;
 import com.jme3.app.SimpleApplication;
 import com.jme3.renderer.RenderManager;
@@ -12,6 +12,9 @@ import javax.swing.text.View;
  */
 public class Main extends SimpleApplication {
 
+    private Controller controller;
+    private View view;
+    
     public static void main(String[] args) {
         Main app = new Main();
         app.start();
@@ -23,8 +26,8 @@ public class Main extends SimpleApplication {
     @Override
     public void simpleInitApp() {
         Game game = new Game();
-        View view = new View(this, game);
-        Controller controller = new Controller(this, view, game);
+        this.view = new View(this, game);
+        this.controller = new Controller(this, view, game);
     }
 
     /**
