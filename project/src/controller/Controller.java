@@ -8,6 +8,7 @@ import model.Game;
 import com.jme3.app.SimpleApplication;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.KeyTrigger;
+import model.Vector;
 import view.View;
 
 /**
@@ -28,6 +29,9 @@ public class Controller {
         this.jme3 = jme3;
         this.view = view;
         this.game = game;
+        
+        this.jme3.getInputManager().clearMappings();
+        this.game.placeUnit(1, new Vector(0,0));
         
         this.nbrOfPlayers = this.game.getNbrOfPlayers();
         

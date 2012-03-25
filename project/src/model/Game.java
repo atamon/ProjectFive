@@ -133,6 +133,10 @@ public class Game {
         // Uncomment when we want items
         //battlefield.addItem();
     }
+    
+    public void placeUnit(int id, Vector vector) {
+        this.players.get(id-1).getUnit().setPosition(vector);
+    }
 
     /**
      * Call when the round ends, ie one player is last man standing or the
