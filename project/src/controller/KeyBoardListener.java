@@ -25,9 +25,9 @@ public class KeyBoardListener implements ActionListener {
         if(name.equals("Forward")) {
             this.game.acceleratePlayer(this.playerID, tpf);
         } else if (name.equals("Left")) {
-            this.game.steerPlayer(Direction.ANTICLOCKWISE, tpf);
+            this.game.steerPlayer(Direction.ANTICLOCKWISE, this.playerID, tpf);
         } else if (name.equals("Right")) {
-            this.game.steerPlayer(Direction.CLOCKWISE, tpf);
+            this.game.steerPlayer(Direction.CLOCKWISE, this.playerID, tpf);
         }
     }
     

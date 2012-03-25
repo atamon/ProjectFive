@@ -8,6 +8,7 @@ import model.Game;
 import com.jme3.app.SimpleApplication;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.KeyTrigger;
+import view.View;
 
 /**
  * A class to represent a Controller
@@ -17,9 +18,10 @@ public class Controller {
     private Game game;
     private View view;
     private SimpleApplication jme3;
-    private double tpf;
+    private int nbrOfPlayers;
     
-    public static int[][] keyLayouts = {{KeyInput.KEY_W, KeyInput.KEY_A, KeyInput.KEY_B},
+    public static int[][] keyLayouts = {
+        {KeyInput.KEY_W, KeyInput.KEY_A, KeyInput.KEY_B},
         {KeyInput.KEY_UP, KeyInput.KEY_LEFT, KeyInput.KEY_RIGHT}};
     
     public Controller(SimpleApplication jme3, View view, Game game) {
@@ -27,18 +29,29 @@ public class Controller {
         this.view = view;
         this.game = game;
         
-        for(int i=0; i<this.game.getNbrOfPlayers(); i++) {
+        this.nbrOfPlayers = this.game.getNbrOfPlayers();
+        
+        for(int i=0; i<this.nbrOfPlayers; i++) {
             this.initKeys(i);
         }
+        
+        this.game.startRound();
+        
+        this.view.initGround(this.game.getBattlefieldSize());
+        this.view.setLighting();
+        this.view.placeCamera();
+        this.view.initUnits();
     }
     
-    // Not finished yet
     private void initKeys(int playerIndex) {
         KeyBoardListener kbListener = new KeyBoardListener(this.game, playerIndex);
         
-        this.jme3.getInputManager().addMapping("Forward", new KeyTrigger(KeyInput.KEY_W));
-        this.jme3.getInputManager().addMapping("Left", new KeyTrigger(KeyInput.KEY_A));
-        this.jme3.getInputManager().addMapping("Right", new KeyTrigger(KeyInput.KEY_D));
+        this.jme3.getInputManager().addMapping("Forward", 
+                                    new KeyTrigger(keyLayouts[playerIndex][0]));
+        this.jme3.getInputManager().addMapping("Left", 
+                                    new KeyTrigger(keyLayouts[playerIndex][1]));
+        this.jme3.getInputManager().addMapping("Right", 
+                                    new KeyTrigger(keyLayouts[playerIndex][2]));
         
         this.jme3.getInputManager().addListener(kbListener, "Forward");
         this.jme3.getInputManager().addListener(kbListener, "Left");
@@ -46,7 +59,8 @@ public class Controller {
     }
     
     private void update(double tpf) {
-        this.tpf = tpf;
+        this.game.update(tpf);
+        this.view.update(tpf);
     }
     
 }

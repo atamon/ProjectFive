@@ -101,7 +101,7 @@ public class Game {
      * Start a new round.
      * Sets position of all players
      */
-    private void startRound() {
+    public void startRound() {
         // TODO Insert stastics-handling for each round here in the future maybe?
         currentRound = comingRounds.remove(0);
         battlefield.positionUnits();
@@ -114,7 +114,7 @@ public class Game {
      * It delivers statistics from played round, sets score to the winner
      * and clears the battlefield.
      */
-    private void endRound() {
+    public void endRound() {
         battlefield.removeItem();
         // TODO Add score for the winner here   
     }
