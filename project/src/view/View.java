@@ -12,10 +12,12 @@ import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
+import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
+import de.jarnbjo.vorbis.Util;
 import java.util.List;
 
 /**
@@ -29,7 +31,6 @@ public class View {
     private AssetManager assetManager;
     private Node rootNode;
     private Node guiNode;
-    
     private List<GraphicalUnit> graphicalUnits;
 
     public View(SimpleApplication jme3, Game game) {
@@ -64,34 +65,33 @@ public class View {
 //        groundGeometry.addControl(groundPhysics);
 //        bulletAppState.getPhysicsSpace().add(groundPhysics);
     }
-    
+
     private void initLighting() {
         DirectionalLight sun = new DirectionalLight();
-        sun.setDirection(new Vector3f(-1,-1,1));
+        sun.setDirection(new Vector3f(-1, -1, 1));
         sun.setColor(ColorRGBA.Yellow);
         rootNode.addLight(sun);
-        
+
         AmbientLight ambient = new AmbientLight();
         ambient.setColor(ColorRGBA.White);
         rootNode.addLight(ambient);
     }
-    
+
     private void initCamera() {
         Camera cam = jme3.getCamera();
         cam.setLocation(new Vector3f(-40, 15, -40));
         cam.lookAt(Vector3f.ZERO, Vector3f.UNIT_Y);
     }
-    
+
     /**
-     * Places the units in the graphical world.
+     * Places the unit in the graphical world.
      */
-    public void initUnits() {
-        
-        for (int i = 0; i<game.getNbrOfPlayers(); i++) {
-            GraphicalUnit gUnit = new GraphicalUnit(i+1,
-                                                    ColorRGBA.randomColor(),
-                                                    assetManager);
-            graphicalUnits.add(gUnit);
-        }
+    public void initUnit() {
+        float size = 1.0f;
+        GraphicalUnit gUnit = new GraphicalUnit(1,
+                                                ColorRGBA.randomColor(),
+                                                new Vector3f(size, size, size),
+                                                assetManager);
+        rootNode.attachChild(gUnit.getGeometry());
     }
 }

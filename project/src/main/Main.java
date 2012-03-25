@@ -38,9 +38,4 @@ public class Main extends SimpleApplication {
     public void simpleUpdate(float tpf) {
         controller.update(tpf);
     }
-
-    @Override
-    public void simpleRender(RenderManager rm) {
-        view.update();
-    }
 }

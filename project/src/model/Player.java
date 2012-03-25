@@ -28,6 +28,10 @@ public class Player {
         return this.playerUnit;
     }
     
+    public Vector getUnitPosition() {
+        return this.playerUnit.getPosition();
+    }
+    
     /**
      * Sets the unit of the boat to a specific player.
      * @param Unit boat 
@@ -42,7 +46,7 @@ public class Player {
      * Accelerates this player's unit.
      * @param tpf Time per frame
      */
-    public void accelerateUnit(float tpf) {
+    public void accelerateUnit(double tpf) {
         if(this.playerUnit != null) {
             this.playerUnit.accelerate(tpf);
         }
@@ -60,10 +64,6 @@ public class Player {
      */
     public void updateUnitPosition(double tpf) {
         this.playerUnit.updatePosition(tpf);
-    }
-    
-    public void accelerateUnit(double tpf) {
-        this.playerUnit.accelerate(tpf);
     }
     
     /**

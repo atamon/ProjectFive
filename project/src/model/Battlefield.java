@@ -1,14 +1,10 @@
 package model;
 
-import java.util.List;
-import java.util.ListIterator;
-
 /**
  * A class to represent a Battlefield.
  * @author Victor Lindhé
  */
 public class Battlefield {
-    private List<Unit> units;
     private Item item;
     private Vector size;
     
@@ -71,65 +67,11 @@ public class Battlefield {
     }
     
     /**
-     * Returns all the Unit objects on the Battlefield.
-     * @return List
-     */
-    public List<Unit> getUnits() {
-        return this.units;
-    }
-    
-    /**
      * Returns the Item object on the Battlefield.
      * @return Item
      */
     public Item getItem() {
         return this.item;
-    }
-    
-    /**
-     * Removes a Unit from the Battlefield
-     * @param unit Unit to remove.
-     */
-    public void removeUnit(Unit unit) {
-        this.units.remove(unit);
-    }
-    
-    /**
-     * Adds a unit to the board.
-     * Nothing will happen if there already are 4 units there.
-     * @param unit Unit
-     */
-    public void addUnit(Unit unit) {
-        if(unit != null && units.size() < 4) {
-            this.units.add(unit);
-        }
-    }
-    
-    /**
-     * Places the units in the corners of the Battlefield.
-     */
-    public void positionUnits() {
-        ListIterator<Unit> unitIterator = this.units.listIterator();
-        while(unitIterator.hasNext()) {
-            Unit unit = unitIterator.next();
-            if(unitIterator.nextIndex() == 0) {
-                unit.setPosition(2, 2);
-            } else if (unitIterator.nextIndex() == 1) {
-                unit.setPosition(this.size.getX()-2, 2);
-            } else if (unitIterator.nextIndex() == 2) {
-                unit.setPosition(2, this.size.getX()-2);
-            } else if (unitIterator.nextIndex() == 3) {
-                unit.setPosition(this.size.getX()-2, this.size.getX()-2);
-            }
-        }
-    }
-    
-    /**
-     * Clears the Battlefield.
-     * Removes all Units
-     */
-    public void removeUnits() {
-        this.units.clear();
     }
     
     /**
@@ -175,7 +117,6 @@ public class Battlefield {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 47 * hash + (this.units != null ? this.units.hashCode() : 0);
         hash = 47 * hash + (this.item != null ? this.item.hashCode() : 0);
         hash = 47 * hash + (this.size != null ? this.size.hashCode() : 0);
         return hash;

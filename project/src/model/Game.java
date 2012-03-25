@@ -23,16 +23,17 @@ public class Game {
      * Create a game with given parameters.
      * A game consists of a number of rounds containing a given amount of players.
      * The Game class starts new rounds and keeps track of player-score and rules
-     * set for this game and its rounds. 
+     * set for this game and its rounds as well as speaks to controller and view. 
      * @param battlefield The battlefield passed from Model which we'll play on.
      * @param numberOfRounds Number of rounds to be played.
      * @param numberOfPlayers Number of players in this game.
      */
     public Game(Battlefield battlefield, int numberOfRounds, int numberOfPlayers) {
         this.battlefield = battlefield;
-        this.players = this.createPlayers(numberOfPlayers);
         this.numberOfRounds = numberOfRounds;
+        
         this.comingRounds = this.createRounds(numberOfRounds);
+        this.players = this.createPlayers(numberOfPlayers);
     }
     
     /**
@@ -52,10 +53,19 @@ public class Game {
         }
     }
 
-    public void acceleratePlayer(int id, float tpf) {
+    /**
+     * Accelerates a player's unit.
+     * @param id The player's ID
+     * @param tpf Time since last frame
+     */
+    public void acceleratePlayerUnit(int id, float tpf) {
         this.players.get(id-1).accelerateUnit(tpf);
     }
     
+    /**
+     * Returns the size of the logical battlefield
+     * @return The size as a Vector
+     */
     public Vector getBattlefieldSize() {
         return battlefield.getSize();
     }
@@ -76,7 +86,7 @@ public class Game {
 
     /**
      * Creates and returns a list with the players for this game.
-     * @param nOfPlayers Is the amount of players we create.
+     * @param nOfPlayers is the amount of players we create.
      * @return Returns an ArrayList of the players.
      */
     private List<Player> createPlayers(int nOfPlayers) {
@@ -92,6 +102,12 @@ public class Game {
         return list;
     }
     
+    /**
+     * Steers a player's unit in a set direction.
+     * @param direction The direction, clockwise or anti-clockwise
+     * @param playerID The player's ID
+     * @param tpf Time since last update
+     */
     public void steerPlayer(Direction direction, int playerID, double tpf) {
         Player player = players.get(playerID-1);
         player.steerUnit(direction, tpf);
@@ -104,8 +120,9 @@ public class Game {
     public void startRound() {
         // TODO Insert stastics-handling for each round here in the future maybe?
         currentRound = comingRounds.remove(0);
-        battlefield.positionUnits();
-        battlefield.addItem();
+        
+        // Uncomment when we want items
+        //battlefield.addItem();
     }
 
     /**
@@ -124,5 +141,14 @@ public class Game {
      */
     public int getNbrOfPlayers() {
         return this.players.size();
+    }
+    
+    /**
+     * Returns a player's unitposition.
+     * @param playerID The player's ID
+     * @return A Vector representing the position of a player's unit.
+     */
+    public Vector getPlayerPosition(int playerID) {
+        return players.get(playerID -1).getUnitPosition();
     }
 }
