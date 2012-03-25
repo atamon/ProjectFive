@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author victorlindhe
+ * @author Victor Lindhé
  */
 public class PlayerTest {
 
@@ -62,9 +62,7 @@ public class PlayerTest {
     public void testToString() {
         System.out.println("toString");
         Player instance = new Player(1);
-        String expResult = "";
-        String result = instance.toString();
-        assertEquals(expResult, result);
+        assert(instance.toString().getClass().equals(String.class));
     }
 
     /**
@@ -74,12 +72,11 @@ public class PlayerTest {
     public void testEquals() {
         System.out.println("equals");
         Object obj = null;
-        Player instance = null;
-        boolean expResult = false;
-        boolean result = instance.equals(obj);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Player player = new Player(1);
+        assertFalse(player.equals(obj));
+        
+        Player playerTwo = player;
+        assertTrue(player.equals(player));
     }
 
     /**
@@ -88,11 +85,8 @@ public class PlayerTest {
     @Test
     public void testHashCode() {
         System.out.println("hashCode");
-        Player instance = null;
-        int expResult = 0;
-        int result = instance.hashCode();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Player player = new Player(1);
+        Player playerTwo = player;
+        assert(player.hashCode() == playerTwo.hashCode());
     }
 }
