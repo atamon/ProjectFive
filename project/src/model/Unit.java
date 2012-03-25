@@ -84,7 +84,7 @@ public class Unit {
      */
     public void steerClockwise(double tpf) {
         if (this.speed != 0) {
-//            setDirection(dir.rotate(-this.steerAngle*tpf))); // any other suggestion ? maybe a method in vector?   
+            this.setDirection(dir.rotate(-this.steerAngle*tpf)); // any other suggestion ? maybe a method in vector?   
         }
     }
 
@@ -94,7 +94,7 @@ public class Unit {
      */
     public void steerAntiClockwise(double tpf) {
         if (this.speed != 0) {
-//            setDirection(dir.rotate(this.steerAngle*tpf)));
+            this.setDirection(dir.rotate(this.steerAngle*tpf));
         }
     }
 
@@ -106,6 +106,7 @@ public class Unit {
         if (steerAngle < 0 || steerAngle > Math.PI * 2) {
             throw new IllegalArgumentException("Angle must be positive 0 < angle < pi*2");
         }
+        this.steerAngle = steerAngle;
     }
 
     /**
@@ -129,8 +130,8 @@ public class Unit {
     }
 
     /**
-     * Sets the position of the unit. Use move() to move unit in its
-     * current direction
+     * Sets the position of the unit. Use updatePosition() to move unit in its
+     * current direction with its current speed
      * @param pos Vector with coordinates where to position the unit
      */
     public void setPosition(Vector pos) {
@@ -138,8 +139,8 @@ public class Unit {
     }
 
     /**
-     * Sets the position of the unit. Use move() to move unit in its
-     * current direction
+     * Sets the position of the unit. Use updatePosition() to move unit in its
+     * current direction with its current speed
      * @param x New position in x-axis
      * @param y New positoin in y-axis
      */
@@ -260,5 +261,68 @@ public class Unit {
     public double getSpeed() {
         return this.speed;
     }
-    // TODO Equals HashCode toString, when finished.
+
+    @Override
+    public String toString() {
+        return "Unit{" + "pos=" + pos + ", dir=" + dir + ", hitPointsMax=" 
+                + hitPointsMax + ", steerAngle=" + steerAngle + ", speed=" 
+                + speed + ", acceleration=" + acceleration + ", retardation=" 
+                + retardation + ", maxSpeed=" + maxSpeed + ", hitPoints=" 
+                + hitPoints + '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Unit other = (Unit) obj;
+        if (this.pos != other.pos && (this.pos == null || !this.pos.equals(other.pos))) {
+            return false;
+        }
+        if (this.dir != other.dir && (this.dir == null || !this.dir.equals(other.dir))) {
+            return false;
+        }
+        if (this.hitPointsMax != other.hitPointsMax) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.steerAngle) != Double.doubleToLongBits(other.steerAngle)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.speed) != Double.doubleToLongBits(other.speed)) {
+            return false;
+        }
+        if (this.acceleration != other.acceleration) {
+            return false;
+        }
+        if (this.retardation != other.retardation) {
+            return false;
+        }
+        if (this.maxSpeed != other.maxSpeed) {
+            return false;
+        }
+        if (this.hitPoints != other.hitPoints) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 89 * hash + (this.pos != null ? this.pos.hashCode() : 0);
+        hash = 89 * hash + (this.dir != null ? this.dir.hashCode() : 0);
+        hash = 89 * hash + this.hitPointsMax;
+        hash = 89 * hash + (int) (Double.doubleToLongBits(this.steerAngle) ^ (Double.doubleToLongBits(this.steerAngle) >>> 32));
+        hash = 89 * hash + (int) (Double.doubleToLongBits(this.speed) ^ (Double.doubleToLongBits(this.speed) >>> 32));
+        hash = 89 * hash + this.acceleration;
+        hash = 89 * hash + this.retardation;
+        hash = 89 * hash + this.maxSpeed;
+        hash = 89 * hash + this.hitPoints;
+        return hash;
+    }
+    
 }

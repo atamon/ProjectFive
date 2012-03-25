@@ -114,9 +114,10 @@ public class Vector {
      * Rotates a vector by multiplying with the rotating matrix
      * @param degree 
      */
-    public void rotate(double radian){
+    public Vector rotate(double radian){
         this.x = (Math.cos(radian)*x - Math.sin(radian)*y);
         this.y = (Math.sin(radian)*x + Math.cos(radian)*y);
+        return this;
     }
     /**
      * Returns a string with the format "X = X.XXXX, Y = Y.YYYY".
