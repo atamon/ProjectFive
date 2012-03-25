@@ -1,8 +1,10 @@
 package model;
 
+
 /**
  * A unit. Probably a ship.
  * @author Johannes Wikner
+ * @modified Victor Lindhé
  */
 public class Unit {
 
