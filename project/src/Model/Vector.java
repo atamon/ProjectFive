@@ -62,6 +62,33 @@ public class Vector {
     }
     
     /**
+     * Adds another vector to this
+     * @param vec 
+     */
+    public void add(Vector vec) {
+        this.x += vec.getX();
+        this.y += vec.getY();
+    }
+    
+    /**
+     * Multiplies another vector to this
+     * @param vec The vector to multiply with
+     */
+    public void mult(Vector vec) {
+        this.x = this.x*vec.getX();
+        this.y = this.y*vec.getY();
+    }
+    
+    /**
+     * Multiplies a number to this
+     * @param number The number to multiply x and y with
+     */
+    public void mult(double number) {
+        this.x = this.x*number;
+        this.y = this.y*number;
+    }
+    
+    /**
      * Normalizes the vector's length to 1
      * @throws ArithmeticException if getLength() == 0
      */
@@ -82,6 +109,7 @@ public class Vector {
     public double getLength() {        
         return Math.sqrt(x*x + y*y);
     }
+    
     /**
      * Rotates a vector by multiplying with the rotating matrix
      * @param degree 

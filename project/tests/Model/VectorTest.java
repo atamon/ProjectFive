@@ -101,6 +101,16 @@ public class VectorTest {
         assertTrue(vector2.getLength() == Math.sqrt(8));
         
     }
+    
+    @Test
+    public void testMult() {
+        //TODO
+    }
+    
+    @Test
+    public void testAdd() {
+        //TODO
+    }
 
     /**
      * Test of toString method, of class Vector.

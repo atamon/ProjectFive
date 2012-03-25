@@ -1,4 +1,3 @@
-
 package Model;
 
 /**
@@ -44,6 +43,17 @@ public class Player {
      */
     public void incrementScore() {
         this.score++;
+    }
+    
+    /**
+     * Updates the units position with a 
+     */
+    public void updateUnitPosition(double tpf) {
+        this.playerUnit.updatePosition(tpf);
+    }
+    
+    public void accelerateUnit(double tpf) {
+        this.playerUnit.accelerate(tpf);
     }
     
     /**

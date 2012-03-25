@@ -37,9 +37,12 @@ public class Game {
 
     /**
      * Updates the running game. Gets called each frame
+     * @param tpf Time since last update
      */
-    public void update() {
-        
+    public void update(double tpf) {
+        for (Player player : players) {
+            player.updateUnitPosition(tpf);
+        }
     }
 
     /**
@@ -68,6 +71,11 @@ public class Game {
             list.add(new Player(i + 1));
         }
         return list;
+    }
+    
+    public void steerPlayer(Direction direction, int playerID, double tpf) {
+        Player player = players.get(playerID-1);
+        player.steerUnit(direction, tpf);
     }
 
     /**
