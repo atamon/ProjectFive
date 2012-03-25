@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Represents a Game consisting of rounds and players that compete to win!
  * @author Anton Lindgren
- * @modified by johnhu
+ * @modified by John Hult, Victor Lindhé
  */
 public class Game {
 
@@ -34,6 +34,13 @@ public class Game {
         this.numberOfRounds = numberOfRounds;
         this.comingRounds = this.createRounds(numberOfRounds);
     }
+    
+    /**
+     * Creates a Game with a default 100x100 Battlefield, 1 round and 1 player.
+     */
+    public Game() {
+        this(new Battlefield(), 1, 1);
+    }
 
     /**
      * Updates the running game. Gets called each frame
@@ -42,6 +49,10 @@ public class Game {
         
     }
 
+    public void acceleratePlayer(int id, float tpf) {
+        this.players.get(id-1).accelerateUnit(tpf);
+    }
+    
     /**
      * Creates a list of all the rounds this game includes
      * @param numberOfRounds Number of rounds
@@ -90,5 +101,12 @@ public class Game {
     private void endRound() {
         battlefield.removeItem();
         // TODO Add score for the winner here   
+    }
+    
+    /*
+     * Returns number of players.
+     */
+    public int getNbrOfPlayers() {
+        return this.players.size();
     }
 }

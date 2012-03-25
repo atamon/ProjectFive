@@ -40,6 +40,16 @@ public class Player {
     }
     
     /**
+     * Accelerates this player's unit.
+     * @param tpf Time per frame
+     */
+    public void accelerateUnit(float tpf) {
+        if(this.playerUnit != null) {
+            this.playerUnit.accelerate(tpf);
+        }
+    }
+    
+    /**
      * Increments the score
      */
     public void incrementScore() {
