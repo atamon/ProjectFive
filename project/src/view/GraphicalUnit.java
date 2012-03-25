@@ -10,19 +10,23 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.debug.Arrow;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import model.Vector;
+import util.Util;
 
 /**
  * A class to hold a Mesh.
  * @author Victor Lindhé
  */
-public class GraphicalUnit {
+public class GraphicalUnit implements PropertyChangeListener {
     private Geometry arrow;
     private int playerID;
     
-    public GraphicalUnit(int playerID, ColorRGBA color, Vector3f location, 
+    public GraphicalUnit(int playerID, ColorRGBA color, Vector3f size, 
                                                     AssetManager assetManager) {
         this.playerID = playerID;
-        Arrow arr = new Arrow(location);
+        Arrow arr = new Arrow(new Vector3f(1,1,1));
         this.arrow = new Geometry("Arrow", arr);
         Material arrowMaterial = new Material(assetManager, 
                                            "Common/MatDefs/Misc/Unshaded.j3md");
@@ -48,5 +52,10 @@ public class GraphicalUnit {
     
     public boolean isPlayer(int playerID) {
         return this.playerID == playerID;
+    }
+
+    public void propertyChange(PropertyChangeEvent pce) {
+        Vector3f newVector = Util.convertToMonkey3D((Vector)pce.getNewValue());
+        this.arrow.setLocalTranslation(newVector);
     }
 }

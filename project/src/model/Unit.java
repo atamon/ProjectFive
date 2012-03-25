@@ -1,5 +1,8 @@
 package model;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
 
 /**
  * A unit. Probably a ship.
@@ -19,6 +22,8 @@ public class Unit {
     private int hitPoints;
 //    private PowerUp powerUp; TODO
 
+    private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+    
     /**
      * Creates a new unit
      * @param pos Initial position
@@ -52,12 +57,14 @@ public class Unit {
     public void updatePosition(double tpf) {
         // If we're standing still there's no need to compute this at all
         if (speed != 0) {
+            Vector oldPosition = new Vector(this.getPosition());
             // Update directions length according to speed and tpf
             dir.mult(this.speed * tpf);
             this.pos.add(dir);
 
             // Normalize for next update
             dir.normalize();
+            this.pcs.firePropertyChange("Updated Position", oldPosition, this.getPosition());
         }
     }
 
@@ -262,6 +269,14 @@ public class Unit {
      */
     public double getSpeed() {
         return this.speed;
+    }
+    
+    public void addPropertyChangeListener(PropertyChangeListener ls) {
+        this.pcs.addPropertyChangeListener(ls);
+    }
+    
+    public void removePropertyChangeListener(PropertyChangeListener ls) {
+        this.pcs.removePropertyChangeListener(ls);
     }
 
     @Override
