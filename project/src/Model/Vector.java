@@ -7,15 +7,15 @@ package Model;
  * @tested by Anton Lindgren
  */
 public class Vector {
-    private float x;
-    private float y;
+    private double x;
+    private double y;
     
     /**
      * Creates a Vector.
      * @param x The x coordinate.
      * @param y The y coordinate.
      */
-    public Vector(float x, float y) {
+    public Vector(double x, double y) {
         this.x = x;
         this.y = y;
     }
@@ -33,7 +33,7 @@ public class Vector {
      * Getter for the x coordinate.
      * @return x
      */
-    public float getX() {
+    public double getX() {
         return this.x;
     }
     
@@ -41,7 +41,7 @@ public class Vector {
      * Getter for the y coordinate.
      * @return y
      */
-    public float getY() {
+    public double getY() {
         return this.y;
     }
     
@@ -49,7 +49,7 @@ public class Vector {
      * Sets the x-element
      * @param x 
      */
-    public void setX(float x) {
+    public void setX(double x) {
         this.x = x;
     }
     
@@ -57,7 +57,7 @@ public class Vector {
      * Sets the y-element
      * @param y 
      */
-    public void setY(float y) {
+    public void setY(double y) {
         this.y = y;
     }
     
@@ -79,16 +79,16 @@ public class Vector {
      * Returns the length of the vector
      * @return 
      */
-    public float getLength() {        
-        return (float)Math.sqrt(x*x + y*y);
+    public double getLength() {        
+        return Math.sqrt(x*x + y*y);
     }
     /**
      * Rotates a vector by multiplying with the rotating matrix
      * @param degree 
      */
     public void rotate(double radian){
-        this.x = (float)(Math.cos(radian)*x - Math.sin(radian)*y);
-        this.y = (float)(Math.sin(radian)*x + Math.cos(radian)*y);
+        this.x = (Math.cos(radian)*x - Math.sin(radian)*y);
+        this.y = (Math.sin(radian)*x + Math.cos(radian)*y);
     }
     /**
      * Returns a string with the format "X = X.XXXX, Y = Y.YYYY".
@@ -122,8 +122,8 @@ public class Vector {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 67 * hash + Float.floatToIntBits(this.x);
-        hash = 67 * hash + Float.floatToIntBits(this.y);
+        hash = (int)(67 * hash + Double.doubleToLongBits(this.x));
+        hash = (int)(67 * hash + Double.doubleToLongBits(this.y));
         return hash;
     }
 }

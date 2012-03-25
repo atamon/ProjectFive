@@ -16,11 +16,11 @@ public class VectorTest {
     @Test
     public void testGetX() {
         // Test if constructed values are kept with get repeatedly
-        float x = 1.23f;
-        float y = 2.34f;
+        double x = 1.23f;
+        double y = 2.34f;
         Vector vector = new Vector(x, y);
 
-        float getX = vector.getX();
+        double getX = vector.getX();
 
         // Test that values are intact after one get
         assertTrue(x == getX && getX == vector.getX());
@@ -32,12 +32,12 @@ public class VectorTest {
     @Test
     public void testGetY() {
         // Make vector
-        float x = 1.23f;
-        float y = 2.34f;
+        double x = 1.23f;
+        double y = 2.34f;
         Vector vector = new Vector(x, y);
 
         // Make sure values are intact
-        float getY = vector.getY();
+        double getY = vector.getY();
         assertTrue(y == getY && getY == vector.getY());
     }
 
@@ -47,7 +47,7 @@ public class VectorTest {
     @Test
     public void testSetX() {
         // Make sure that the set value sticks
-        float x = 4f;
+        double x = 4f;
         Vector vector = new Vector(1f, 0);
         vector.setX(x);
         assertTrue(x == vector.getX());
@@ -59,7 +59,7 @@ public class VectorTest {
     @Test
     public void testSetY() {
         // Make sure that the set value sticks
-        float y = 4f;
+        double y = 4f;
         Vector vector = new Vector(0, y);
         vector.setY(y);
         assertTrue(y == vector.getY());
@@ -82,7 +82,7 @@ public class VectorTest {
 
         // Test a few random vectors
         for (int i = 0; i < 10; i++) {
-            Vector randVector = new Vector((float) Math.random()*10, (float) Math.random()*10);
+            Vector randVector = new Vector(Math.random()*10, Math.random()*10);
             randVector.normalize();
             assertTrue(1 == randVector.getLength());
         }
@@ -93,12 +93,12 @@ public class VectorTest {
      */
     @Test
     public void testGetLength() {
-        // A vector which should have the length (float)Math.sqrt(2)
+        // A vector which should have the length Math.sqrt(2)
         Vector vector1 = new Vector(1f, 1f);
-        assertTrue(vector1.getLength() == (float)Math.sqrt(2));
-        // A vector with length (float)Math.sqrt(8)
+        assertTrue(vector1.getLength() == Math.sqrt(2));
+        // A vector with length Math.sqrt(8)
         Vector vector2 = new Vector(2f, 2f);
-        assertTrue(vector2.getLength() == (float)Math.sqrt(8));
+        assertTrue(vector2.getLength() == Math.sqrt(8));
         
     }
 
@@ -149,7 +149,7 @@ public class VectorTest {
         for (int i = 0; i < 2000; i++){
             v.rotate(2*Math.PI/2000);
         }
-        // Floats arn't 100% accurate. We are ok with a diff less than 0.03
+        // doubles arn't 100% accurate. We are ok with a diff less than 0.03
         assertTrue(1f-v.getX() < 0.03 && 2f-v.getY() < 0.03);
     }
 }

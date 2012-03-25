@@ -58,7 +58,7 @@ public class Player {
      * @param dir Direction
      * @param tpf Time per frame
      */
-    public void steerUnit(Direction dir, float tpf) {
+    public void steerUnit(Direction dir, double tpf) {
         if(this.playerUnit != null) {
             if(dir == Direction.ANTICLOCKWISE) {
                 this.playerUnit.steerAntiClockwise(tpf);

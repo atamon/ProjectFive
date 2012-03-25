@@ -48,7 +48,7 @@ public class Unit {
      * Accelerates the unit
      * @param tpf Time per frame
      */
-    public void accelerate(float tpf){
+    public void accelerate(double tpf){
         // v = v0 + at
         this.setSpeed(speed+acceleration*tpf);
     }
@@ -56,7 +56,7 @@ public class Unit {
      * Retardates the unit.  
      * @param tfp Time per frame
      */
-    public void retardate(float tpf){
+    public void retardate(double tpf){
         if (this.speed > 0) {
             this.setSpeed(this.speed-retardation*tpf);
         }
@@ -67,7 +67,7 @@ public class Unit {
      * Steers the unit clockwise
      * @param tpf Time per frame
      */
-    public void steerClockwise(float tpf){
+    public void steerClockwise(double tpf){
         if (this.speed != 0){
 //            setDirection(dir.rotate(-this.steerAngle*tpf))); // any other suggestion ? maybe a method in vector?   
 
@@ -78,7 +78,7 @@ public class Unit {
      * Steers the unit anti-clockwise
      * @param tpf Time per frame
      */
-    public void steerAntiClockwise(float tpf){
+    public void steerAntiClockwise(double tpf){
         if (this.speed != 0){
 //            setDirection(dir.rotate(this.steerAngle*tpf)));
         }
@@ -108,7 +108,7 @@ public class Unit {
      * @param x Direction in x-axis
      * @param y Direction in y-axis
      */
-    public void setDirection(float x, float y){
+    public void setDirection(double x, double y){
         this.dir.setX(x);
         this.dir.setY(y);
     }
@@ -128,7 +128,7 @@ public class Unit {
      * @param x New position in x-axis
      * @param y New positoin in y-axis
      */
-    public void setPosition(float x, float y){
+    public void setPosition(double x, double y){
         this.pos.setX(x);
         this.pos.setY(y);
     }
