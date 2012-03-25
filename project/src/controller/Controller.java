@@ -39,11 +39,12 @@ public class Controller {
             this.initKeys(i);
         }
         
+        this.view.createScene();
         this.game.startRound();
     }
     
     private void initKeys(int playerIndex) {
-        KeyBoardListener kbListener = new KeyBoardListener(this.game, playerIndex);
+        KeyBoardListener kbListener = new KeyBoardListener(this.game, playerIndex+1);
         
         this.jme3.getInputManager().addMapping("Forward", 
                                     new KeyTrigger(keyLayouts[playerIndex][0]));

@@ -56,7 +56,6 @@ public class View {
         Box ground = new Box(Vector3f.ZERO,
                 vector.getX(), vector.getY(), vector.getZ());
         Geometry groundGeometry = new Geometry("Box", ground);
-
         Material mat = new Material(assetManager,
                 "Common/MatDefs/Misc/Unshaded.j3md");
         mat.setColor("Color", ColorRGBA.Blue);

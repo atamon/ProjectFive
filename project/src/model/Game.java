@@ -95,7 +95,7 @@ public class Game {
 
         for (int i = 0; i < nOfPlayers; i++) {
             // Initial positioning is done by battlefield, create with zeroVectors
-            Vector zeroVector = new Vector(0, 0);
+            Vector zeroVector = new Vector(1, 1);
             Player player = new Player(i+1);
             player.setUnit(new Unit(zeroVector, zeroVector));
             list.add(player);

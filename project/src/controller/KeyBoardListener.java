@@ -6,13 +6,13 @@ package controller;
 
 import model.Direction;
 import model.Game;
-import com.jme3.input.controls.ActionListener;
+import com.jme3.input.controls.AnalogListener;
 
 /**
  *
  * @author victorlindhe
  */
-public class KeyBoardListener implements ActionListener {
+public class KeyBoardListener implements AnalogListener {
     private Game game;
     private int playerID;
     
@@ -21,7 +21,7 @@ public class KeyBoardListener implements ActionListener {
         this.playerID = playerID;
     }
             
-    public void onAction(String name, boolean isPressed, float tpf) {
+    public void onAnalog(String name, float value, float tpf) {
         if(name.equals("Forward")) {
             this.game.acceleratePlayerUnit(this.playerID, tpf);
         } else if (name.equals("Left")) {
