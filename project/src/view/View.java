@@ -43,9 +43,13 @@ public class View {
 
     /**
      * Sets up the graphical world.
-     * Very simple, only adds a blue plane.
+     * Very simple, only adds a blue plane, lighting and a gUint.
      */
     public void createScene() {
+        initGround(new Vector3f(20f, 1f, 20f));
+        initCamera();
+        initLighting();
+        initUnit();
     }
 
     private void initGround(Vector3f vector) {
@@ -92,6 +96,7 @@ public class View {
                                                 ColorRGBA.randomColor(),
                                                 new Vector3f(size, size, size),
                                                 assetManager);
+        this.game.addUnitListener(1, gUnit);
         rootNode.attachChild(gUnit.getGeometry());
     }
 }

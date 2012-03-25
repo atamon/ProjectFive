@@ -53,7 +53,7 @@ public class Controller {
         this.jme3.getInputManager().addListener(kbListener, "Right");
     }
     
-    private void update(double tpf) {
+    public void update(double tpf) {
         this.game.update(tpf);
     }
     
