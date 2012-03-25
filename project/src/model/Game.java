@@ -56,6 +56,10 @@ public class Game {
         this.players.get(id-1).accelerateUnit(tpf);
     }
     
+    public Vector getBattlefieldSize() {
+        return battlefield.getSize();
+    }
+    
     /**
      * Creates a list of all the rounds this game includes
      * @param numberOfRounds Number of rounds
@@ -79,7 +83,11 @@ public class Game {
         List<Player> list = new ArrayList<Player>();
 
         for (int i = 0; i < nOfPlayers; i++) {
-            list.add(new Player(i + 1));
+            // Initial positioning is done by battlefield, create with zeroVectors
+            Vector zeroVector = new Vector(0, 0);
+            Player player = new Player(i+1);
+            player.setUnit(new Unit(zeroVector, zeroVector));
+            list.add(player);
         }
         return list;
     }

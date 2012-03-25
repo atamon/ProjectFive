@@ -4,11 +4,11 @@ import model.Game;
 import controller.Controller;
 import com.jme3.app.SimpleApplication;
 import com.jme3.renderer.RenderManager;
-import javax.swing.text.View;
+import view.View;
 
 /**
- * test
- * @author normenhansen
+ * Main for our PirateBattle application.
+ * @author Anton Lindgren
  */
 public class Main extends SimpleApplication {
 
