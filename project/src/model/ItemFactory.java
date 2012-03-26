@@ -23,8 +23,8 @@ public class ItemFactory {
             type = ItemTypes.RUM;
         }
         
-        double randXPos = Math.random() * fieldSize.getX();
-        double randYPos = Math.random() * fieldSize.getY();
+        float randXPos = (float)Math.random() * fieldSize.getX();
+        float randYPos = (float)Math.random() * fieldSize.getY();
         
         return new Item(type, new Vector(randXPos, randYPos));
     }

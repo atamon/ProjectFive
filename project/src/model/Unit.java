@@ -14,11 +14,11 @@ public class Unit {
     private final Vector pos;
     private final Vector dir;
     private final int hitPointsMax;
-    private double steerAngle = Math.PI / 4;
-    private double speed;
+    private float steerAngle = 2;
+    private float speed;
     private int acceleration = 10;
     private int retardation = 10;
-    private int maxSpeed = 100;
+    private int maxSpeed = 200;
     private int hitPoints;
 //    private PowerUp powerUp; TODO
 
@@ -54,14 +54,14 @@ public class Unit {
      * Updates the units position according to speed, direction and updatefrequency
      * @param tpf Updatefrequency, i.e. time since last frame
      */
-    public void updatePosition(double tpf) {
+    public void updatePosition(float tpf) {
         // If we're standing still there's no need to compute this at all
-        if (speed != 0) {
+        if (this.speed*tpf != 0) {
             Vector oldPosition = new Vector(this.getPosition());
             // Update directions length according to speed and tpf
             dir.mult(this.speed * tpf);
             this.pos.add(dir);
-
+            
             // Normalize for next update
             dir.normalize();
             this.pcs.firePropertyChange("Updated Position", oldPosition, this.getPosition());
@@ -72,16 +72,16 @@ public class Unit {
      * Accelerates the unit
      * @param tpf Time per frame
      */
-    public void accelerate(double tpf) {
+    public void accelerate(float tpf) {
         // v = v0 + at
-        this.setSpeed(speed + acceleration * tpf);
+        this.setSpeed(this.speed + acceleration * tpf);
     }
 
     /**
      * Retardates the unit.  
      * @param tfp Time per frame
      */
-    public void retardate(double tpf) {
+    public void retardate(float tpf) {
         if (this.speed > 0) {
             this.setSpeed(this.speed - retardation * tpf);
         }
@@ -91,9 +91,9 @@ public class Unit {
      * Steers the unit clockwise
      * @param tpf Time per frame
      */
-    public void steerClockwise(double tpf) {
+    public void steerClockwise(float tpf) {
         if (this.speed != 0) {
-            this.setDirection(dir.rotate(-this.steerAngle*tpf)); // any other suggestion ? maybe a method in vector?   
+            dir.rotate(-this.steerAngle*tpf); // any other suggestion ? maybe a method in vector?   
         }
     }
 
@@ -101,9 +101,9 @@ public class Unit {
      * Steers the unit anti-clockwise
      * @param tpf Time per frame
      */
-    public void steerAntiClockwise(double tpf) {
+    public void steerAntiClockwise(float tpf) {
         if (this.speed != 0) {
-            this.setDirection(dir.rotate(this.steerAngle*tpf));
+            dir.rotate(this.steerAngle*tpf);
         }
     }
 
@@ -111,7 +111,7 @@ public class Unit {
      * Set the steer angle of the unit. 
      * @param steerAngle Angle determined in radians
      */
-    public void setSteerAngle(double steerAngle) {
+    public void setSteerAngle(float steerAngle) {
         if (steerAngle < 0 || steerAngle > Math.PI * 2) {
             throw new IllegalArgumentException("Angle must be positive 0 < angle < pi*2");
         }
@@ -133,7 +133,7 @@ public class Unit {
      * @param x Direction in x-axis
      * @param y Direction in y-axis
      */
-    public void setDirection(double x, double y) {
+    public void setDirection(float x, float y) {
         this.dir.setX(x);
         this.dir.setY(y);
     }
@@ -153,7 +153,7 @@ public class Unit {
      * @param x New position in x-axis
      * @param y New positoin in y-axis
      */
-    public void setPosition(double x, double y) {
+    public void setPosition(float x, float y) {
         this.pos.setX(x);
         this.pos.setY(y);
     }
@@ -165,7 +165,7 @@ public class Unit {
      * @precon speed >= 0 msut be a a value greater than or equal to 0
      * @throws IllegalArgumentException If a given speed is less than 0
      */
-    public void setSpeed(double speed) {
+    public void setSpeed(float speed) {
         if (speed < 0) {
             throw new IllegalArgumentException("Must be a postitive integer");
         }
@@ -267,7 +267,7 @@ public class Unit {
      * 
      * @return The unit's current speed
      */
-    public double getSpeed() {
+    public float getSpeed() {
         return this.speed;
     }
     
@@ -306,10 +306,10 @@ public class Unit {
         if (this.hitPointsMax != other.hitPointsMax) {
             return false;
         }
-        if (Double.doubleToLongBits(this.steerAngle) != Double.doubleToLongBits(other.steerAngle)) {
+        if (Float.floatToIntBits(this.steerAngle) != Float.floatToIntBits(other.steerAngle)) {
             return false;
         }
-        if (Double.doubleToLongBits(this.speed) != Double.doubleToLongBits(other.speed)) {
+        if (Float.floatToIntBits(this.speed) != Float.floatToIntBits(other.speed)) {
             return false;
         }
         if (this.acceleration != other.acceleration) {
@@ -324,21 +324,25 @@ public class Unit {
         if (this.hitPoints != other.hitPoints) {
             return false;
         }
+        if (this.pcs != other.pcs && (this.pcs == null || !this.pcs.equals(other.pcs))) {
+            return false;
+        }
         return true;
     }
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 89 * hash + (this.pos != null ? this.pos.hashCode() : 0);
-        hash = 89 * hash + (this.dir != null ? this.dir.hashCode() : 0);
-        hash = 89 * hash + this.hitPointsMax;
-        hash = 89 * hash + (int) (Double.doubleToLongBits(this.steerAngle) ^ (Double.doubleToLongBits(this.steerAngle) >>> 32));
-        hash = 89 * hash + (int) (Double.doubleToLongBits(this.speed) ^ (Double.doubleToLongBits(this.speed) >>> 32));
-        hash = 89 * hash + this.acceleration;
-        hash = 89 * hash + this.retardation;
-        hash = 89 * hash + this.maxSpeed;
-        hash = 89 * hash + this.hitPoints;
+        int hash = 3;
+        hash = 47 * hash + (this.pos != null ? this.pos.hashCode() : 0);
+        hash = 47 * hash + (this.dir != null ? this.dir.hashCode() : 0);
+        hash = 47 * hash + this.hitPointsMax;
+        hash = 47 * hash + Float.floatToIntBits(this.steerAngle);
+        hash = 47 * hash + Float.floatToIntBits(this.speed);
+        hash = 47 * hash + this.acceleration;
+        hash = 47 * hash + this.retardation;
+        hash = 47 * hash + this.maxSpeed;
+        hash = 47 * hash + this.hitPoints;
+        hash = 47 * hash + (this.pcs != null ? this.pcs.hashCode() : 0);
         return hash;
     }
     

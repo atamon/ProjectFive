@@ -1,7 +1,5 @@
 package model;
 
-import model.Vector;
-import java.lang.ArithmeticException;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -17,11 +15,11 @@ public class VectorTest {
     @Test
     public void testGetX() {
         // Test if constructed values are kept with get repeatedly
-        double x = 1.23f;
-        double y = 2.34f;
+        float x = 1.23f;
+        float y = 2.34f;
         Vector vector = new Vector(x, y);
 
-        double getX = vector.getX();
+        float getX = vector.getX();
 
         // Test that values are intact after one get
         assertTrue(x == getX && getX == vector.getX());
@@ -33,12 +31,12 @@ public class VectorTest {
     @Test
     public void testGetY() {
         // Make vector
-        double x = 1.23f;
-        double y = 2.34f;
+        float x = 1.23f;
+        float y = 2.34f;
         Vector vector = new Vector(x, y);
 
         // Make sure values are intact
-        double getY = vector.getY();
+        float getY = vector.getY();
         assertTrue(y == getY && getY == vector.getY());
     }
 
@@ -48,7 +46,7 @@ public class VectorTest {
     @Test
     public void testSetX() {
         // Make sure that the set value sticks
-        double x = 4f;
+        float x = 4f;
         Vector vector = new Vector(1f, 0);
         vector.setX(x);
         assertTrue(x == vector.getX());
@@ -60,7 +58,7 @@ public class VectorTest {
     @Test
     public void testSetY() {
         // Make sure that the set value sticks
-        double y = 4f;
+        float y = 4f;
         Vector vector = new Vector(0, y);
         vector.setY(y);
         assertTrue(y == vector.getY());
@@ -72,21 +70,23 @@ public class VectorTest {
      */
     @Test(expected = ArithmeticException.class)
     public void testNormalize() {
+
+        // Test a known vector
+        Vector vector1 = new Vector(1/1321321f, 3/1231231f);
+        vector1.normalize();
+        assertTrue(1 == vector1.getLength());
+        
+        // Test a few random vectors
+        for (int i = 0; i < 10; i++) {
+            Vector randVector = new Vector((float)Math.random()*10, (float)Math.random()*10);
+            randVector.normalize();
+            System.out.println(randVector.getLength());
+            assertTrue(1 == randVector.getLength());
+        }
         // 0 vector should cast ArithmeticException
         Vector zeroVector = new Vector(0, 0);
         zeroVector.normalize();
 
-        // Test a known vector
-        Vector vector1 = new Vector(1f, 3f);
-        vector1.normalize();
-        assertTrue(1 == vector1.getLength());
-
-        // Test a few random vectors
-        for (int i = 0; i < 10; i++) {
-            Vector randVector = new Vector(Math.random()*10, Math.random()*10);
-            randVector.normalize();
-            assertTrue(1 == randVector.getLength());
-        }
     }
 
     /**
@@ -96,16 +96,19 @@ public class VectorTest {
     public void testGetLength() {
         // A vector which should have the length Math.sqrt(2)
         Vector vector1 = new Vector(1f, 1f);
-        assertTrue(vector1.getLength() == Math.sqrt(2));
+        assertTrue(vector1.getLength() == (float)Math.sqrt(2));
         // A vector with length Math.sqrt(8)
         Vector vector2 = new Vector(2f, 2f);
-        assertTrue(vector2.getLength() == Math.sqrt(8));
+        assertTrue(vector2.getLength() == (float)Math.sqrt(8));
         
     }
     
     @Test
     public void testMult() {
-        //TODO
+        Vector result = new Vector(1,2f);
+        result.mult(1/42233f);
+        Vector expResult = new Vector(1/42233f, 2/42233f);
+        assertEquals(expResult, result);
     }
     
     @Test
@@ -158,9 +161,9 @@ public class VectorTest {
         Vector v = new Vector(1f, 2f);
         
         for (int i = 0; i < 2000; i++){
-            v.rotate(2*Math.PI/2000);
+            v.rotate(2*(float)Math.PI/2000);
         }
-        // doubles arn't 100% accurate. We are ok with a diff less than 0.03
+        // floats arn't 100% accurate. We are ok with a diff less than 0.03
         assertTrue(1f-v.getX() < 0.03 && 2f-v.getY() < 0.03);
     }
 }

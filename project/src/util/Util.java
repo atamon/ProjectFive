@@ -13,6 +13,6 @@ import model.Vector;
  */
 public class Util {
     public static Vector3f convertToMonkey3D(Vector vector) {
-        return new Vector3f((float)vector.getX(), 0, (float)vector.getY());
+        return new Vector3f(vector.getX(), 0, vector.getY());
     }
 }

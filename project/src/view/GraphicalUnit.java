@@ -10,6 +10,7 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.debug.Arrow;
+import com.jme3.scene.shape.Box;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import model.Vector;
@@ -20,30 +21,30 @@ import util.Util;
  * @author Victor Lindhé
  */
 public class GraphicalUnit implements PropertyChangeListener {
-    private Geometry arrow;
+    private Geometry box;
     private int playerID;
     
     public GraphicalUnit(int playerID, ColorRGBA color, Vector3f size, 
                                                     AssetManager assetManager) {
         this.playerID = playerID;
-        Arrow arr = new Arrow(new Vector3f(1,1,1));
-        this.arrow = new Geometry("Arrow", arr);
-        Material arrowMaterial = new Material(assetManager, 
+        Box box = new Box(new Vector3f(1,1,1), 1,1,2);
+        this.box = new Geometry("Box", box);
+        Material boxMat = new Material(assetManager, 
                                            "Common/MatDefs/Misc/Unshaded.j3md");
-        arrowMaterial.setColor("Color", color);
-        this.arrow.setMaterial(arrowMaterial);
+        boxMat.setColor("Color", color);
+        this.box.setMaterial(boxMat);
     }
     
     public Geometry getGeometry() {
-        return this.arrow;
+        return this.box;
     }
     
     public Vector3f getLocation() {
-        return this.arrow.getLocalTranslation();
+        return this.box.getLocalTranslation();
     }
     
     public void updateLocation(Vector3f vector) {
-        this.arrow.setLocalTranslation(vector);
+        this.box.setLocalTranslation(vector);
     }
     
     public int getPlayerID() {
@@ -56,6 +57,6 @@ public class GraphicalUnit implements PropertyChangeListener {
 
     public void propertyChange(PropertyChangeEvent pce) {
         Vector3f newVector = Util.convertToMonkey3D((Vector)pce.getNewValue());
-        this.arrow.setLocalTranslation(newVector);
+        this.box.setLocalTranslation(newVector);
     }
 }

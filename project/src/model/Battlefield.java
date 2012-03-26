@@ -21,7 +21,7 @@ public class Battlefield {
      * @param xWidth 
      * @param yWidth 
      */
-    public Battlefield(double xWidth, double yWidth) {
+    public Battlefield(float xWidth, float yWidth) {
         // Checking for errors
         if(xWidth == 0 && yWidth != 0) {
             xWidth = yWidth;

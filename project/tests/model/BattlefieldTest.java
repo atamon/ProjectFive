@@ -1,11 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package model;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -24,7 +19,7 @@ public class BattlefieldTest {
     @Test
     public void testGetSize() {
         Battlefield instance = new Battlefield();
-        Vector expResult = new Vector(100.0, 100.0);
+        Vector expResult = new Vector(100.0f, 100.0f);
         Vector result = instance.getSize();
         assertEquals(expResult, result);
         

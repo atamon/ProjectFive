@@ -22,7 +22,7 @@ public class Controller {
     private int nbrOfPlayers;
     
     public static int[][] keyLayouts = {
-        {KeyInput.KEY_W, KeyInput.KEY_A, KeyInput.KEY_B},
+        {KeyInput.KEY_W, KeyInput.KEY_A, KeyInput.KEY_D},
         {KeyInput.KEY_UP, KeyInput.KEY_LEFT, KeyInput.KEY_RIGHT}};
     
     public Controller(SimpleApplication jme3, View view, Game game) {
@@ -58,7 +58,7 @@ public class Controller {
         this.jme3.getInputManager().addListener(kbListener, "Right");
     }
     
-    public void update(double tpf) {
+    public void update(float tpf) {
         this.game.update(tpf);
     }
     

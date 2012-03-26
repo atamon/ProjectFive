@@ -48,7 +48,7 @@ public class Player {
      * Accelerates this player's unit.
      * @param tpf Time per frame
      */
-    public void accelerateUnit(double tpf) {
+    public void accelerateUnit(float tpf) {
         if(this.playerUnit != null) {
             this.playerUnit.accelerate(tpf);
         }
@@ -64,7 +64,7 @@ public class Player {
     /**
      * Updates the units position with a 
      */
-    public void updateUnitPosition(double tpf) {
+    public void updateUnitPosition(float tpf) {
         this.playerUnit.updatePosition(tpf);
     }
     
@@ -81,7 +81,7 @@ public class Player {
      * @param dir Direction
      * @param tpf Time per frame
      */
-    public void steerUnit(Direction dir, double tpf) {
+    public void steerUnit(Direction dir, float tpf) {
         if(this.playerUnit != null) {
             if(dir == Direction.ANTICLOCKWISE) {
                 this.playerUnit.steerAntiClockwise(tpf);
