@@ -4,15 +4,16 @@
  */
 package controller;
 
+import com.jme3.input.controls.ActionListener;
+import com.jme3.input.controls.AnalogListener;
 import model.Direction;
 import model.Game;
-import com.jme3.input.controls.AnalogListener;
 
 /**
  *
  * @author victorlindhe
  */
-public class KeyBoardListener implements AnalogListener {
+public class KeyBoardListener implements ActionListener, AnalogListener {
     private Game game;
     private int playerID;
     
@@ -21,16 +22,22 @@ public class KeyBoardListener implements AnalogListener {
         this.playerID = playerID;
     }
             
-    public void onAnalog(String name, float value, float tpf) {
-        System.out.println("" + name + value + tpf);
+
+    
+    public void onAction(String name, boolean isPressed, float tpf) {
         if(name.equals("Forward" + playerID)) {
-            this.game.acceleratePlayerUnit(this.playerID, tpf);
-            
-        } else if (name.equals("Left" + playerID)) {
-            this.game.steerPlayer(Direction.ANTICLOCKWISE, this.playerID, tpf);
-        } else if (name.equals("Right" + playerID)) {
-            this.game.steerPlayer(Direction.CLOCKWISE, this.playerID, tpf);
+                this.game.acceleratePlayerUnit(this.playerID, isPressed);
         }
+    }
+
+    public void onAnalog(String name, float value, float tpf) {
+        
+            if (name.equals("Left" + playerID)) {
+                this.game.steerPlayerUnit(Direction.ANTICLOCKWISE, this.playerID, tpf);
+            }
+            if (name.equals("Right" + playerID)) {
+                this.game.steerPlayerUnit(Direction.CLOCKWISE, this.playerID, tpf);
+            }
     }
     
 }

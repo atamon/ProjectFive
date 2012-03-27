@@ -7,6 +7,7 @@ package view;
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.debug.Arrow;
@@ -43,10 +44,6 @@ public class GraphicalUnit implements PropertyChangeListener {
         return this.box.getLocalTranslation();
     }
     
-    public void updateLocation(Vector3f vector) {
-        this.box.setLocalTranslation(vector);
-    }
-    
     public int getPlayerID() {
         return this.playerID;
     }
@@ -56,7 +53,18 @@ public class GraphicalUnit implements PropertyChangeListener {
     }
 
     public void propertyChange(PropertyChangeEvent pce) {
-        Vector3f newVector = Util.convertToMonkey3D((Vector)pce.getNewValue());
-        this.box.setLocalTranslation(newVector);
+        
+        if(pce.getNewValue().getClass() == Vector.class){
+           Vector3f jMEvector = Util.convertToMonkey3D((Vector)pce.getNewValue());
+            if(pce.getPropertyName().equals("Updated Position")){
+                this.box.setLocalTranslation(jMEvector);
+            }
+            if(pce.getPropertyName().equals("Updated Direction")){
+                Quaternion newRotation = new Quaternion();
+                newRotation.lookAt(jMEvector, Vector3f.UNIT_Y);
+                this.box.setLocalRotation(newRotation);
+            }
+        }
+        
     }
 }

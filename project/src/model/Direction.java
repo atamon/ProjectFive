@@ -9,5 +9,15 @@ package model;
  * @author Victor Lindhé
  */
 public enum Direction {
-    CLOCKWISE, ANTICLOCKWISE;
+    CLOCKWISE (-1), ANTICLOCKWISE (1);
+    
+    private final int direction;
+    
+    private Direction(int direction){
+        this.direction = direction;
+    }
+    
+    public int getValue(){
+        return this.direction;
+    }
 }

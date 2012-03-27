@@ -20,6 +20,7 @@ public class Unit {
     private int retardation = 10;
     private int maxSpeed = 200;
     private int hitPoints;
+    private boolean isAccelerating = false;
 //    private PowerUp powerUp; TODO
 
     private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
@@ -54,59 +55,49 @@ public class Unit {
      * Updates the units position according to speed, direction and updatefrequency
      * @param tpf Updatefrequency, i.e. time since last frame
      */
-    public void updatePosition(float tpf) {
-        // If we're standing still there's no need to compute this at all
-        if (this.speed*tpf != 0) {
-            Vector oldPosition = new Vector(this.getPosition());
-            // Update directions length according to speed and tpf
-            dir.mult(this.speed * tpf);
-            this.pos.add(dir);
-            
-            // Normalize for next update
-            dir.normalize();
-            this.pcs.firePropertyChange("Updated Position", oldPosition, this.getPosition());
-        }
+    public void updateUnit(float tpf) {
+        this.accelerate(this.isAccelerating, tpf);
+        this.move(tpf);
     }
 
+    /**
+     * Move the unit in its current direction and speed
+     * @param tpf Time per frame 
+     */
+    private void move(float tpf){
+        //no speed, no time per frame means no movement
+        if (this.speed*tpf != 0) {
+            // Update directions length according to speed and tpf
+            Vector v = new Vector(dir);
+            v.mult(this.speed * tpf);
+            this.pos.add(v);
+            this.pcs.firePropertyChange("Updated Position", null, this.getPosition());
+        }
+    }
+    
     /**
      * Accelerates the unit
      * @param tpf Time per frame
      */
-    public void accelerate(float tpf) {
+    private void accelerate(boolean accelUp, float tpf) {
         // v = v0 + at
-        this.setSpeed(this.speed + acceleration * tpf);
-    }
-
-    /**
-     * Retardates the unit.  
-     * @param tfp Time per frame
-     */
-    public void retardate(float tpf) {
-        if (this.speed > 0) {
-            this.setSpeed(this.speed - retardation * tpf);
+        if (accelUp){
+            this.setSpeed(Math.min(this.maxSpeed, this.speed + this.acceleration * tpf));
+        } else {
+            this.setSpeed(Math.max(0, this.speed - this.retardation * tpf));
         }
     }
 
-    /**
-     * Steers the unit clockwise
-     * @param tpf Time per frame
-     */
-    public void steerClockwise(float tpf) {
-        if (this.speed != 0) {
-            dir.rotate(-this.steerAngle*tpf); // any other suggestion ? maybe a method in vector?   
+    public void steer(Direction steerDirection, float tpf){
+        if(this.speed != 0){
+            dir.rotate(steerDirection.getValue()*this.steerAngle*tpf);
+            this.updateDirection();
         }
     }
-
-    /**
-     * Steers the unit anti-clockwise
-     * @param tpf Time per frame
-     */
-    public void steerAntiClockwise(float tpf) {
-        if (this.speed != 0) {
-            dir.rotate(this.steerAngle*tpf);
-        }
+    
+    private void updateDirection(){
+        this.pcs.firePropertyChange("Updated Direction", null, this.getDirection());
     }
-
     /**
      * Set the steer angle of the unit. 
      * @param steerAngle Angle determined in radians
@@ -136,8 +127,16 @@ public class Unit {
     public void setDirection(float x, float y) {
         this.dir.setX(x);
         this.dir.setY(y);
+        this.updateDirection();
     }
-
+    
+    /**
+     * 
+     * @param value Are we accelerating true of false 
+     */
+    public void setIsAccelerating(boolean value){
+        this.isAccelerating = value;
+    }
     /**
      * Sets the position of the unit. Use updatePosition() to move unit in its
      * current direction with its current speed

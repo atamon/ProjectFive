@@ -59,8 +59,8 @@ public class Game {
      * @param id The player's ID
      * @param tpf Time since last frame
      */
-    public void acceleratePlayerUnit(int id, float tpf) {
-        this.players.get(id-1).accelerateUnit(tpf);
+    public void acceleratePlayerUnit(int id, boolean accel) {
+        this.players.get(id-1).accelerateUnit(accel);
     }
     
     /**
@@ -109,7 +109,7 @@ public class Game {
      * @param playerID The player's ID
      * @param tpf Time since last update
      */
-    public void steerPlayer(Direction direction, int playerID, float tpf) {
+    public void steerPlayerUnit(Direction direction, int playerID, float tpf) {
         Player player = players.get(playerID-1);
         player.steerUnit(direction, tpf);
     }
