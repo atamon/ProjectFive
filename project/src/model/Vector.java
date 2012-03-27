@@ -7,6 +7,7 @@ package model;
  * @tested by Anton Lindgren
  */
 public class Vector {
+ 
     private float x;
     private float y;
     
@@ -98,8 +99,8 @@ public class Vector {
             this.x = this.x/length;
             this.y = this.y/length;
             if(this.getLength() != 1){
-                System.out.println("WARNING: Vector wasn't completely normalized"
-                        +", normalizing another time");
+//                System.out.println("WARNING: Vector wasn't completely normalized"
+//                        +", normalizing another time");
                 normalize();
             }
         } else {
@@ -121,8 +122,10 @@ public class Vector {
      * @param degree 
      */
     public void rotate(float radian){
+        // Save original x since it is changed before y and used in new y's calculation
+        float orgX = this.x;
         this.x = (float)( Math.cos(radian)*x - Math.sin(radian)*y);
-        this.y = (float)( Math.sin(radian)*x + Math.cos(radian)*y);
+        this.y = (float)( Math.sin(radian)*orgX + Math.cos(radian)*y);
     }
     /**
      * Returns a string with the format "X = X.XXXX, Y = Y.YYYY".
@@ -145,7 +148,7 @@ public class Vector {
             return false;
         }
         Vector v = (Vector)obj;
-        return this.x == v.x && this.y == v.y;
+        return this.x == v.getX() && this.y == v.getY();
     }
 
     @Override

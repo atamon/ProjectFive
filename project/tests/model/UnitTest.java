@@ -17,39 +17,15 @@ import static org.junit.Assert.*;
  * @author atamon
  */
 public class UnitTest {
-    
-    public UnitTest() {
-    }
 
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
+    private Unit unit = new Unit(new Vector(0, 0), new Vector(1, 0));
 
     /**
      * Test of updatePosition method, of class Unit.
      */
     @Test
     public void testUpdatePosition() {
-        Unit unit = new Unit(new Vector(1, 1), new Vector(1, 1));
-        
-        System.out.println("updatePosition");
-        double tpf = 0.0;
-        Unit instance = null;
-        instance.updatePosition(tpf);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        fail("Not implemented yet!");
     }
 
     /**
@@ -57,12 +33,21 @@ public class UnitTest {
      */
     @Test
     public void testAccelerate() {
-        System.out.println("accelerate");
-        double tpf = 0.0;
-        Unit instance = null;
-        instance.accelerate(tpf);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //Should (somewhat) linearly increase speed
+        Unit unit = new Unit(new Vector(0, 0), new Vector(1, 0));
+        unit.setSpeed(0);
+        // The method should never increase speed above the unit's maxSpeed.
+        while (true) {
+            float lastSpeed = unit.getSpeed();
+            // Some kind of updatefrequency-simulation
+            unit.accelerate(test.Utils.simulateTpf());
+            assertTrue(lastSpeed <= unit.getSpeed());
+
+            if (lastSpeed == unit.getSpeed()) {
+                assertTrue(unit.getSpeed() == unit.getMaxSpeed());
+                break;
+            }
+        }
     }
 
     /**
@@ -70,12 +55,20 @@ public class UnitTest {
      */
     @Test
     public void testRetardate() {
-        System.out.println("retardate");
-        double tpf = 0.0;
-        Unit instance = null;
-        instance.retardate(tpf);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        unit.setSpeed(unit.getMaxSpeed());
+        boolean reachedZeroSpeed = false;
+        while (true) {
+            unit.retardate(test.Utils.simulateTpf());
+            // Make sure speed >= 0 and when 0 is reached 
+            // check once more if we can go below 0
+            assertTrue(unit.getSpeed() >= 0);
+            if (reachedZeroSpeed) {
+                return;
+            }
+            if (unit.getSpeed() == 0) {
+                reachedZeroSpeed = true;
+            }
+        }
     }
 
     /**
@@ -83,22 +76,28 @@ public class UnitTest {
      */
     @Test
     public void testSteerClockwise() {
-        Unit unit = new Unit(new Vector(0, 0), new Vector(1f, 0));
-        Vector dir = unit.getDirection();
-        unit.setSpeed(100);
-        unit.setSteerAngle((float)Math.PI/2);
-        // We want to see that steerClockWise can continously rotate 
-        // a unit 2PI radians.
-        float steers = 2.0f;
-        Vector lastDir;
-        for (int i = 0; i<steers; i++) {
-            lastDir = unit.getDirection();
-            unit.steerClockwise(4f/steers);
-            // Make sure we've actually steered the unit
-            System.out.println(unit.getDirection());
-            assertFalse(unit.getDirection().equals(lastDir));
+        // With a constant speed > 0 && unchanged steerAngle I should
+        // be able to make a full circle combined with updateposition.
+        // I.E start and end up at the same position eventually in a loop.
+        unit.setSteerAngle((float) Math.PI);
+        unit.setSpeed(unit.getMaxSpeed());
+        Vector startingPos = unit.getPosition();
+        while (true) {
+            float simulatedTpf = test.Utils.simulateTpf();
+            unit.updatePosition(simulatedTpf);
+            // Simulate varying update-frequencies because it should make a circle anyways
+            unit.steerClockwise(simulatedTpf);
+            Vector diffVector = new Vector(Math.abs(startingPos.getX()) - unit.getPosition().getX(),
+                    Math.abs(startingPos.getY() - unit.getPosition().getY()));
+            float diffLength = diffVector.getLength();
+            if (diffLength <= Unit.ACCEPTED_STEER_DIFF) {
+                assertTrue(diffLength <= Unit.ACCEPTED_STEER_DIFF);
+                break;
+            }
         }
-        assertTrue(dir.equals(unit.getDirection()));
+        // TODO Add forever growing circle if increasing steerAngle
+        // TODO Add decreaseing circle crashing into itself (lastpos.equals(thispos)
+        //      if decreaseing steerAngle
     }
 
     /**
@@ -106,12 +105,25 @@ public class UnitTest {
      */
     @Test
     public void testSteerAntiClockwise() {
-        System.out.println("steerAntiClockwise");
-        double tpf = 0.0;
-        Unit instance = null;
-        instance.steerAntiClockwise(tpf);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        // With a constant speed > 0 && unchanged steerAngle I should
+        // be able to make a full circle combined with updateposition.
+        // I.E start and end up at the same position eventually in a loop.
+        unit.setSteerAngle((float) Math.PI);
+        unit.setSpeed(unit.getMaxSpeed());
+        Vector startingPos = unit.getPosition();
+        while (true) {
+            float simulatedTpf = test.Utils.simulateTpf();
+            unit.updatePosition(simulatedTpf);
+            // Simulate varying update-frequencies because it should make a circle anyways
+            unit.steerAntiClockwise(simulatedTpf);
+                Vector diffVector = new Vector(Math.abs(startingPos.getX()) - unit.getPosition().getX(),
+                    Math.abs(startingPos.getY() - unit.getPosition().getY()));
+            float diffLength = diffVector.getLength();
+            if (diffLength <= Unit.ACCEPTED_STEER_DIFF) {
+                assertTrue(diffLength <= Unit.ACCEPTED_STEER_DIFF);
+                break;
+            }
+        }
     }
 
     /**
@@ -119,132 +131,77 @@ public class UnitTest {
      */
     @Test
     public void testSetSteerAngle() {
-        System.out.println("setSteerAngle");
-        double steerAngle = 0.0;
-        Unit instance = null;
-        instance.setSteerAngle(steerAngle);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        // It must change the value of steerAngle
+        float angle = unit.getSteerAngle();
+        unit.setSteerAngle(angle + 25f);
+        assertTrue(unit.getSteerAngle() - 25f == angle);
     }
 
     /**
      * Test of setDirection method, of class Unit.
      */
     @Test
-    public void testSetDirection_Vector() {
-        System.out.println("setDirection");
-        Vector dir = null;
-        Unit instance = null;
-        instance.setDirection(dir);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setDirection method, of class Unit.
-     */
-    @Test
-    public void testSetDirection_double_double() {
-        System.out.println("setDirection");
-        double x = 0.0;
-        double y = 0.0;
-        Unit instance = null;
-        instance.setDirection(x, y);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testSetDirection() {
+        // The two overloaded methods should set the same direction
+        unit.setDirection(new Vector(25f, 25f));
+        Vector direction = unit.getDirection();
+        unit.setDirection(25f, 25f);
+        assertTrue(direction.equals(unit.getDirection()));
     }
 
     /**
      * Test of setPosition method, of class Unit.
      */
     @Test
-    public void testSetPosition_Vector() {
-        System.out.println("setPosition");
-        Vector pos = null;
-        Unit instance = null;
-        instance.setPosition(pos);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setPosition method, of class Unit.
-     */
-    @Test
-    public void testSetPosition_double_double() {
-        System.out.println("setPosition");
-        double x = 0.0;
-        double y = 0.0;
-        Unit instance = null;
-        instance.setPosition(x, y);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testSetPosition() {
+        // The two overloaded methods should set the same direction
+        unit.setPosition(new Vector(25f, 25f));
+        Vector position = unit.getPosition();
+        unit.setPosition(25f, 25f);
+        assertTrue(position.equals(unit.getPosition()));
     }
 
     /**
      * Test of setSpeed method, of class Unit.
      */
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void testSetSpeed() {
-        System.out.println("setSpeed");
-        double speed = 0.0;
-        Unit instance = null;
-        instance.setSpeed(speed);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        // Reset
+        unit.setSpeed(0);
+        assertTrue(unit.getSpeed() == 0);
+        // Should cast exception
+        unit.setSpeed(Float.MIN_VALUE);
+        unit.setSpeed(Float.POSITIVE_INFINITY);
     }
 
     /**
      * Test of setAcceleration method, of class Unit.
      */
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void testSetAcceleration() {
-        System.out.println("setAcceleration");
-        int acceleration = 0;
-        Unit instance = null;
-        instance.setAcceleration(acceleration);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        unit.setAcceleration(Integer.MAX_VALUE);
+        assertTrue(unit.getAcceleration() == Integer.MAX_VALUE);
+        unit.setAcceleration(Integer.MIN_VALUE);
     }
 
     /**
      * Test of setHitPoints method, of class Unit.
      */
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void testSetHitPoints() {
-        System.out.println("setHitPoints");
-        int hitPoints = 0;
-        Unit instance = null;
-        instance.setHitPoints(hitPoints);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        int HPMax = unit.getHitPointsMax();
+        unit.setHitPoints(HPMax);
+        assertTrue(unit.getHitPoints() == HPMax);
+        unit.setHitPoints(Integer.MIN_VALUE);
     }
-
-    /**
-     * Test of setRetardation method, of class Unit.
-     */
-    @Test
-    public void testSetRetardation() {
-        System.out.println("setRetardation");
-        int retardation = 0;
-        Unit instance = null;
-        instance.setRetardation(retardation);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
+    
     /**
      * Test of getPosition method, of class Unit.
      */
     @Test
     public void testGetPosition() {
-        System.out.println("getPosition");
-        Unit instance = null;
-        Vector expResult = null;
-        Vector result = instance.getPosition();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Vector vector = unit.getPosition();
+        assertTrue(vector.equals(unit.getPosition()) && vector != unit.getPosition());
     }
 
     /**
@@ -252,123 +209,16 @@ public class UnitTest {
      */
     @Test
     public void testGetDirection() {
-        System.out.println("getDirection");
-        Unit instance = null;
-        Vector expResult = null;
-        Vector result = instance.getDirection();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Vector vector = unit.getDirection();
+        assertTrue(vector.equals(unit.getDirection()) && vector != unit.getDirection());
+        assertTrue(unit.getDirection().getLength() == 1);
     }
-
-    /**
-     * Test of getHitPoints method, of class Unit.
-     */
-    @Test
-    public void testGetHitPoints() {
-        System.out.println("getHitPoints");
-        Unit instance = null;
-        int expResult = 0;
-        int result = instance.getHitPoints();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getHitPointsMax method, of class Unit.
-     */
-    @Test
-    public void testGetHitPointsMax() {
-        System.out.println("getHitPointsMax");
-        Unit instance = null;
-        int expResult = 0;
-        int result = instance.getHitPointsMax();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getAcceleration method, of class Unit.
-     */
-    @Test
-    public void testGetAcceleration() {
-        System.out.println("getAcceleration");
-        Unit instance = null;
-        int expResult = 0;
-        int result = instance.getAcceleration();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getRetardation method, of class Unit.
-     */
-    @Test
-    public void testGetRetardation() {
-        System.out.println("getRetardation");
-        Unit instance = null;
-        int expResult = 0;
-        int result = instance.getRetardation();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getSpeed method, of class Unit.
-     */
-    @Test
-    public void testGetSpeed() {
-        System.out.println("getSpeed");
-        Unit instance = null;
-        double expResult = 0.0;
-        double result = instance.getSpeed();
-        assertEquals(expResult, result, 0.0);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of addPropertyChangeListener method, of class Unit.
-     */
-    @Test
-    public void testAddPropertyChangeListener() {
-        System.out.println("addPropertyChangeListener");
-        PropertyChangeListener ls = null;
-        Unit instance = null;
-        instance.addPropertyChangeListener(ls);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of removePropertyChangeListener method, of class Unit.
-     */
-    @Test
-    public void testRemovePropertyChangeListener() {
-        System.out.println("removePropertyChangeListener");
-        PropertyChangeListener ls = null;
-        Unit instance = null;
-        instance.removePropertyChangeListener(ls);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
     /**
      * Test of toString method, of class Unit.
      */
     @Test
     public void testToString() {
-        System.out.println("toString");
-        Unit instance = null;
-        String expResult = "";
-        String result = instance.toString();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertTrue(unit.toString() instanceof String && unit.toString().length() > 0);
     }
 
     /**
@@ -376,27 +226,9 @@ public class UnitTest {
      */
     @Test
     public void testEquals() {
-        System.out.println("equals");
-        Object obj = null;
-        Unit instance = null;
-        boolean expResult = false;
-        boolean result = instance.equals(obj);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of hashCode method, of class Unit.
-     */
-    @Test
-    public void testHashCode() {
-        System.out.println("hashCode");
-        Unit instance = null;
-        int expResult = 0;
-        int result = instance.hashCode();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        // These two should be equal but not ==
+        Unit unit1 = new Unit(new Vector(0, 0), new Vector(1, 0));
+        Unit unit2 = new Unit(new Vector(0, 0), new Vector(1, 0));
+        assertTrue(unit1.equals(unit2) && unit1 != unit2);
     }
 }

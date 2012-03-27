@@ -3,7 +3,6 @@ package model;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-
 /**
  * A unit. Probably a ship.
  * @author Johannes Wikner
@@ -11,19 +10,22 @@ import java.beans.PropertyChangeSupport;
  */
 public class Unit {
 
+    // Used in .equals for accepting a difference between vectors
+    public static final float ACCEPTED_STEER_DIFF = 0.60f;
+    public static final int GLOBAL_MAX_SPEED = 200;
+    
     private final Vector pos;
     private final Vector dir;
-    private final int hitPointsMax;
     private float steerAngle = 2;
     private float speed;
+    private int hitPointsMax;
     private int acceleration = 10;
     private int retardation = 10;
-    private int maxSpeed = 200;
+    private int maxSpeed = GLOBAL_MAX_SPEED;
     private int hitPoints;
 //    private PowerUp powerUp; TODO
-
     private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
-    
+
     /**
      * Creates a new unit
      * @param pos Initial position
@@ -56,12 +58,12 @@ public class Unit {
      */
     public void updatePosition(float tpf) {
         // If we're standing still there's no need to compute this at all
-        if (this.speed*tpf != 0) {
+        if (this.speed * tpf != 0) {
             Vector oldPosition = new Vector(this.getPosition());
             // Update directions length according to speed and tpf
             dir.mult(this.speed * tpf);
             this.pos.add(dir);
-            
+
             // Normalize for next update
             dir.normalize();
             this.pcs.firePropertyChange("Updated Position", oldPosition, this.getPosition());
@@ -72,19 +74,31 @@ public class Unit {
      * Accelerates the unit
      * @param tpf Time per frame
      */
-    public void accelerate(float tpf) {
+    public void accelerate(final float tpf) {
         // v = v0 + at
-        this.setSpeed(this.speed + acceleration * tpf);
+        if (this.speed < this.maxSpeed) {
+            float newSpeed = this.speed + this.acceleration * tpf;
+            newSpeed = newSpeed >= this.maxSpeed ? this.maxSpeed : newSpeed;
+            this.setSpeed(newSpeed);
+        }
     }
 
     /**
      * Retardates the unit.  
      * @param tfp Time per frame
      */
-    public void retardate(float tpf) {
+    public void retardate(final float tpf) {
         if (this.speed > 0) {
-            this.setSpeed(this.speed - retardation * tpf);
+            // The unit should never get a negative speed so we only retardate
+            // until zero is reached
+            float newSpeed = this.speed - retardation * tpf;
+            newSpeed = newSpeed < 0 ? 0 : newSpeed;
+            this.setSpeed(newSpeed);
         }
+    }
+
+    public float getMaxSpeed() {
+        return this.maxSpeed;
     }
 
     /**
@@ -93,7 +107,7 @@ public class Unit {
      */
     public void steerClockwise(float tpf) {
         if (this.speed != 0) {
-            dir.rotate(-this.steerAngle*tpf); // any other suggestion ? maybe a method in vector?   
+            dir.rotate(-this.steerAngle * tpf); // any other suggestion ? maybe a method in vector?   
         }
     }
 
@@ -103,19 +117,24 @@ public class Unit {
      */
     public void steerAntiClockwise(float tpf) {
         if (this.speed != 0) {
-            dir.rotate(this.steerAngle*tpf);
+            dir.rotate(this.steerAngle * tpf);
         }
     }
 
     /**
      * Set the steer angle of the unit. 
-     * @param steerAngle Angle determined in radians
+     * @param steerAngle Angle determined in radians. Leave open interval for configuration in-game
      */
     public void setSteerAngle(float steerAngle) {
-        if (steerAngle < 0 || steerAngle > Math.PI * 2) {
-            throw new IllegalArgumentException("Angle must be positive 0 < angle < pi*2");
-        }
         this.steerAngle = steerAngle;
+    }
+
+    /**
+     * Returns the steerAngle for this unit.
+     * @return A float representing how fast the unit can steer.
+     */
+    public float getSteerAngle() {
+        return this.steerAngle;
     }
 
     /**
@@ -166,8 +185,8 @@ public class Unit {
      * @throws IllegalArgumentException If a given speed is less than 0
      */
     public void setSpeed(float speed) {
-        if (speed < 0) {
-            throw new IllegalArgumentException("Must be a postitive integer");
+        if (speed < 0 || speed > this.maxSpeed) {
+            throw new IllegalArgumentException("Must be a postitive integer < getMaxSpeed()");
         }
         this.speed = speed;
     }
@@ -196,7 +215,7 @@ public class Unit {
     public void setHitPoints(int hitPoints) {
         if (hitPoints < 0 || hitPoints > this.hitPointsMax) {
             throw new IllegalArgumentException(
-                    "Must have a positive hit points value");
+                    "Must have a positive hit points value < getPointsMax()");
         }
         this.hitPoints = hitPoints;
     }
@@ -240,6 +259,13 @@ public class Unit {
     }
 
     /**
+     * Sets maximum HitPoints for this unit.
+     * @param hitPointsMax 
+     */
+    public void setHitPointsMax(int hitPointsMax) {
+        this.hitPointsMax = hitPointsMax;
+    }
+    /**
      * 
      * @return The unit's maximum hit points (health)
      */
@@ -270,21 +296,21 @@ public class Unit {
     public float getSpeed() {
         return this.speed;
     }
-    
+
     public void addPropertyChangeListener(PropertyChangeListener ls) {
         this.pcs.addPropertyChangeListener(ls);
     }
-    
+
     public void removePropertyChangeListener(PropertyChangeListener ls) {
         this.pcs.removePropertyChangeListener(ls);
     }
 
     @Override
     public String toString() {
-        return "Unit{" + "pos=" + pos + ", dir=" + dir + ", hitPointsMax=" 
-                + hitPointsMax + ", steerAngle=" + steerAngle + ", speed=" 
-                + speed + ", acceleration=" + acceleration + ", retardation=" 
-                + retardation + ", maxSpeed=" + maxSpeed + ", hitPoints=" 
+        return "Unit{" + "pos=" + pos + ", dir=" + dir + ", hitPointsMax="
+                + hitPointsMax + ", steerAngle=" + steerAngle + ", speed="
+                + speed + ", acceleration=" + acceleration + ", retardation="
+                + retardation + ", maxSpeed=" + maxSpeed + ", hitPoints="
                 + hitPoints + '}';
     }
 
@@ -324,9 +350,6 @@ public class Unit {
         if (this.hitPoints != other.hitPoints) {
             return false;
         }
-        if (this.pcs != other.pcs && (this.pcs == null || !this.pcs.equals(other.pcs))) {
-            return false;
-        }
         return true;
     }
 
@@ -345,5 +368,4 @@ public class Unit {
         hash = 47 * hash + (this.pcs != null ? this.pcs.hashCode() : 0);
         return hash;
     }
-    
 }
