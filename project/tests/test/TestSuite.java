@@ -4,6 +4,10 @@
  */
 package test;
 
+import model.BattlefieldTest;
+import model.PlayerTest;
+import model.UnitTest;
+import model.VectorTest;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -16,7 +20,10 @@ import org.junit.runners.Suite;
  * @author atamon
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({})
+@Suite.SuiteClasses({BattlefieldTest.class,
+                     PlayerTest.class,
+                     UnitTest.class,
+                     VectorTest.class})
 public class TestSuite {
 
     @BeforeClass
