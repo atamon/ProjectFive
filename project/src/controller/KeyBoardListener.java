@@ -22,12 +22,13 @@ public class KeyBoardListener implements AnalogListener {
     }
             
     public void onAnalog(String name, float value, float tpf) {
-        if(name.equals("Forward")) {
+        System.out.println("" + name + value + tpf);
+        if(name.equals("Forward" + playerID)) {
             this.game.acceleratePlayerUnit(this.playerID, tpf);
             
-        } else if (name.equals("Left")) {
+        } else if (name.equals("Left" + playerID)) {
             this.game.steerPlayer(Direction.ANTICLOCKWISE, this.playerID, tpf);
-        } else if (name.equals("Right")) {
+        } else if (name.equals("Right" + playerID)) {
             this.game.steerPlayer(Direction.CLOCKWISE, this.playerID, tpf);
         }
     }

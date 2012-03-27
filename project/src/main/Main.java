@@ -1,5 +1,6 @@
 package main;
 
+import model.Battlefield;
 import model.Game;
 import controller.Controller;
 import com.jme3.app.SimpleApplication;
@@ -25,7 +26,7 @@ public class Main extends SimpleApplication {
      */
     @Override
     public void simpleInitApp() {
-        Game game = new Game();
+        Game game = new Game(new Battlefield(), 1, 2);
         this.view = new View(this, game);
         this.controller = new Controller(this, view, game);
     }

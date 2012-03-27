@@ -14,6 +14,7 @@ import view.View;
 /**
  * A class to represent a Controller
  * @author Victor Lindhé
+ * @modified johnhu
  */
 public class Controller {
     private Game game;
@@ -46,16 +47,16 @@ public class Controller {
     private void initKeys(int playerIndex) {
         KeyBoardListener kbListener = new KeyBoardListener(this.game, playerIndex+1);
         
-        this.jme3.getInputManager().addMapping("Forward", 
+        this.jme3.getInputManager().addMapping("Forward" + (playerIndex+1), 
                                     new KeyTrigger(keyLayouts[playerIndex][0]));
-        this.jme3.getInputManager().addMapping("Left", 
+        this.jme3.getInputManager().addMapping("Left" + (playerIndex+1), 
                                     new KeyTrigger(keyLayouts[playerIndex][1]));
-        this.jme3.getInputManager().addMapping("Right", 
+        this.jme3.getInputManager().addMapping("Right" + (playerIndex+1), 
                                     new KeyTrigger(keyLayouts[playerIndex][2]));
         
-        this.jme3.getInputManager().addListener(kbListener, "Forward");
-        this.jme3.getInputManager().addListener(kbListener, "Left");
-        this.jme3.getInputManager().addListener(kbListener, "Right");
+        this.jme3.getInputManager().addListener(kbListener, "Forward" + (playerIndex+1));
+        this.jme3.getInputManager().addListener(kbListener, "Left" + (playerIndex+1));
+        this.jme3.getInputManager().addListener(kbListener, "Right" + (playerIndex+1));
     }
     
     public void update(float tpf) {

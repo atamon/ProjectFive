@@ -12,17 +12,17 @@ import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
-import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
-import de.jarnbjo.vorbis.Util;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
  * @author atamon
+ * @modified johnhu
  */
 public class View {
 
@@ -36,6 +36,7 @@ public class View {
     public View(SimpleApplication jme3, Game game) {
         this.jme3 = jme3;
         this.game = game;
+        graphicalUnits = new ArrayList();
         this.assetManager = jme3.getAssetManager();
         this.rootNode = jme3.getRootNode();
         this.guiNode = jme3.getGuiNode();
@@ -91,11 +92,15 @@ public class View {
      */
     public void initUnit() {
         float size = 1.0f;
-        GraphicalUnit gUnit = new GraphicalUnit(1,
+        int nmbOfPlayers = this.game.getNbrOfPlayers();
+        for(int i = 0; i < nmbOfPlayers; i++) {
+            graphicalUnits.add(i, new GraphicalUnit(i+1,
                                                 ColorRGBA.randomColor(),
                                                 new Vector3f(size, size, size),
-                                                assetManager);
-        this.game.addUnitListener(1, gUnit);
-        rootNode.attachChild(gUnit.getGeometry());
+                                                assetManager));
+            this.game.addUnitListener(i+1, graphicalUnits.get(i));
+            rootNode.attachChild(graphicalUnits.get(i).getGeometry());
+        }
     }
+    
 }
