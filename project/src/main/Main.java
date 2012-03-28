@@ -4,7 +4,7 @@ import model.Battlefield;
 import model.Game;
 import controller.Controller;
 import com.jme3.app.SimpleApplication;
-import com.jme3.renderer.RenderManager;
+import model.IGame;
 import view.View;
 
 /**
@@ -26,7 +26,7 @@ public class Main extends SimpleApplication {
      */
     @Override
     public void simpleInitApp() {
-        Game game = new Game(new Battlefield(), 1, 2);
+        IGame game = new Game(new Battlefield(), 1, 2);
         this.view = new View(this, game);
         this.controller = new Controller(this, view, game);
     }

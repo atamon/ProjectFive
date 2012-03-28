@@ -4,7 +4,6 @@
  */
 package view;
 
-import model.Game;
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetManager;
 import com.jme3.light.AmbientLight;
@@ -18,6 +17,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
 import java.util.ArrayList;
 import java.util.List;
+import model.IGame;
 
 /**
  *
@@ -27,13 +27,13 @@ import java.util.List;
 public class View {
 
     private final SimpleApplication jme3;
-    private final Game game;
+    private final IGame game;
     private AssetManager assetManager;
     private Node rootNode;
     private Node guiNode;
     private List<GraphicalUnit> graphicalUnits;
 
-    public View(SimpleApplication jme3, Game game) {
+    public View(SimpleApplication jme3, IGame game) {
         this.jme3 = jme3;
         this.game = game;
         graphicalUnits = new ArrayList();
