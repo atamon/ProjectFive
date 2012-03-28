@@ -9,9 +9,6 @@ import java.beans.PropertyChangeSupport;
  * @modified Victor Lindhé
  */
 public class Unit {
-
-    // Used in .equals for accepting a difference between vectors
-    public static final float ACCEPTED_STEER_DIFF = 0.60f;
     public static final int GLOBAL_MAX_SPEED = 200;
     
     private final Vector pos;

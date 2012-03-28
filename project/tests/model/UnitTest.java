@@ -4,12 +4,10 @@
  */
 package model;
 
-import java.beans.PropertyChangeListener;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import java.util.LinkedList;
+import java.util.List;
 import org.junit.Test;
+import util.Util;
 import static org.junit.Assert.*;
 
 /**
@@ -24,105 +22,71 @@ public class UnitTest {
      * Test of updatePosition method, of class Unit.
      */
     @Test
-    public void testUpdatePosition() {
-        fail("Not implemented yet!");
-    }
+    public void testUpdateUnit() {
+        // With a constant speed > 0 && unchanged steerAngle I should
+        // be able to make a full circle.
+        // I.E start and end up at the same position eventually in a loop.
+        unit.setSteerAngle(25f);
+        unit.setSpeed(25);
+        unit.setDirection(new Vector(1, 0));
 
-    /**
-     * Test of accelerate method, of class Unit.
-     */
-    @Test
-    public void testAccelerate() {
-        //Should (somewhat) linearly increase speed
-        Unit unit = new Unit(new Vector(0, 0), new Vector(1, 0));
-        unit.setSpeed(0);
-        // The method should never increase speed above the unit's maxSpeed.
-        while (true) {
-            float lastSpeed = unit.getSpeed();
-            // Some kind of updatefrequency-simulation
-            unit.accelerate(test.Utils.simulateTpf());
-            assertTrue(lastSpeed <= unit.getSpeed());
+        Vector startingPos = unit.getPosition();
+        Vector startingDir = unit.getDirection();
+        Direction steerDir = Direction.CLOCKWISE;
+        float acceptedPosDiff = 0.1f;
+        float acceptedDirDiff = 1f;
 
-            if (lastSpeed == unit.getSpeed()) {
-                assertTrue(unit.getSpeed() == unit.getMaxSpeed());
-                break;
+        for (int i = 0; i < 2; i++) {
+            while (true) {
+                // Simulate varying update-frequencies because it should make a circle anyways
+                float simulatedTpf = test.Utils.simulateTpf();
+                unit.steer(steerDir, simulatedTpf);
+                unit.updateUnit(simulatedTpf);
+
+                Vector diffVector = Util.getDiffVector(startingDir, unit.getDirection());
+                if (diffVector.getLength() <= acceptedPosDiff) {
+                    assertTrue(diffVector.getLength() <= acceptedPosDiff);
+                    break;
+                }
             }
+            steerDir = Direction.ANTICLOCKWISE;
         }
-    }
-
-    /**
-     * Test of retardate method, of class Unit.
-     */
-    @Test
-    public void testRetardate() {
-        unit.setSpeed(unit.getMaxSpeed());
-        boolean reachedZeroSpeed = false;
-        while (true) {
-            unit.retardate(test.Utils.simulateTpf());
-            // Make sure speed >= 0 and when 0 is reached 
-            // check once more if we can go below 0
-            assertTrue(unit.getSpeed() >= 0);
-            if (reachedZeroSpeed) {
-                return;
-            }
-            if (unit.getSpeed() == 0) {
-                reachedZeroSpeed = true;
-            }
-        }
+        // TODO ? Add forever growing circle if increasing steerAngle
+        // TODO ? Add decreaseing circle crashing into itself (lastpos.equals(thispos)
+        //      if decreaseing steerAngle
     }
 
     /**
      * Test of steerClockwise method, of class Unit.
      */
     @Test
-    public void testSteerClockwise() {
-        // With a constant speed > 0 && unchanged steerAngle I should
-        // be able to make a full circle combined with updateposition.
-        // I.E start and end up at the same position eventually in a loop.
-        unit.setSteerAngle((float) Math.PI);
-        unit.setSpeed(unit.getMaxSpeed());
-        Vector startingPos = unit.getPosition();
-        while (true) {
-            float simulatedTpf = test.Utils.simulateTpf();
-            unit.updatePosition(simulatedTpf);
-            // Simulate varying update-frequencies because it should make a circle anyways
-            unit.steerClockwise(simulatedTpf);
-            Vector diffVector = new Vector(Math.abs(startingPos.getX()) - unit.getPosition().getX(),
-                    Math.abs(startingPos.getY() - unit.getPosition().getY()));
-            float diffLength = diffVector.getLength();
-            if (diffLength <= Unit.ACCEPTED_STEER_DIFF) {
-                assertTrue(diffLength <= Unit.ACCEPTED_STEER_DIFF);
-                break;
-            }
-        }
-        // TODO Add forever growing circle if increasing steerAngle
-        // TODO Add decreaseing circle crashing into itself (lastpos.equals(thispos)
-        //      if decreaseing steerAngle
-    }
+    public void testSteer() {
+        // With speed != 0 a unit's direction should rotate 2PI radians eventually
+        // Since we're updating with a "random" steeringgrade we might skip
+        // the actual .equals so we check if we've passed the startingDir instead
+        unit.setSpeed(1);
+        unit.setSteerAngle(25f);
+        unit.setDirection(new Vector(1, 0));
+        Vector startDir = unit.getDirection();
+        Vector lastDir = new Vector(startDir);
+        Vector diffVector = new Vector(0, 0);
+        float acceptedDiff = 0.000005f;
+        List<Direction> directions = new LinkedList<Direction>();
 
-    /**
-     * Test of steerAntiClockwise method, of class Unit.
-     */
-    @Test
-    public void testSteerAntiClockwise() {
-        // With a constant speed > 0 && unchanged steerAngle I should
-        // be able to make a full circle combined with updateposition.
-        // I.E start and end up at the same position eventually in a loop.
-        unit.setSteerAngle((float) Math.PI);
-        unit.setSpeed(unit.getMaxSpeed());
-        Vector startingPos = unit.getPosition();
-        while (true) {
-            float simulatedTpf = test.Utils.simulateTpf();
-            unit.updatePosition(simulatedTpf);
-            // Simulate varying update-frequencies because it should make a circle anyways
-            unit.steerAntiClockwise(simulatedTpf);
-                Vector diffVector = new Vector(Math.abs(startingPos.getX()) - unit.getPosition().getX(),
-                    Math.abs(startingPos.getY() - unit.getPosition().getY()));
-            float diffLength = diffVector.getLength();
-            if (diffLength <= Unit.ACCEPTED_STEER_DIFF) {
-                assertTrue(diffLength <= Unit.ACCEPTED_STEER_DIFF);
-                break;
+
+        int iterations = Integer.MAX_VALUE;
+        for (Direction direction : directions) {
+            for (int i = 0; i < iterations; i++) {
+                unit.steer(direction, test.Utils.simulateTpf());
+                if (lastDir.equals(unit.getDirection())) {
+                    fail("Fail: Unit.steer() did not rotate Unit's direction!");
+                }
+                diffVector = Util.getDiffVector(startDir, unit.getDirection());
+                if (diffVector.getLength() <= acceptedDiff) {
+                    break;
+                }
             }
+            assertTrue(diffVector.getLength() <= acceptedDiff);
         }
     }
 
@@ -164,7 +128,7 @@ public class UnitTest {
     /**
      * Test of setSpeed method, of class Unit.
      */
-    @Test (expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testSetSpeed() {
         // Reset
         unit.setSpeed(0);
@@ -177,7 +141,7 @@ public class UnitTest {
     /**
      * Test of setAcceleration method, of class Unit.
      */
-    @Test (expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testSetAcceleration() {
         unit.setAcceleration(Integer.MAX_VALUE);
         assertTrue(unit.getAcceleration() == Integer.MAX_VALUE);
@@ -187,14 +151,14 @@ public class UnitTest {
     /**
      * Test of setHitPoints method, of class Unit.
      */
-    @Test (expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testSetHitPoints() {
         int HPMax = unit.getHitPointsMax();
         unit.setHitPoints(HPMax);
         assertTrue(unit.getHitPoints() == HPMax);
         unit.setHitPoints(Integer.MIN_VALUE);
     }
-    
+
     /**
      * Test of getPosition method, of class Unit.
      */
@@ -213,6 +177,7 @@ public class UnitTest {
         assertTrue(vector.equals(unit.getDirection()) && vector != unit.getDirection());
         assertTrue(unit.getDirection().getLength() == 1);
     }
+
     /**
      * Test of toString method, of class Unit.
      */
