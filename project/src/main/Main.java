@@ -4,6 +4,7 @@ import model.Battlefield;
 import model.Game;
 import controller.Controller;
 import com.jme3.app.SimpleApplication;
+import com.jme3.system.AppSettings;
 import model.IGame;
 import view.View;
 
@@ -18,6 +19,9 @@ public class Main extends SimpleApplication {
     
     public static void main(String[] args) {
         Main app = new Main();
+        AppSettings settings = new AppSettings(true);
+        settings.setFrameRate(60);
+        app.setSettings(settings);
         app.start();
     }
 
