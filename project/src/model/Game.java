@@ -71,6 +71,10 @@ public class Game implements IGame {
         return battlefield.getSize();
     }
     
+    public List<Player> getPlayers() {
+        return this.players;
+    }
+    
     /**
      * Creates a list of all the rounds this game includes
      * @param numberOfRounds Number of rounds
@@ -96,7 +100,7 @@ public class Game implements IGame {
         for (int i = 0; i < nOfPlayers; i++) {
             // Initial positioning is done by battlefield, create with zeroVectors
             Vector zeroVector = new Vector(1, 1);
-            Player player = new Player(i+1);
+            Player player = new Player(i);
             player.setUnit(new Unit(zeroVector, zeroVector));
             list.add(player);
         }
