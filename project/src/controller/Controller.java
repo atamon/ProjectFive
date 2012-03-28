@@ -8,6 +8,7 @@ import model.Game;
 import com.jme3.app.SimpleApplication;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.KeyTrigger;
+import model.IGame;
 import model.Vector;
 import view.View;
 
@@ -17,7 +18,7 @@ import view.View;
  * @modified johnhu
  */
 public class Controller {
-    private Game game;
+    private IGame game;
     private View view;
     private SimpleApplication jme3;
     private int nbrOfPlayers;
@@ -26,7 +27,7 @@ public class Controller {
         {KeyInput.KEY_W, KeyInput.KEY_A, KeyInput.KEY_D},
         {KeyInput.KEY_UP, KeyInput.KEY_LEFT, KeyInput.KEY_RIGHT}};
     
-    public Controller(SimpleApplication jme3, View view, Game game) {
+    public Controller(SimpleApplication jme3, View view, IGame game) {
         this.jme3 = jme3;
         this.view = view;
         this.game = game;

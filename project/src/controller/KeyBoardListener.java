@@ -8,16 +8,17 @@ import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.AnalogListener;
 import model.Direction;
 import model.Game;
+import model.IGame;
 
 /**
  *
  * @author victorlindhe
  */
 public class KeyBoardListener implements ActionListener, AnalogListener {
-    private Game game;
+    private IGame game;
     private int playerID;
     
-    public KeyBoardListener(Game game, int playerID) {
+    public KeyBoardListener(IGame game, int playerID) {
         this.game = game;
         this.playerID = playerID;
     }

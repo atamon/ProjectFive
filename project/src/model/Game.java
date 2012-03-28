@@ -1,7 +1,6 @@
 package model;
 
 import java.beans.PropertyChangeListener;
-import model.Round;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,7 +10,7 @@ import java.util.List;
  * @author Anton Lindgren
  * @modified by John Hult, Victor Lindhé
  */
-public class Game {
+public class Game implements IGame {
 
     // Instances
     private final Battlefield battlefield;
@@ -59,6 +58,7 @@ public class Game {
      * @param id The player's ID
      * @param tpf Time since last frame
      */
+    @Override
     public void acceleratePlayerUnit(int id, boolean accel) {
         this.players.get(id-1).accelerateUnit(accel);
     }
@@ -109,15 +109,18 @@ public class Game {
      * @param playerID The player's ID
      * @param tpf Time since last update
      */
+    @Override
     public void steerPlayerUnit(Direction direction, int playerID, float tpf) {
         Player player = players.get(playerID-1);
         player.steerUnit(direction, tpf);
     }
     
+    @Override
     public void addUnitListener(int playerID, PropertyChangeListener pl) {
         this.players.get(playerID-1).addUnitListener(pl);
     }
     
+    @Override
     public void removeUnitListener(int playerID, PropertyChangeListener pl) {
         this.players.get(playerID-1).removeUnitListener(pl);
     }
@@ -126,6 +129,7 @@ public class Game {
      * Start a new round.
      * Sets position of all players
      */
+    @Override
     public void startRound() {
         // TODO Insert stastics-handling for each round here in the future maybe?
         currentRound = comingRounds.remove(0);
@@ -134,6 +138,7 @@ public class Game {
         //battlefield.addItem();
     }
     
+    @Override
     public void placeUnit(int id, Vector vector) {
         this.players.get(id-1).getUnit().setPosition(vector);
     }
@@ -152,6 +157,7 @@ public class Game {
     /*
      * Returns number of players.
      */
+    @Override
     public int getNbrOfPlayers() {
         return this.players.size();
     }
