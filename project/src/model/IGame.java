@@ -21,6 +21,5 @@ public interface IGame {
     public List<Player> getPlayers();
     public void addUnitListener(int playerID, PropertyChangeListener pl);
     public void removeUnitListener(int playerID, PropertyChangeListener pl);
-    public List<Player> getPlayers();
     public Vector getBattlefieldSize();
 }

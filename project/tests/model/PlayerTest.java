@@ -18,14 +18,13 @@ public class PlayerTest {
      * Checks if we get null with no Unit set.
      * Checks if we get the same unit that we set.
      */
+    private Unit testUnit = new Unit(new Vector(1,2), new Vector(3,4));
     @Test
     public void testGetUnit() {
         System.out.println("getUnit");
-        Player instance = new Player(1);
-        assertNull(instance.getUnit());
-        Unit unit = new Unit(new Vector(5f,4f), new Vector(1f, 1f), 100);
-        instance.setUnit(unit);
-        assertTrue(instance.getUnit().equals(unit));
+        Player instance = new Player(1, testUnit);
+        assertTrue(instance.getUnit().equals(testUnit));
+        assertTrue(instance.getId() == 1);
     }
 
     /**
@@ -36,11 +35,12 @@ public class PlayerTest {
     public void testSetUnit() {
         System.out.println("setUnit");
         Unit boat = null;
-        Player instance = new Player(1);
+        Player instance = new Player(1, testUnit);
         instance.setUnit(boat);
+        assertNotNull(instance.getUnit());
         Unit unit = new Unit(new Vector(5f,4f), new Vector(1f, 1f), 100);
         instance.setUnit(boat);
-        assertTrue(instance.getUnit().equals(unit));
+        assertTrue(instance.getUnit().equals(unit) && boat != instance.getUnit());
     }
 
     /**
@@ -50,7 +50,7 @@ public class PlayerTest {
     public void testGetId() {
         System.out.println("getId");
         int expResult = 0;
-        Player instance = new Player(expResult);
+        Player instance = new Player(expResult, testUnit);
         int result = instance.getId();
         assertEquals(expResult, result);
     }
@@ -61,7 +61,7 @@ public class PlayerTest {
     @Test
     public void testToString() {
         System.out.println("toString");
-        Player instance = new Player(1);
+        Player instance = new Player(1, testUnit);
         assert(instance.toString().getClass().equals(String.class));
     }
 
@@ -72,7 +72,7 @@ public class PlayerTest {
     public void testEquals() {
         System.out.println("equals");
         Object obj = null;
-        Player player = new Player(1);
+        Player player = new Player(1, testUnit);
         assertFalse(player.equals(obj));
         
         Player playerTwo = player;
@@ -85,7 +85,7 @@ public class PlayerTest {
     @Test
     public void testHashCode() {
         System.out.println("hashCode");
-        Player player = new Player(1);
+        Player player = new Player(1, testUnit);
         Player playerTwo = player;
         assert(player.hashCode() == playerTwo.hashCode());
     }

@@ -44,28 +44,13 @@ public class GameTest {
 
 
     /**
-     * Test of acceleratePlayerUnit method, of class Game.
-     */
-    @Test
-    public void testAcceleratePlayerUnit() {
-        System.out.println("acceleratePlayerUnit");
-        boolean accel = true;
-        Game instance = new Game(new Battlefield(), 1, 2);
-        instance.acceleratePlayerUnit(1, accel);
-        assertTrue(instance.getPlayerPosition(1) != instance.getPlayerPosition(2));
-    }
-
-    /**
      * Test of getBattlefieldSize method, of class Game.
      */
     @Test
     public void testGetBattlefieldSize() {
         System.out.println("getBattlefieldSize");
-        Game instance = new Game();
         Game instanceTwo = new Game(new Battlefield(200, 200), 1, 2);
-        assertTrue(instance.getBattlefieldSize().getX() == 100
-                && instanceTwo.getBattlefieldSize().getX() == 200);
-        assertFalse(instanceTwo.getBattlefieldSize().getY() == 300);
+        assertTrue(instanceTwo.getBattlefieldSize().equals(new Vector(200,200)));
     }
 
 //    /**
@@ -85,7 +70,8 @@ public class GameTest {
     public void testPlaceUnit() {
         System.out.println("placeUnit");
         Game instance = new Game();
-        Player player = new Player(1);
+        Unit unit = new Unit(new Vector(1,1), new Vector(2,2));
+        Player player = new Player(1, unit);
         instance.placeUnit(1, new Vector(0, 0));
         assertTrue(instance.getPlayerPosition(1).equals(new Vector(0, 0)));
     }

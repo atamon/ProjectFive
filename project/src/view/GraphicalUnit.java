@@ -58,7 +58,6 @@ public class GraphicalUnit implements PropertyChangeListener {
            Vector3f jMEvector = Util.convertToMonkey3D((Vector)pce.getNewValue());
             if(pce.getPropertyName().equals("Updated Position")){
                 this.box.setLocalTranslation(jMEvector);
-                System.out.println(jMEvector);
                 
             }
             if(pce.getPropertyName().equals("Updated Direction")){
