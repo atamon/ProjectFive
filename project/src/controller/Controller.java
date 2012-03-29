@@ -8,7 +8,12 @@ import model.Game;
 import com.jme3.app.SimpleApplication;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.KeyTrigger;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 import model.IGame;
+import model.Player;
 import model.Vector;
 import view.View;
 
@@ -21,11 +26,7 @@ public class Controller {
     private IGame game;
     private View view;
     private SimpleApplication jme3;
-    private int nbrOfPlayers;
-    
-    public static int[][] keyLayouts = {
-        {KeyInput.KEY_W, KeyInput.KEY_A, KeyInput.KEY_D},
-        {KeyInput.KEY_UP, KeyInput.KEY_LEFT, KeyInput.KEY_RIGHT}};
+    private List<PlayerAdapter> playerAdapters;
     
     public Controller(SimpleApplication jme3, View view, IGame game) {
         this.jme3 = jme3;
@@ -33,30 +34,19 @@ public class Controller {
         this.game = game;
         
         this.jme3.getInputManager().clearMappings();
-
-        this.nbrOfPlayers = this.game.getNbrOfPlayers();
-        for(int i=0; i<this.nbrOfPlayers; i++) {
-            
-            this.initKeys(i);
+        
+        this.playerAdapters = new ArrayList<PlayerAdapter>();
+        List<Player> players = this.game.getPlayers();
+        Iterator<Player> playerIterator = players.listIterator();
+        while(playerIterator.hasNext()) {
+            PlayerAdapter playAdapt = new PlayerAdapter(playerIterator.next());
+            playAdapt.setKeyBoardListener(new KeyBoardListener(playAdapt, 
+                                                  this.jme3.getInputManager()));
+            this.playerAdapters.add(playAdapt);
         }
         
         this.view.createScene();
         this.game.startRound();
-    }
-    
-    private void initKeys(int playerIndex) {
-        KeyBoardListener kbListener = new KeyBoardListener(this.game, playerIndex);
-        
-        this.jme3.getInputManager().addMapping("Forward" + (playerIndex), 
-                                    new KeyTrigger(keyLayouts[playerIndex][0]));
-        this.jme3.getInputManager().addMapping("Left" + (playerIndex), 
-                                    new KeyTrigger(keyLayouts[playerIndex][1]));
-        this.jme3.getInputManager().addMapping("Right" + (playerIndex), 
-                                    new KeyTrigger(keyLayouts[playerIndex][2]));
-        
-        this.jme3.getInputManager().addListener(kbListener, "Forward" + (playerIndex));
-        this.jme3.getInputManager().addListener(kbListener, "Left" + (playerIndex));
-        this.jme3.getInputManager().addListener(kbListener, "Right" + (playerIndex));
     }
     
     public void update(float tpf) {

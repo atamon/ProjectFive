@@ -37,7 +37,7 @@ public class View {
     public View(SimpleApplication jme3, IGame game) {
         this.jme3 = jme3;
         this.game = game;
-        graphicalUnits = new ArrayList();
+        this.graphicalUnits = new ArrayList();
         this.assetManager = jme3.getAssetManager();
         this.rootNode = jme3.getRootNode();
         this.guiNode = jme3.getGuiNode();

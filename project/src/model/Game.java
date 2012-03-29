@@ -102,6 +102,10 @@ public class Game implements IGame {
         return battlefield.getSize();
     }
     
+    public List<Player> getPlayers() {
+        return this.players;
+    }
+    
     /**
      * Creates a list of all the rounds this game includes
      * @param numberOfRounds Number of rounds
@@ -116,19 +120,10 @@ public class Game implements IGame {
         return list;
     }
 
-    /**
-     * Creates and returns a list with the players for this game.
-     * @param nOfPlayers is the amount of players we create.
-     * @return Returns an ArrayList of the players.
-     */
     private void addPlayer(Unit playerUnit) {
         Player player = new Player(players.size(), playerUnit);
         this.players.add(player);
         
-    }
-    
-    public List<Player> getPlayers(){
-        return this.players;
     }
     
     /**

@@ -10,7 +10,11 @@ package test;
  */
 public class Utils {
 
+    /**
+     * Simulates the tpf the game runs on at 60fps
+     * @return A float simulating the tpf in-game atm
+     */
     public static float simulateTpf() {
-        return 0.1f * (float)Math.random();
+        return 0.016f;
     }
 }
