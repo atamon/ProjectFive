@@ -14,7 +14,7 @@ public class Game implements IGame {
 
     // Instances
     private final Battlefield battlefield;
-    private final List<Player> players;
+    private final List<Player> players = new ArrayList<Player>();
     private final int numberOfRounds;
     private List<Round> comingRounds;
     private Round currentRound;
@@ -31,9 +31,40 @@ public class Game implements IGame {
     public Game(Battlefield battlefield, int numberOfRounds, int numberOfPlayers) {
         this.battlefield = battlefield;
         this.numberOfRounds = numberOfRounds;
-        
+        for(int i = 0; i<numberOfPlayers; i++){
+            this.addPlayer(this.createUnit(i));   
+        }
         this.comingRounds = this.createRounds(numberOfRounds);
-        this.players = this.createPlayers(numberOfPlayers);
+    }
+    
+    private Unit createUnit(int playerID){
+        Vector position;
+        Vector direction;
+        Vector bf = battlefield.getSize();
+        switch(playerID){
+            case 0:
+                //position = new Vector(bf.getX()/2, bf.getY()/2);
+                position = new Vector(0,0);
+                direction = new Vector(-1,-1);
+                break;
+            case 1: 
+                position = new Vector(-bf.getX(), -bf.getY());
+                direction = new Vector(1,1);
+                break;
+            case 2: 
+                position = new Vector(-bf.getX(), 0);
+                direction = new Vector(1,-1);
+                break;
+            case 3: 
+                position = new Vector(0, -bf.getY());
+                direction = new Vector(-1,1);
+                break;
+            default:
+                position = new Vector(0,0);
+                direction = new Vector(1,1);
+                break;
+        }
+        return new Unit(position, direction);
     }
     
     /**
@@ -60,7 +91,7 @@ public class Game implements IGame {
      */
     @Override
     public void acceleratePlayerUnit(int id, boolean accel) {
-        this.players.get(id-1).accelerateUnit(accel);
+        this.players.get(id).accelerateUnit(accel);
     }
     
     /**
@@ -90,17 +121,14 @@ public class Game implements IGame {
      * @param nOfPlayers is the amount of players we create.
      * @return Returns an ArrayList of the players.
      */
-    private List<Player> createPlayers(int nOfPlayers) {
-        List<Player> list = new ArrayList<Player>();
-
-        for (int i = 0; i < nOfPlayers; i++) {
-            // Initial positioning is done by battlefield, create with zeroVectors
-            Vector zeroVector = new Vector(1, 1);
-            Player player = new Player(i+1);
-            player.setUnit(new Unit(zeroVector, zeroVector));
-            list.add(player);
-        }
-        return list;
+    private void addPlayer(Unit playerUnit) {
+        Player player = new Player(players.size(), playerUnit);
+        this.players.add(player);
+        
+    }
+    
+    public List<Player> getPlayers(){
+        return this.players;
     }
     
     /**
@@ -111,18 +139,18 @@ public class Game implements IGame {
      */
     @Override
     public void steerPlayerUnit(Direction direction, int playerID, float tpf) {
-        Player player = players.get(playerID-1);
+        Player player = players.get(playerID);
         player.steerUnit(direction, tpf);
     }
     
     @Override
     public void addUnitListener(int playerID, PropertyChangeListener pl) {
-        this.players.get(playerID-1).addUnitListener(pl);
+        this.players.get(playerID).addUnitListener(pl);
     }
     
     @Override
     public void removeUnitListener(int playerID, PropertyChangeListener pl) {
-        this.players.get(playerID-1).removeUnitListener(pl);
+        this.players.get(playerID).removeUnitListener(pl);
     }
 
     /**
@@ -140,7 +168,7 @@ public class Game implements IGame {
     
     @Override
     public void placeUnit(int id, Vector vector) {
-        this.players.get(id-1).getUnit().setPosition(vector);
+        this.players.get(id).getUnit().setPosition(vector);
     }
 
     /**
@@ -168,6 +196,7 @@ public class Game implements IGame {
      * @return A Vector representing the position of a player's unit.
      */
     public Vector getPlayerPosition(int playerID) {
-        return players.get(playerID -1).getUnitPosition();
+        return players.get(playerID).getUnitPosition();
     }
+
 }

@@ -28,8 +28,8 @@ public class GraphicalUnit implements PropertyChangeListener {
     public GraphicalUnit(int playerID, ColorRGBA color, Vector3f size, 
                                                     AssetManager assetManager) {
         this.playerID = playerID;
-        Box box = new Box(new Vector3f(1,1,1), 1,1,2);
-        this.box = new Geometry("Box", box);
+        Box boxShape = new Box(new Vector3f(1,1,1), size.x,size.y,size.z);
+        this.box = new Geometry("Box", boxShape);
         Material boxMat = new Material(assetManager, 
                                            "Common/MatDefs/Misc/Unshaded.j3md");
         boxMat.setColor("Color", color);
@@ -58,6 +58,8 @@ public class GraphicalUnit implements PropertyChangeListener {
            Vector3f jMEvector = Util.convertToMonkey3D((Vector)pce.getNewValue());
             if(pce.getPropertyName().equals("Updated Position")){
                 this.box.setLocalTranslation(jMEvector);
+                System.out.println(jMEvector);
+                
             }
             if(pce.getPropertyName().equals("Updated Direction")){
                 Quaternion newRotation = new Quaternion();

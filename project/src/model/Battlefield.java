@@ -12,7 +12,7 @@ public class Battlefield {
      * Creates a Battlefield with default size (100,100) and an Item.
      */
     public Battlefield() {
-        this.size = new Vector(100.0f, 100.0f);
+        this.size = new Vector(20.0f, 20.0f);
         this.item = ItemFactory.createNewItem(this.getSize());
     }
     

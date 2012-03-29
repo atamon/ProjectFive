@@ -33,11 +33,10 @@ public class Controller {
         this.game = game;
         
         this.jme3.getInputManager().clearMappings();
-        this.game.placeUnit(1, new Vector(0,0));
-        
+
         this.nbrOfPlayers = this.game.getNbrOfPlayers();
-        
         for(int i=0; i<this.nbrOfPlayers; i++) {
+            
             this.initKeys(i);
         }
         
@@ -46,18 +45,18 @@ public class Controller {
     }
     
     private void initKeys(int playerIndex) {
-        KeyBoardListener kbListener = new KeyBoardListener(this.game, playerIndex+1);
+        KeyBoardListener kbListener = new KeyBoardListener(this.game, playerIndex);
         
-        this.jme3.getInputManager().addMapping("Forward" + (playerIndex+1), 
+        this.jme3.getInputManager().addMapping("Forward" + (playerIndex), 
                                     new KeyTrigger(keyLayouts[playerIndex][0]));
-        this.jme3.getInputManager().addMapping("Left" + (playerIndex+1), 
+        this.jme3.getInputManager().addMapping("Left" + (playerIndex), 
                                     new KeyTrigger(keyLayouts[playerIndex][1]));
-        this.jme3.getInputManager().addMapping("Right" + (playerIndex+1), 
+        this.jme3.getInputManager().addMapping("Right" + (playerIndex), 
                                     new KeyTrigger(keyLayouts[playerIndex][2]));
         
-        this.jme3.getInputManager().addListener(kbListener, "Forward" + (playerIndex+1));
-        this.jme3.getInputManager().addListener(kbListener, "Left" + (playerIndex+1));
-        this.jme3.getInputManager().addListener(kbListener, "Right" + (playerIndex+1));
+        this.jme3.getInputManager().addListener(kbListener, "Forward" + (playerIndex));
+        this.jme3.getInputManager().addListener(kbListener, "Left" + (playerIndex));
+        this.jme3.getInputManager().addListener(kbListener, "Right" + (playerIndex));
     }
     
     public void update(float tpf) {

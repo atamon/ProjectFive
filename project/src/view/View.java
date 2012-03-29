@@ -18,6 +18,7 @@ import com.jme3.scene.shape.Box;
 import java.util.ArrayList;
 import java.util.List;
 import model.IGame;
+import util.Util;
 
 /**
  *
@@ -47,24 +48,19 @@ public class View {
      * Very simple, only adds a blue plane, lighting and a gUint.
      */
     public void createScene() {
-        initGround(new Vector3f(20f, 1f, 20f));
+        Vector3f v = Util.convertToMonkey3D(this.game.getBattlefieldSize()).setY(1f);
+        initGround(v);
         initCamera();
         initLighting();
         initUnit();
     }
 
     private void initGround(Vector3f vector) {
-        Box ground = new Box(Vector3f.ZERO,
-                vector.getX(), vector.getY(), vector.getZ());
-        Geometry groundGeometry = new Geometry("Box", ground);
-        Material mat = new Material(assetManager,
-                "Common/MatDefs/Misc/Unshaded.j3md");
-        mat.setColor("Color", ColorRGBA.Blue);
-        groundGeometry.setMaterial(mat);
+        GraphicalBattlefield geoBattlefield = new GraphicalBattlefield(vector, assetManager);
+        
+        rootNode.attachChild(geoBattlefield.getGeometry());
 
-        rootNode.attachChild(groundGeometry);
-        groundGeometry.setLocalTranslation(0, -5, 0);
-
+        
 //        RigidBodyControl groundPhysics = new RigidBodyControl(0.0f);
 //        groundGeometry.addControl(groundPhysics);
 //        bulletAppState.getPhysicsSpace().add(groundPhysics);
@@ -94,11 +90,12 @@ public class View {
         float size = 1.0f;
         int nmbOfPlayers = this.game.getNbrOfPlayers();
         for(int i = 0; i < nmbOfPlayers; i++) {
-            graphicalUnits.add(i, new GraphicalUnit(i+1,
+            graphicalUnits.add(i, new GraphicalUnit(i,
                                                 ColorRGBA.randomColor(),
                                                 new Vector3f(size, size, size),
                                                 assetManager));
-            this.game.addUnitListener(i+1, graphicalUnits.get(i));
+            
+            this.game.addUnitListener(i, graphicalUnits.get(i));
             rootNode.attachChild(graphicalUnits.get(i).getGeometry());
         }
     }

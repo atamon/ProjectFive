@@ -5,6 +5,7 @@
 package model;
 
 import java.beans.PropertyChangeListener;
+import java.util.List;
 
 /**
  *
@@ -19,4 +20,6 @@ public interface IGame {
     public void update(float tpf);
     public void addUnitListener(int playerID, PropertyChangeListener pl);
     public void removeUnitListener(int playerID, PropertyChangeListener pl);
+    public List<Player> getPlayers();
+    public Vector getBattlefieldSize();
 }

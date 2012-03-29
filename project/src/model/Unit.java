@@ -8,7 +8,7 @@ import java.beans.PropertyChangeSupport;
  * @author Johannes Wikner
  * @modified Victor Lindhé
  */
-public class Unit {
+public class Unit implements IObservable {
 
     // Used in .equals for accepting a difference between vectors
     public static final float ACCEPTED_STEER_DIFF = 0.60f;
@@ -67,6 +67,7 @@ public class Unit {
      * @param tpf Time per frame 
      */
     private void move(float tpf){
+        
         //no speed, no time per frame means no movement
         if (this.speed*tpf != 0) {
             // Update directions length according to speed and tpf
@@ -166,6 +167,7 @@ public class Unit {
     public void setPosition(float x, float y) {
         this.pos.setX(x);
         this.pos.setY(y);
+        
     }
 
     /**
@@ -288,10 +290,13 @@ public class Unit {
         return this.speed;
     }
 
+    @Override
     public void addPropertyChangeListener(PropertyChangeListener ls) {
         this.pcs.addPropertyChangeListener(ls);
     }
 
+    
+    @Override
     public void removePropertyChangeListener(PropertyChangeListener ls) {
         this.pcs.removePropertyChangeListener(ls);
     }
