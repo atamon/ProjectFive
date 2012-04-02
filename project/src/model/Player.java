@@ -17,10 +17,9 @@ public class Player {
      * Creates a player with a specific number 1-4.
      * @param int playerNumber
      */
-    public Player(int playerNumber, Unit unit) {
+    public Player(int playerNumber) {
         this.playerId = playerNumber;
         this.score = 0;
-        this.playerUnit = unit;
     }
     
     /**

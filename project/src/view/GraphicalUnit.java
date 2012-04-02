@@ -43,14 +43,6 @@ public class GraphicalUnit implements PropertyChangeListener {
     public Vector3f getLocation() {
         return this.box.getLocalTranslation();
     }
-    
-    public int getPlayerID() {
-        return this.playerID;
-    }
-    
-    public boolean isPlayer(int playerID) {
-        return this.playerID == playerID;
-    }
 
     public void propertyChange(PropertyChangeEvent pce) {
         

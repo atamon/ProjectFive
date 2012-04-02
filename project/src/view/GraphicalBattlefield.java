@@ -18,9 +18,11 @@ import com.jme3.scene.shape.Box;
 public class GraphicalBattlefield {
     Geometry groundGeometry;
     public GraphicalBattlefield(Vector3f size, AssetManager assetManager){
-        Box groundShape = new Box(Vector3f.ZERO,
+        Vector3f position = new Vector3f(size.getX()/2, size.getY()/2, size.getZ()/2);
+        Box groundShape = new Box(position,
                 size.getX(), size.getY(), size.getZ());
         groundGeometry = new Geometry("Box", groundShape);
+
         Material mat = new Material(assetManager,
                 "Common/MatDefs/Misc/Unshaded.j3md");
         mat.setColor("Color", ColorRGBA.Blue);

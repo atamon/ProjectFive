@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
 import com.jme3.input.InputManager;
@@ -38,14 +34,12 @@ public class KeyBoardListener implements ActionListener, AnalogListener {
         }
     }
 
-    public void onAnalog(String name, float value, float tpf) {
-        
-            if (name.equals(this.layout.getLeftMap())) {
-                this.player.steerUnit(Direction.ANTICLOCKWISE, tpf);
-            }
-            if (name.equals(this.layout.getRightMap())) {
-                this.player.steerUnit(Direction.CLOCKWISE, tpf);
-            }
+    public void onAnalog(String name, float value, float tpf) {   
+        if (name.equals(this.layout.getLeftMap())) {
+            this.player.steerUnit(Direction.ANTICLOCKWISE, tpf);
+        }
+        if (name.equals(this.layout.getRightMap())) {
+            this.player.steerUnit(Direction.CLOCKWISE, tpf);
+        }
     }
-    
 }

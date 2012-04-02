@@ -1,9 +1,11 @@
 package model;
 
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Represents a Game consisting of rounds and players that compete to win!
@@ -14,7 +16,8 @@ public class Game implements IGame {
 
     // Instances
     private final Battlefield battlefield;
-    private final List<Player> players = new ArrayList<Player>();
+    
+    private final Map<Integer, Player> playerMap = new HashMap<Integer, Player>();
     private final int numberOfRounds;
     private List<Round> comingRounds;
     private Round currentRound;
@@ -31,9 +34,6 @@ public class Game implements IGame {
     public Game(Battlefield battlefield, int numberOfRounds, int numberOfPlayers) {
         this.battlefield = battlefield;
         this.numberOfRounds = numberOfRounds;
-        for(int i = 0; i<numberOfPlayers; i++){
-            this.addPlayer(this.createUnit(i));   
-        }
         this.comingRounds = this.createRounds(numberOfRounds);
     }
     
@@ -43,12 +43,11 @@ public class Game implements IGame {
         Vector bf = battlefield.getSize();
         switch(playerID){
             case 0:
-                //position = new Vector(bf.getX()/2, bf.getY()/2);
-                position = new Vector(0,0);
+                position = new Vector(bf.getX()/2,bf.getY()/2);
                 direction = new Vector(-1,-1);
                 break;
             case 1: 
-                position = new Vector(-bf.getX(), -bf.getY());
+                position = new Vector(-bf.getX()/2, -bf.getY()/2);
                 direction = new Vector(1,1);
                 break;
             case 2: 
@@ -79,7 +78,7 @@ public class Game implements IGame {
      * @param tpf Time since last update
      */
     public void update(float tpf) {
-        for (Player player : players) {
+        for (Player player : this.playerMap.values() ){
             player.updateUnitPosition(tpf);
         }
     }
@@ -91,7 +90,7 @@ public class Game implements IGame {
      */
     @Override
     public void acceleratePlayerUnit(int id, boolean accel) {
-        this.players.get(id).accelerateUnit(accel);
+        this.playerMap.get(id).accelerateUnit(accel);
     }
     
     /**
@@ -102,8 +101,8 @@ public class Game implements IGame {
         return battlefield.getSize();
     }
     
-    public List<Player> getPlayers() {
-        return this.players;
+    public Collection<Player> getPlayers() {
+        return this.playerMap.values();
     }
     
     /**
@@ -120,10 +119,13 @@ public class Game implements IGame {
         return list;
     }
 
-    private void addPlayer(Unit playerUnit) {
-        Player player = new Player(players.size(), playerUnit);
-        this.players.add(player);
-        
+    private void addPlayer(int id) {
+        if(playerMap.get(id) != null){
+            throw new RuntimeException("AddPlayer: player with id: "+id+" does already exist! Sorry :(");
+        }
+        Player player = new Player(id);
+        player.setUnit(this.createUnit(id));
+        this.playerMap.put(id, player);
     }
     
     /**
@@ -134,18 +136,18 @@ public class Game implements IGame {
      */
     @Override
     public void steerPlayerUnit(Direction direction, int playerID, float tpf) {
-        Player player = players.get(playerID);
+        Player player = playerMap.get(playerID);
         player.steerUnit(direction, tpf);
     }
     
     @Override
     public void addUnitListener(int playerID, PropertyChangeListener pl) {
-        this.players.get(playerID).addUnitListener(pl);
+        this.playerMap.get(playerID).addUnitListener(pl);
     }
     
     @Override
     public void removeUnitListener(int playerID, PropertyChangeListener pl) {
-        this.players.get(playerID).removeUnitListener(pl);
+        this.playerMap.get(playerID).removeUnitListener(pl);
     }
 
     /**
@@ -155,7 +157,7 @@ public class Game implements IGame {
     @Override
     public void startRound() {
         // TODO Insert stastics-handling for each round here in the future maybe?
-        currentRound = comingRounds.remove(0);
+        this.currentRound = this.comingRounds.remove(0);
         
         // Uncomment when we want items
         //battlefield.addItem();
@@ -163,7 +165,7 @@ public class Game implements IGame {
     
     @Override
     public void placeUnit(int id, Vector vector) {
-        this.players.get(id).getUnit().setPosition(vector);
+        this.playerMap.get(id).getUnit().setPosition(vector);
     }
 
     /**
@@ -173,7 +175,7 @@ public class Game implements IGame {
      * and clears the battlefield.
      */
     public void endRound() {
-        battlefield.removeItem();
+        this.battlefield.removeItem();
         // TODO Add score for the winner here   
     }
     
@@ -182,7 +184,7 @@ public class Game implements IGame {
      */
     @Override
     public int getNbrOfPlayers() {
-        return this.players.size();
+        return this.playerMap.size();
     }
     
     /**
@@ -191,7 +193,7 @@ public class Game implements IGame {
      * @return A Vector representing the position of a player's unit.
      */
     public Vector getPlayerPosition(int playerID) {
-        return players.get(playerID).getUnitPosition();
+        return playerMap.get(playerID).getUnitPosition();
     }
 
 }
