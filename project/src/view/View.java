@@ -8,16 +8,18 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetManager;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
-import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
-import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import com.jme3.scene.shape.Box;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 import model.IGame;
+import model.Player;
+import model.Unit;
+import model.Vector;
 import util.Util;
 
 /**
@@ -25,7 +27,7 @@ import util.Util;
  * @author atamon
  * @modified johnhu
  */
-public class View {
+public class View implements PropertyChangeListener {
 
     private final SimpleApplication jme3;
     private final IGame game;
@@ -48,19 +50,18 @@ public class View {
      * Very simple, only adds a blue plane, lighting and a gUint.
      */
     public void createScene() {
-        Vector3f v = Util.convertToMonkey3D(this.game.getBattlefieldSize()).setY(1f);
-        initGround(v);
+        Vector3f bfSize = Util.convertToMonkey3D(this.game.getBattlefieldSize()).setY(1f);
+        initGround(bfSize);
         initCamera();
         initLighting();
-        initUnit();
     }
 
     private void initGround(Vector3f vector) {
         GraphicalBattlefield geoBattlefield = new GraphicalBattlefield(vector, assetManager);
-        
+
         rootNode.attachChild(geoBattlefield.getGeometry());
 
-        
+
 //        RigidBodyControl groundPhysics = new RigidBodyControl(0.0f);
 //        groundGeometry.addControl(groundPhysics);
 //        bulletAppState.getPhysicsSpace().add(groundPhysics);
@@ -85,19 +86,52 @@ public class View {
 
     /**
      * Places the unit in the graphical world.
+     * @param playerID
+     * @param pos
+     * @param dir
+     * @param color 
      */
-    public void initUnit() {
+    public void createGraphicalUnit(int playerID, Vector pos, Vector dir, ColorRGBA color) {
+        // To be replaced with argument from model
         float size = 1.0f;
-        int nmbOfPlayers = this.game.getNbrOfPlayers();
-        for(int i = 0; i < nmbOfPlayers; i++) {
-            graphicalUnits.add(i, new GraphicalUnit(i,
-                                                ColorRGBA.randomColor(),
-                                                new Vector3f(size, size, size),
-                                                assetManager));
+        Vector3f gPos = Util.convertToMonkey3D(pos);
+        Vector3f gDir = Util.convertToMonkey3D(dir);
+        
+        // Create the graphicalUnit-object
+        GraphicalUnit gUnit = new GraphicalUnit(ColorRGBA.randomColor(),
+                                                gPos,
+                                                gDir,
+                                                assetManager);
+        // Set it to start listening to its unit
+        this.game.addUnitListener(playerID, gUnit);
+        
+        // Attach it
+        rootNode.attachChild(gUnit.getGeometry());
+    }
+
+    public void propertyChange(PropertyChangeEvent pce) {
+        // If a unit was created we make sure we got a unit with it
+        if ("Player Created".equals(pce.getPropertyName())) {
+            if (pce.getNewValue().getClass() == Player.class
+                    && pce.getOldValue() == null) {
+                
+                // Salvage what gUnit needs to set itself up from player
+                Player player = (Player) pce.getNewValue();
+                Unit unit = player.getUnit();
+                
+                Vector pos = unit.getPosition();
+                Vector dir = unit.getDirection();
+                
+                // Also send playerID so it knows which unit to listen to.
+                int playerID = player.getId();
+                
+                this.createGraphicalUnit(playerID, pos, dir, ColorRGBA.randomColor());
             
-            this.game.addUnitListener(i, graphicalUnits.get(i));
-            rootNode.attachChild(graphicalUnits.get(i).getGeometry());
+            } else {
+                throw new RuntimeException(
+                        "Unit Created-event sent without correct parameters");
+            }
+
         }
     }
-    
 }

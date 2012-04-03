@@ -42,6 +42,9 @@ public class Unit implements IObservable {
         this.dir = new Vector(dir);
         this.hitPointsMax = hitPointsMax;
         this.hitPoints = hitPointsMax;
+        
+        // Register with the view that we have a new unit
+        this.pcs.firePropertyChange("Unit Created", this.pos, this.dir);
     }
 
     /**
