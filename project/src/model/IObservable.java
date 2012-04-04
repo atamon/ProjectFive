@@ -8,7 +8,7 @@ import java.beans.PropertyChangeListener;
 
 /**
  *
- * @author jnes
+ * @author johannes wikner
  */
 public interface IObservable {
     

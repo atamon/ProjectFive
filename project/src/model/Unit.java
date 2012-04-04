@@ -8,25 +8,16 @@ import java.beans.PropertyChangeSupport;
  * @author Johannes Wikner
  * @modified Victor Lindhé
  */
-public class Unit implements IObservable {
-
-    // Used in .equals for accepting a difference between vectors
-    public static final float ACCEPTED_STEER_DIFF = 0.60f;
-    public static final int GLOBAL_MAX_SPEED = 200;
-    
-    private final Vector pos;
-    private final Vector dir;
+public class Unit extends MoveableAbstract implements IObservable {
     private float steerAngle = 2;
-    private float speed;
     private int hitPointsMax;
     private int acceleration = 10;
     private int retardation = 10;
-    private int maxSpeed = GLOBAL_MAX_SPEED;
     private int hitPoints;
     private boolean isAccelerating = false;
 //    private PowerUp powerUp; TODO
     private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
-
+    
     /**
      * Creates a new unit
      * @param pos Initial position
@@ -34,12 +25,11 @@ public class Unit implements IObservable {
      * @param hitPointsMax 
      */
     public Unit(Vector pos, Vector dir, int hitPointsMax) {
+        super(pos, dir);
         if (hitPointsMax <= 0) {
             throw new IllegalArgumentException("hit points must be positive");
         }
 
-        this.pos = new Vector(pos);
-        this.dir = new Vector(dir);
         this.hitPointsMax = hitPointsMax;
         this.hitPoints = hitPointsMax;
     }
@@ -62,21 +52,17 @@ public class Unit implements IObservable {
         this.move(tpf);
     }
 
-    /**
-     * Move the unit in its current direction and speed
-     * @param tpf Time per frame 
-     */
-    private void move(float tpf){
-        
-        //no speed, no time per frame means no movement
-        if (this.speed*tpf != 0) {
-            // Update directions length according to speed and tpf
-            Vector v = new Vector(dir);
-            v.mult(this.speed * tpf);
-            this.pos.add(v);
-            this.pcs.firePropertyChange("Updated Position", null, this.getPosition());
-        }
+    
+    @Override
+    protected void directionUpdated(){
+        this.pcs.firePropertyChange("Updated Direction", null, this.getDirection());
     }
+    
+    @Override
+    protected void positionUpdated(){
+        this.pcs.firePropertyChange("Updated Position", null, this.getPosition());
+    }
+
     
     /**
      * Accelerates the unit
@@ -94,17 +80,10 @@ public class Unit implements IObservable {
     public void steer(Direction steerDirection, float tpf){
         if(this.speed != 0){
             dir.rotate(steerDirection.getValue()*this.steerAngle*tpf);
-            this.updateDirection();
+            this.directionUpdated();
         }
     }
     
-    private void updateDirection(){
-        this.pcs.firePropertyChange("Updated Direction", null, this.getDirection());
-    }
-
-    public float getMaxSpeed() {
-        return this.maxSpeed;
-    }
     /**
      * Set the steer angle of the unit. 
      * @param steerAngle Angle determined in radians. Leave open interval for configuration in-game
@@ -120,27 +99,6 @@ public class Unit implements IObservable {
     public float getSteerAngle() {
         return this.steerAngle;
     }
-
-    /**
-     * Sets our unit's direction. Use steer(Anti)Clockwise() to steer 
-     * the unit. This will set its direction instantly
-     * @param dir A vector holding the new direction
-     */
-    public void setDirection(Vector dir) {
-        this.setDirection(dir.getX(), dir.getY());
-    }
-
-    /**
-     * Sets our unit's direction. Use steer(Anti)Clockwise() to steer 
-     * the unit. This will set its direction instantly
-     * @param x Direction in x-axis
-     * @param y Direction in y-axis
-     */
-    public void setDirection(float x, float y) {
-        this.dir.setX(x);
-        this.dir.setY(y);
-        this.updateDirection();
-    }
     
     /**
      * 
@@ -149,41 +107,7 @@ public class Unit implements IObservable {
     public void setIsAccelerating(boolean value){
         this.isAccelerating = value;
     }
-    /**
-     * Sets the position of the unit. Use updatePosition() to move unit in its
-     * current direction with its current speed
-     * @param pos Vector with coordinates where to position the unit
-     */
-    public void setPosition(Vector pos) {
-        this.setPosition(pos.getX(), pos.getY());
-    }
-
-    /**
-     * Sets the position of the unit. Use updatePosition() to move unit in its
-     * current direction with its current speed
-     * @param x New position in x-axis
-     * @param y New positoin in y-axis
-     */
-    public void setPosition(float x, float y) {
-        this.pos.setX(x);
-        this.pos.setY(y);
-        
-    }
-
-    /**
-     * Sets the speed of the unit. Use accelerate/retardate to gradialy
-     * speed up/slow down the unit
-     * @param speed The speed to be set
-     * @precon speed >= 0 msut be a a value greater than or equal to 0
-     * @throws IllegalArgumentException If a given speed is less than 0
-     */
-    public void setSpeed(float speed) {
-        if (speed < 0 || speed > this.maxSpeed) {
-            throw new IllegalArgumentException("Must be a postitive integer < getMaxSpeed()");
-        }
-        this.speed = speed;
-    }
-
+    
     /**
      * Sets the acceleration of th unit
      * @param acceleration How fast unit will accelerate
@@ -229,22 +153,6 @@ public class Unit implements IObservable {
 
     /**
      * 
-     * @return A vector describing the position of the unit
-     */
-    public Vector getPosition() {
-        return new Vector(this.pos);
-    }
-
-    /**
-     * 
-     * @return A vector describing the direciton of the unit
-     */
-    public Vector getDirection() {
-        return new Vector(this.dir);
-    }
-
-    /**
-     * 
      * @return The unit's current hit points (health)
      */
     public int getHitPoints() {
@@ -282,14 +190,6 @@ public class Unit implements IObservable {
         return this.retardation;
     }
 
-    /**
-     * 
-     * @return The unit's current speed
-     */
-    public float getSpeed() {
-        return this.speed;
-    }
-
     @Override
     public void addPropertyChangeListener(PropertyChangeListener ls) {
         this.pcs.addPropertyChangeListener(ls);
@@ -303,11 +203,7 @@ public class Unit implements IObservable {
 
     @Override
     public String toString() {
-        return "Unit{" + "pos=" + pos + ", dir=" + dir + ", hitPointsMax="
-                + hitPointsMax + ", steerAngle=" + steerAngle + ", speed="
-                + speed + ", acceleration=" + acceleration + ", retardation="
-                + retardation + ", maxSpeed=" + maxSpeed + ", hitPoints="
-                + hitPoints + '}';
+        return super.toString() +"\nUnit{" + "steerAngle=" + steerAngle + ", hitPointsMax=" + hitPointsMax + ", acceleration=" + acceleration + ", retardation=" + retardation + ", hitPoints=" + hitPoints + ", isAccelerating=" + isAccelerating + '}';
     }
 
     @Override
@@ -318,20 +214,14 @@ public class Unit implements IObservable {
         if (getClass() != obj.getClass()) {
             return false;
         }
+        if(!super.equals(obj)) {
+            return false;
+        }
         final Unit other = (Unit) obj;
-        if (this.pos != other.pos && (this.pos == null || !this.pos.equals(other.pos))) {
-            return false;
-        }
-        if (this.dir != other.dir && (this.dir == null || !this.dir.equals(other.dir))) {
-            return false;
-        }
-        if (this.hitPointsMax != other.hitPointsMax) {
-            return false;
-        }
         if (Float.floatToIntBits(this.steerAngle) != Float.floatToIntBits(other.steerAngle)) {
             return false;
         }
-        if (Float.floatToIntBits(this.speed) != Float.floatToIntBits(other.speed)) {
+        if (this.hitPointsMax != other.hitPointsMax) {
             return false;
         }
         if (this.acceleration != other.acceleration) {
@@ -340,10 +230,10 @@ public class Unit implements IObservable {
         if (this.retardation != other.retardation) {
             return false;
         }
-        if (this.maxSpeed != other.maxSpeed) {
+        if (this.hitPoints != other.hitPoints) {
             return false;
         }
-        if (this.hitPoints != other.hitPoints) {
+        if (this.isAccelerating != other.isAccelerating) {
             return false;
         }
         return true;
@@ -352,16 +242,14 @@ public class Unit implements IObservable {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 47 * hash + (this.pos != null ? this.pos.hashCode() : 0);
-        hash = 47 * hash + (this.dir != null ? this.dir.hashCode() : 0);
-        hash = 47 * hash + this.hitPointsMax;
-        hash = 47 * hash + Float.floatToIntBits(this.steerAngle);
-        hash = 47 * hash + Float.floatToIntBits(this.speed);
-        hash = 47 * hash + this.acceleration;
-        hash = 47 * hash + this.retardation;
-        hash = 47 * hash + this.maxSpeed;
-        hash = 47 * hash + this.hitPoints;
-        hash = 47 * hash + (this.pcs != null ? this.pcs.hashCode() : 0);
+        hash = 11 * hash + super.hashCode();
+        hash = 23 * hash + Float.floatToIntBits(this.steerAngle);
+        hash = 23 * hash + this.hitPointsMax;
+        hash = 23 * hash + this.acceleration;
+        hash = 23 * hash + this.retardation;
+        hash = 23 * hash + this.hitPoints;
+        hash = 23 * hash + (this.isAccelerating ? 1 : 0);
         return hash;
     }
+    
 }

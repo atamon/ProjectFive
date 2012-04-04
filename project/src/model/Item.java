@@ -8,9 +8,9 @@ package model;
  * A class to represent an immutable Item.
  * @author Victor Lindhé
  */
-public class Item {
-    private Vector position;
-    private ItemTypes type;
+public final class Item {
+    private final Vector position;
+    private final ItemTypes type;
     
     /**
      * Creates an Item of a given type and at a given position.
@@ -19,6 +19,7 @@ public class Item {
      */
     public Item(ItemTypes type, Vector position) {
         this.position = new Vector(position.getX(), position.getY());
+        this.type = type;
     }
     
     /**
@@ -36,4 +37,5 @@ public class Item {
     public ItemTypes getType() {
         return this.type;
     }
+
 }
