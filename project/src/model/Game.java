@@ -1,7 +1,7 @@
 package model;
 
 import java.beans.PropertyChangeListener;
-import java.util.Collection;
+import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,7 +16,7 @@ public class Game implements IGame {
 
     // Instances
     private final Battlefield battlefield;
-    
+    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private final Map<Integer, Player> playerMap = new HashMap<Integer, Player>();
     private final int numberOfRounds;
     private List<Round> comingRounds;
@@ -101,8 +101,13 @@ public class Game implements IGame {
         return battlefield.getSize();
     }
     
-    public Collection<Player> getPlayers() {
-        return this.playerMap.values();
+    public Player getPlayer(int playerID) {
+        Player player = this.playerMap.get(playerID);
+        if (player == null){
+            throw new IllegalArgumentException("ERROR getPlayer: player with id "
+                    + playerID + " does not exist! ;/");
+        }
+        return player;
     }
     
     /**
@@ -119,13 +124,20 @@ public class Game implements IGame {
         return list;
     }
 
-    private void addPlayer(int id) {
+    public void createPlayer(int id) {
         if(playerMap.get(id) != null){
+            System.out.println("Warning!: playerMap had object: " + playerMap.get(id) + " set to supplied key");
             throw new RuntimeException("AddPlayer: player with id: "+id+" does already exist! Sorry :(");
         }
         Player player = new Player(id);
-        player.setUnit(this.createUnit(id));
+        Unit unit = this.createUnit(id);
+        player.setUnit(unit);
+        
+        // Keep track of the unit by its id
         this.playerMap.put(id, player);
+        
+        // Let listeners (views) know that we've created a player
+        this.pcs.firePropertyChange("Player Created", null, player);
     }
     
     /**
@@ -142,6 +154,7 @@ public class Game implements IGame {
     
     @Override
     public void addUnitListener(int playerID, PropertyChangeListener pl) {
+        System.out.println(playerMap.get(playerID));
         this.playerMap.get(playerID).addUnitListener(pl);
     }
     
@@ -194,6 +207,14 @@ public class Game implements IGame {
      */
     public Vector getPlayerPosition(int playerID) {
         return playerMap.get(playerID).getUnitPosition();
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener pl) {
+        this.pcs.addPropertyChangeListener(pl);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener pl) {
+        this.pcs.removePropertyChangeListener(pl);
     }
 
 }

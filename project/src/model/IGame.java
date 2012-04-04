@@ -12,14 +12,15 @@ import java.util.List;
  *
  * @author Victor Lindhé
  */
-public interface IGame {
+public interface IGame extends IObservable {
+    public void createPlayer(int id);
     public void placeUnit(int id, Vector vector);
     public void acceleratePlayerUnit(int id, boolean accel);
     public void steerPlayerUnit(Direction direction, int playerID, float tpf);
     public int getNbrOfPlayers();
     public void startRound();
     public void update(float tpf);
-    public Collection<Player> getPlayers();
+    public Player getPlayer(int playerID);
     public void addUnitListener(int playerID, PropertyChangeListener pl);
     public void removeUnitListener(int playerID, PropertyChangeListener pl);
     public Vector getBattlefieldSize();

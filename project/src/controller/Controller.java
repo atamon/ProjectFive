@@ -4,17 +4,11 @@
  */
 package controller;
 
-import model.Game;
 import com.jme3.app.SimpleApplication;
-import com.jme3.input.KeyInput;
-import com.jme3.input.controls.KeyTrigger;
-import java.util.ArrayList;
-import java.util.Iterator;
+import com.jme3.input.InputManager;
+import com.jme3.input.controls.ActionListener;
 import java.util.List;
-import java.util.ListIterator;
 import model.IGame;
-import model.Player;
-import model.Vector;
 import view.View;
 
 /**
@@ -27,24 +21,19 @@ public class Controller {
     private View view;
     private SimpleApplication jme3;
     private List<PlayerAdapter> playerAdapters;
+    private InputManager inputManager;
     
     public Controller(SimpleApplication jme3, View view, IGame game) {
         this.jme3 = jme3;
         this.view = view;
         this.game = game;
         
+        this.game.addPropertyChangeListener(view);
+        
         this.jme3.getInputManager().clearMappings();
+        this.inputManager = jme3.getInputManager();
         
-        this.playerAdapters = new ArrayList<PlayerAdapter>();
-        List<Player> players = this.game.getPlayers();
-        Iterator<Player> playerIterator = players.listIterator();
-        while(playerIterator.hasNext()) {
-            PlayerAdapter playAdapt = new PlayerAdapter(playerIterator.next());
-            playAdapt.setKeyBoardListener(new KeyBoardListener(playAdapt, 
-                                                  this.jme3.getInputManager()));
-            this.playerAdapters.add(playAdapt);
-        }
-        
+        ActionListener globalListener = new GlobalKeyListener(game, inputManager);
         this.view.createScene();
         this.game.startRound();
     }
