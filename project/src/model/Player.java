@@ -1,5 +1,8 @@
 package model;
 
+import unit.Unit;
+import util.Direction;
+import util.Vector;
 import java.beans.PropertyChangeListener;
 
 /**

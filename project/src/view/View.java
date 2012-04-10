@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import model.IGame;
 import model.Player;
-import model.Unit;
-import model.Vector;
+import unit.Unit;
+import util.Vector;
 import util.Util;
 
 /**

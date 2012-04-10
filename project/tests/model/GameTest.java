@@ -4,6 +4,8 @@
  */
 package model;
 
+import unit.Unit;
+import util.Vector;
 import com.jme3.asset.DesktopAssetManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.math.ColorRGBA;

@@ -1,5 +1,9 @@
 package model;
 
+import item.ItemFactory;
+import item.Item;
+import util.Vector;
+
 /**
  * A class to represent a Battlefield.
  * @author Victor Lindhé

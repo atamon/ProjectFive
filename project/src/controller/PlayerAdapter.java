@@ -4,7 +4,7 @@
  */
 package controller;
 
-import model.Direction;
+import util.Direction;
 import model.Player;
 
 /**
@@ -13,18 +13,18 @@ import model.Player;
  */
 public class PlayerAdapter {
     private Player player;
-    private KeyBoardListener kbListener;
+    private PlayerKeyBoardListener kbListener;
     
     public PlayerAdapter(Player player) {
         this.player = player;
     }
     
-    public PlayerAdapter(Player player, KeyBoardListener kbListener) {
+    public PlayerAdapter(Player player, PlayerKeyBoardListener kbListener) {
         this.player = player;
         this.kbListener = kbListener;
     }
     
-    public void setKeyBoardListener(KeyBoardListener kbListener) {
+    public void setKeyBoardListener(PlayerKeyBoardListener kbListener) {
         this.kbListener = kbListener;
     }
     

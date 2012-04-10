@@ -4,6 +4,9 @@
  */
 package model;
 
+import unit.Unit;
+import util.Direction;
+import util.Vector;
 import java.util.LinkedList;
 import java.util.List;
 import org.junit.Test;

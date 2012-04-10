@@ -4,6 +4,8 @@
  */
 package model;
 
+import unit.Unit;
+import util.Vector;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

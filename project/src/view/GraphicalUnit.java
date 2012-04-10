@@ -14,7 +14,7 @@ import com.jme3.scene.debug.Arrow;
 import com.jme3.scene.shape.Box;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import model.Vector;
+import util.Vector;
 import util.Util;
 
 /**

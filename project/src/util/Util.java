@@ -5,7 +5,6 @@
 package util;
 
 import com.jme3.math.Vector3f;
-import model.Vector;
 
 /**
  * A class with tools.
