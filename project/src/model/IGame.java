@@ -4,9 +4,9 @@
  */
 package model;
 
-import util.IObservable;
-import util.Direction;
-import util.Vector;
+import model.util.IObservable;
+import model.util.Direction;
+import model.util.Vector;
 import java.beans.PropertyChangeListener;
 
 /**

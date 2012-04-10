@@ -1,7 +1,10 @@
-package model;
+package model.unit;
 
+import model.util.Direction;
+import model.util.Vector;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import model.util.IObservable;
 
 /**
  * A unit. Probably a ship.

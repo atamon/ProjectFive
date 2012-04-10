@@ -1,4 +1,4 @@
-package item;
+package model.item;
 
 /**
  * Represents different kind of items.

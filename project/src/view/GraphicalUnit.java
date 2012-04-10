@@ -14,8 +14,8 @@ import com.jme3.scene.debug.Arrow;
 import com.jme3.scene.shape.Box;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import util.Vector;
-import util.Util;
+import model.util.Vector;
+import model.util.Util;
 
 /**
  * A class to hold a Mesh.

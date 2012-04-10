@@ -4,7 +4,7 @@
  */
 package controller;
 
-import util.Direction;
+import model.util.Direction;
 import model.Player;
 
 /**

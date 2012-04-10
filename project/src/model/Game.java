@@ -1,8 +1,8 @@
 package model;
 
-import unit.Unit;
-import util.Direction;
-import util.Vector;
+import model.unit.Unit;
+import model.util.Direction;
+import model.util.Vector;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.HashMap;

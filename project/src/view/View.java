@@ -18,9 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 import model.IGame;
 import model.Player;
-import unit.Unit;
-import util.Vector;
-import util.Util;
+import model.unit.Unit;
+import model.util.Vector;
+import model.util.Util;
 
 /**
  *

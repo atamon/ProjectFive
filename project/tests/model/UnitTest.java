@@ -4,13 +4,13 @@
  */
 package model;
 
-import unit.Unit;
-import util.Direction;
-import util.Vector;
+import model.unit.Unit;
+import model.util.Direction;
+import model.util.Vector;
 import java.util.LinkedList;
 import java.util.List;
 import org.junit.Test;
-import util.Util;
+import model.util.Util;
 import static org.junit.Assert.*;
 
 /**

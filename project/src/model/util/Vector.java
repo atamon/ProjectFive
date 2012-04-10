@@ -1,4 +1,4 @@
-package model;
+package model.util;
 
 /**
  * A mutable Vector for the plane (2 dimensions).

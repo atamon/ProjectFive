@@ -1,8 +1,8 @@
 
 package model;
 
-import item.Item;
-import util.Vector;
+import model.item.Item;
+import model.util.Vector;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
