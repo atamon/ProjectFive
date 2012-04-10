@@ -1,9 +1,9 @@
 package model;
 
-import model.unit.Unit;
-import model.util.Direction;
-import model.util.Vector;
+import model.tools.Direction;
+import model.tools.Vector;
 import java.beans.PropertyChangeListener;
+import model.visual.Unit;
 
 /**
  * A simple class thats meant to bind a unit for each player.
@@ -20,8 +20,8 @@ public class Player {
      * Creates a player with a specific number 1-4.
      * @param int playerNumber
      */
-    public Player(int playerNumber) {
-        this.playerId = playerNumber;
+    public Player(int playerID) {
+        this.playerId = playerID;
         this.score = 0;
     }
     

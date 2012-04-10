@@ -4,8 +4,9 @@
  */
 package model;
 
+import model.visual.Battlefield;
 import model.unit.Unit;
-import model.util.Vector;
+import model.tools.Vector;
 import com.jme3.asset.DesktopAssetManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.math.ColorRGBA;

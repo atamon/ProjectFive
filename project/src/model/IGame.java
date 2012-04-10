@@ -4,9 +4,9 @@
  */
 package model;
 
-import model.util.IObservable;
-import model.util.Direction;
-import model.util.Vector;
+import model.tools.IObservable;
+import model.tools.Direction;
+import model.tools.Vector;
 import java.beans.PropertyChangeListener;
 
 /**
@@ -24,5 +24,6 @@ public interface IGame extends IObservable {
     public Player getPlayer(int playerID);
     public void addUnitListener(int playerID, PropertyChangeListener pl);
     public void removeUnitListener(int playerID, PropertyChangeListener pl);
-    public Vector getBattlefieldSize();
+    public float getBattlefieldSize();
+    public Vector getBattlefieldPosition();
 }

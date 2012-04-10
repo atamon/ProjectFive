@@ -2,18 +2,19 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.item;
+package model.visual;
 
-import model.util.Vector;
+import model.tools.ItemTypes;
+import model.tools.Vector;
 
 /**
  * A class to represent an immutable Item.
  * @author Victor Lindhé
  */
-public final class Item {
+public final class Item implements IVisualizable {
     private final Vector position;
     private final ItemTypes type;
-    
+    private final float size = 0.5f;
     /**
      * Creates an Item of a given type and at a given position.
      * @param type ItemTypes
@@ -38,6 +39,10 @@ public final class Item {
      */
     public ItemTypes getType() {
         return this.type;
+    }
+
+    public float getSize() {
+        return this.size;
     }
 
 }

@@ -14,8 +14,8 @@ import com.jme3.scene.debug.Arrow;
 import com.jme3.scene.shape.Box;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import model.util.Vector;
-import model.util.Util;
+import model.tools.Vector;
+import util.Util;
 
 /**
  * A class to hold a Mesh.
@@ -23,22 +23,22 @@ import model.util.Util;
  */
 public class GraphicalUnit implements PropertyChangeListener {
 
-    public static final Vector3f GUNIT_SIZE = new Vector3f(1f, 1f, 1f);
     private Geometry box;
-
+    private float yPosition;
     public GraphicalUnit(ColorRGBA color,
                          Vector3f pos,
                          Vector3f dir,
+                         float size,
                          AssetManager assetManager) {
-
-        Box boxShape = new Box(GUNIT_SIZE.x, GUNIT_SIZE.y, GUNIT_SIZE.z);
+        yPosition = GraphicalBattlefield.BATTLEFIELD_THICKNESS+size;
+        Box boxShape = new Box(size,size,size);
         this.box = new Geometry("Box", boxShape);
         Material boxMat = new Material(assetManager,
                 "Common/MatDefs/Misc/Unshaded.j3md");
         boxMat.setColor("Color", color);
         this.box.setMaterial(boxMat);
         
-        this.updatePosition(pos);
+        this.updatePosition(pos.setY(yPosition));
         this.updateRotation(dir);
     }
 
@@ -66,13 +66,12 @@ public class GraphicalUnit implements PropertyChangeListener {
             Vector3f direction = Util.convertToMonkey3D((Vector) pce.getNewValue());
 
             if (pce.getPropertyName().equals("Updated Position")) {
-                this.updatePosition(direction);
+                this.updatePosition(direction.setY(this.yPosition));
             }
-
+            
             if (pce.getPropertyName().equals("Updated Direction")) {
                 this.updateRotation(direction);
             }
         }
-
     }
 }

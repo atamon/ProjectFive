@@ -2,16 +2,16 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.unit;
+package model.visual;
 
-import model.util.Vector;
+import model.tools.Vector;
 
 /**
  *
  * @author johannes wikner
  */
-public abstract class MoveableAbstract implements IPositionable {
-    public static final int GLOBAL_MAX_SPEED = 200;
+public abstract class MoveableAbstract implements IVisualizable {
+    public static final int GLOBAL_MAX_SPEED = 20;
     protected Vector pos;
     protected Vector dir;
     protected float speed;
