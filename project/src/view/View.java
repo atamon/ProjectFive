@@ -88,7 +88,7 @@ public class View implements PropertyChangeListener {
 
     private void initCamera() {
         Camera cam = jme3.getCamera();
-        cam.setLocation(new Vector3f(-40, 15, -40));
+        cam.setLocation(new Vector3f(0, 100, -250));
         cam.lookAt(Vector3f.ZERO, Vector3f.UNIT_Y);
     }
 
