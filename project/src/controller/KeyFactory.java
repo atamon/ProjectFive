@@ -4,16 +4,18 @@
  */
 package controller;
 
+import model.Player;
+
 
 /**
  *
  * @author victorlindhe
  */
 public class KeyFactory {
-    public static KeyPlayable getPlayerKeys(PlayerAdapter player) {
-        if(player.getID() == 0) {
+    public static KeyPlayable getPlayerKeys(Player player) {
+        if(player.getId() == 0) {
             return new PlayerZeroKeys();
-        } else if (player.getID() == 1) {
+        } else if (player.getId() == 1) {
             return new PlayerOneKeys();
         } else {
             return null;

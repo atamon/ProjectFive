@@ -58,7 +58,7 @@ public class GlobalKeyListener implements ActionListener {
         
         this.game.createPlayer(id);
         Player player = this.game.getPlayer(id);
-        new PlayerListener(new PlayerAdapter(player), inpManager);
+        new PlayerListener(player, inpManager);
         
         // Use name since we know it was correct id
         inpManager.deleteTrigger(name, joinKeys.get(id));

@@ -8,6 +8,7 @@ import com.jme3.input.InputManager;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.AnalogListener;
 import com.jme3.input.controls.KeyTrigger;
+import model.Player;
 import model.tools.Direction;
 
 /**
@@ -15,10 +16,10 @@ import model.tools.Direction;
  * @author victorlindhe
  */
 public class PlayerListener implements ActionListener, AnalogListener {
-    private PlayerAdapter player;
+    private Player player;
     private KeyPlayable layout;
     
-    public PlayerListener(PlayerAdapter player, InputManager inpManager) {
+    public PlayerListener(Player player, InputManager inpManager) {
         this.player = player;
         this.layout = KeyFactory.getPlayerKeys(player);
         inpManager.addMapping(layout.getUpMap(), new KeyTrigger(layout.getForwardKey()));
