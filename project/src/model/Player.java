@@ -109,9 +109,9 @@ public class Player {
     @Override
     public String toString() {
         if(this.playerUnit != null) {
-            return "Player: " + this.playerId + "Unit:" + this.playerUnit.toString();
+            return "Player: " + this.playerId + " Unit: " + this.playerUnit.toString();
         } else {
-            return "Player: " + this.playerId + "Unit: NONE";
+            return "Player: " + this.playerId + " Unit: NONE";
         }
     }
 
