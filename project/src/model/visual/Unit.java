@@ -60,7 +60,7 @@ public class Unit extends MoveableAbstract implements IObservable {
     public void updateUnit(float tpf) {
         this.accelerate(this.isAccelerating, tpf);
         this.move(tpf);
-        
+        System.out.println(this.pos.toString());
     }
 
     

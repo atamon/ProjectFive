@@ -31,7 +31,7 @@ public class Controller {
         this.jme3.getInputManager().clearMappings();
         this.inputManager = jme3.getInputManager();
         
-        ActionListener globalListener = new GlobalKeyListener(game, inputManager);
+        ActionListener globalListener = new JoinPlayerListener(game, inputManager);
         this.view.createScene();
         this.game.startRound();
     }
