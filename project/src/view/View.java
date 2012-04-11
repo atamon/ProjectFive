@@ -12,6 +12,7 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;
+import controller.BlenderImporter;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -43,6 +44,9 @@ public class View implements PropertyChangeListener {
         this.assetManager = jme3.getAssetManager();
         this.rootNode = jme3.getRootNode();
         this.guiNode = jme3.getGuiNode();
+
+        // Register a BlenderLoader with out assetManager so it supports .blend
+        BlenderImporter.registerBlender(assetManager);
     }
 
     /**
@@ -106,7 +110,7 @@ public class View implements PropertyChangeListener {
         this.game.addUnitListener(playerID, gUnit);
         
         // Attach it
-        rootNode.attachChild(gUnit.getGeometry());
+        rootNode.attachChild(gUnit.getNode());
     }
 
     public void propertyChange(PropertyChangeEvent pce) {
