@@ -75,7 +75,7 @@ public class View implements PropertyChangeListener {
 
     private void initLighting() {
         DirectionalLight sun = new DirectionalLight();
-        sun.setDirection(new Vector3f(-1, -1, 1));
+        sun.setDirection(new Vector3f(0, -1, 1));
         sun.setColor(ColorRGBA.Yellow);
         rootNode.addLight(sun);
 
@@ -86,7 +86,7 @@ public class View implements PropertyChangeListener {
 
     private void initCamera() {
         Camera cam = jme3.getCamera();
-        cam.setLocation(new Vector3f(this.game.getBattlefieldCenter().getX(), 100, -100));
+        cam.setLocation(new Vector3f(this.game.getBattlefieldCenter().getX(), 100, -50));
         cam.lookAt(Util.convertToMonkey3D(this.game.getBattlefieldCenter()), Vector3f.UNIT_Y);
     }
 
