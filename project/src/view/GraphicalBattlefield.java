@@ -35,8 +35,8 @@ public class GraphicalBattlefield {
         mat.setColor("Color", ColorRGBA.Blue);
         groundGeometry.setMaterial(mat);
         this.groundGeometry.setLocalTranslation(position);
-        
     }
+    
     public Geometry getGeometry(){
         return this.groundGeometry;
     }
