@@ -12,7 +12,7 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;
-import controller.BlenderImporter;
+import util.BlenderImporter;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -29,24 +29,28 @@ import model.visual.Unit;
  * @modified johnhu
  */
 public class View implements PropertyChangeListener {
-
-    private final SimpleApplication jme3;
+    
+    public static final String BLEND_PATH = "Blends/P5Ship_export.blend";
+    
+    private final Node blenderUnit;
+    
     private final IGame game;
+    private final SimpleApplication jme3;
+    
     private AssetManager assetManager;
     private Node rootNode;
     private Node guiNode;
-    private List<GraphicalUnit> graphicalUnits;
 
     public View(SimpleApplication jme3, IGame game) {
         this.jme3 = jme3;
         this.game = game;
-        this.graphicalUnits = new ArrayList();
         this.assetManager = jme3.getAssetManager();
         this.rootNode = jme3.getRootNode();
         this.guiNode = jme3.getGuiNode();
 
         // Register a BlenderLoader with out assetManager so it supports .blend
         BlenderImporter.registerBlender(assetManager);
+        blenderUnit = BlenderImporter.loadModel(assetManager, BLEND_PATH);
     }
 
     /**
@@ -105,7 +109,8 @@ public class View implements PropertyChangeListener {
                                                 gPos,
                                                 gDir,
                                                 size,
-                                                assetManager);
+                                                assetManager,
+                                                blenderUnit.clone(true));
         // Set it to start listening to its unit
         this.game.addUnitListener(playerID, gUnit);
         

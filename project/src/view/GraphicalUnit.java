@@ -10,7 +10,7 @@ import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import controller.BlenderImporter;
+import util.BlenderImporter;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import model.tools.Vector;
@@ -23,18 +23,16 @@ import util.Util;
 public class GraphicalUnit implements PropertyChangeListener {
 
     public static final Vector3f GUNIT_SIZE = new Vector3f(1f, 1f, 1f);
-    public static final String BLEND_PATH = "Blends/P5Ship_export.blend";
     private Node node;
-    
-
     private float yPosition;
+    
     public GraphicalUnit(ColorRGBA color,
                          Vector3f pos,
                          Vector3f dir,
                          float size,
-                         AssetManager assetManager) {
+                         AssetManager assetManager,
+                         Node blenderModel) {
 
-        Node blenderModel = BlenderImporter.loadModel(assetManager, BLEND_PATH);
         this.node = blenderModel;
         
         yPosition = GraphicalBattlefield.BATTLEFIELD_THICKNESS+size;
