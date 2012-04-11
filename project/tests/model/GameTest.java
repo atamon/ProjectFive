@@ -4,15 +4,9 @@
  */
 package model;
 
+import model.visual.Unit;
 import model.visual.Battlefield;
-import model.unit.Unit;
 import model.tools.Vector;
-import com.jme3.asset.DesktopAssetManager;
-import com.jme3.asset.AssetManager;
-import com.jme3.math.ColorRGBA;
-import com.jme3.math.Vector3f;
-import view.GraphicalUnit;
-import java.beans.PropertyChangeListener;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

@@ -1,7 +1,7 @@
 package model;
  /**
  * EMPTY CLASS TO BE REPLACED
- * @author atamon
+ * @author Anton Lindgren
  */
 public class Round {
     

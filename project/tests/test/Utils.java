@@ -6,7 +6,7 @@ package test;
 
 /**
  *
- * @author atamon
+ * @author Anton Lindgren
  */
 public class Utils {
 

@@ -81,7 +81,6 @@ public class VectorTest {
         for (int i = 0; i < 10; i++) {
             Vector randVector = new Vector((float)Math.random()*10, (float)Math.random()*10);
             randVector.normalize();
-            System.out.println(randVector.getLength());
             assertTrue(1 == randVector.getLength());
         }
         // 0 vector should cast ArithmeticException

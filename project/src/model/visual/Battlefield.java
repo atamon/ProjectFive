@@ -7,7 +7,7 @@ import model.tools.Vector;
  * @author Victor Lindhé
  * @modified johnnes
  */
-public final class Battlefield implements IVisualizable {
+public final class Battlefield implements IVisualisable {
     private final float size;
     private final Vector pos = new Vector(0,0);
     

@@ -10,7 +10,7 @@ import model.tools.Vector;
  *
  * @author johannes wikner
  */
-public abstract class MoveableAbstract implements IVisualizable {
+public abstract class MoveableAbstract implements IVisualisable {
     public static final int GLOBAL_MAX_SPEED = 20;
     protected Vector pos;
     protected Vector dir;

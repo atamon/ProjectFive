@@ -14,7 +14,7 @@ import model.tools.IObservable;
  * @modified Victor Lindhé
  */
 public class Unit extends MoveableAbstract implements IObservable {
-    private float steerAngle = 3;
+    private float steerAngle = 1;
     private int hitPointsMax;
     private int acceleration = 10;
     private int retardation = 10;

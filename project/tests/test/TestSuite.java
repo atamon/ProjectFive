@@ -18,7 +18,7 @@ import org.junit.runners.Suite;
 
 /**
  *
- * @author atamon
+ * @author Anton Lindgren
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({BattlefieldTest.class,

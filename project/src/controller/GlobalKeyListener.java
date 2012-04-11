@@ -15,7 +15,7 @@ import model.Player;
 
 /**
  *
- * @author atamon
+ * @author Anton Lindgren
  */
 public class GlobalKeyListener implements ActionListener {
 

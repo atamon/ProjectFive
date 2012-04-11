@@ -4,18 +4,15 @@
  */
 package model;
 
-import model.unit.Unit;
+import model.visual.Unit;
 import model.tools.Direction;
 import model.tools.Vector;
-import java.util.LinkedList;
-import java.util.List;
 import org.junit.Test;
-import util.Util;
 import static org.junit.Assert.*;
 
 /**
  *
- * @author atamon
+ * @author Anton Lindgren
  */
 public class UnitTest {
 
@@ -26,37 +23,60 @@ public class UnitTest {
      */
     @Test
     public void testUpdateUnit() {
-        // With a constant speed > 0 && unchanged steerAngle I should
-        // be able to make a full circle.
-        // I.E start and end up at the same position eventually in a loop.
+        int iterations = 10;
+        Vector zeroVector = new Vector(0, 0);
+        // What should be checked is that the unit is updated towards the right
+        // direction. IE that the position vector updates according to the direction vector
+
+        //Init stuff
+        unit.setPosition(zeroVector);
         unit.setSteerAngle(25f);
-        unit.setSpeed(25);
-        unit.setDirection(new Vector(1, 0));
+        unit.setSpeed(unit.getMaxSpeed());
 
-        Vector startingPos = unit.getPosition();
-        Vector startingDir = unit.getDirection();
-        Direction steerDir = Direction.CLOCKWISE;
-        float acceptedPosDiff = 0.1f;
-        float acceptedDirDiff = 1f;
+        // Move west
+        moveInDirection(new Vector(-1, 0), iterations);
+        // Unit should have moved only in x
+        Vector pos = unit.getPosition();
+        assertTrue(pos.getX() < 0 && pos.getY() == 0);
+        unit.setPosition(zeroVector);
 
-        for (int i = 0; i < 2; i++) {
-            while (true) {
-                // Simulate varying update-frequencies because it should make a circle anyways
-                float simulatedTpf = test.Utils.simulateTpf();
-                unit.steer(steerDir, simulatedTpf);
-                unit.updateUnit(simulatedTpf);
+        // Move east
+        moveInDirection(new Vector(1, 0), iterations);
+        // Should only have moved in x, but +
+        pos = unit.getPosition();
+        assertTrue(pos.getX() > 0 && pos.getY() == 0);
+        unit.setPosition(zeroVector);
 
-                Vector diffVector = Util.getDiffVector(startingDir, unit.getDirection());
-                if (diffVector.getLength() <= acceptedPosDiff) {
-                    assertTrue(diffVector.getLength() <= acceptedPosDiff);
-                    break;
-                }
-            }
-            steerDir = Direction.ANTICLOCKWISE;
+        // Move north
+        moveInDirection(new Vector(0, 1), iterations);
+        // Should only have moved in x, but +
+        pos = unit.getPosition();
+        assertTrue(pos.getX() == 0 && pos.getY() > 0);
+        unit.setPosition(zeroVector);
+
+        // Move south
+        moveInDirection(new Vector(0, -1), iterations);
+        // Should only have moved in x, but +
+        pos = unit.getPosition();
+        assertTrue(pos.getX() == 0 && pos.getY() < 0);
+        unit.setPosition(zeroVector);
+        
+        // With speed set to 0 the boat should not move, no matter the direction
+        unit.setSpeed(0);
+        moveInDirection(new Vector(0, 1), 1000);
+        assertTrue(unit.getPosition().equals(zeroVector));
+    }
+
+    /**
+     * Helper for TestUpdateUnit
+     * @param dir
+     * @param iterations 
+     */
+    private void moveInDirection(Vector dir, int iterations) {
+        unit.setDirection(dir);
+        for (int i = 0; i < iterations; i++) {
+            unit.updateUnit(test.Utils.simulateTpf());
         }
-        // TODO ? Add forever growing circle if increasing steerAngle
-        // TODO ? Add decreaseing circle crashing into itself (lastpos.equals(thispos)
-        //      if decreaseing steerAngle
     }
 
     /**
@@ -64,32 +84,34 @@ public class UnitTest {
      */
     @Test
     public void testSteer() {
-        // With speed != 0 a unit's direction should rotate 2PI radians eventually
-        // Since we're updating with a "random" steeringgrade we might skip
-        // the actual .equals so we check if we've passed the startingDir instead
+        int iterations = 10;
+        // We should be able to steer round and round and round in both directions
+        // IE From startingdir dir=(1,0) clockwise steering should increase Math.sin for direction vector
+        // and anti-clockwise should decrease it. At least for a few iterations
         unit.setSpeed(1);
         unit.setSteerAngle(25f);
         unit.setDirection(new Vector(1, 0));
-        Vector startDir = unit.getDirection();
-        Vector lastDir = new Vector(startDir);
-        Vector diffVector = new Vector(0, 0);
-        float acceptedDiff = 0.000005f;
-        List<Direction> directions = new LinkedList<Direction>();
 
+        // Clockwise
+        steerInDirection(Direction.CLOCKWISE, iterations);
+        double sin = Math.sin(unit.getDirection().getY()/unit.getDirection().getLength());
+        assertTrue(sin > 0);
+        unit.setDirection(new Vector(1, 0));
+        
+        // Anti-clockwise
+        steerInDirection(Direction.ANTICLOCKWISE, iterations);
+        sin = Math.sin(unit.getDirection().getY()/unit.getDirection().getLength());
+        assertTrue(sin < 0);
+    }
 
-        int iterations = Integer.MAX_VALUE;
-        for (Direction direction : directions) {
-            for (int i = 0; i < iterations; i++) {
-                unit.steer(direction, test.Utils.simulateTpf());
-                if (lastDir.equals(unit.getDirection())) {
-                    fail("Fail: Unit.steer() did not rotate Unit's direction!");
-                }
-                diffVector = Util.getDiffVector(startDir, unit.getDirection());
-                if (diffVector.getLength() <= acceptedDiff) {
-                    break;
-                }
-            }
-            assertTrue(diffVector.getLength() <= acceptedDiff);
+    /**
+     * Helper for TestSteer
+     * @param direction
+     * @param iterations 
+     */
+    private void steerInDirection(Direction direction, int iterations) {
+        for (int i = 0; i < iterations; i++) {
+            unit.steer(direction, test.Utils.simulateTpf());
         }
     }
 

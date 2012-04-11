@@ -11,7 +11,7 @@ import model.tools.Vector;
  * A class to represent an immutable Item.
  * @author Victor Lindhé
  */
-public final class Item implements IVisualizable {
+public final class Item implements IVisualisable {
     private final Vector position;
     private final ItemTypes type;
     private final float size = 0.5f;

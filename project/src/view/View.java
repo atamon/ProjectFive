@@ -25,7 +25,7 @@ import model.visual.Unit;
 
 /**
  *
- * @author atamon
+ * @author Anton Lindgren
  * @modified johnhu
  */
 public class View implements PropertyChangeListener {
