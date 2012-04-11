@@ -39,6 +39,10 @@ public final class Battlefield implements IVisualisable {
     public Vector getPosition() {
         return new Vector(this.pos);
     }
+    
+    public Vector getCenter() {
+        return new Vector(this.size/2, this.size/2);
+    }
 
     /**
      * Compares Battlefield to another Battlefield with respect to the size.

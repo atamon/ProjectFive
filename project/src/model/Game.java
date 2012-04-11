@@ -84,6 +84,30 @@ public class Game implements IGame {
     public void update(float tpf) {
         for (Player player : this.playerMap.values() ){
             player.updateUnitPosition(tpf);
+            if(this.isOutOfBounds(player)) {
+                this.doMagellanJourney(player);
+            }
+        }
+    }
+    
+    private boolean isOutOfBounds(Player player) {
+        float size = this.getBattlefieldSize();
+        return player.getUnitPosition().getX() < 0 ||
+               player.getUnitPosition().getX() > size ||
+               player.getUnitPosition().getY() < 0 ||
+               player.getUnitPosition().getY() > size;
+    }
+    
+    private void doMagellanJourney(Player player) {
+        float size = this.getBattlefieldSize();
+        if(player.getUnitPosition().getX() < 0) {
+            player.getUnit().setPosition(size, player.getUnitPosition().getY());
+        } else if(player.getUnitPosition().getX() > size) {
+            player.getUnit().setPosition(0, player.getUnitPosition().getY());
+        } else if(player.getUnitPosition().getY() < 0) {
+            player.getUnit().setPosition(player.getUnitPosition().getX(), size);
+        } else if(player.getUnitPosition().getY() > size) {
+            player.getUnit().setPosition(player.getUnitPosition().getX(), 0);
         }
     }
 
@@ -95,6 +119,10 @@ public class Game implements IGame {
     @Override
     public void acceleratePlayerUnit(int id, boolean accel) {
         this.playerMap.get(id).accelerateUnit(accel);
+    }
+    
+    public Vector getBattlefieldCenter() {
+        return this.battlefield.getCenter();
     }
     
     /**

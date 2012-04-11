@@ -15,8 +15,6 @@ import com.jme3.scene.Node;
 import util.BlenderImporter;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.List;
 import model.IGame;
 import model.Player;
 import model.tools.Vector;
@@ -88,8 +86,8 @@ public class View implements PropertyChangeListener {
 
     private void initCamera() {
         Camera cam = jme3.getCamera();
-        cam.setLocation(new Vector3f(0, 100, -250));
-        cam.lookAt(Vector3f.ZERO, Vector3f.UNIT_Y);
+        cam.setLocation(new Vector3f(this.game.getBattlefieldCenter().getX(), 100, -100));
+        cam.lookAt(Util.convertToMonkey3D(this.game.getBattlefieldCenter()), Vector3f.UNIT_Y);
     }
 
     /**
