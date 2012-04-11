@@ -13,18 +13,18 @@ import model.Player;
  */
 public class PlayerAdapter {
     private Player player;
-    private PlayerKeyBoardListener kbListener;
+    private PlayerListener kbListener;
     
     public PlayerAdapter(Player player) {
         this.player = player;
     }
     
-    public PlayerAdapter(Player player, PlayerKeyBoardListener kbListener) {
+    public PlayerAdapter(Player player, PlayerListener kbListener) {
         this.player = player;
         this.kbListener = kbListener;
     }
     
-    public void setKeyBoardListener(PlayerKeyBoardListener kbListener) {
+    public void setKeyBoardListener(PlayerListener kbListener) {
         this.kbListener = kbListener;
     }
     
