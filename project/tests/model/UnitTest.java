@@ -5,12 +5,12 @@
 package model;
 
 import model.unit.Unit;
-import model.util.Direction;
-import model.util.Vector;
+import model.tools.Direction;
+import model.tools.Vector;
 import java.util.LinkedList;
 import java.util.List;
 import org.junit.Test;
-import model.util.Util;
+import util.Util;
 import static org.junit.Assert.*;
 
 /**

@@ -1,10 +1,12 @@
-package model.unit;
+package model.visual;
 
-import model.util.Direction;
-import model.util.Vector;
+
+
+import model.tools.Direction;
+import model.tools.Vector;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import model.util.IObservable;
+import model.tools.IObservable;
 
 /**
  * A unit. Probably a ship.
@@ -12,12 +14,14 @@ import model.util.IObservable;
  * @modified Victor Lindhé
  */
 public class Unit extends MoveableAbstract implements IObservable {
-    private float steerAngle = 2;
+    private float steerAngle = 3;
     private int hitPointsMax;
     private int acceleration = 10;
     private int retardation = 10;
     private int hitPoints;
     private boolean isAccelerating = false;
+    private float size = 1;
+    private final static int MAX_STEER_SPEED = 10;
 //    private PowerUp powerUp; TODO
     private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     
@@ -56,6 +60,7 @@ public class Unit extends MoveableAbstract implements IObservable {
     public void updateUnit(float tpf) {
         this.accelerate(this.isAccelerating, tpf);
         this.move(tpf);
+        
     }
 
     
@@ -84,10 +89,25 @@ public class Unit extends MoveableAbstract implements IObservable {
     }
 
     public void steer(Direction steerDirection, float tpf){
-        if(this.speed != 0){
-            dir.rotate(steerDirection.getValue()*this.steerAngle*tpf);
-            this.directionUpdated();
+        dir.rotate(steerDirection.getValue()*this.currentSteerAngle()*tpf);
+        this.directionUpdated();
+    }
+    
+    /**
+     * Determines how much a unit can steer depending on its speed
+     * 
+     * @return a steerAngle
+     */
+    private float currentSteerAngle(){
+        if(this.speed <= 0) {
+            return 0;
         }
+        
+        if(this.speed > MAX_STEER_SPEED) {
+            return this.steerAngle;
+        }
+        
+        return this.speed*this.steerAngle/MAX_STEER_SPEED;
     }
     
     /**
@@ -104,6 +124,10 @@ public class Unit extends MoveableAbstract implements IObservable {
      */
     public float getSteerAngle() {
         return this.steerAngle;
+    }
+    
+    public float getSize(){
+        return this.size;
     }
     
     /**

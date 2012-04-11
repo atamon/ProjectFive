@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 import model.IGame;
 import model.Player;
-import model.unit.Unit;
-import model.util.Vector;
-import model.util.Util;
+import model.tools.Vector;
+import util.Util;
+import model.visual.Unit;
 
 /**
  *
@@ -54,14 +54,14 @@ public class View implements PropertyChangeListener {
      * Very simple, only adds a blue plane, lighting and a gUint.
      */
     public void createScene() {
-        Vector3f bfSize = Util.convertToMonkey3D(this.game.getBattlefieldSize()).setY(1f);
-        initGround(bfSize);
+        
+        initGround(this.game.getBattlefieldSize(), this.game.getBattlefieldPosition());
         initCamera();
         initLighting();
     }
 
-    private void initGround(Vector3f vector) {
-        GraphicalBattlefield geoBattlefield = new GraphicalBattlefield(vector, assetManager);
+    private void initGround(float size, Vector pos) {
+        GraphicalBattlefield geoBattlefield = new GraphicalBattlefield(size, Util.convertToMonkey3D(pos), assetManager);
 
         rootNode.attachChild(geoBattlefield.getGeometry());
 
@@ -95,16 +95,16 @@ public class View implements PropertyChangeListener {
      * @param dir
      * @param color 
      */
-    public void createGraphicalUnit(int playerID, Vector pos, Vector dir, ColorRGBA color) {
+    public void createGraphicalUnit(int playerID, Vector pos, Vector dir, float size, ColorRGBA color) {
         // To be replaced with argument from model
-        float size = 1.0f;
         Vector3f gPos = Util.convertToMonkey3D(pos);
         Vector3f gDir = Util.convertToMonkey3D(dir);
         
         // Create the graphicalUnit-object
-        GraphicalUnit gUnit = new GraphicalUnit(ColorRGBA.randomColor(),
+        GraphicalUnit gUnit = new GraphicalUnit(color,
                                                 gPos,
                                                 gDir,
+                                                size,
                                                 assetManager);
         // Set it to start listening to its unit
         this.game.addUnitListener(playerID, gUnit);
@@ -125,11 +125,11 @@ public class View implements PropertyChangeListener {
                 
                 Vector pos = unit.getPosition();
                 Vector dir = unit.getDirection();
-                
+                float size = unit.getSize();
                 // Also send playerID so it knows which unit to listen to.
                 int playerID = player.getId();
                 
-                this.createGraphicalUnit(playerID, pos, dir, ColorRGBA.randomColor());
+                this.createGraphicalUnit(playerID, pos, dir, size, ColorRGBA.randomColor());
             
             } else {
                 throw new RuntimeException(

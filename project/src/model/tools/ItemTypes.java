@@ -1,4 +1,4 @@
-package model.item;
+package model.tools;
 
 /**
  * Represents different kind of items.

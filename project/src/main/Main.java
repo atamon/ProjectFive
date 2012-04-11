@@ -1,6 +1,6 @@
 package main;
 
-import model.Battlefield;
+import model.visual.Battlefield;
 import model.Game;
 import controller.Controller;
 import com.jme3.app.SimpleApplication;

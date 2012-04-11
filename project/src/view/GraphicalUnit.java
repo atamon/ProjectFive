@@ -13,8 +13,8 @@ import com.jme3.scene.Spatial;
 import controller.BlenderImporter;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import model.util.Vector;
-import model.util.Util;
+import model.tools.Vector;
+import util.Util;
 
 /**
  * A class to hold a Mesh.
@@ -26,15 +26,19 @@ public class GraphicalUnit implements PropertyChangeListener {
     public static final String BLEND_PATH = "Blends/P5Ship_export.blend";
     private Node node;
     
+
+    private float yPosition;
     public GraphicalUnit(ColorRGBA color,
                          Vector3f pos,
                          Vector3f dir,
+                         float size,
                          AssetManager assetManager) {
 
         Node blenderModel = BlenderImporter.loadModel(assetManager, BLEND_PATH);
         this.node = blenderModel;
-                
-        this.updatePosition(pos);
+        
+        yPosition = GraphicalBattlefield.BATTLEFIELD_THICKNESS+size;
+        this.updatePosition(pos.setY(yPosition));
         this.updateRotation(dir);
     }
 
@@ -62,13 +66,12 @@ public class GraphicalUnit implements PropertyChangeListener {
             Vector3f direction = Util.convertToMonkey3D((Vector) pce.getNewValue());
 
             if (pce.getPropertyName().equals("Updated Position")) {
-                this.updatePosition(direction);
+                this.updatePosition(direction.setY(this.yPosition));
             }
-
+            
             if (pce.getPropertyName().equals("Updated Direction")) {
                 this.updateRotation(direction);
             }
         }
-
     }
 }

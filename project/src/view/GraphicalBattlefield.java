@@ -10,6 +10,7 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Box;
+import util.Util;
 
 /**
  *
@@ -17,17 +18,24 @@ import com.jme3.scene.shape.Box;
  */
 public class GraphicalBattlefield {
     Geometry groundGeometry;
-    public GraphicalBattlefield(Vector3f size, AssetManager assetManager){
-        Vector3f position = new Vector3f(size.getX()/2, size.getY()/2, size.getZ()/2);
-        Box groundShape = new Box(position,
-                size.getX(), size.getY(), size.getZ());
+    public static final float BATTLEFIELD_THICKNESS =  1f;
+    
+    public GraphicalBattlefield(float size, Vector3f position, AssetManager assetManager){
+        
+        Vector3f sizeVector = new Vector3f(size,BATTLEFIELD_THICKNESS,size);
+        
+        // We want jmonkey to put origin in middle of battlefield
+        position.subtract(Util.getCenterPosition(sizeVector)).setY(0);
+        
+        Box groundShape = new Box(sizeVector.getX(),sizeVector.getY(),sizeVector.getZ());
+        
         groundGeometry = new Geometry("Box", groundShape);
-
         Material mat = new Material(assetManager,
                 "Common/MatDefs/Misc/Unshaded.j3md");
         mat.setColor("Color", ColorRGBA.Blue);
         groundGeometry.setMaterial(mat);
-        groundGeometry.setLocalTranslation(0f,-5f,0f);
+        this.groundGeometry.setLocalTranslation(position);
+        
     }
     public Geometry getGeometry(){
         return this.groundGeometry;

@@ -2,9 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.item;
+package model;
 
-import model.util.Vector;
+import model.tools.ItemTypes;
+import model.tools.Vector;
+import model.visual.Item;
 
 /**
  * A factory to class that creates a new Item.

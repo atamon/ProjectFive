@@ -1,8 +1,9 @@
 
 package model;
 
-import model.item.Item;
-import model.util.Vector;
+import model.visual.Battlefield;
+import model.visual.Item;
+import model.tools.Vector;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

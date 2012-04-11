@@ -1,14 +1,15 @@
 package model;
 
-import model.unit.Unit;
-import model.util.Direction;
-import model.util.Vector;
+import model.visual.Battlefield;
+import model.tools.Direction;
+import model.tools.Vector;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import model.visual.Unit;
 
 /**
  * Represents a Game consisting of rounds and players that compete to win!
@@ -43,22 +44,22 @@ public class Game implements IGame {
     private Unit createUnit(int playerID){
         Vector position;
         Vector direction;
-        Vector bf = battlefield.getSize();
+        float bf = battlefield.getSize();
         switch(playerID){
             case 0:
-                position = new Vector(bf.getX()/2,bf.getY()/2);
+                position = new Vector(bf,bf);
                 direction = new Vector(-1,-1);
                 break;
             case 1: 
-                position = new Vector(-bf.getX()/2, -bf.getY()/2);
+                position = new Vector(-bf, -bf);
                 direction = new Vector(1,1);
                 break;
             case 2: 
-                position = new Vector(-bf.getX(), 0);
+                position = new Vector(-bf, 0);
                 direction = new Vector(1,-1);
                 break;
             case 3: 
-                position = new Vector(0, -bf.getY());
+                position = new Vector(0, -bf);
                 direction = new Vector(-1,1);
                 break;
             default:
@@ -100,8 +101,11 @@ public class Game implements IGame {
      * Returns the size of the logical battlefield
      * @return The size as a Vector
      */
-    public Vector getBattlefieldSize() {
+    public float getBattlefieldSize() {
         return battlefield.getSize();
+    }
+    public Vector getBattlefieldPosition(){
+        return battlefield.getPosition();
     }
     
     public Player getPlayer(int playerID) {
@@ -191,8 +195,8 @@ public class Game implements IGame {
      * and clears the battlefield.
      */
     public void endRound() {
-        this.battlefield.removeItem();
-        // TODO Add score for the winner here   
+        // TODO Add score for the winner here
+        // Clear battlefield?
     }
     
     /*

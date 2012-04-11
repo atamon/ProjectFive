@@ -8,7 +8,7 @@ import com.jme3.input.InputManager;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.AnalogListener;
 import com.jme3.input.controls.KeyTrigger;
-import model.util.Direction;
+import model.tools.Direction;
 
 /**
  *

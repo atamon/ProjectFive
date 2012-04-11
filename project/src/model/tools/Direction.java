@@ -2,14 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.util;
+package model.tools;
 
 /**
  *
  * @author Victor Lindhé
  */
 public enum Direction {
-    CLOCKWISE (-1), ANTICLOCKWISE (1);
+    CLOCKWISE (1), ANTICLOCKWISE (-1);
     
     private final int direction;
     
