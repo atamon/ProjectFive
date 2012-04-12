@@ -89,6 +89,7 @@ public class Unit extends MoveableAbstract implements IObservable {
 
     public void steer(Direction steerDirection, float tpf){
         dir.rotate(steerDirection.getValue()*this.currentSteerAngle()*tpf);
+        dir.normalize();
         this.directionUpdated();
     }
     

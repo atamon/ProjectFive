@@ -101,6 +101,7 @@ public abstract class MoveableAbstract implements IVisualisable {
     public void setDirection(float x, float y) {
         this.dir.setX(x);
         this.dir.setY(y);
+        this.dir.normalize();
         this.directionUpdated();
     }
 
