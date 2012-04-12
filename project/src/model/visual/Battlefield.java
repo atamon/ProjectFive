@@ -22,9 +22,14 @@ public final class Battlefield implements IVisualisable {
      * Creates a Battlefield with a size x-wise and size y-wise.
      * @param xWidth 
      * @param yWidth 
+     * @throws NumberFormatException
      */
-    public Battlefield(float size) {
-        this.size = size;
+    public Battlefield(float size) throws NumberFormatException {
+        if(size > 0) {
+            this.size = size;
+        } else {
+            throw new NumberFormatException("Size must be > 0");
+        }
     }
     
     
@@ -40,6 +45,11 @@ public final class Battlefield implements IVisualisable {
         return new Vector(this.pos);
     }
     
+    
+    /**
+     * Returns the position of the center.
+     * @return Vector
+     */
     public Vector getCenter() {
         return new Vector(this.size/2, this.size/2);
     }
