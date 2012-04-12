@@ -24,6 +24,14 @@ public class PlayerOneKeys implements KeyPlayable {
         return KeyInput.KEY_RIGHT;
     }
     
+    public int getLeftFireKey() {
+        return KeyInput.KEY_MINUS;
+    }
+    
+    public int getRightFireKey() {
+        return KeyInput.KEY_RSHIFT;
+    }
+    
     public String getUpMap() {
         return "PlayerOne Up";
     }
