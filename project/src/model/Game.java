@@ -100,38 +100,50 @@ public class Game implements IGame {
     
     private void doMagellanJourney(Player player) {
         float size = this.getBattlefieldSize();
-        Vector direction = player.getUnit().getDirection();
-        System.out.println(direction.toString());
-        if(Math.abs(direction.getX()) < 0.2 ||
-           Math.abs(direction.getY()) < 0.2) {
-            if(player.getUnitPosition().getX() < 0) {
-                player.getUnit().setPosition(size, player.getUnitPosition().getY());
-            } else if(player.getUnitPosition().getX() > size) {
-                player.getUnit().setPosition(0, player.getUnitPosition().getY());
-            } else if(player.getUnitPosition().getY() < 0) {
-                player.getUnit().setPosition(player.getUnitPosition().getX(), size);
-            } else if(player.getUnitPosition().getY() > size) {
-                player.getUnit().setPosition(player.getUnitPosition().getX(), 0);
-            }
-        } else {
-            if(player.getUnitPosition().getX() > size && direction.getY() > 0) {
-                player.getUnit().setPosition(size - player.getUnitPosition().getY(), 0);
-            } else if(player.getUnitPosition().getX() > size && direction.getY() < 0) {
-                player.getUnit().setPosition(player.getUnitPosition().getY(), size);
-            } else if(player.getUnitPosition().getX() < 0 && direction.getY() > 0) {
-                player.getUnit().setPosition(player.getUnitPosition().getY(), 0);
-            } else if(player.getUnitPosition().getX() < 0 && direction.getY() < 0) {
-                player.getUnit().setPosition(size - player.getUnitPosition().getY(), size);
-            } else if(player.getUnitPosition().getY() > size && direction.getX() > 0) {
-                player.getUnit().setPosition(0, size - player.getUnitPosition().getX());
-            } else if(player.getUnitPosition().getY() > size && direction.getX() < 0) {
-                player.getUnit().setPosition(size, player.getUnitPosition().getX());
-            } else if(player.getUnitPosition().getY() < 0 && direction.getX() > 0) {
-                player.getUnit().setPosition(0, player.getUnitPosition().getX());
-            } else if(player.getUnitPosition().getY() < 0 && direction.getX() < 0) {
-                player.getUnit().setPosition(size, size - player.getUnitPosition().getX());
-            }
-        }
+        
+        Vector pos = player.getUnitPosition();
+        // this DEPENDS on that the battlefield is positioned in a certain way, 
+        // however we have not yet decided whether a battlefield's position 
+        // descrips its center point och one of its corners
+        float x = pos.getX() < 0 ? size : pos.getX() % size;
+        float y = pos.getY() < 0 ? size : pos.getY() % size;
+        // -1 mod 20 != 19 but -1. Hence the two lines above
+        
+        player.getUnit().setPosition(x,y);
+        
+// WHAT THE FUG?!?!?!?
+//        Vector direction = player.getUnit().getDirection();
+//        System.out.println(direction.toString());
+//        if(Math.abs(direction.getX()) < 0.2 ||
+//           Math.abs(direction.getY()) < 0.2) {
+//            if(player.getUnitPosition().getX() < 0) {
+//                player.getUnit().setPosition(size, player.getUnitPosition().getY());
+//            } else if(player.getUnitPosition().getX() > size) {
+//                player.getUnit().setPosition(0, player.getUnitPosition().getY());
+//            } else if(player.getUnitPosition().getY() < 0) {
+//                player.getUnit().setPosition(player.getUnitPosition().getX(), size);
+//            } else if(player.getUnitPosition().getY() > size) {
+//                player.getUnit().setPosition(player.getUnitPosition().getX(), 0);
+//            }
+//        } else {
+//            if(player.getUnitPosition().getX() > size && direction.getY() > 0) {
+//                player.getUnit().setPosition(size - player.getUnitPosition().getY(), 0);
+//            } else if(player.getUnitPosition().getX() > size && direction.getY() < 0) {
+//                player.getUnit().setPosition(player.getUnitPosition().getY(), size);
+//            } else if(player.getUnitPosition().getX() < 0 && direction.getY() > 0) {
+//                player.getUnit().setPosition(player.getUnitPosition().getY(), 0);
+//            } else if(player.getUnitPosition().getX() < 0 && direction.getY() < 0) {
+//                player.getUnit().setPosition(size - player.getUnitPosition().getY(), size);
+//            } else if(player.getUnitPosition().getY() > size && direction.getX() > 0) {
+//                player.getUnit().setPosition(0, size - player.getUnitPosition().getX());
+//            } else if(player.getUnitPosition().getY() > size && direction.getX() < 0) {
+//                player.getUnit().setPosition(size, player.getUnitPosition().getX());
+//            } else if(player.getUnitPosition().getY() < 0 && direction.getX() > 0) {
+//                player.getUnit().setPosition(0, player.getUnitPosition().getX());
+//            } else if(player.getUnitPosition().getY() < 0 && direction.getX() < 0) {
+//                player.getUnit().setPosition(size, size - player.getUnitPosition().getX());
+//            }
+//        }
     }
 
     /**
