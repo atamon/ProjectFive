@@ -23,6 +23,14 @@ public class PlayerZeroKeys implements KeyPlayable {
     public int getRightKey() {
         return KeyInput.KEY_D;
     }
+    
+    public int getLeftFireKey() {
+        return KeyInput.KEY_Q;
+    }
+    
+    public int getRightFireKey() {
+        return KeyInput.KEY_E;
+    }
 
     public String getUpMap() {
         return "PlayerZero Up";

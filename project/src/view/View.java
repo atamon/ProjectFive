@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package view;
 
 import com.jme3.app.SimpleApplication;
@@ -46,8 +42,9 @@ public class View implements PropertyChangeListener {
         this.rootNode = jme3.getRootNode();
         this.guiNode = jme3.getGuiNode();
 
-        // Register a BlenderLoader with out assetManager so it supports .blend
+        // Register a BlenderLoader with our assetManager so it supports .blend
         BlenderImporter.registerBlender(assetManager);
+        
         blenderUnit = BlenderImporter.loadModel(assetManager, BLEND_PATH);
     }
 
@@ -76,12 +73,13 @@ public class View implements PropertyChangeListener {
     private void initLighting() {
         DirectionalLight sun = new DirectionalLight();
         sun.setDirection(new Vector3f(0, -1, 1));
-        sun.setColor(ColorRGBA.Yellow);
+        sun.setColor(ColorRGBA.White.mult(1.5f));
         rootNode.addLight(sun);
 
         AmbientLight ambient = new AmbientLight();
-        ambient.setColor(ColorRGBA.White);
+        ambient.setColor(ColorRGBA.White.mult(0.7f));
         rootNode.addLight(ambient);
+        
     }
 
     private void initCamera() {
