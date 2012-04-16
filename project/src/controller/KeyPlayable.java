@@ -18,4 +18,6 @@ public interface KeyPlayable {
     public String getUpMap();
     public String getLeftMap();
     public String getRightMap();
+    public String getLeftFireMap();
+    public String getRightFireMap();
 }
