@@ -100,9 +100,9 @@ public class Game implements IGame {
     
     private void doMagellanJourney(Player player) {
         
-        float size = this.getBattlefieldSize();
+        float size = this.battlefield.getSize();
         Vector pos = player.getUnitPosition();
-        Vector dir = player.getUnit().getDirection();
+        Vector dir = player.getUnitDirection();
         float x = pos.getX();
         float y = pos.getY();
         
@@ -123,22 +123,22 @@ public class Game implements IGame {
             y=-(c+a*size)/b;
         }
 
-        if ((x > size || y < 0 || x < 0) && -(c+b*size)/a < size && -(c+b*size)/a > 0){ // y=size
+        if ((x > size || y < 0 || x < 0) && -(c+b*size)/a < size && -(c+b*size)/a > 0) { // y=size
             y=size;
             x=-(c+b*size)/a;
         }
 
-        if ((x > size || y < 0 || y > size) && -c/b < size && -c/b > 0){    // x=0
+        if ((x > size || y < 0 || y > size) && -c/b < size && -c/b > 0) {    // x=0
             x=0;
             y=-c/b;
         } 
 
-        if ((x > size || y > size || x < 0) && -c/a < size && -c/a > 0){       // y=0
+        if ((x > size || y > size || x < 0) && -c/a < size && -c/a > 0) {       // y=0
             y=0;
             x=-c/a;
         }
 
-        player.getUnit().setPosition(x, y);
+        player.setUnitPosition(x,y);
     }
 
     /**

@@ -64,6 +64,14 @@ public class Player {
         this.score++;
     }
     
+    public Vector getUnitDirection() {
+        return this.playerUnit.getDirection();
+    }
+    
+    public void setUnitPosition(float x, float y) {
+        this.playerUnit.setPosition(x, y);
+    }
+    
     /**
      * Updates the units position with a 
      */
