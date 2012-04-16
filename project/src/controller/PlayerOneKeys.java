@@ -9,6 +9,7 @@ import com.jme3.input.KeyInput;
 /**
  *
  * @author victorlindhe
+ * @modified johnhu
  */
 public class PlayerOneKeys implements KeyPlayable {
 
@@ -42,6 +43,14 @@ public class PlayerOneKeys implements KeyPlayable {
 
     public String getRightMap() {
         return "PlayerOne Right";
+    }
+    
+    public String getLeftFireMap() {
+        return "PlayerOne LeftFire";
+    }
+    
+    public String getRightFireMap() {
+        return "PlayerOne RightFire";
     }
     
 }

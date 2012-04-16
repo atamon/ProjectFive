@@ -86,61 +86,33 @@ public class Game implements IGame {
     public void update(float tpf) {
         for (Player player : this.playerMap.values() ){
             player.updateUnitPosition(tpf);
-            if(this.isOutOfBounds(player)) {
+            if(this.isOutOfBounds(player.getUnitPosition())) {
                 this.doMagellanJourney(player);
             }
         }
     }
     
-    private boolean isOutOfBounds(Player player) {
+    private boolean isOutOfBounds(Vector position) {
         float size = this.getBattlefieldSize();
-        return player.getUnitPosition().getX() < 0 ||
-               player.getUnitPosition().getX() > size ||
-               player.getUnitPosition().getY() < 0 ||
-               player.getUnitPosition().getY() > size;
+        return position.getX() < 0 ||
+               position.getX() > size ||
+               position.getY() < 0 ||
+               position.getY() > size;
     }
     
     private void doMagellanJourney(Player player) {
+        Vector newPosition = new Vector(player.getUnitPosition());
+        Vector direction = new Vector(player.getUnitDirection());
         
-        float size = this.battlefield.getSize();
-        Vector pos = player.getUnitPosition();
-        Vector dir = player.getUnitDirection();
-        float x = pos.getX();
-        float y = pos.getY();
+        direction.mult(-1.0f);
+        newPosition.add(direction);
+        while(!isOutOfBounds(newPosition)) {
+            newPosition.add(direction);
+        }
         
-        
-        // Determine a line over the battlefield using unit's direction and position
-        // Ax + By + C = 0
-        // Invert direction vector gives A and B. A will be dir.getY(), B will be -dir.getX();
-        // C will be determined using unit's current position.
-        // dir.getY()*pos.getX()-dir.getX()*pos.getY()+C
-        // We now have A B and C.
-        float a = dir.getY();
-        float b = -dir.getX();
-        float c = -(a*x+b*y);
-
-        //one of these coordinates will be on the battefield
-        if ((y > size || y < 0 || x < 0) && -(c+a*size)/b < size && -(c+a*size)/b > 0) { // x=size
-            x=size;
-            y=-(c+a*size)/b;
-        }
-
-        if ((x > size || y < 0 || x < 0) && -(c+b*size)/a < size && -(c+b*size)/a > 0) { // y=size
-            y=size;
-            x=-(c+b*size)/a;
-        }
-
-        if ((x > size || y < 0 || y > size) && -c/b < size && -c/b > 0) {    // x=0
-            x=0;
-            y=-c/b;
-        } 
-
-        if ((x > size || y > size || x < 0) && -c/a < size && -c/a > 0) {       // y=0
-            y=0;
-            x=-c/a;
-        }
-
-        player.setUnitPosition(x,y);
+        direction.mult(-1.0f);
+        newPosition.add(direction);
+        player.setUnitPosition(newPosition.getX(), newPosition.getY());
     }
 
     /**

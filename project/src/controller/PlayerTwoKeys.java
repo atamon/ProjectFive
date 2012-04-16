@@ -8,49 +8,48 @@ import com.jme3.input.KeyInput;
 
 /**
  *
- * @author victorlindhe
- * @modified johnhu
+ * @author johnhu
  */
-public class PlayerZeroKeys implements KeyPlayable {
+public class PlayerTwoKeys implements KeyPlayable {
 
     public int getForwardKey() {
-        return KeyInput.KEY_W;
+        return KeyInput.KEY_Y;
     }
 
     public int getLeftKey() {
-        return KeyInput.KEY_A;
+        return KeyInput.KEY_G;
     }
 
     public int getRightKey() {
-        return KeyInput.KEY_D;
+        return KeyInput.KEY_J;
     }
     
     public int getLeftFireKey() {
-        return KeyInput.KEY_Q;
+        return KeyInput.KEY_T;
     }
     
     public int getRightFireKey() {
-        return KeyInput.KEY_E;
+        return KeyInput.KEY_U;
     }
-
+    
     public String getUpMap() {
-        return "PlayerZero Up";
+        return "PlayerTwo Up";
     }
 
     public String getLeftMap() {
-        return "PlayerZero Left";
+        return "PlayerTwo Left";
     }
 
     public String getRightMap() {
-        return "PlayerZero Right";
+        return "PlayerTwo Right";
     }
     
     public String getLeftFireMap() {
-        return "PlayerZero LeftFire";
+        return "PlayerTwo LeftFire";
     }
     
     public String getRightFireMap() {
-        return "PlayerZero RightFire";
+        return "PlayerTwo RightFire";
     }
     
 }

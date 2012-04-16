@@ -25,10 +25,14 @@ public class PlayerListener implements ActionListener, AnalogListener {
         inpManager.addMapping(layout.getUpMap(), new KeyTrigger(layout.getForwardKey()));
         inpManager.addMapping(layout.getLeftMap(), new KeyTrigger(layout.getLeftKey()));
         inpManager.addMapping(layout.getRightMap(), new KeyTrigger(layout.getRightKey()));
+        inpManager.addMapping(layout.getLeftFireMap(),new KeyTrigger(layout.getLeftFireKey()));
+        inpManager.addMapping(layout.getRightFireMap(), new KeyTrigger(layout.getRightFireKey()));
         
         inpManager.addListener(this, layout.getLeftMap());
         inpManager.addListener(this, layout.getRightMap());
         inpManager.addListener(this, layout.getUpMap());
+        inpManager.addListener(this, layout.getLeftFireMap());
+        inpManager.addListener(this, layout.getRightFireMap());
     }
             
 

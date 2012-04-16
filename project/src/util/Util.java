@@ -10,6 +10,7 @@ import model.tools.Vector;
 /**
  * A class with tools.
  * @author Victor Lindhé
+ * @modified johnhu
  */
 public class Util {
     public static Vector3f convertToMonkey3D(Vector vector) {
@@ -24,5 +25,20 @@ public class Util {
 
     public static Vector3f getCenterPosition(Vector3f sizeVector) {
         return new Vector3f( sizeVector.getX()/2, sizeVector.getY()/2, sizeVector.getZ()/2 );
+    }
+    
+    /**
+     * Returns the keycode for special characters.
+     * 
+     * @param c. Need å or ä.
+     * @return int. Keycode for char.
+     */
+    public static int getSpecialKeyCode(char c) {
+        if(c == 'å' || c == 'Å') {
+            return 219;
+        } else if (c == 'ä' || c == 'Ä') {
+            return 222;
+        }
+        throw new IllegalArgumentException("Error: Illegal char. Need å or ä :)");
     }
 }
