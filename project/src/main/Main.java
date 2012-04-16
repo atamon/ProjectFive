@@ -30,7 +30,7 @@ public class Main extends SimpleApplication {
      */
     @Override
     public void simpleInitApp() {
-        IGame game = new Game(new Battlefield(), 1, 2);
+        IGame game = new Game(new Battlefield());
         this.view = new View(this, game);
         this.controller = new Controller(this, view, game);
     }

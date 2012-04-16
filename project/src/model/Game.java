@@ -35,12 +35,21 @@ public class Game implements IGame {
      * @param numberOfRounds Number of rounds to be played.
      * @param numberOfPlayers Number of players in this game.
      */
-    public Game(Battlefield battlefield, int numberOfRounds, int numberOfPlayers) {
+    public Game(Battlefield battlefield) {
         this.battlefield = battlefield;
-        this.numberOfRounds = numberOfRounds;
+        this.numberOfRounds = 1; // TODO
         this.comingRounds = this.createRounds(numberOfRounds);
     }
-    
+    /**
+     * Creates a Game with a default 100x100 Battlefield, 1 round and 1 player.
+     */
+    public Game() {
+        this(new Battlefield());
+    }
+
+    public int getNbrOfRounds(){
+        return this.numberOfRounds;
+    }
     private Unit createUnit(int playerID){
         Vector position;
         Vector direction;
@@ -51,15 +60,15 @@ public class Game implements IGame {
                 direction = new Vector(-1,-1);
                 break;
             case 1: 
-                position = new Vector(-bf, -bf);
+                position = new Vector(0, 0);
                 direction = new Vector(1,1);
                 break;
             case 2: 
-                position = new Vector(-bf, 0);
+                position = new Vector(bf, 0);
                 direction = new Vector(1,-1);
                 break;
             case 3: 
-                position = new Vector(0, -bf);
+                position = new Vector(0, bf);
                 direction = new Vector(-1,1);
                 break;
             default:
@@ -70,13 +79,6 @@ public class Game implements IGame {
         return new Unit(position, direction);
     }
     
-    /**
-     * Creates a Game with a default 100x100 Battlefield, 1 round and 1 player.
-     */
-    public Game() {
-        this(new Battlefield(), 1, 1);
-    }
-
     /**
      * Updates the running game. Gets called each frame
      * @param tpf Time since last update
@@ -219,7 +221,6 @@ public class Game implements IGame {
     
     @Override
     public void addUnitListener(int playerID, PropertyChangeListener pl) {
-        System.out.println(playerMap.get(playerID));
         this.playerMap.get(playerID).addUnitListener(pl);
     }
     
