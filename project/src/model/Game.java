@@ -5,10 +5,12 @@ import model.tools.Direction;
 import model.tools.Vector;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import model.physics.PhysicsModel;
 import model.visual.Unit;
 
 /**
@@ -25,6 +27,7 @@ public class Game implements IGame {
     private final int numberOfRounds;
     private List<Round> comingRounds;
     private Round currentRound;
+    private PhysicsModel physModel;
 
     /**
      * Create a game with given parameters.
@@ -39,6 +42,7 @@ public class Game implements IGame {
         this.battlefield = battlefield;
         this.numberOfRounds = 1; // TODO
         this.comingRounds = this.createRounds(numberOfRounds);
+        this.physModel = new PhysicsModel();
     }
     /**
      * Creates a Game with a default 100x100 Battlefield, 1 round and 1 player.
@@ -76,7 +80,9 @@ public class Game implements IGame {
                 direction = new Vector(1,1);
                 break;
         }
-        return new Unit(position, direction);
+        Unit unitToReturn = new Unit(position,direction);
+        this.physModel.add(unitToReturn);
+        return unitToReturn;
     }
     
     /**
@@ -89,6 +95,7 @@ public class Game implements IGame {
             if(this.isOutOfBounds(player.getUnitPosition())) {
                 this.doMagellanJourney(player);
             }
+            this.physModel.update(tpf);
         }
     }
     
