@@ -92,9 +92,9 @@ public class Player {
      * @param dir Direction
      * @param tpf Time per frame
      */
-    public void steerUnit(Direction dir, float tpf) {
+    public void steerUnit(Direction dir) {
         if(this.playerUnit != null) {
-            this.playerUnit.steer(dir, tpf);
+            this.playerUnit.setSteerDirection(dir);
         }
     }
     

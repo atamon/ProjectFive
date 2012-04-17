@@ -11,17 +11,19 @@ import model.tools.IObservable;
 /**
  * A unit. Probably a ship.
  * @author Johannes Wikner
- * @modified Victor Lindhé
+ * @modified Victor Lindhé, johnhu
  */
 public class Unit extends MoveableAbstract implements IObservable {
+    private final static int MAX_STEER_SPEED = 10;
+    
     private float steerAngle = 1;
     private int hitPointsMax;
     private int acceleration = 10;
     private int retardation = 10;
     private int hitPoints;
     private boolean isAccelerating = false;
-    private float size = 1;
-    private final static int MAX_STEER_SPEED = 10;
+    private Direction steerDirection = Direction.NONE;
+    private float size = 1; 
 //    private PowerUp powerUp; TODO
     private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     
@@ -59,6 +61,7 @@ public class Unit extends MoveableAbstract implements IObservable {
      */
     public void updateUnit(float tpf) {
         this.accelerate(this.isAccelerating, tpf);
+        this.steer(tpf);
         this.move(tpf);
     }
 
@@ -87,7 +90,7 @@ public class Unit extends MoveableAbstract implements IObservable {
         }
     }
 
-    public void steer(Direction steerDirection, float tpf){
+    private void steer(float tpf){
         dir.rotate(steerDirection.getValue()*this.currentSteerAngle()*tpf);
         dir.normalize();
         this.directionUpdated();
@@ -116,6 +119,18 @@ public class Unit extends MoveableAbstract implements IObservable {
      */
     public void setSteerAngle(float steerAngle) {
         this.steerAngle = steerAngle;
+    }
+    
+    /**
+     * Sets the direction of a unit.
+     * @param dir 
+     */
+    public void setSteerDirection(Direction dir) {
+        this.steerDirection = dir;
+    }
+    
+    public Direction getSteerDirection() {
+        return this.steerDirection;
     }
 
     /**

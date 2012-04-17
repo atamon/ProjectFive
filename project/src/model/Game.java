@@ -25,6 +25,7 @@ public class Game implements IGame {
     private final int numberOfRounds;
     private List<Round> comingRounds;
     private Round currentRound;
+    private boolean isRunning = false;
 
     /**
      * Create a game with given parameters.
@@ -32,8 +33,6 @@ public class Game implements IGame {
      * The Game class starts new rounds and keeps track of player-score and rules
      * set for this game and its rounds as well as speaks to controller and view. 
      * @param battlefield The battlefield passed from Model which we'll play on.
-     * @param numberOfRounds Number of rounds to be played.
-     * @param numberOfPlayers Number of players in this game.
      */
     public Game(Battlefield battlefield) {
         this.battlefield = battlefield;
@@ -84,10 +83,12 @@ public class Game implements IGame {
      * @param tpf Time since last update
      */
     public void update(float tpf) {
-        for (Player player : this.playerMap.values() ){
-            player.updateUnitPosition(tpf);
-            if(this.isOutOfBounds(player.getUnitPosition())) {
-                this.doMagellanJourney(player);
+        if (isRunning) {
+            for (Player player : this.playerMap.values() ){
+                player.updateUnitPosition(tpf);
+                if(this.isOutOfBounds(player.getUnitPosition())) {
+                    this.doMagellanJourney(player);
+                }
             }
         }
     }
@@ -179,18 +180,6 @@ public class Game implements IGame {
         this.pcs.firePropertyChange("Player Created", null, player);
     }
     
-    /**
-     * Steers a player's unit in a set direction.
-     * @param direction The direction, clockwise or anti-clockwise
-     * @param playerID The player's ID
-     * @param tpf Time since last update
-     */
-    @Override
-    public void steerPlayerUnit(Direction direction, int playerID, float tpf) {
-        Player player = playerMap.get(playerID);
-        player.steerUnit(direction, tpf);
-    }
-    
     @Override
     public void addUnitListener(int playerID, PropertyChangeListener pl) {
         this.playerMap.get(playerID).addUnitListener(pl);
@@ -209,6 +198,8 @@ public class Game implements IGame {
     public void startRound() {
         // TODO Insert stastics-handling for each round here in the future maybe?
         this.currentRound = this.comingRounds.remove(0);
+        
+        
         
         // Uncomment when we want items
         //battlefield.addItem();
@@ -236,6 +227,15 @@ public class Game implements IGame {
     @Override
     public int getNbrOfPlayers() {
         return this.playerMap.size();
+    }
+    
+    /**
+     * Pauses the game.
+     * @param runState 
+     */
+    @Override
+    public void switchPauseState() {
+        this.isRunning = !this.isRunning;
     }
     
     /**

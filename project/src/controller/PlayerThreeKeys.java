@@ -5,7 +5,6 @@
 package controller;
 
 import com.jme3.input.KeyInput;
-import util.Util;
 
 /**
  *
@@ -14,23 +13,23 @@ import util.Util;
 public class PlayerThreeKeys implements KeyPlayable {
     
     public int getForwardKey() {
-        return KeyInput.KEY_P;
+        return KeyInput.KEY_NUMPAD8;
     }
 
     public int getLeftKey() {
-        return KeyInput.KEY_L;
+        return KeyInput.KEY_NUMPAD4;
     }
 
     public int getRightKey() {
-        return Util.getSpecialKeyCode('ä');
+        return KeyInput.KEY_NUMPAD6;
     }
     
     public int getLeftFireKey() {
-        return KeyInput.KEY_O;
+        return KeyInput.KEY_NUMPAD8;
     }
     
     public int getRightFireKey() {
-        return Util.getSpecialKeyCode('å');
+        return KeyInput.KEY_NUMPAD9;
     }
     
     public String getUpMap() {
