@@ -4,11 +4,11 @@
  */
 package test;
 
-import model.BattlefieldTest;
 import model.GameTest;
 import model.PlayerTest;
 import model.UnitTest;
 import model.VectorTest;
+import model.visual.BattlefieldTest;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

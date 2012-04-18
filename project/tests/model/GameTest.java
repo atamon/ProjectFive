@@ -48,7 +48,7 @@ public class GameTest {
     }
     
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testAddUnitListener(){
         createPlayerZero();
         PropertyChangeListener pl = new PropertyChangeListener() {
@@ -59,7 +59,6 @@ public class GameTest {
             
         };
         testGame.addUnitListener(0, pl);
-        testGame.addUnitListener(0, null); // exception here
     }
     
     @Test
@@ -133,7 +132,7 @@ public class GameTest {
         float oldSpeed = testGame.getPlayer(0).getUnit().getSpeed();
         
         testGame.acceleratePlayerUnit(0, true);
-        
+        testGame.update(tpf);
         assertTrue(oldSpeed < testGame.getPlayer(0).getUnit().getSpeed());
         
     }
@@ -179,7 +178,9 @@ public class GameTest {
     public void testGetNbrOfPlayers() {
         System.out.println("getNbrOfPlayers");
         Game instance = new Game(new Battlefield());
-        assertTrue(instance.getNbrOfPlayers() == 2);
+        assertTrue(instance.getNbrOfPlayers() == 0);
+        instance.createPlayer(0);
+        assertTrue(instance.getNbrOfPlayers() == 1);
     }
 
     /**
@@ -189,6 +190,10 @@ public class GameTest {
     public void testGetPlayerPosition() {
         System.out.println("getPlayerPosition");
         Game instance = new Game();
-        assertTrue(instance.getPlayerPosition(1).equals(new Vector(1, 1)));
+        instance.createPlayer(0);
+        Vector oldVector = instance.getPlayerPosition(0);
+        assertTrue(oldVector.getClass() == Vector.class);
+        instance.getPlayer(0).getUnit().setPosition((float)Math.random(), (float)Math.random());
+        assertFalse(oldVector.equals(instance.getPlayerPosition(0)));
     }
 }
