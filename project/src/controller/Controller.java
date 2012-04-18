@@ -22,19 +22,24 @@ public class Controller {
     private InputManager inputManager;
     
     public Controller(SimpleApplication jme3, View view, IGame game) {
+        // Save instances
         this.jme3 = jme3;
         this.view = view;
         this.game = game;
         
+        // Register view with our game as a listener
         this.game.addPropertyChangeListener(view);
         
-        this.jme3.getInputManager().clearMappings();
+        // Get inputManager and clear its pre-defined triggers and keys
         this.inputManager = jme3.getInputManager();
+        this.inputManager.clearMappings();
         
+        // Create listeners
         ActionListener joinPlayerListener = new JoinPlayerListener(game, inputManager);
         ActionListener globalListener = new GlobalListener(game, inputManager);
+        
+        // Build our graphical scene
         this.view.createScene();
-        this.game.startRound();
     }
     
     public void update(float tpf) {

@@ -12,6 +12,8 @@ import com.jme3.input.KeyInput;
  */
 public class PlayerTwoKeys implements KeyPlayable {
 
+    public static final int KEY_JOIN = KeyInput.KEY_Y;
+    
     public int getForwardKey() {
         return KeyInput.KEY_Y;
     }

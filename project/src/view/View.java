@@ -7,6 +7,8 @@ import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
+import com.jme3.renderer.RenderManager;
+import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import util.BlenderImporter;
 import java.beans.PropertyChangeEvent;
@@ -31,13 +33,20 @@ public class View implements PropertyChangeListener {
     private final IGame game;
     private final SimpleApplication jme3;
     
+    private RenderManager renderManager;
     private AssetManager assetManager;
     private Node rootNode;
     private Node guiNode;
+    
+    private int windowWidth;
+    private int windowHeight;
 
-    public View(SimpleApplication jme3, IGame game) {
+    public View(SimpleApplication jme3, IGame game,
+            int windowWidth, int windowHeight) {
+        
         this.jme3 = jme3;
         this.game = game;
+        this.renderManager = jme3.getRenderManager();
         this.assetManager = jme3.getAssetManager();
         this.rootNode = jme3.getRootNode();
         this.guiNode = jme3.getGuiNode();
@@ -46,6 +55,24 @@ public class View implements PropertyChangeListener {
         BlenderImporter.registerBlender(assetManager);
         
         blenderUnit = BlenderImporter.loadModel(assetManager, BLEND_PATH);
+//        setUpCameraView(windowWidth, windowHeight, 0, 0);
+    }
+    
+//    public void setUpJoinCameras(int windowWith, int windowHeight) {
+//        // Set up camera upper left corner
+//        Camera camZero = new Camera(100, 100);
+//        camZero.setViewPort(0, 100, );
+//    }
+    
+    private void setUpCameraView(int width, int height, int x, int y) {
+        Camera camera = new Camera(width, height);
+        camera.setViewPort(x, x+width, y, y+height);
+        camera.setLocation(jme3.getCamera().getLocation());
+        camera.lookAt(Vector3f.ZERO, Vector3f.UNIT_Y);
+        
+        ViewPort viewport = renderManager.createMainView("PiP", camera);
+        viewport.setClearFlags(true, true, true);
+        viewport.attachScene(rootNode);
     }
 
     /**

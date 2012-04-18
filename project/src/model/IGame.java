@@ -15,7 +15,7 @@ import java.beans.PropertyChangeListener;
  */
 public interface IGame extends IObservable {
     public void createPlayer(int id);
-    public void placeUnit(int id, Vector vector);
+    public boolean hasStarted();
     public void acceleratePlayerUnit(int id, boolean accel);
     public int getNbrOfPlayers();
     public void startRound();

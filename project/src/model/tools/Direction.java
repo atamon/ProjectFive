@@ -8,16 +8,35 @@ package model.tools;
  *
  * @author Victor Lindhé
  */
-public enum Direction {
-    CLOCKWISE (1), ANTICLOCKWISE (-1), NONE (0);
-    
+public class Direction {
+
+    public static final Direction CLOCKWISE = new Direction(1);
+    public static final Direction ANTICLOCKWISE = new Direction(-1);
+    public static final Direction NONE = new Direction(0);
     private final int direction;
-    
-    private Direction(int direction){
-        this.direction = direction;
-    }   
-    
-    public int getValue(){
+
+    /**
+     * Creates a direction with value -1, 0 or 1
+     * @param direction 
+     */
+    private Direction(int directionValue) {
+        if (Math.abs(directionValue) == 1 || directionValue == 0) {
+            this.direction = directionValue;
+        } else {
+            throw new IllegalArgumentException("ERROR: Illegal Direction created with value: " + 
+                    directionValue + ":'(");
+        }
+    }
+
+    public Direction(Direction direction) {
+        this(direction.getValue());
+    }
+
+    public int getValue() {
         return this.direction;
+    }
+
+    public static Direction addDirections(Direction dir1, Direction dir2) {
+        return new Direction(dir1.getValue() + dir2.getValue());
     }
 }

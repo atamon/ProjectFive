@@ -13,16 +13,37 @@ import view.View;
  * @author Anton Lindgren
  */
 public class Main extends SimpleApplication {
-
+    
     private Controller controller;
     private View view;
     
+    private int width;
+    private int height;
+    
     public static void main(String[] args) {
         Main app = new Main();
+    }
+    
+    /**
+     * Creates a new Application
+     * @param width The applicationwindow's width
+     * @param height The applicationwindow's height
+     */
+    public Main() {
+        super();
+        
+        // Create our own settings so we can customize our app
         AppSettings settings = new AppSettings(true);
         settings.setFrameRate(60);
-        app.setSettings(settings);
-        app.start();
+        
+        // Save the dimension so we can supply view with it
+        this.width = settings.getWidth();
+        this.height = settings.getHeight();
+        
+        // Set settings and start
+        this.setSettings(settings);
+        this.start();
+        
     }
 
     /**
@@ -31,7 +52,7 @@ public class Main extends SimpleApplication {
     @Override
     public void simpleInitApp() {
         IGame game = new Game(new Battlefield());
-        this.view = new View(this, game);
+        this.view = new View(this, game, width, height);
         this.controller = new Controller(this, view, game);
     }
 

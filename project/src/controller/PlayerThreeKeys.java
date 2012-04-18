@@ -12,6 +12,8 @@ import com.jme3.input.KeyInput;
  */
 public class PlayerThreeKeys implements KeyPlayable {
     
+    public static final int KEY_JOIN = KeyInput.KEY_NUMPAD8;
+    
     public int getForwardKey() {
         return KeyInput.KEY_NUMPAD8;
     }

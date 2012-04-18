@@ -37,7 +37,6 @@ public class PlayerListener implements ActionListener {
     }
 
     public void onAction(String name, boolean isPressed, float tpf) {
-        //System.out.println(name + " ... " + isPressed);
         if (name.equals(this.layout.getUpMap())) {
             this.player.accelerateUnit(isPressed);
         }
@@ -49,29 +48,10 @@ public class PlayerListener implements ActionListener {
                 dir = (name.equals(this.layout.getLeftMap()) ?
                         Direction.ANTICLOCKWISE : Direction.CLOCKWISE);
             } else {
-                dir = Direction.NONE;
+                dir = (name.equals(this.layout.getLeftMap()) ?
+                        Direction.CLOCKWISE : Direction.ANTICLOCKWISE);
             }
             this.player.steerUnit(dir);
-            
         }
-        
-        
-        
-        /*
-        if (name.equals(this.layout.getLeftMap())) {
-            if (isPressed) {
-                this.player.steerUnit(Direction.ANTICLOCKWISE);
-            } else {
-                this.player.steerUnit(Direction.NONE);
-            }
-        }
-        if (name.equals(this.layout.getRightMap())) {
-            if (isPressed) {
-                this.player.steerUnit(Direction.CLOCKWISE);
-            } else {
-                this.player.steerUnit(Direction.NONE);
-            }
-        }*/
-        System.out.println(player.getUnit().getSteerDirection());
     }
 }
