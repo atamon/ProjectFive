@@ -6,6 +6,7 @@ package model;
 public class Round {
     
     private boolean roundActive = false;
+    private Player winner;
     
     public Round() {
         
@@ -15,8 +16,13 @@ public class Round {
         this.roundActive = true;
     }
     
-    public void end() {
+    public void end(Player winner) {
+        this.winner = winner;
         this.roundActive = false;
+    }
+    
+    public Player getWinner() {
+        return winner;
     }
     
     public boolean getActiveRound() {

@@ -122,11 +122,11 @@ public class Unit extends MoveableAbstract implements IObservable {
     }
     
     /**
-     * Sets the direction of a unit.
-     * The new direciton is computed from the old and the new direction.
+     * Modifies the direction of a unit.
+     * The new direction is computed from the old and the new direction.
      * @param dir The new direction to be added to the old one.
      */
-    public void setSteerDirection(Direction dir) {
+    public void computeSteerDirection(Direction dir) {
         this.steerDirection = Direction.addDirections(this.steerDirection, dir);
     }
 

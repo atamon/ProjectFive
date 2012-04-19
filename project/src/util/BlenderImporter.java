@@ -6,7 +6,6 @@ package util;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.BlenderKey;
-import com.jme3.material.MatParam;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
@@ -19,7 +18,7 @@ import java.util.List;
  *
  * @author Anton Lindgren
  */
-public class BlenderImporter {
+public abstract class BlenderImporter {
 
     public static void registerBlender(AssetManager assetManager) {
         assetManager.registerLoader(BlenderModelLoader.class, "blend");

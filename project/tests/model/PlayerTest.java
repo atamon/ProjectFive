@@ -85,7 +85,7 @@ public class PlayerTest {
     }
 
     /**
-     * Test of incrementScore method, of class Player.
+     * Test of incrementKills method, of class Player.
      * Tests if first score is 0.
      * Tests if higher than 0 after incrementing.
      */
@@ -93,11 +93,11 @@ public class PlayerTest {
     public void testIncrementScore() {
         System.out.println("incrementScore");
         Player instance = new Player(0);
-        int firstScore = instance.getScore();
+        int firstScore = instance.getKills();
         assertTrue(firstScore == 0);
         
-        instance.incrementScore();
-        assertTrue(instance.getScore() != firstScore);
+        instance.incrementKills();
+        assertTrue(instance.getKills() != firstScore);
     }
 
     /**
@@ -120,7 +120,7 @@ public class PlayerTest {
     }
 
     /**
-     * Test of getScore method, of class Player.
+     * Test of getKills method, of class Player.
      * Tests if we get 0 as first score.
      * Tests if we get higher than 0 later.
      */
@@ -129,11 +129,11 @@ public class PlayerTest {
         System.out.println("getScore");
         Player instance = new Player(0);
         int expResult = 0;
-        int result = instance.getScore();
+        int result = instance.getKills();
         assertEquals(expResult, result);
         
-        instance.incrementScore();
-        assertTrue(instance.getScore() > 0);
+        instance.incrementKills();
+        assertTrue(instance.getKills() > 0);
     }
 
     /**

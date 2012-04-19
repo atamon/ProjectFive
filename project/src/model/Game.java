@@ -16,6 +16,9 @@ import model.visual.Unit;
  */
 public class Game implements IGame {
 
+    // A game is never startable without 2 players at this point
+    public static final int VALID_PLAYER_AMOUNT = 2;
+    public static final int LAST_MAN_STANDING = 1;
     // Instances
     private final Battlefield battlefield;
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
@@ -44,7 +47,10 @@ public class Game implements IGame {
     /**
      * @return Returns true if the game has started, IE there is a current round.
      */
-    public boolean hasStarted() {
+    public boolean roundStarted() {
+        if (currentRound == null) {
+            return false;
+        }
         return currentRound.getActiveRound();
     }
 
@@ -65,12 +71,47 @@ public class Game implements IGame {
      */
     public void update(float tpf) {
         if (isRunning) {
+            lookForDeadUnits();
+
+
+            // Update unit-positions
+            // TODO Generalize to update moveablepositions
             for (Player player : this.playerMap.values()) {
                 player.updateUnitPosition(tpf);
                 if (this.isOutOfBounds(player.getUnitPosition())) {
                     this.doMagellanJourney(player);
                 }
             }
+        }
+    }
+
+    private void lookForDeadUnits() {
+        // Check for Units with 0 HP
+        Collection<Player> players = playerMap.values();
+        for (Player player : players) {
+            Unit unit = player.getUnit();
+            if (unit.getHitPoints() <= 0
+                    && !unit.getPosition().equals(Vector.NONE_EXISTANT)) {
+
+                unit.setIsAccelerating(false);
+                unit.setSteerAngle(0);
+                unit.setPosition(Vector.NONE_EXISTANT);
+
+                lookForLastManStanding(players);
+            }
+        }
+    }
+
+    private void lookForLastManStanding(Collection<Player> players) {
+        int alivePlayers = 0;
+        for (Player alivePlayer : players) {
+            Vector unitPos = alivePlayer.getUnit().getPosition();
+            if (!unitPos.equals(Vector.NONE_EXISTANT)) {
+                alivePlayers++;
+            }
+        }
+        if (alivePlayers == LAST_MAN_STANDING) {
+            this.endRound();
         }
     }
 
@@ -166,8 +207,11 @@ public class Game implements IGame {
     public void startRound() {
         // Since we are not sure the units are correctly placed we do so now
         this.placeUnitsAtStart();
-        this.currentRound = new Round();
+        this.haltPlayers();
+
         this.isRunning = true;
+        this.currentRound = new Round();
+        this.currentRound.start();
         System.out.println("Round started!");
 
     }
@@ -180,10 +224,11 @@ public class Game implements IGame {
         for (Player player : players) {
             int id = player.getId();
             this.placeUnit(player.getId(),
-                           Game.getStartingPos(id, battlefield.getSize()),
-                           Game.getStartingDir(id));
+                    Game.getStartingPos(id, battlefield.getSize()),
+                    Game.getStartingDir(id));
         }
     }
+
     /**
      * Places a unit for the specified player on the given position with the given direction.
      * @param id The playerID used to locate which unit to be placed.
@@ -206,7 +251,35 @@ public class Game implements IGame {
         // TODO Handle statistics at the end of each round
         // TODO Add score for the winner here
 
-        this.currentRound = null;
+        this.currentRound.end(findRoundWinner());
+        System.out.println("This rounds winner is .... "
+                + currentRound.getWinner());
+
+    }
+
+    /**
+     * Returns the winner, I.E. the player with the highest score.
+     */
+    private Player findRoundWinner() {
+        Player winner = null;
+        for (Player player : playerMap.values()) {
+            if (player.getUnit().getHitPoints() > 0) {
+                if (winner != null) {
+                    throw new WinnerNotFoundException("Several players still alive, no winner declared!");
+                }
+                winner = player;
+            }
+        }
+        if (winner == null) {
+            throw new WinnerNotFoundException("No winner for the active round was found!");
+        }
+        return winner;
+    }
+
+    private void haltPlayers() {
+        for (Player player : playerMap.values()) {
+            player.getUnit().setSpeed(0);
+        }
     }
 
     /*
@@ -223,7 +296,13 @@ public class Game implements IGame {
      */
     @Override
     public void switchPauseState() {
-        this.isRunning = !this.isRunning;
+        if (currentRound.getActiveRound() && roundStarted()) {
+            this.isRunning = !this.isRunning;
+        }
+    }
+
+    public boolean hasValidAmountPlayers() {
+        return playerMap.size() >= VALID_PLAYER_AMOUNT;
     }
 
     /**

@@ -15,10 +15,11 @@ import java.beans.PropertyChangeListener;
  */
 public interface IGame extends IObservable {
     public void createPlayer(int id);
-    public boolean hasStarted();
+    public boolean roundStarted();
     public void acceleratePlayerUnit(int id, boolean accel);
     public int getNbrOfPlayers();
     public void startRound();
+    public boolean hasValidAmountPlayers();
     public void update(float tpf);
     public Player getPlayer(int playerID);
     public void addUnitListener(int playerID, PropertyChangeListener pl);

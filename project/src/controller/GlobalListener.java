@@ -28,16 +28,30 @@ public class GlobalListener implements ActionListener {
 
         inpManager.addListener(this, "Pause");
         inpManager.addListener(this, "Start");
+        
+        // TODO THIS MUST BE DELETED LATER ON
+        addDummyButton();
+    }
+    
+    private void addDummyButton() {
+        inpManager.addMapping("KillPlayerOne", new KeyTrigger(KeyInput.KEY_DELETE));
+        inpManager.addListener(this, "KillPlayerOne");
     }
 
     public void onAction(String name, boolean isPressed, float tpf) {
         // PAUSE and START is only available 
-        if (isPressed && game.getNbrOfPlayers() > 1) {
-            if (name.equals("Pause") && game.hasStarted()) {
+        if (isPressed && game.hasValidAmountPlayers()) {
+            if ("Pause".equals(name)) {
                 game.switchPauseState();
-            } else if (name.equals("Start")) {
+            } else if ("Start".equals(name) && !game.roundStarted()) {
                 game.startRound();
             }
+        }
+        
+        // TODO DELETE THIS UPON REAL IMPLEMENTATION !!!
+        if ("KillPlayerOne".equals(name) && isPressed) {
+            game.getPlayer(1).getUnit().setHitPoints(0);
+            // Now waiat for eternal hell MOHAHAHAHAHAHAHAH :D
         }
     }
 }

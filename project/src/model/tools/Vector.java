@@ -7,6 +7,9 @@ package model.tools;
  * @tested by Anton Lindgren
  */
 public class Vector {
+    
+    // We need a constant to define a vector that does not exist in this universe(-e +ity).
+    public static final Vector NONE_EXISTANT = new Vector(Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY);
  
     private float x;
     private float y;
