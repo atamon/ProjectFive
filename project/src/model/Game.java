@@ -45,7 +45,7 @@ public class Game implements IGame {
      * @return Returns true if the game has started, IE there is a current round.
      */
     public boolean hasStarted() {
-        return this.currentRound != null;
+        return currentRound.getActiveRound();
     }
 
     /**
