@@ -23,8 +23,11 @@ public class Game implements IGame {
     private final Battlefield battlefield;
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private final Map<Integer, Player> playerMap = new HashMap<Integer, Player>();
+    private final Map<Integer, Round> playedRounds = new HashMap<Integer, Round>();
+    
     private Round currentRound;
     private boolean isRunning = false;
+    private int numberOfRounds;
 
     /**
      * Create a game with given parameters.
@@ -105,8 +108,7 @@ public class Game implements IGame {
     private void lookForLastManStanding(Collection<Player> players) {
         int alivePlayers = 0;
         for (Player alivePlayer : players) {
-            Vector unitPos = alivePlayer.getUnit().getPosition();
-            if (!unitPos.equals(Vector.NONE_EXISTANT)) {
+            if (alivePlayer.getUnit().getHitPoints() > 0) {
                 alivePlayers++;
             }
         }
@@ -198,7 +200,13 @@ public class Game implements IGame {
     public void removeUnitListener(int playerID, PropertyChangeListener pl) {
         this.playerMap.get(playerID).removeUnitListener(pl);
     }
-
+    
+    
+    //TODO modify and refactor out of Game
+    public void setSettings() {
+        
+    }
+    
     /**
      * Start a new round.
      * Sets position of all players
@@ -249,11 +257,12 @@ public class Game implements IGame {
      */
     public void endRound() {
         // TODO Handle statistics at the end of each round
-        // TODO Add score for the winner here
-
+        int roundNumber = playedRounds.size();
+        this.playedRounds.put(roundNumber, currentRound);
+                
         this.currentRound.end(findRoundWinner());
         System.out.println("This rounds winner is .... "
-                + currentRound.getWinner());
+                + this.currentRound.getWinner());
 
     }
 

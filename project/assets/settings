@@ -1,0 +1,9 @@
+[SETTINGS]
+
+String should be written like a javavariable following all conventions.
+
+[DEFAULT]
+maxHP : 100
+numberOfRounds : 5
+
+[MODDED]

@@ -34,7 +34,7 @@ public class GlobalListener implements ActionListener {
     }
     
     private void addDummyButton() {
-        inpManager.addMapping("KillPlayerOne", new KeyTrigger(KeyInput.KEY_DELETE));
+        inpManager.addMapping("KillPlayerOne", new KeyTrigger(KeyInput.KEY_O));
         inpManager.addListener(this, "KillPlayerOne");
     }
 
