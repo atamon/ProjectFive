@@ -5,15 +5,17 @@
 package model;
 
 import model.tools.IObservable;
-import model.tools.Direction;
 import model.tools.Vector;
 import java.beans.PropertyChangeListener;
+import java.util.Map;
 
 /**
  *
  * @author Victor Lindhé
  */
 public interface IGame extends IObservable {
+    public void setSettings(Map <String, Integer> settings);
+    public void nextRound();
     public void createPlayer(int id);
     public boolean roundStarted();
     public void acceleratePlayerUnit(int id, boolean accel);

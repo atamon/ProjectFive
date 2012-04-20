@@ -1,5 +1,6 @@
 package model;
 
+import model.tools.Settings;
 import model.visual.Battlefield;
 import model.tools.Vector;
 import java.beans.PropertyChangeListener;
@@ -200,11 +201,24 @@ public class Game implements IGame {
     public void removeUnitListener(int playerID, PropertyChangeListener pl) {
         this.playerMap.get(playerID).removeUnitListener(pl);
     }
+
+    /**
+     * 
+     * @param settings 
+     */
+    public void setSettings(Map<String, Integer> settings) {
+        Settings.getInstance().loadSettings(settings);
+    }
     
-    
-    //TODO modify and refactor out of Game
-    public void setSettings() {
-        
+    public void nextRound() {
+        // Check if the game still has more rounds to play
+        if (Settings.getInstance().getSetting("numberOfRounds") > playedRounds.size()) {
+            startRound();
+        } else {
+        // Else we stop playing and head for stats and menu
+            
+            System.out.println("Game over!");
+        }
     }
     
     /**
@@ -214,7 +228,7 @@ public class Game implements IGame {
     @Override
     public void startRound() {
         // Since we are not sure the units are correctly placed we do so now
-        this.placeUnitsAtStart();
+        this.resetUnits();
         this.haltPlayers();
 
         this.isRunning = true;
@@ -225,15 +239,20 @@ public class Game implements IGame {
     }
 
     /**
-     * Places all units at their startingpositions.
+     * Makes sure all units are at the default starting state.
+     * This includes, position, direction, steering, steeringDirection, HP
      */
-    private void placeUnitsAtStart() {
+    private void resetUnits() {
         Collection<Player> players = playerMap.values();
         for (Player player : players) {
             int id = player.getId();
             this.placeUnit(player.getId(),
                     Game.getStartingPos(id, battlefield.getSize()),
                     Game.getStartingDir(id));
+            Unit unit = player.getUnit();
+            unit.setIsAccelerating(false);
+            unit.setHitPoints(unit.getHitPointsMax());
+            unit.setSteerAngle(Settings.getInstance().getSetting("steerAngle"));
         }
     }
 

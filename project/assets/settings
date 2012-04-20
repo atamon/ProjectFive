@@ -1,9 +1,12 @@
 [SETTINGS]
 
-String should be written like a javavariable following all conventions.
+// String should be written like a javavariable following all conventions.
 
 [DEFAULT]
-maxHP : 100
-numberOfRounds : 5
+hitPointsMax:100
+numberOfRounds:5
+steerAngle:1
+acceleration:10
+retardation:10
 
 [MODDED]

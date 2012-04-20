@@ -6,6 +6,7 @@ package model.tools;
 
 import java.util.HashMap;
 import java.util.Map;
+import model.tools.SettingNotFoundException;
 
 /**
  *
@@ -16,18 +17,18 @@ public class Settings {
     private Map<String, Integer> settings;
     private static Settings instance;
     
-    protected static Settings getInstance() {
+    public static Settings getInstance() {
         if (instance == null) {
             instance = new Settings();
         }
         return instance;
     }
     
-    private void loadSettings(Map<String, Integer> loadedSettings) {
+    public void loadSettings(Map<String, Integer> loadedSettings) {
         settings = loadedSettings;
     }
     
-    private int getSetting(String param) {
+    public int getSetting(String param) {
         Integer value = settings.get(param);
         if (value == null) {
             throw new SettingNotFoundException("ERROR:" + param

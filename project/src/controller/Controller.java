@@ -27,6 +27,9 @@ public class Controller {
         this.view = view;
         this.game = game;
         
+        // Load game settings and send it to model
+        game.setSettings(SettingsLoader.readSettings("assets/settings"));
+        
         // Register view with our game as a listener
         this.game.addPropertyChangeListener(view);
         

@@ -92,9 +92,15 @@ public class Player {
      * @param dir Direction
      * @param tpf Time per frame
      */
-    public void steerUnit(Direction dir) {
+    public void steerUnitClockWise(boolean bool) {
         if(this.playerUnit != null) {
-            this.playerUnit.computeSteerDirection(dir);
+            this.playerUnit.steerClockWise(bool);
+        }
+    }
+    
+    public void steerUnitAntiClockWise(boolean bool) {
+        if (this.playerUnit != null) {
+            this.playerUnit.steerAntiClockWise(bool);
         }
     }
     

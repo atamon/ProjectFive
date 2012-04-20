@@ -10,33 +10,26 @@ package model.tools;
  */
 public class Direction {
 
-    public static final Direction CLOCKWISE = new Direction(1);
-    public static final Direction ANTICLOCKWISE = new Direction(-1);
-    public static final Direction NONE = new Direction(0);
-    private final int direction;
-
-    /**
-     * Creates a direction with value -1, 0 or 1
-     * @param direction 
-     */
-    private Direction(int directionValue) {
-        if (Math.abs(directionValue) == 1 || directionValue == 0) {
-            this.direction = directionValue;
-        } else {
-            throw new IllegalArgumentException("ERROR: Illegal Direction created with value: " + 
-                    directionValue + ":'(");
-        }
+    private static final int CLOCKWISE = 1;
+    private static final int ANTICLOCKWISE = -1;
+    private static final int NONE = 0;
+    
+    private boolean steeringClockWise;
+    private boolean steeringAntiClockWise;
+    
+    public void steerClockWise(boolean bool) {
+        this.steeringClockWise = bool;
     }
-
-    public Direction(Direction direction) {
-        this(direction.getValue());
+    
+    public void steerAntiClockWise(boolean bool) {
+        this.steeringAntiClockWise = bool;
     }
 
     public int getValue() {
-        return this.direction;
-    }
-
-    public static Direction addDirections(Direction dir1, Direction dir2) {
-        return new Direction(dir1.getValue() + dir2.getValue());
+        int value = 0;
+        value = steeringClockWise ? value+CLOCKWISE : value;
+        value = steeringAntiClockWise ? value+ANTICLOCKWISE : value;
+        
+        return value;
     }
 }

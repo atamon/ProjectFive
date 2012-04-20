@@ -44,14 +44,14 @@ public class GlobalListener implements ActionListener {
             if ("Pause".equals(name)) {
                 game.switchPauseState();
             } else if ("Start".equals(name) && !game.roundStarted()) {
-                game.startRound();
+                game.nextRound();
             }
         }
         
         // TODO DELETE THIS UPON REAL IMPLEMENTATION !!!
         if ("KillPlayerOne".equals(name) && isPressed) {
             game.getPlayer(1).getUnit().setHitPoints(0);
-            // Now waiat for eternal hell MOHAHAHAHAHAHAHAH :D
+            // Now wait for eternal hell MOHAHAHAHAHAHAHAH :D
         }
     }
 }

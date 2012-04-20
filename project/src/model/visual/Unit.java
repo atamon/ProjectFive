@@ -6,6 +6,7 @@ import model.tools.Direction;
 import model.tools.Vector;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import model.tools.Settings;
 import model.tools.IObservable;
 
 /**
@@ -16,43 +17,32 @@ import model.tools.IObservable;
 public class Unit extends MoveableAbstract implements IObservable {
     private final static int MAX_STEER_SPEED = 10;
     
-    private float steerAngle = 1;
-    private int hitPointsMax;
-    private int acceleration = 10;
-    private int retardation = 10;
-    private int hitPoints;
-    private boolean isAccelerating = false;
-    private Direction steerDirection = Direction.NONE;
-    private float size = 1; 
-//    private PowerUp powerUp; TODO
-    private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+    private float steerAngle = Settings.getInstance().getSetting("steerAngle");
+    private int hitPointsMax = Settings.getInstance().getSetting("hitPointsMax");
+    private int acceleration = Settings.getInstance().getSetting("acceleration");
+    private int retardation = Settings.getInstance().getSetting("retardation");
     
-    /**
-     * Creates a new unit
-     * @param pos Initial position
-     * @param dir Initial position
-     * @param hitPointsMax 
-     */
-    public Unit(Vector pos, Vector dir, int hitPointsMax) {
-        super(pos, dir);
-        if (hitPointsMax <= 0) {
-            throw new IllegalArgumentException("hit points must be positive");
-        }
-
-        this.hitPointsMax = hitPointsMax;
-        this.hitPoints = hitPointsMax;
-        
-        // Register with the view that we have a new unit
-        this.pcs.firePropertyChange("Unit Created", this.pos, this.dir);
-    }
+    private int hitPoints = hitPointsMax;
+    private float size = 1; 
+    private boolean isAccelerating = false;
+    private Direction steerDirection = new Direction();
+//  private PowerUp powerUp; TODO
+    
+    private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
     /**
-     * Create a unit with default hp set to 100
+     * Create a unit
      * @param pos initial position
      * @param dir initial direction
      */
     public Unit(Vector pos, Vector dir) {
-        this(pos, dir, 100);
+        super(pos, dir);
+        if (hitPointsMax <= 0) {
+            throw new IllegalArgumentException("hit points must be positive");
+        }
+        
+        // Register with the view that we have a new unit
+        this.pcs.firePropertyChange("Unit Created", this.pos, this.dir);
     }
 
     /**
@@ -121,15 +111,13 @@ public class Unit extends MoveableAbstract implements IObservable {
         this.steerAngle = steerAngle;
     }
     
-    /**
-     * Modifies the direction of a unit.
-     * The new direction is computed from the old and the new direction.
-     * @param dir The new direction to be added to the old one.
-     */
-    public void computeSteerDirection(Direction dir) {
-        this.steerDirection = Direction.addDirections(this.steerDirection, dir);
+    public void steerClockWise(boolean bool) {
+        this.steerDirection.steerClockWise(bool);
     }
 
+    public void steerAntiClockWise(boolean bool) {
+        this.steerDirection.steerAntiClockWise(bool);
+    }
     /**
      * Returns the steerAngle for this unit.
      * @return A float representing how fast the unit can steer.

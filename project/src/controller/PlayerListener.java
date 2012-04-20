@@ -41,17 +41,11 @@ public class PlayerListener implements ActionListener {
             this.player.accelerateUnit(isPressed);
         }
         
-        if (name.equals(this.layout.getLeftMap()) ||
-                name.equals(this.layout.getRightMap())) {
-            Direction dir;
-            if (isPressed) {
-                dir = (name.equals(this.layout.getLeftMap()) ?
-                        Direction.ANTICLOCKWISE : Direction.CLOCKWISE);
-            } else {
-                dir = (name.equals(this.layout.getLeftMap()) ?
-                        Direction.CLOCKWISE : Direction.ANTICLOCKWISE);
-            }
-            this.player.steerUnit(dir);
+        if (name.equals(this.layout.getLeftMap())) {
+            this.player.steerUnitAntiClockWise(isPressed);
+        }
+        if (name.equals(this.layout.getRightMap())) {
+            this.player.steerUnitClockWise(isPressed);
         }
     }
 }
