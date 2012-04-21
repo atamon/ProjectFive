@@ -28,7 +28,6 @@ public class Game implements IGame {
     
     private Round currentRound;
     private boolean isRunning = false;
-    private int numberOfRounds;
 
     /**
      * Create a game with given parameters.

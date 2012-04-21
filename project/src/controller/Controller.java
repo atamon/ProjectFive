@@ -18,14 +18,16 @@ import view.View;
 public class Controller {
     private IGame game;
     private View view;
-    private SimpleApplication jme3;
     private InputManager inputManager;
     
-    public Controller(SimpleApplication jme3, View view, IGame game) {
+    public Controller(InputManager inpManager, View view, IGame game) {
         // Save instances
-        this.jme3 = jme3;
         this.view = view;
         this.game = game;
+        this.inputManager = inpManager;
+        
+        // clear inpManager's pre-defined triggers and keys
+        this.inputManager.clearMappings();
         
         // Load game settings and send it to model
         game.setSettings(SettingsLoader.readSettings("assets/settings"));
@@ -33,13 +35,9 @@ public class Controller {
         // Register view with our game as a listener
         this.game.addPropertyChangeListener(view);
         
-        // Get inputManager and clear its pre-defined triggers and keys
-        this.inputManager = jme3.getInputManager();
-        this.inputManager.clearMappings();
-        
         // Create listeners
-        ActionListener joinPlayerListener = new JoinPlayerListener(game, inputManager);
-        ActionListener globalListener = new GlobalListener(game, inputManager);
+        new JoinPlayerListener(game, inputManager);
+        new GlobalListener(game, inputManager);
         
         // Build our graphical scene
         this.view.createScene();

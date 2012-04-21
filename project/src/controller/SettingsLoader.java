@@ -26,7 +26,7 @@ public abstract class SettingsLoader {
         BufferedReader reader = null;
         try {
             FileReader inFile = new FileReader(path);
-            reader = new BufferedReader(new FileReader(path));
+            reader = new BufferedReader(inFile);
         } catch (FileNotFoundException e) {
             throw new IllegalArgumentException("ERROR: No such file: " + path);
         } catch (IOException e) {

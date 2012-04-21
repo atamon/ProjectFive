@@ -21,7 +21,7 @@ public class Main extends SimpleApplication {
     private int height;
     
     public static void main(String[] args) {
-        Main app = new Main();
+        new Main();
     }
     
     /**
@@ -53,7 +53,7 @@ public class Main extends SimpleApplication {
     public void simpleInitApp() {
         IGame game = new Game(new Battlefield());
         this.view = new View(this, game, width, height);
-        this.controller = new Controller(this, view, game);
+        this.controller = new Controller(this.getInputManager(), view, game);
     }
 
     /**
