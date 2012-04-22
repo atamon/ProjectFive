@@ -56,6 +56,10 @@ public class Game implements IGame {
         }
         return currentRound.getActiveRound();
     }
+    
+    public boolean gameIsActive() {
+        return !playedRounds.isEmpty();
+    } 
 
     /**
      * Creates and places a unit according to its playerID.
@@ -217,6 +221,12 @@ public class Game implements IGame {
         // Else we stop playing and head for stats and menu
             
             System.out.println("Game over!");
+            
+            printStats();
+            
+            playedRounds.clear();
+            
+            
         }
     }
     
@@ -301,6 +311,28 @@ public class Game implements IGame {
             throw new WinnerNotFoundException("No winner for the active round was found!");
         }
         return winner;
+    }
+    
+    private void printStats() {
+        Map<Player, Integer> playerWins = new HashMap<Player, Integer>();
+        for (Player player : playerMap.values()) {
+            playerWins.put(player, 0); 
+        }
+
+        for (Round round : playedRounds.values()) {
+            Player roundWinner = round.getWinner();
+            Integer wonRounds = playerWins.get(roundWinner);
+            if (wonRounds == null) {
+                wonRounds = 0;
+            }
+
+            playerWins.put(roundWinner, wonRounds+1);
+
+        }
+
+        for (Player player : playerWins.keySet()) {
+            System.out.println(player.getId() + " won " + playerWins.get(player) + "rounds!");
+        }
     }
 
     private void haltPlayers() {

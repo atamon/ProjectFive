@@ -8,7 +8,9 @@ import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
+import model.Game;
 import model.IGame;
+import model.visual.Battlefield;
 
 /**
  *
@@ -36,6 +38,8 @@ public class GlobalListener implements ActionListener {
     private void addDummyButton() {
         inpManager.addMapping("KillPlayerOne", new KeyTrigger(KeyInput.KEY_O));
         inpManager.addListener(this, "KillPlayerOne");
+        inpManager.addMapping("KillPlayerTwo", new KeyTrigger(KeyInput.KEY_L));
+        inpManager.addListener(this, "KillPlayerTwo");
     }
 
     public void onAction(String name, boolean isPressed, float tpf) {
@@ -51,6 +55,10 @@ public class GlobalListener implements ActionListener {
         // TODO DELETE THIS UPON REAL IMPLEMENTATION !!!
         if ("KillPlayerOne".equals(name) && isPressed) {
             game.getPlayer(1).getUnit().setHitPoints(0);
+            // Now wait for eternal hell MOHAHAHAHAHAHAHAH :D
+        }
+        if ("KillPlayerTwo".equals(name) && isPressed) {
+            game.getPlayer(0).getUnit().setHitPoints(0);
             // Now wait for eternal hell MOHAHAHAHAHAHAHAH :D
         }
     }

@@ -14,7 +14,6 @@ import model.visual.Unit;
 public class Player {
     private final int playerId;
     private Unit playerUnit;
-    private int kills;
     
     /**
      * Creates a player with a specific number 1-4.
@@ -22,7 +21,6 @@ public class Player {
      */
     public Player(int playerID) {
         this.playerId = playerID;
-        this.kills = 0;
     }
     
     /**
@@ -57,13 +55,6 @@ public class Player {
         }
     }
     
-    /**
-     * Increments the score
-     */
-    public void incrementKills() {
-        this.kills++;
-    }
-    
     public Vector getUnitDirection() {
         return this.playerUnit.getDirection();
     }
@@ -77,14 +68,6 @@ public class Player {
      */
     public void updateUnitPosition(float tpf) {
         this.playerUnit.updateUnit(tpf);
-    }
-    
-    /**
-     * Getter for the kills.
-     * @return int Number of kills
-     */
-    public int getKills() {
-        return this.kills;
     }
     
     /**
