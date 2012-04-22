@@ -80,11 +80,11 @@ public class GameTest {
     public void testStartRound(){
         Game instance = new Game();
         
-        instance.startRound(); // exception here, no players -> no round
+        instance.nextRound(); // exception here, no players -> no round
         instance.createPlayer(0);
         instance.createPlayer(1);
         
-        instance.startRound();
+        instance.nextRound();
     }
     
     @Test
@@ -93,7 +93,7 @@ public class GameTest {
         float rounds = instance.getNbrOfRounds();
         instance.endRound(); // no round started.
         assertTrue(rounds == instance.getNbrOfRounds());
-        instance.startRound();
+        instance.nextRound();
         instance.endRound();
         assertTrue(rounds-1 == instance.getNbrOfRounds());
         

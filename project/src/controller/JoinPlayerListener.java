@@ -10,6 +10,7 @@ import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
 import java.util.HashMap;
 import java.util.Map;
+import model.GameState;
 import model.IGame;
 import model.Player;
 
@@ -47,7 +48,8 @@ public class JoinPlayerListener implements ActionListener {
 
     @Override
     public void onAction(String name, boolean isPressed, float tpf) {
-        if (isPressed && !game.roundStarted() && !game.gameIsActive()) {
+        if (isPressed && game.getState() == GameState.INACTIVE) {
+            // Add check for roundstate 
             int id = -1;
             try {
                 id = Integer.parseInt(name);

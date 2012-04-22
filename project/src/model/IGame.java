@@ -15,15 +15,15 @@ import java.util.Map;
  */
 public interface IGame extends IObservable {
     public void setSettings(Map <String, Integer> settings);
-    public void nextRound();
-    public boolean gameIsActive();
+    public void clean();
+    public void start();
     public void createPlayer(int id);
-    public boolean roundStarted();
     public void acceleratePlayerUnit(int id, boolean accel);
-    public int getNbrOfPlayers();
-    public void startRound();
-    public boolean hasValidAmountPlayers();
+    public void nextRound();
+    public boolean hasValidAmountOfPlayers();
     public void update(float tpf);
+    public GameState getState();
+    public RoundState getRoundState();
     public Player getPlayer(int playerID);
     public void addUnitListener(int playerID, PropertyChangeListener pl);
     public void removeUnitListener(int playerID, PropertyChangeListener pl);

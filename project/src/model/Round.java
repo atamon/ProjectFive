@@ -5,7 +5,7 @@ package model;
  */
 public class Round {
     
-    private boolean roundActive = false;
+    private RoundState roundState;
     private Player winner;
     
     public Round() {
@@ -13,19 +13,27 @@ public class Round {
     }
     
     public void start() {
-        this.roundActive = true;
+        this.roundState = RoundState.PLAYING;
     }
     
     public void end(Player winner) {
         this.winner = winner;
-        this.roundActive = false;
+        this.roundState = RoundState.POST;
+    }
+    
+    public void pause() {
+        this.roundState = RoundState.PAUSED;
+    }
+    
+    public void unPause() {
+        this.roundState = RoundState.PLAYING;
     }
     
     public Player getWinner() {
         return winner;
     }
     
-    public boolean getActiveRound() {
-        return this.roundActive;
+    public RoundState getState() {
+        return this.roundState;
     }
 }

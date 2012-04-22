@@ -8,9 +8,9 @@ import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
-import model.Game;
+import model.GameState;
 import model.IGame;
-import model.visual.Battlefield;
+import model.RoundState;
 
 /**
  *
@@ -30,11 +30,11 @@ public class GlobalListener implements ActionListener {
 
         inpManager.addListener(this, "Pause");
         inpManager.addListener(this, "Start");
-        
+
         // TODO THIS MUST BE DELETED LATER ON
         addDummyButton();
     }
-    
+
     private void addDummyButton() {
         inpManager.addMapping("KillPlayerOne", new KeyTrigger(KeyInput.KEY_O));
         inpManager.addListener(this, "KillPlayerOne");
@@ -44,14 +44,35 @@ public class GlobalListener implements ActionListener {
 
     public void onAction(String name, boolean isPressed, float tpf) {
         // PAUSE and START is only available 
-        if (isPressed && game.hasValidAmountPlayers()) {
+        if (isPressed && game.hasValidAmountOfPlayers()) {
             if ("Pause".equals(name)) {
                 game.switchPauseState();
-            } else if ("Start".equals(name) && !game.roundStarted()) {
-                game.nextRound();
+            }
+            // Start sends different calls to model according to different states the model is in.
+            // It should never do anything if we have a running round though.
+            if ("Start".equals(name) && game.getRoundState() != RoundState.PLAYING) {
+                // Start checking for different states the controller wishes to handle
+                // differently.
+
+                GameState gameState = game.getState();
+                RoundState roundState = game.getRoundState();
+
+                // This says game has not yet been started
+                if (gameState == GameState.INACTIVE) {
+                    // If we have enough players we can set ACTIVE
+                    if (game.hasValidAmountOfPlayers()) {
+                        game.start();
+                    }
+                } else if (gameState == GameState.ACTIVE && roundState == RoundState.POST) {
+                    game.nextRound();
+                } else if (gameState == GameState.STATS && roundState == RoundState.POST) {
+                    // Game has been played. Now we wish to clean game-state and present the players
+                    // With our start-interface and remove previous game-state (IE rounds).
+                    game.clean();
+                }
             }
         }
-        
+
         // TODO DELETE THIS UPON REAL IMPLEMENTATION !!!
         if ("KillPlayerOne".equals(name) && isPressed) {
             game.getPlayer(1).getUnit().setHitPoints(0);
