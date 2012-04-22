@@ -47,7 +47,7 @@ public class JoinPlayerListener implements ActionListener {
 
     @Override
     public void onAction(String name, boolean isPressed, float tpf) {
-        if (isPressed && !game.roundStarted()) {
+        if (isPressed && !game.roundStarted() && !game.gameIsActive()) {
             int id = -1;
             try {
                 id = Integer.parseInt(name);

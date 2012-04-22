@@ -16,6 +16,7 @@ import java.util.Map;
 public interface IGame extends IObservable {
     public void setSettings(Map <String, Integer> settings);
     public void nextRound();
+    public boolean gameIsActive();
     public void createPlayer(int id);
     public boolean roundStarted();
     public void acceleratePlayerUnit(int id, boolean accel);
