@@ -219,6 +219,14 @@ public class Unit extends MoveableAbstract implements IObservable {
     public int getRetardation() {
         return this.retardation;
     }
+    
+    /**
+     * Returns true if and only if the boat has been sent to Davy Jones' locker.
+     * @return 
+     */
+    public boolean isDeadAndBuried() {
+        return this.pos.equals(Vector.NONE_EXISTANT);
+    }
 
     @Override
     public void addPropertyChangeListener(PropertyChangeListener ls) {

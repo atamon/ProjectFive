@@ -170,12 +170,18 @@ public class Game implements IGame {
      */
     @Override
     public void nextRound() {
+        this.currentRound = new Round();
+        try {
+            this.currentRound.start();
+        } catch (RoundAlreadyStartedException e) {
+            System.out.println("WARNING: " + e.getMessage());
+            return;
+        }
+        
         // Since we are not sure the units are correctly placed we do so now
         this.resetUnits();
         this.haltPlayers();
 
-        this.currentRound = new Round();
-        this.currentRound.start();
 
         System.out.println("Round started!");
     }
@@ -249,8 +255,7 @@ public class Game implements IGame {
         for (Player player : players) {
             Unit unit = player.getUnit();
             if (unit.getHitPoints() <= 0
-                    && !unit.getPosition().equals(Vector.NONE_EXISTANT)) {
-
+                    && !unit.isDeadAndBuried()) {
                 unit.setIsAccelerating(false);
                 unit.setSteerAngle(0);
                 unit.setPosition(Vector.NONE_EXISTANT);
@@ -262,8 +267,8 @@ public class Game implements IGame {
 
     private void lookForLastManStanding(Collection<Player> players) {
         int alivePlayers = 0;
-        for (Player alivePlayer : players) {
-            if (alivePlayer.getUnit().getHitPoints() > 0) {
+        for (Player player : players) {
+            if (!player.getUnit().isDeadAndBuried()) {
                 alivePlayers++;
             }
         }
@@ -278,10 +283,16 @@ public class Game implements IGame {
      * winner and clears the battlefield.
      */
     public void endRound() {
+        try {
+            this.currentRound.end(findRoundWinner());
+        } catch (RoundAlreadyEndedException e){
+            System.out.println("WARNING: " + e.getMessage());
+            return;
+        }
+        
         int roundNumber = playedRounds.size();
         this.playedRounds.put(roundNumber, currentRound);
 
-        this.currentRound.end(findRoundWinner());
         System.out.println("This rounds winner is .... "
                 + this.currentRound.getWinner());
         if (Settings.getInstance().getSetting("numberOfRounds") <= playedRounds.size()) {

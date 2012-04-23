@@ -37,6 +37,7 @@ public class PlayerListener implements ActionListener {
     }
 
     public void onAction(String name, boolean isPressed, float tpf) {
+        System.out.println("Received "+name+" from Player "+player.getId());
         if (name.equals(this.layout.getUpMap())) {
             this.player.accelerateUnit(isPressed);
         }

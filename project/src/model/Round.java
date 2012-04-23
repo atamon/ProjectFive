@@ -12,11 +12,17 @@ public class Round {
         
     }
     
-    public void start() {
+    public void start() throws RoundAlreadyStartedException {
+        if (roundState == RoundState.PLAYING) {
+            throw new RoundAlreadyStartedException();
+        }
         this.roundState = RoundState.PLAYING;
     }
     
-    public void end(Player winner) {
+    public void end(Player winner) throws RoundAlreadyEndedException {
+        if (roundState == RoundState.POST) {
+            throw new RoundAlreadyEndedException();
+        }
         this.winner = winner;
         this.roundState = RoundState.POST;
     }

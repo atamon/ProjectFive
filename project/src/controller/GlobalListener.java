@@ -43,13 +43,12 @@ public class GlobalListener implements ActionListener {
     }
 
     public void onAction(String name, boolean isPressed, float tpf) {
-        // PAUSE and START is only available 
+
         if (isPressed && game.hasValidAmountOfPlayers()) {
             if ("Pause".equals(name)) {
                 game.switchPauseState();
             }
             // Start sends different calls to model according to different states the model is in.
-            // It should never do anything if we have a running round though.
             if ("Start".equals(name) && game.getRoundState() != RoundState.PLAYING) {
                 // Start checking for different states the controller wishes to handle
                 // differently.
@@ -59,15 +58,13 @@ public class GlobalListener implements ActionListener {
 
                 // This says game has not yet been started
                 if (gameState == GameState.INACTIVE) {
-                    // If we have enough players we can set ACTIVE
                     if (game.hasValidAmountOfPlayers()) {
                         game.start();
                     }
                 } else if (gameState == GameState.ACTIVE && roundState == RoundState.POST) {
                     game.nextRound();
                 } else if (gameState == GameState.STATS && roundState == RoundState.POST) {
-                    // Game has been played. Now we wish to clean game-state and present the players
-                    // With our start-interface and remove previous game-state (IE rounds).
+                    // Game has been played. Clean it!
                     game.clean();
                 }
             }
