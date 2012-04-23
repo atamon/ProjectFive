@@ -93,9 +93,11 @@ public class Game implements IGame {
     public void update(float tpf) {
         this.physHandler.update(tpf);
         for (Player player : this.playerMap.values() ){
-            player.updateUnitPosition(tpf);
+            
             Vector v = this.physHandler.moveTo(player.getUnitPosition(), player.getUnitDirection(), player.getUnit().getSpeed(), player.getId());
             player.setUnitPosition(v.getX(),v.getY());
+            
+            player.updateUnitPosition(tpf);
             if(this.isOutOfBounds(player.getUnitPosition())) {
                 this.doMagellanJourney(player);
             }

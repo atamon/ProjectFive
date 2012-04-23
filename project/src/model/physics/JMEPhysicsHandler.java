@@ -20,7 +20,7 @@ import model.tools.Vector;
  * Holds the physicsworld
  * @author jnes
  */
-public class JMEPhysicsHandler implements IPhysicsHandler, PhysicsCollisionListener {
+public class JMEPhysicsHandler implements IPhysicsHandler/*, PhysicsCollisionListener*/ {
 
     private BulletAppState bulletAppState;
     public final static float SHAPE_HEIGHT = 1f;
@@ -31,7 +31,7 @@ public class JMEPhysicsHandler implements IPhysicsHandler, PhysicsCollisionListe
         this.bulletAppState = new BulletAppState();
         this.bulletAppState.initialize(null, null);
         this.bulletAppState.getPhysicsSpace().setGravity(Vector3f.ZERO);
-        this.bulletAppState.getPhysicsSpace().addCollisionListener(this);
+//        this.bulletAppState.getPhysicsSpace().addCollisionListener(this);
         
     }
     public void addToWorld(IPhysical physModel, int owner){
@@ -41,15 +41,18 @@ public class JMEPhysicsHandler implements IPhysicsHandler, PhysicsCollisionListe
     }
     
     public void update(float tpf){
-        this.bulletAppState.update(tpf);
         this.bulletAppState.getPhysicsSpace().update(tpf);
         
-            
+        this.bulletAppState.update(tpf);
+  
+//        for(PhysicsRigidBody b : this.RigidBodies.values()){
+//            System.out.println(b.getPhysicsLocation());
+//        }
     }
     
     private PhysicsRigidBody createRigidBody(IPhysical physModel){
         Vector3f size = new Vector3f(physModel.getSize().getX(),
-                        SHAPE_HEIGHT, physModel.getSize().getY());
+                        SHAPE_HEIGHT, physModel.getSize().getY()).mult(5f);
         
         Vector3f pos = new Vector3f(physModel.getPosition().getX(),
                         0, physModel.getPosition().getY());
@@ -66,15 +69,25 @@ public class JMEPhysicsHandler implements IPhysicsHandler, PhysicsCollisionListe
         
         PhysicsRigidBody body = this.RigidBodies.get(owner);
         
+        body.setPhysicsLocation(body.getPhysicsLocation().setY(0));
+        
+        
         Vector3f vel = new Vector3f(dir.getX()*speed, 0, dir.getY()*speed);
         body.setLinearVelocity(vel);
-        
-        body.setPhysicsLocation(new Vector3f(pos.getX(), 0, pos.getY()));
         Vector3f newPos = body.getPhysicsLocation();
+        
+            System.out.println(newPos.x+" should be == "+ pos.getX());
+        
         return new Vector(newPos.x,newPos.z);
+        
     }
 
-    public void collision(PhysicsCollisionEvent event) {
-        System.out.println("HELLO! :D"+event.getPositionWorldOnA());
-    }
+//    public void collision(PhysicsCollisionEvent event) {
+//        PhysicsRigidBody bodyOne = (PhysicsRigidBody)event.getObjectA();
+//        PhysicsRigidBody bodyTwo = (PhysicsRigidBody)event.getObjectB();
+//        bodyOne.applyImpulse(bodyOne.getLinearVelocity()
+//                            .mult(-1.0f), event.getPositionWorldOnA());
+//        bodyTwo.applyImpulse(bodyTwo.getLinearVelocity()
+//                            .mult(-1.0f), event.getPositionWorldOnB());
+//    }
 }

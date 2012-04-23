@@ -66,11 +66,6 @@ public class Unit extends MoveableAbstract implements IObservable,IPhysical {
         this.accelerate(this.isAccelerating, tpf);
         this.move(tpf);
     }
-
-    @Override
-    protected void move(float tpf){
-        super.move(tpf);
-    }
     
     @Override
     protected void directionUpdated(){
