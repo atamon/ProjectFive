@@ -2,10 +2,13 @@ package model.visual;
 
 
 
+import model.physics.PhysType;
 import model.tools.Direction;
 import model.tools.Vector;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import model.physics.IPhysical;
+import model.physics.IPhysicsHandler;
 import model.tools.IObservable;
 
 /**
@@ -13,17 +16,19 @@ import model.tools.IObservable;
  * @author Johannes Wikner
  * @modified Victor Lindhé
  */
-public class Unit extends MoveableAbstract implements IObservable {
+public class Unit extends MoveableAbstract implements IObservable,IPhysical {
     private float steerAngle = 1;
     private int hitPointsMax;
     private int acceleration = 10;
     private int retardation = 10;
     private int hitPoints;
     private boolean isAccelerating = false;
-    private float size = 1;
+    private Vector size = new Vector(1,1);
     private final static int MAX_STEER_SPEED = 10;
 //    private PowerUp powerUp; TODO
     private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+    private IPhysicsHandler physHandler;
+    private PhysType physType = PhysType.BOAT;
     
     /**
      * Creates a new unit
@@ -39,7 +44,7 @@ public class Unit extends MoveableAbstract implements IObservable {
 
         this.hitPointsMax = hitPointsMax;
         this.hitPoints = hitPointsMax;
-        
+ 
         // Register with the view that we have a new unit
         this.pcs.firePropertyChange("Unit Created", this.pos, this.dir);
     }
@@ -62,6 +67,10 @@ public class Unit extends MoveableAbstract implements IObservable {
         this.move(tpf);
     }
 
+    @Override
+    protected void move(float tpf){
+        super.move(tpf);
+    }
     
     @Override
     protected void directionUpdated(){
@@ -110,6 +119,9 @@ public class Unit extends MoveableAbstract implements IObservable {
         return this.speed*this.steerAngle/MAX_STEER_SPEED;
     }
     
+    public void setPhysicsHandler(IPhysicsHandler physHandler){
+        this.physHandler = physHandler;
+    }
     /**
      * Set the steer angle of the unit. 
      * @param steerAngle Angle determined in radians. Leave open interval for configuration in-game
@@ -126,7 +138,7 @@ public class Unit extends MoveableAbstract implements IObservable {
         return this.steerAngle;
     }
     
-    public float getSize(){
+    public Vector getSize(){
         return this.size;
     }
     
@@ -281,5 +293,15 @@ public class Unit extends MoveableAbstract implements IObservable {
         hash = 23 * hash + (this.isAccelerating ? 1 : 0);
         return hash;
     }
+
+    public PhysType getPhysType() {
+        return this.physType;
+    }
+
+    public float getMass() {
+        return this.size.getX()*this.size.getY();
+    }
+
+    
     
 }

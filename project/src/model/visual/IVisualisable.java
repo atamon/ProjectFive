@@ -15,6 +15,6 @@ interface IVisualisable {
     
     public Vector getPosition();
     
-    public float getSize();
+    public Vector getSize();
     
 }

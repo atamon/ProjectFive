@@ -8,14 +8,14 @@ import model.tools.Vector;
  * @modified johnnes
  */
 public final class Battlefield implements IVisualisable {
-    private final float size;
+    private final Vector size;
     private final Vector pos = new Vector(0,0);
     
     /**
      * Creates a Battlefield with default size (100,100) and an Item.
      */
     public Battlefield() {
-        this(100.0f);
+        this(new Vector(100.0f,100.0f));
     }
     
     /**
@@ -24,9 +24,9 @@ public final class Battlefield implements IVisualisable {
      * @param yWidth 
      * @throws NumberFormatException
      */
-    public Battlefield(float size) throws NumberFormatException {
-        if(size > 0) {
-            this.size = size;
+    public Battlefield(Vector size) throws NumberFormatException {
+        if(size.getX() > 0 && size.getY() > 0) {
+            this.size = new Vector(size);
         } else {
             throw new NumberFormatException("Size must be > 0");
         }
@@ -37,7 +37,7 @@ public final class Battlefield implements IVisualisable {
      * Returns a copy of the size Vector.
      * @return Vector
      */
-    public float getSize() {
+    public Vector getSize() {
         return this.size;
     }
     
@@ -51,7 +51,7 @@ public final class Battlefield implements IVisualisable {
      * @return Vector
      */
     public Vector getCenter() {
-        return new Vector(this.size/2, this.size/2);
+        return new Vector(this.size.getX()/2, this.size.getY()/2);
     }
 
     /**
@@ -68,7 +68,7 @@ public final class Battlefield implements IVisualisable {
             return false;
         }
         final Battlefield other = (Battlefield) obj;
-        if (Float.floatToIntBits(this.size) != Float.floatToIntBits(other.size)) {
+        if (this.size != other.size && (this.size == null || !this.size.equals(other.size))) {
             return false;
         }
         if (this.pos != other.pos && (this.pos == null || !this.pos.equals(other.pos))) {
@@ -76,12 +76,15 @@ public final class Battlefield implements IVisualisable {
         }
         return true;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 97 * hash + Float.floatToIntBits(this.size);
-        hash = 97 * hash + (this.pos != null ? this.pos.hashCode() : 0);
+        hash = 37 * hash + (this.size != null ? this.size.hashCode() : 0);
+        hash = 37 * hash + (this.pos != null ? this.pos.hashCode() : 0);
         return hash;
-    }    
+    }
+
+    
+    
 }

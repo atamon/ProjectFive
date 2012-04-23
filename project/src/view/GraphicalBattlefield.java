@@ -20,12 +20,9 @@ public class GraphicalBattlefield {
     Geometry groundGeometry;
     public static final float BATTLEFIELD_THICKNESS =  1f;
     
-    public GraphicalBattlefield(float size, Vector3f position, AssetManager assetManager){
+    public GraphicalBattlefield(Vector3f size, Vector3f position, AssetManager assetManager){
         
-        Vector3f sizeVector = new Vector3f(size,BATTLEFIELD_THICKNESS,size);
-        
-        // We want jmonkey to put origin in middle of battlefield
-        // position.subtract(Util.getCenterPosition(sizeVector)).setY(0);
+        Vector3f sizeVector = new Vector3f(size.x,BATTLEFIELD_THICKNESS,size.z);
         
         Box groundShape = new Box(Vector3f.ZERO, sizeVector);
         

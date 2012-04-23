@@ -24,7 +24,7 @@ public interface IGame extends IObservable {
     public Player getPlayer(int playerID);
     public void addUnitListener(int playerID, PropertyChangeListener pl);
     public void removeUnitListener(int playerID, PropertyChangeListener pl);
-    public float getBattlefieldSize();
+    public Vector getBattlefieldSize();
     public Vector getBattlefieldCenter();
     public Vector getBattlefieldPosition();
 }

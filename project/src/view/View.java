@@ -59,8 +59,8 @@ public class View implements PropertyChangeListener {
         initLighting();
     }
 
-    private void initGround(float size, Vector pos) {
-        GraphicalBattlefield geoBattlefield = new GraphicalBattlefield(size, Util.convertToMonkey3D(pos), assetManager);
+    private void initGround(Vector size, Vector pos) {
+        GraphicalBattlefield geoBattlefield = new GraphicalBattlefield(Util.convertToMonkey3D(size), Util.convertToMonkey3D(pos), assetManager);
 
         rootNode.attachChild(geoBattlefield.getGeometry());
 
@@ -95,16 +95,17 @@ public class View implements PropertyChangeListener {
      * @param dir
      * @param color 
      */
-    public void createGraphicalUnit(int playerID, Vector pos, Vector dir, float size, ColorRGBA color) {
+    public void createGraphicalUnit(int playerID, Vector pos, Vector dir,
+            Vector size, ColorRGBA color) {
         // To be replaced with argument from model
         Vector3f gPos = Util.convertToMonkey3D(pos);
         Vector3f gDir = Util.convertToMonkey3D(dir);
-        
+        Vector3f gSize = Util.convertToMonkey3D(size);
         // Create the graphicalUnit-object
         GraphicalUnit gUnit = new GraphicalUnit(color,
                                                 gPos,
                                                 gDir,
-                                                size,
+                                                gSize,
                                                 assetManager,
                                                 blenderUnit.clone(true));
         // Set it to start listening to its unit
@@ -126,7 +127,7 @@ public class View implements PropertyChangeListener {
                 
                 Vector pos = unit.getPosition();
                 Vector dir = unit.getDirection();
-                float size = unit.getSize();
+                Vector size = unit.getSize();
                 // Also send playerID so it knows which unit to listen to.
                 int playerID = player.getId();
                 

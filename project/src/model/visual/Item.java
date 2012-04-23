@@ -14,7 +14,7 @@ import model.tools.Vector;
 public final class Item implements IVisualisable {
     private final Vector position;
     private final ItemTypes type;
-    private final float size = 0.5f;
+    private final Vector size = new Vector(0.5f,0.5f);
     /**
      * Creates an Item of a given type and at a given position.
      * @param type ItemTypes
@@ -41,7 +41,7 @@ public final class Item implements IVisualisable {
         return this.type;
     }
 
-    public float getSize() {
+    public Vector getSize() {
         return this.size;
     }
 

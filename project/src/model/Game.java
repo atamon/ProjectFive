@@ -1,5 +1,6 @@
 package model;
 
+
 import model.visual.Battlefield;
 import model.tools.Direction;
 import model.tools.Vector;
@@ -9,6 +10,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import model.physics.IPhysicsHandler;
+import model.physics.JMEPhysicsHandler;
 import model.visual.Unit;
 
 /**
@@ -25,7 +28,8 @@ public class Game implements IGame {
     private final int numberOfRounds;
     private List<Round> comingRounds;
     private Round currentRound;
-
+    private IPhysicsHandler physHandler = new JMEPhysicsHandler();
+    
     /**
      * Create a game with given parameters.
      * A game consists of a number of rounds containing a given amount of players.
@@ -39,6 +43,7 @@ public class Game implements IGame {
         this.battlefield = battlefield;
         this.numberOfRounds = 1; // TODO
         this.comingRounds = this.createRounds(numberOfRounds);
+        
     }
     /**
      * Creates a Game with a default 100x100 Battlefield, 1 round and 1 player.
@@ -53,10 +58,12 @@ public class Game implements IGame {
     private Unit createUnit(int playerID){
         Vector position;
         Vector direction;
-        float bf = battlefield.getSize();
+        Vector bf = battlefield.getSize();
+        float bfX = bf.getX();
+        float bfY = bf.getY();
         switch(playerID){
             case 0:
-                position = new Vector(bf,bf);
+                position = new Vector(bfX,bfY);
                 direction = new Vector(-1,-1);
                 break;
             case 1: 
@@ -64,11 +71,11 @@ public class Game implements IGame {
                 direction = new Vector(1,1);
                 break;
             case 2: 
-                position = new Vector(bf, 0);
+                position = new Vector(bfX, 0);
                 direction = new Vector(1,-1);
                 break;
             case 3: 
-                position = new Vector(0, bf);
+                position = new Vector(0, bfY);
                 direction = new Vector(-1,1);
                 break;
             default:
@@ -84,8 +91,11 @@ public class Game implements IGame {
      * @param tpf Time since last update
      */
     public void update(float tpf) {
+        this.physHandler.update(tpf);
         for (Player player : this.playerMap.values() ){
             player.updateUnitPosition(tpf);
+            Vector v = this.physHandler.moveTo(player.getUnitPosition(), player.getUnitDirection(), player.getUnit().getSpeed(), player.getId());
+            player.setUnitPosition(v.getX(),v.getY());
             if(this.isOutOfBounds(player.getUnitPosition())) {
                 this.doMagellanJourney(player);
             }
@@ -93,11 +103,11 @@ public class Game implements IGame {
     }
     
     private boolean isOutOfBounds(Vector position) {
-        float size = this.getBattlefieldSize();
+        Vector size = this.getBattlefieldSize();
         return position.getX() < 0 ||
-               position.getX() > size ||
+               position.getX() > size.getX() ||
                position.getY() < 0 ||
-               position.getY() > size;
+               position.getY() > size.getY();
     }
     
     private void doMagellanJourney(Player player) {
@@ -133,7 +143,7 @@ public class Game implements IGame {
      * Returns the size of the logical battlefield
      * @return The size as a Vector
      */
-    public float getBattlefieldSize() {
+    public Vector getBattlefieldSize() {
         return battlefield.getSize();
     }
     public Vector getBattlefieldPosition(){
@@ -170,6 +180,10 @@ public class Game implements IGame {
         }
         Player player = new Player(id);
         Unit unit = this.createUnit(id);
+        //init physcz
+        physHandler.addToWorld(unit, id);
+        unit.setPhysicsHandler(physHandler);
+        
         player.setUnit(unit);
         
         // Keep track of the unit by its id

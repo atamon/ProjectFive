@@ -20,20 +20,22 @@ import util.Util;
  */
 public class GraphicalUnit implements PropertyChangeListener {
 
-    public static final Vector3f GUNIT_SIZE = new Vector3f(1f, 1f, 1f);
+    
     private Node node;
     private float yPosition;
-    
+    public static final float UNIT_HEIGHT = 1f;
     public GraphicalUnit(ColorRGBA color,
                          Vector3f pos,
                          Vector3f dir,
-                         float size,
+                         Vector3f size,
                          AssetManager assetManager,
                          Node blenderModel) {
 
         this.node = blenderModel;
         
-        yPosition = GraphicalBattlefield.BATTLEFIELD_THICKNESS+size;
+        yPosition = GraphicalBattlefield.BATTLEFIELD_THICKNESS+UNIT_HEIGHT;
+        size.setY(UNIT_HEIGHT);
+        blenderModel.setLocalScale(size);
         this.updatePosition(pos.setY(yPosition));
         this.updateRotation(dir);
     }
