@@ -94,7 +94,11 @@ public class Game implements IGame {
         this.physHandler.update(tpf);
         for (Player player : this.playerMap.values() ){
             
-            Vector v = this.physHandler.moveTo(player.getUnitPosition(), player.getUnitDirection(), player.getUnit().getSpeed(), player.getId());
+            Vector v = this.physHandler.moveTo(
+                    player.getUnitPosition(), 
+                    player.getUnitDirection(), player.getUnit().getSpeed(),
+                    player.getId());
+            
             player.setUnitPosition(v.getX(),v.getY());
             
             player.updateUnitPosition(tpf);

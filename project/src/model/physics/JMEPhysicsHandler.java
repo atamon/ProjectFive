@@ -20,10 +20,11 @@ import model.tools.Vector;
  * Holds the physicsworld
  * @author jnes
  */
-public class JMEPhysicsHandler implements IPhysicsHandler/*, PhysicsCollisionListener*/ {
+public class JMEPhysicsHandler implements IPhysicsHandler {
 
     private BulletAppState bulletAppState;
     public final static float SHAPE_HEIGHT = 1f;
+    
     private Map<Integer, PhysicsRigidBody> RigidBodies = 
             new HashMap<Integer, PhysicsRigidBody>();
     
@@ -31,7 +32,6 @@ public class JMEPhysicsHandler implements IPhysicsHandler/*, PhysicsCollisionLis
         this.bulletAppState = new BulletAppState();
         this.bulletAppState.initialize(null, null);
         this.bulletAppState.getPhysicsSpace().setGravity(Vector3f.ZERO);
-//        this.bulletAppState.getPhysicsSpace().addCollisionListener(this);
         
     }
     public void addToWorld(IPhysical physModel, int owner){
@@ -45,9 +45,6 @@ public class JMEPhysicsHandler implements IPhysicsHandler/*, PhysicsCollisionLis
         
         this.bulletAppState.update(tpf);
   
-//        for(PhysicsRigidBody b : this.RigidBodies.values()){
-//            System.out.println(b.getPhysicsLocation());
-//        }
     }
     
     private PhysicsRigidBody createRigidBody(IPhysical physModel){
@@ -76,18 +73,7 @@ public class JMEPhysicsHandler implements IPhysicsHandler/*, PhysicsCollisionLis
         body.setLinearVelocity(vel);
         Vector3f newPos = body.getPhysicsLocation();
         
-            System.out.println(newPos.x+" should be == "+ pos.getX());
-        
         return new Vector(newPos.x,newPos.z);
         
     }
-
-//    public void collision(PhysicsCollisionEvent event) {
-//        PhysicsRigidBody bodyOne = (PhysicsRigidBody)event.getObjectA();
-//        PhysicsRigidBody bodyTwo = (PhysicsRigidBody)event.getObjectB();
-//        bodyOne.applyImpulse(bodyOne.getLinearVelocity()
-//                            .mult(-1.0f), event.getPositionWorldOnA());
-//        bodyTwo.applyImpulse(bodyTwo.getLinearVelocity()
-//                            .mult(-1.0f), event.getPositionWorldOnB());
-//    }
 }
