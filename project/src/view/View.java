@@ -29,7 +29,7 @@ import model.visual.Unit;
 public class View implements PropertyChangeListener {
     
     public static final String BLEND_PATH = "Blends/P5Ship_export.blend";
-    public static final String NIFTY_XML_PATH = "xml/test.xml";
+    public static final String NIFTY_XML_PATH = "xml/main.xml";
     private final Node blenderUnit;
     
     private final IGame game;
