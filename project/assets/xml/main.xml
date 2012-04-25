@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nifty xmlns="http://nifty-gui.sourceforge.net/nifty-1.3.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://niftygui.sourceforge.net/nifty-1.3.xsd http://nifty-gui.sourceforge.net/nifty-1.3.xsd">
+    <useControls filename="nifty-default-controls.xml" />
+    <useStyles filename="nifty-default-styles.xml" />
+    <screen id="start" controller="view.JoinScreen" backgroundColor="00CF">
+        <layer id="joinCamsUpper" childLayout="horizontal" width="100%" height="45%">
+            <panel id="joinCamZero" width="50%" height="45%" align="left" childLayout="center">
+                <effect>
+                    <onActive name="border" border="10px" color="#000D" timeType="infinite" />
+                </effect>
+            </panel>
+            <panel id="joinCamOne" width="50%" height="45%" align="right" childLayout="center">
+                <effect>
+                    <onActive name="border" border="10px" color="#000D" timeType="infinite" />
+                </effect>
+            </panel>
+        </layer>
+        <layer id="joinCamsLower" childLayout="horizontal" width="100%" height="50%">
+            <panel id="joinCamTwo" width="50%" height="45%" align="left" childLayout="center">
+                <effect>
+                    <onActive name="border" border="10px" color="#000D" timeType="infinite" />
+                </effect>
+            </panel>
+            <panel id="joinCamThree" width="50%" height="45%" align="right" childLayout="center">
+                <effect>
+                    <onActive name="border" border="10px" color="#000D" timeType="infinite" />
+                </effect>
+            </panel>
+        </layer>
+        <layer id="buttonsLayer" width="100%" height="10%"  childLayout="horizontal">
+            <panel id="settingsPanel">
+                
+            </panel>
+            <panel id="exitPanel">
+                
+            </panel>
+        </layer>
+    </screen>
+</nifty>

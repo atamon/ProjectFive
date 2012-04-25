@@ -6,6 +6,7 @@ import controller.Controller;
 import com.jme3.app.SimpleApplication;
 import com.jme3.font.BitmapText;
 import com.jme3.math.ColorRGBA;
+import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.system.AppSettings;
 import model.IGame;
 import view.View;
@@ -57,8 +58,16 @@ public class Main extends SimpleApplication {
      */
     @Override
     public void simpleInitApp() {
+        // Create and init NiftyGUI
+        NiftyJmeDisplay niftyDisplay = new NiftyJmeDisplay(assetManager, 
+                                                            inputManager, 
+                                                            audioRenderer, 
+                                                            guiViewPort);
+        guiViewPort.addProcessor(niftyDisplay);
+        
+        // Create MVC and make connections
         this.game = new Game(new Battlefield());
-        this.view = new View(this, game, width, height);
+        this.view = new View(this, game, width, height, niftyDisplay);
         this.controller = new Controller(this.getInputManager(), view, game);
 
         // Set up debug game-state

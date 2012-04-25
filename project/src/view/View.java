@@ -6,10 +6,12 @@ import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
+import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.renderer.Camera;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
+import de.lessvoid.nifty.Nifty;
 import util.BlenderImporter;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -27,7 +29,7 @@ import model.visual.Unit;
 public class View implements PropertyChangeListener {
     
     public static final String BLEND_PATH = "Blends/P5Ship_export.blend";
-    
+    public static final String NIFTY_XML_PATH = "xml/test.xml";
     private final Node blenderUnit;
     
     private final IGame game;
@@ -42,7 +44,7 @@ public class View implements PropertyChangeListener {
     private int windowHeight;
 
     public View(SimpleApplication jme3, IGame game,
-            int windowWidth, int windowHeight) {
+            int windowWidth, int windowHeight, NiftyJmeDisplay niftyGUI) {
         
         this.jme3 = jme3;
         this.game = game;
@@ -56,6 +58,11 @@ public class View implements PropertyChangeListener {
         
         blenderUnit = BlenderImporter.loadModel(assetManager, BLEND_PATH);
 //        setUpCameraView(windowWidth, windowHeight, 0, 0);
+        
+        // Init GUI JoinScreen
+        Nifty nifty = niftyGUI.getNifty();
+        nifty.fromXml(NIFTY_XML_PATH, "start", new JoinScreen());
+        
     }
     
 //    public void setUpJoinCameras(int windowWith, int windowHeight) {
