@@ -1,6 +1,7 @@
 package model;
 
 
+import java.beans.PropertyChangeEvent;
 import model.visual.Battlefield;
 import model.tools.Direction;
 import model.tools.Vector;
@@ -10,8 +11,11 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import model.physics.IPhysical;
 import model.physics.IPhysicsHandler;
 import model.physics.JMEPhysicsHandler;
+import model.physics.PhysType;
+import model.physics.PhysicsSupport;
 import model.visual.Unit;
 
 /**
@@ -19,7 +23,7 @@ import model.visual.Unit;
  * @author Anton Lindgren
  * @modified by John Hult, Victor Lindhé
  */
-public class Game implements IGame {
+public class Game implements IGame, PropertyChangeListener {
 
     // Instances
     private final Battlefield battlefield;
@@ -29,7 +33,6 @@ public class Game implements IGame {
     private List<Round> comingRounds;
     private Round currentRound;
     private IPhysicsHandler physHandler = new JMEPhysicsHandler();
-    
     /**
      * Create a game with given parameters.
      * A game consists of a number of rounds containing a given amount of players.
@@ -43,6 +46,7 @@ public class Game implements IGame {
         this.battlefield = battlefield;
         this.numberOfRounds = 1; // TODO
         this.comingRounds = this.createRounds(numberOfRounds);
+        physHandler.addPropertyChangeListener(this);
         
     }
     /**
@@ -83,7 +87,7 @@ public class Game implements IGame {
                 direction = new Vector(1,1);
                 break;
         }
-        return new Unit(position, direction);
+        return new Unit(position, direction, playerID);
     }
     
     /**
@@ -94,13 +98,13 @@ public class Game implements IGame {
         this.physHandler.update(tpf);
         for (Player player : this.playerMap.values() ){
             
-            Vector v = this.physHandler.moveTo(
-                    player.getUnitPosition(), 
-                    player.getUnitDirection(), player.getUnit().getSpeed(),
-                    player.getId());
-            
-            player.setUnitPosition(v.getX(),v.getY());
-            
+//            Vector v = this.physHandler.moveTo(
+//                    player.getUnitPosition(), 
+//                    player.getUnitDirection(), 
+//                    player.getUnit().getSpeed(),
+//                    player.getId());
+//            
+//            player.setUnitPosition(v.getX(),v.getY());
             player.updateUnitPosition(tpf);
             if(this.isOutOfBounds(player.getUnitPosition())) {
                 this.doMagellanJourney(player);
@@ -188,7 +192,8 @@ public class Game implements IGame {
         Unit unit = this.createUnit(id);
         //init physcz
         physHandler.addToWorld(unit, id);
-        unit.setPhysicsHandler(physHandler);
+        
+        unit.setPhysicsSupport(new PhysicsSupport(physHandler,true)); //useTimeout=true;
         
         player.setUnit(unit);
         
@@ -273,6 +278,17 @@ public class Game implements IGame {
 
     public void removePropertyChangeListener(PropertyChangeListener pl) {
         this.pcs.removePropertyChangeListener(pl);
+    }
+
+    public void propertyChange(PropertyChangeEvent evt) {
+        if("Collision Boat".equals(evt.getPropertyName())){     
+            IPhysical physModel1 = (IPhysical)this.playerMap.get(
+                    (Integer)evt.getOldValue()).getUnit(); // oldvalue holds collided model A
+            IPhysical physModel2 = (IPhysical)this.playerMap.get(
+                    (Integer)evt.getNewValue()).getUnit(); // newValue holds collided model B
+            physModel1.handleCollision();
+            physModel2.handleCollision();
+        }
     }
 
 }

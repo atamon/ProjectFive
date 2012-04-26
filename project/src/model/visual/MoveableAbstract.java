@@ -78,9 +78,9 @@ public abstract class MoveableAbstract implements IVisualisable {
      * @throws IllegalArgumentException If a given speed is less than 0
      */
     public void setSpeed(float speed) {
-        if (speed < 0 || speed > this.maxSpeed) {
-            throw new IllegalArgumentException("Must be a postitive integer < getMaxSpeed()");
-        }
+//        if (speed < 0 || speed > this.maxSpeed) {
+//            throw new IllegalArgumentException("Must be a postitive integer < getMaxSpeed()");
+//        }
         this.speed = speed;
     }
     
