@@ -12,9 +12,11 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.elements.Element;
 import util.BlenderImporter;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.List;
 import model.IGame;
 import model.Player;
 import model.tools.Vector;
@@ -57,12 +59,15 @@ public class View implements PropertyChangeListener {
         BlenderImporter.registerBlender(assetManager);
         
         blenderUnit = BlenderImporter.loadModel(assetManager, BLEND_PATH);
-//        setUpCameraView(windowWidth, windowHeight, 0, 0);
+        setUpCameraView(windowWidth, windowHeight, 0, 0);
         
         // Init GUI JoinScreen
         Nifty nifty = niftyGUI.getNifty();
-        nifty.fromXml(NIFTY_XML_PATH, "start", new JoinScreen());
-        
+        nifty.fromXml(NIFTY_XML_PATH, "join", new JoinScreen());
+        List<Element> list = nifty.getScreen("join").getLayerElements();
+        for (Element element : list) {
+            element.hide();
+        }
     }
     
 //    public void setUpJoinCameras(int windowWith, int windowHeight) {
@@ -72,8 +77,8 @@ public class View implements PropertyChangeListener {
 //    }
     
     private void setUpCameraView(int width, int height, int x, int y) {
-        Camera camera = new Camera(width, height);
-        camera.setViewPort(x, x+width, y, y+height);
+        Camera camera = jme3.getCamera().clone();
+        camera.setViewPort(0f, 0.25f, 0, 0.25f);
         camera.setLocation(jme3.getCamera().getLocation());
         camera.lookAt(Vector3f.ZERO, Vector3f.UNIT_Y);
         

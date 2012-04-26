@@ -2,50 +2,58 @@
 <nifty xmlns="http://nifty-gui.sourceforge.net/nifty-1.3.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://niftygui.sourceforge.net/nifty-1.3.xsd http://nifty-gui.sourceforge.net/nifty-1.3.xsd">
     <useControls filename="nifty-default-controls.xml" />
     <useStyles filename="nifty-default-styles.xml" />
-    <screen id="start" controller="view.JoinScreen" backgroundColor="00CF">
+    <screen id="join" controller="view.JoinScreen" backgroundColor="00CF">
         <layer id="battlefieldShadow" backgroundColor="#0008"></layer>
         <layer id="joinCams" childLayout="vertical">
             <panel id="joinCamsUpper" valign="top" childLayout="horizontal" width="100%" height="45%">
                 <panel padding="40px" width="50%" height="100%" align="left" childLayout="center">
-                    <panel id="joinCamZero" width="100%" height="100%" align="center">
+                    <panel id="joinCamZero" width="100%" height="100%" align="center" childLayout="center">
+                        <text id="joinTextZero" font="aurulent-sans-16.fnt" color="#000C" text="Press Key to Join" />
                         <effect>
-                            <onActive name="border" border="10px" color="#000D" timeType="infinite" />
+                            <onActive name="border" border="5px" color="#000D" timeType="infinite" />
                         </effect>
                     </panel>
                 </panel>
                 <panel padding="40px" width="50%" height="100%" align="left" childLayout="center">
-                    <panel id="joinCamOne" width="100%" height="100%" align="center">
+                    <panel id="joinCamOne" width="100%" height="100%" align="center" childLayout="center">
+                        <text id="joinTextZero" font="aurulent-sans-16.fnt" color="#000C" text="Press Key to Join" />
                         <effect>
-                            <onActive name="border" border="10px" color="#000D" timeType="infinite" />
+                            <onActive name="border" border="5px" color="#000D" timeType="infinite" />
                         </effect>
                     </panel>
                 </panel>        
             </panel>
             <panel id="joinCamsLower" valign="top" childLayout="horizontal" width="100%" height="45%">
                 <panel padding="40px" width="50%" height="100%" align="left" childLayout="center">
-                    <panel id="joinCamTwo" width="100%" height="100%" align="center">
+                    <panel id="joinCamTwo" width="100%" height="100%" align="center" childLayout="center">
+                        <text id="joinTextZero" font="aurulent-sans-16.fnt" color="#000C" text="Press Key to Join" />
                         <effect>
-                            <onActive name="border" border="10px" color="#000D" timeType="infinite" />
+                            <onActive name="border" border="5px" color="#000D" timeType="infinite" />
                         </effect>
                     </panel>
                 </panel>
                 <panel padding="40px" width="50%" height="100%" align="left" childLayout="center">
-                    <panel id="joinCamThree" width="100%" height="100%" align="center">
+                    <panel id="joinCamThree" width="100%" height="100%" align="center" childLayout="center">
+                        <text id="joinTextZero" font="aurulent-sans-16.fnt" color="#000C" text="Press Key to Join" />
                         <effect>
-                            <onActive name="border" border="10px" color="#000D" timeType="infinite" />
+                            <onActive name="border" border="5px" color="#000D" timeType="infinite" />
                         </effect>
                     </panel>
                 </panel>        
             </panel>
         </layer>
-        <layer id="buttons" childLayout="vertical" backgroundColor="#0000">
-            <panel id="buttonsHolder" paddingTop="90px" width="100%" height="10%" valign="bottom" backgroundColor="#0000" childLayout="horizontal">
-                <panel id="settingsButton" width="25px" height="10px" valign="bottom" align="left" backgroundColor="#AAAA">
+        <layer id="settingsLayerRight" childLayout="vertical" backgroundColor="#0000">
+            <panel paddingTop="80%" paddingLeft="10%" align="left" width="50%" height="100%" backgroundColor="#0000" childLayout="center">
+                <panel id="settingsButton" width="75px" height="20px" align="left" backgroundColor="#0F0A">
                 
                 </panel> 
-                <panel id="exitButton" width="25px" height="10px" valign="bottom" align="right" backgroundColor="#CCCA">
+            </panel>
+        </layer>
+        <layer id="settingsLayerLeft" childLayout="vertical" backgroundColor="#0000">
+            <panel paddingTop="80%" paddingRight="10%" align="right" width="50%" height="100%" backgroundColor="#0000" childLayout="center">
+                <panel id="exitButton" width="75px" height="20px" align="right" backgroundColor="#F00A">
                 
-                </panel>
+                </panel> 
             </panel>
         </layer>
     </screen>
