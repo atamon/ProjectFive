@@ -17,5 +17,6 @@ public interface IPhysical {
     public Vector getPosition();
     public Vector getDirection();
     public PhysType getType();
+    public int getOwner();
     
 }

@@ -19,12 +19,14 @@ public class CannonBall extends MoveableAbstract implements IObservable, IPhysic
     final private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     final private Vector size = new Vector(0.1f, 0.1f);
     final private int owner;
+    private final int damage;
     
     public CannonBall(final int owner, final Vector position, final Vector direction,
                       final float speed) {
         super(position, direction);
         this.owner = owner;
         this.setSpeed(speed);
+        this.damage = (int) (speed*this.getMass());
     }
     
     @Override
@@ -59,6 +61,18 @@ public class CannonBall extends MoveableAbstract implements IObservable, IPhysic
 
     public PhysType getType() {
         return PhysType.CANNONBALL;
+    }
+
+    public void remove() {
+        this.pcs.firePropertyChange("CannonBall Removed", null, null);
+    }
+
+    public int getDamage() {
+        return this.damage;
+    }
+
+    public int getOwner() {
+        return this.owner;
     }
     
 }

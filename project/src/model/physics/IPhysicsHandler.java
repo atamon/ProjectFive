@@ -6,6 +6,7 @@ package model.physics;
 
 import model.tools.IObservable;
 import model.tools.Vector;
+import model.visual.Unit;
 
 /**
  *
@@ -19,4 +20,6 @@ public interface IPhysicsHandler extends IObservable {
     public float getRigidSpeed(final IPhysical model);
     public void setRigidVelocity(final PhysType type, final IPhysical model, Vector vel);
     public void setRigidForce(final PhysType type, final IPhysical model, final Vector dir, final float speed);
+
+    public Vector getRigidDirection(IPhysical model);
 }

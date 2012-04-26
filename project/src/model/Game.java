@@ -92,7 +92,7 @@ public class Game implements IGame, PropertyChangeListener {
                 direction = new Vector(1,1);
                 break;
         }
-        return new Unit(position, direction);
+        return new Unit(position, direction, playerID);
     }
     
     /**
@@ -285,20 +285,45 @@ public class Game implements IGame, PropertyChangeListener {
     public void removePropertyChangeListener(PropertyChangeListener pl) {
         this.pcs.removePropertyChangeListener(pl);
     }
-
+    
+    private void removeCannonBall(CannonBall cb){
+        this.cannonBalls.remove(cb);
+        cb.remove();
+    }
+    
+    private void boatHitByCannonBall(Unit boat, CannonBall cBall){
+        boat.damage(cBall.getDamage());
+        removeCannonBall(cBall);
+    }
+    
     public void propertyChange(PropertyChangeEvent evt) {
-        if("Collision".equals(evt.getPropertyName())){     
-            if(evt.getNewValue().getClass() == Unit.class){
-                Vector newDir = (Vector)evt.getOldValue();
-                Unit boat = (Unit)evt.getNewValue();
-                float speed = this.physHandler.getRigidSpeed(boat);
+        if("Collision CannonBalls".equals(evt.getPropertyName())){
+            removeCannonBall((CannonBall)evt.getOldValue());
+            removeCannonBall((CannonBall)evt.getNewValue());
+        }
+        if("Collision Boats".equals(evt.getPropertyName())){
+                final Unit unit1 = (Unit)evt.getOldValue();
+                final Vector newDir1 = this.physHandler.getRigidDirection(unit1);
+                final float speed1= this.physHandler.getRigidSpeed(unit1);
                 
-                newDir.add(boat.getDirection());
-                boat.setDirection(newDir);
-                boat.setSpeed(speed);
-            }
-        } else if ("Ball Collision".equals(evt.getPropertyName())) {
-            System.out.println("CannonBall hit boat");
+                newDir1.add(unit1.getDirection());
+                unit1.setDirection(newDir1);
+                unit1.setSpeed(speed1);
+                
+                final Unit unit2 = (Unit)evt.getNewValue();
+                final Vector newDir2 = this.physHandler.getRigidDirection(unit2);
+                final float speed2= this.physHandler.getRigidSpeed(unit2);
+                
+                newDir2.add(unit2.getDirection());
+                unit2.setDirection(newDir2);
+                unit2.setSpeed(speed2);
+        }
+        if("Collision CannonBallBoat".equals(evt.getPropertyName())){
+            boatHitByCannonBall((Unit)evt.getNewValue(), (CannonBall)evt.getOldValue());    
+        }
+        
+        if("Collision BoatCannonBall".equals(evt.getPropertyName())){
+            boatHitByCannonBall((Unit)evt.getOldValue(), (CannonBall)evt.getNewValue());
         }
     }
     

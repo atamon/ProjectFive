@@ -92,10 +92,15 @@ public class JMEPhysicsHandler implements IPhysicsHandler, IObservable, PhysicsC
         if(type == PhysType.BOAT){
             PhysicsRigidBody rBody = this.getRigidBoat(physModel);
             rBody.setLinearVelocity(new Vector3f(vel.getX(),0,vel.getY()));
-            
+             
         }
     }
     
+
+    public Vector getRigidDirection(IPhysical model) {
+        Vector3f dir3f = getRigidBoat(model).getLinearVelocity().normalize();
+        return new Vector(dir3f.getX(), dir3f.getZ());
+    }
     public void setRigidPosition(PhysType type, IPhysical physModel, Vector pos) {
         this.getRigidBoat(physModel).setPhysicsLocation(new Vector3f(pos.getX(),0,pos.getY()));
     }
@@ -116,19 +121,33 @@ public class JMEPhysicsHandler implements IPhysicsHandler, IObservable, PhysicsC
         PhysicsRigidBody body1 = ((PhysicsRigidBody)event.getObjectA());
         PhysicsRigidBody body2 = ((PhysicsRigidBody)event.getObjectB());
         
-        Vector body1Dir = new Vector(body1.getLinearVelocity().getX(), 
-                                     body1.getLinearVelocity().getZ());
-        Vector body2Dir = new Vector(body2.getLinearVelocity().getX(), 
-                                     body2.getLinearVelocity().getZ());
+        PhysType type1 = ((IPhysical)body1.getUserObject()).getType();
+        PhysType type2 = ((IPhysical)body2.getUserObject()).getType();
         
-        if (((IPhysical)body1.getUserObject()).getType() == PhysType.CANNONBALL ||
-            ((IPhysical)body2.getUserObject()).getType() == PhysType.CANNONBALL) {
-            this.pcs.firePropertyChange("Ball Collision", body1.getUserObject(), body2.getUserObject());
-        } else if (!(body2Dir.equals(Vector.ZERO_VECTOR) || body1Dir.equals(Vector.ZERO_VECTOR))) {
-            this.pcs.firePropertyChange("Collision", body1Dir, body1.getUserObject());
-            this.pcs.firePropertyChange("Collision", body2Dir, body2.getUserObject());
+        String propertyName = "";
+        
+        IPhysical phys1 = (IPhysical)body1.getUserObject();
+        IPhysical phys2 = (IPhysical)body2.getUserObject();
+        
+        if(type1==type2){
+            if(type1==PhysType.CANNONBALL){
+                propertyName="Collision CannonBalls";
+                this.bulletAppState.getPhysicsSpace().removeCollisionObject(body1);
+                this.bulletAppState.getPhysicsSpace().removeCollisionObject(body2);
+            } else {
+                propertyName="Collision Boats";    
+            }
+        } else {
+            if(type1 == PhysType.CANNONBALL && phys1.getOwner() != phys2.getOwner()){ // Friendlyfire Off shouldn't be determined here though.....
+                propertyName="Collision CannonBallBoat";
+                this.bulletAppState.getPhysicsSpace().removeCollisionObject(body1);
+            } else if(phys1.getOwner() != phys2.getOwner()) {
+                propertyName="Collision BoatCannonBall";
+                this.bulletAppState.getPhysicsSpace().removeCollisionObject(body2);
+            }
         }
         
+        this.pcs.firePropertyChange(propertyName, phys1, phys2 );
     }
 
     public void addPropertyChangeListener(PropertyChangeListener ls) {

@@ -24,19 +24,19 @@ public class Unit extends MoveableAbstract implements IObservable,IPhysical {
     private final static int MAX_STEER_SPEED = 10;
 //    private PowerUp powerUp; TODO
     private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
-    
+    private final int owner;
     /**
      * Creates a new unit
      * @param pos Initial position
      * @param dir Initial position
      * @param hitPointsMax 
      */
-    public Unit(Vector pos, Vector dir, int hitPointsMax) {
+    public Unit(Vector pos, Vector dir, int hitPointsMax, int owner) {
         super(pos, dir);
         if (hitPointsMax <= 0) {
             throw new IllegalArgumentException("hit points must be positive");
         }
-
+        this.owner =  owner;
         this.hitPointsMax = hitPointsMax;
         this.hitPoints = hitPointsMax;
         // Register with the view that we have a new unit
@@ -49,8 +49,8 @@ public class Unit extends MoveableAbstract implements IObservable,IPhysical {
      * @param pos initial position
      * @param dir initial direction
      */
-    public Unit(Vector pos, Vector dir) {
-        this(pos, dir, 100);
+    public Unit(Vector pos, Vector dir, int owner) {
+        this(pos, dir, 100, owner);
     }
     
     /**
@@ -96,7 +96,13 @@ public class Unit extends MoveableAbstract implements IObservable,IPhysical {
         dir.normalize();
         this.directionUpdated();
     }
-    
+    public void damage(int damage){
+        if(this.hitPoints-damage <= 0){
+            System.out.println("HELLO IM A BOUT AND IM SOOOOOOO DEEAAAAAAAAAAAAAAAAAAAAAAAAD");
+        } else {
+            this.setHitPoints(hitPoints-damage);
+        }
+    }
     /**
      * Determines how much a unit can steer depending on its speed
      * 
@@ -291,5 +297,9 @@ public class Unit extends MoveableAbstract implements IObservable,IPhysical {
 
     public PhysType getType() {
         return PhysType.BOAT;
+    }
+
+    public int getOwner() {
+        return this.owner;
     }
 }
