@@ -189,8 +189,6 @@ public class Game implements IGame, PropertyChangeListener {
         //init physcz
         physHandler.addToWorld(unit);
         
-        //unit.setPhysicsSupport(new PhysicsSupport(physHandler,true)); //useTimeout=true;
-        
         player.setUnit(unit);
         
         // Keep track of the unit by its id
@@ -281,8 +279,10 @@ public class Game implements IGame, PropertyChangeListener {
             if(evt.getNewValue().getClass() == Unit.class){
                 Vector newDir = (Vector)evt.getOldValue();
                 Unit boat = (Unit)evt.getNewValue();
-                boat.setDirection(newDir);
                 float speed = this.physHandler.getRigidSpeed(boat);
+                
+                newDir.add(boat.getDirection());
+                boat.setDirection(newDir);
                 boat.setSpeed(speed);
             }
             
