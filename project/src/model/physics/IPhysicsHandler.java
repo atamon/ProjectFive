@@ -12,10 +12,10 @@ import model.tools.Vector;
  * @author jnes
  */
 public interface IPhysicsHandler extends IObservable {
-    public void addToWorld(IPhysical obj, int owner);
+    public void addToWorld(IPhysical obj);
     public void update(float tpf);
-    public void setRigidPosition(final PhysType type, final int owner, final Vector pos);
-    public Vector getRigidPosition(int owner);
-    public float getRigidSpeed(int owner);
-    public void setRigidVelocity(final PhysType type, int owner, Vector vel);
+    public void setRigidPosition(final PhysType type, final IPhysical model, final Vector pos);
+    public Vector getRigidPosition(final IPhysical model);
+    public float getRigidSpeed(final IPhysical model);
+    public void setRigidVelocity(final PhysType type, final IPhysical model, Vector vel);
 }

@@ -12,7 +12,6 @@ import model.tools.Vector;
  * @author jnes
  */
 public interface IPhysical {
-    public void handleCollision();
     public Vector getSize();
     public float getMass();
     public Vector getPosition();

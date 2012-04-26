@@ -15,7 +15,6 @@ import model.physics.IPhysical;
 import model.physics.IPhysicsHandler;
 import model.physics.JMEPhysicsHandler;
 import model.physics.PhysType;
-import model.physics.PhysicsSupport;
 import model.visual.Unit;
 
 /**
@@ -87,7 +86,7 @@ public class Game implements IGame, PropertyChangeListener {
                 direction = new Vector(1,1);
                 break;
         }
-        return new Unit(position, direction, playerID);
+        return new Unit(position, direction);
     }
     
     /**
@@ -95,21 +94,16 @@ public class Game implements IGame, PropertyChangeListener {
      * @param tpf Time since last update
      */
     public void update(float tpf) {
-        this.physHandler.update(tpf);
         for (Player player : this.playerMap.values() ){
-            
-//            Vector v = this.physHandler.moveTo(
-//                    player.getUnitPosition(), 
-//                    player.getUnitDirection(), 
-//                    player.getUnit().getSpeed(),
-//                    player.getId());
-//            
-//            player.setUnitPosition(v.getX(),v.getY());
+            this.physHandler.setRigidVelocity(PhysType.BOAT, player.getUnit(), player.getUnit().getVelocity());
+            this.physHandler.setRigidPosition(PhysType.BOAT, player.getUnit(), player.getUnitPosition());
             player.updateUnitPosition(tpf);
             if(this.isOutOfBounds(player.getUnitPosition())) {
                 this.doMagellanJourney(player);
             }
         }
+        
+        this.physHandler.update(tpf);
     }
     
     private boolean isOutOfBounds(Vector position) {
@@ -191,9 +185,9 @@ public class Game implements IGame, PropertyChangeListener {
         Player player = new Player(id);
         Unit unit = this.createUnit(id);
         //init physcz
-        physHandler.addToWorld(unit, id);
+        physHandler.addToWorld(unit);
         
-        unit.setPhysicsSupport(new PhysicsSupport(physHandler,true)); //useTimeout=true;
+        //unit.setPhysicsSupport(new PhysicsSupport(physHandler,true)); //useTimeout=true;
         
         player.setUnit(unit);
         
@@ -281,13 +275,15 @@ public class Game implements IGame, PropertyChangeListener {
     }
 
     public void propertyChange(PropertyChangeEvent evt) {
-        if("Collision Boat".equals(evt.getPropertyName())){     
-            IPhysical physModel1 = (IPhysical)this.playerMap.get(
-                    (Integer)evt.getOldValue()).getUnit(); // oldvalue holds collided model A
-            IPhysical physModel2 = (IPhysical)this.playerMap.get(
-                    (Integer)evt.getNewValue()).getUnit(); // newValue holds collided model B
-            physModel1.handleCollision();
-            physModel2.handleCollision();
+        if("Collision".equals(evt.getPropertyName())){     
+            if(evt.getNewValue().getClass() == Unit.class){
+                Vector newDir = (Vector)evt.getOldValue();
+                Unit boat = (Unit)evt.getNewValue();
+                boat.setDirection(newDir);
+                float speed = this.physHandler.getRigidSpeed(boat);
+                boat.setSpeed(speed);
+            }
+            
         }
     }
 

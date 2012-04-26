@@ -40,9 +40,9 @@ public class JMEPhysicsHandler implements IPhysicsHandler, IObservable, PhysicsC
         this.bulletAppState.getPhysicsSpace().addCollisionListener(this);
         
     }
-    public void addToWorld(IPhysical physModel, int owner){
+    public void addToWorld(IPhysical physModel){
         PhysicsRigidBody rBody = this.createRigidBody(physModel);
-        rBody.setUserObject(owner);
+        rBody.setUserObject(physModel);
         this.rigidBodies.add(rBody);
         this.bulletAppState.getPhysicsSpace().addCollisionObject(rBody);
     }
@@ -62,46 +62,47 @@ public class JMEPhysicsHandler implements IPhysicsHandler, IObservable, PhysicsC
                 new BoxCollisionShape(size),
                 physModel.getMass());
         body.setPhysicsLocation(pos);
+        
         return body;
     }
 
     /**
      * 
-     * @param owner
+     * @param physModel
      * @return
-     * @throws NullPointerException owner doesn't have a RigidBody
+     * @throws NullPointerException physModel doesn't have a RigidBody
      */
-    public Vector getRigidPosition(int owner) {
+    public Vector getRigidPosition(IPhysical physModel) {
         
-        PhysicsRigidBody body = getRigidBoat(owner);
+        PhysicsRigidBody body = getRigidBoat(physModel);
 
         
         Vector3f newPos = body.getPhysicsLocation();
         return new Vector(newPos.x,newPos.z);
         
     }
-    public float getRigidSpeed(int owner){
+    public float getRigidSpeed(IPhysical physModel){
         
-        return getRigidBoat(owner).getLinearVelocity().length();
+        return getRigidBoat(physModel).getLinearVelocity().length();
     }
-    public void setRigidVelocity(PhysType type, int owner, Vector vel) {
+    public void setRigidVelocity(PhysType type, IPhysical physModel, Vector vel) {
         if(type == PhysType.BOAT){
-            PhysicsRigidBody rBody = this.getRigidBoat(owner);
+            PhysicsRigidBody rBody = this.getRigidBoat(physModel);
             rBody.setLinearVelocity(new Vector3f(vel.getX(),0,vel.getY()));
             
         }
     }
     
-    public void setRigidPosition(PhysType type, int owner, Vector pos) {
-        this.getRigidBoat(owner).setPhysicsLocation(new Vector3f(pos.getX(),0,pos.getY()));
+    public void setRigidPosition(PhysType type, IPhysical physModel, Vector pos) {
+        this.getRigidBoat(physModel).setPhysicsLocation(new Vector3f(pos.getX(),0,pos.getY()));
     }
     
-    private PhysicsRigidBody getRigidBoat(int owner){
+    private PhysicsRigidBody getRigidBoat(IPhysical physModel){
         PhysicsRigidBody body = null;
         Iterator<PhysicsRigidBody> iterator = this.rigidBodies.iterator();
         while(iterator.hasNext()){
             body = iterator.next();
-            if(body.getUserObject().equals(owner)){
+            if(body.getUserObject().equals(physModel)){
                 break;
             }
         }
@@ -111,11 +112,14 @@ public class JMEPhysicsHandler implements IPhysicsHandler, IObservable, PhysicsC
     public void collision(PhysicsCollisionEvent event) {
         PhysicsRigidBody body1 = ((PhysicsRigidBody)event.getObjectA());
         PhysicsRigidBody body2 = ((PhysicsRigidBody)event.getObjectB());
-        body1.applyCentralForce(body1.getLinearVelocity().mult(-1.0f));
-        body2.applyCentralForce(body2.getLinearVelocity().mult(-1.0f));
-        
-        // The user object is the rigidbodys owner, model representation
-        this.pcs.firePropertyChange("Collision Boat",body1.getUserObject(), body2.getUserObject());
+        Vector body1Dir = new Vector(body1.getLinearVelocity().getX(), body1.getLinearVelocity().getZ());
+        Vector body2Dir = new Vector(body2.getLinearVelocity().getX(), body2.getLinearVelocity().getZ());
+        // The user object is the rigidbodys physModel, model representation
+        System.out.println(body1Dir + " \t " + body2Dir);
+        if (!(body2Dir.equals(Vector.ZERO_VECTOR) || body1Dir.equals(Vector.ZERO_VECTOR))) {
+            this.pcs.firePropertyChange("Collision", body1Dir, body1.getUserObject());
+            this.pcs.firePropertyChange("Collision", body2Dir, body2.getUserObject());
+        } // Else ignore
         
     }
 

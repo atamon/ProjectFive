@@ -7,6 +7,7 @@ package model.tools;
  * @tested by Anton Lindgren
  */
 public class Vector {
+    public static final Vector ZERO_VECTOR = new Vector(0, 0);
  
     private float x;
     private float y;
@@ -99,8 +100,6 @@ public class Vector {
             this.x = this.x/length;
             this.y = this.y/length;
             if(this.getLength() != 1){
-//                System.out.println("WARNING: Vector wasn't completely normalized"
-//                        +", normalizing another time");
                 normalize();
             }
         } else {

@@ -1,15 +1,10 @@
 package model.visual;
 
-
-
-import model.physics.PhysicsSupport;
-import model.physics.PhysType;
 import model.tools.Direction;
 import model.tools.Vector;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import model.physics.IPhysical;
-import model.physics.IPhysicsHandler;
 import model.tools.IObservable;
 
 /**
@@ -28,16 +23,14 @@ public class Unit extends MoveableAbstract implements IObservable,IPhysical {
     private final static int MAX_STEER_SPEED = 10;
 //    private PowerUp powerUp; TODO
     private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
-    private final int owner;
     
-    private PhysicsSupport physSupport;
     /**
      * Creates a new unit
      * @param pos Initial position
      * @param dir Initial position
      * @param hitPointsMax 
      */
-    public Unit(Vector pos, Vector dir, int hitPointsMax, int owner) {
+    public Unit(Vector pos, Vector dir, int hitPointsMax) {
         super(pos, dir);
         if (hitPointsMax <= 0) {
             throw new IllegalArgumentException("hit points must be positive");
@@ -45,7 +38,6 @@ public class Unit extends MoveableAbstract implements IObservable,IPhysical {
 
         this.hitPointsMax = hitPointsMax;
         this.hitPoints = hitPointsMax;
-        this.owner = owner;
         // Register with the view that we have a new unit
         this.pcs.firePropertyChange("Unit Created", this.pos, this.dir);
     }
@@ -55,8 +47,8 @@ public class Unit extends MoveableAbstract implements IObservable,IPhysical {
      * @param pos initial position
      * @param dir initial direction
      */
-    public Unit(Vector pos, Vector dir, int owner) {
-        this(pos, dir, 100, owner);
+    public Unit(Vector pos, Vector dir) {
+        this(pos, dir, 100);
     }
     
     /**
@@ -64,18 +56,11 @@ public class Unit extends MoveableAbstract implements IObservable,IPhysical {
      * @param tpf Updatefrequency, i.e. time since last frame
      */
     public void updateUnit(float tpf) {
-        if(!this.physSupport.isCollided()){ // update rigid according to model
-            this.accelerate(this.isAccelerating, tpf);
-            this.physSupport.setRigidPosition(this.owner, pos);
-            this.physSupport.setRigidVelocity(this.owner, this.getVelocity());
-        } else { // otherwise update model according to rigid, and count down.
-            this.physSupport.updateTimeout(tpf);
-            this.setPosition(this.physSupport.getRigidPosition(this.owner));
-        }
+        this.accelerate(this.isAccelerating, tpf);
         this.move(tpf);
         
     }
-    private Vector getVelocity(){
+    public Vector getVelocity(){
         float x =dir.getX();
         float y =dir.getY();
         return new Vector((x > 0 ?1:-1)*x*x*speed,(y > 0 ?1:-1)*y*y*speed);
@@ -205,10 +190,6 @@ public class Unit extends MoveableAbstract implements IObservable,IPhysical {
     public int getHitPoints() {
         return this.hitPoints;
     }
-
-    public int getOwner(){
-        return this.owner;
-    }
     /**
      * Sets maximum HitPoints for this unit.
      * @param hitPointsMax 
@@ -304,13 +285,5 @@ public class Unit extends MoveableAbstract implements IObservable,IPhysical {
 
     public float getMass() {
         return this.size.getX()*this.size.getY();
-    }
-
-    public void setPhysicsSupport(PhysicsSupport physicsSupport) {
-        this.physSupport = physicsSupport;
-    }
-
-    public void handleCollision() {
-        this.physSupport.handleCollision();
     }
 }
