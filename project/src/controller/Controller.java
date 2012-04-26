@@ -40,8 +40,6 @@ public class Controller {
         new JoinPlayerListener(game, inputManager);
         new GlobalListener(game, inputManager);
 
-        // Build our graphical scene
-        this.view.createScene();
     }
 
     public void update(float tpf) {

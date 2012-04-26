@@ -3,10 +3,10 @@
     <useControls filename="nifty-default-controls.xml" />
     <useStyles filename="nifty-default-styles.xml" />
     <screen id="join" controller="view.JoinScreen" backgroundColor="00CF">
-        <layer id="battlefieldShadow" backgroundColor="#0008"></layer>
+        <!--<layer id="battlefieldShadow" backgroundColor="#0008"></layer>-->
         <layer id="joinCams" childLayout="vertical">
             <panel id="joinCamsUpper" valign="top" childLayout="horizontal" width="100%" height="45%">
-                <panel padding="40px" width="50%" height="100%" align="left" childLayout="center">
+                <panel padding="12%" width="50%" height="100%" align="left" childLayout="center">
                     <panel id="joinCamZero" width="100%" height="100%" align="center" childLayout="center">
                         <text id="joinTextZero" font="aurulent-sans-16.fnt" color="#000C" text="Press Key to Join" />
                         <effect>
@@ -14,7 +14,7 @@
                         </effect>
                     </panel>
                 </panel>
-                <panel padding="40px" width="50%" height="100%" align="left" childLayout="center">
+                <panel padding="12%" width="50%" height="100%" align="left" childLayout="center">
                     <panel id="joinCamOne" width="100%" height="100%" align="center" childLayout="center">
                         <text id="joinTextZero" font="aurulent-sans-16.fnt" color="#000C" text="Press Key to Join" />
                         <effect>
@@ -24,7 +24,7 @@
                 </panel>        
             </panel>
             <panel id="joinCamsLower" valign="top" childLayout="horizontal" width="100%" height="45%">
-                <panel padding="40px" width="50%" height="100%" align="left" childLayout="center">
+                <panel padding="12%" width="50%" height="100%" align="left" childLayout="center">
                     <panel id="joinCamTwo" width="100%" height="100%" align="center" childLayout="center">
                         <text id="joinTextZero" font="aurulent-sans-16.fnt" color="#000C" text="Press Key to Join" />
                         <effect>
@@ -32,7 +32,7 @@
                         </effect>
                     </panel>
                 </panel>
-                <panel padding="40px" width="50%" height="100%" align="left" childLayout="center">
+                <panel padding="12%" width="50%" height="100%" align="left" childLayout="center">
                     <panel id="joinCamThree" width="100%" height="100%" align="center" childLayout="center">
                         <text id="joinTextZero" font="aurulent-sans-16.fnt" color="#000C" text="Press Key to Join" />
                         <effect>
