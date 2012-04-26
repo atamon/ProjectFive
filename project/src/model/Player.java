@@ -148,6 +148,4 @@ public class Player {
         hash = 73 * hash + (this.playerUnit != null ? this.playerUnit.hashCode() : 0);
         return hash;
     }
-    
-    
 }

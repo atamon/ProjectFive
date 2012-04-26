@@ -58,7 +58,7 @@ public class JoinPlayerListener implements ActionListener {
         
         this.game.createPlayer(id);
         Player player = this.game.getPlayer(id);
-        new PlayerListener(player, inpManager);
+        new PlayerListener(player, game, inpManager);
         
         // Use name since we know it was correct id
         inpManager.deleteTrigger(name, joinKeys.get(id));

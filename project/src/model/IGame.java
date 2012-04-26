@@ -27,4 +27,6 @@ public interface IGame extends IObservable {
     public Vector getBattlefieldSize();
     public Vector getBattlefieldCenter();
     public Vector getBattlefieldPosition();
+    public void fireLeft(Player player);
+    public void fireRight(Player player);
 }

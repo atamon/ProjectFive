@@ -15,6 +15,7 @@ import model.physics.IPhysical;
 import model.physics.IPhysicsHandler;
 import model.physics.JMEPhysicsHandler;
 import model.physics.PhysType;
+import model.visual.CannonBall;
 import model.visual.Unit;
 
 /**
@@ -286,6 +287,28 @@ public class Game implements IGame, PropertyChangeListener {
             }
             
         }
+    }
+    
+    public void fireLeft(Player player) {
+        Vector ballDirection = new Vector(player.getUnitDirection().getY(),
+                                          player.getUnitDirection().getX()*-1);
+        this.fire(player, ballDirection);
+    }
+    
+    public void fireRight(Player player) {
+        
+        Vector ballDirection = new Vector(player.getUnitDirection().getY()*-1,
+                                          player.getUnitDirection().getX());
+        this.fire(player, ballDirection);
+    }
+    
+    private void fire(Player player, Vector direction) {
+        CannonBall cBall = new CannonBall(player.getId(), 
+                                          player.getUnitPosition(), 
+                                          direction, 50);
+        this.physHandler.addToWorld(cBall);
+        this.pcs.firePropertyChange("CannonBall created", null, cBall);
+        this.physHandler.setRigidForce(PhysType.CANNONBALL, cBall, direction, cBall.getSpeed());
     }
 
 }

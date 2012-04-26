@@ -63,7 +63,6 @@ public class JMEPhysicsHandler implements IPhysicsHandler, IObservable, PhysicsC
                 physModel.getMass());
         
         body.setPhysicsLocation(pos);
-       // body.setKinematic(true);
         
         return body;
     }
@@ -83,10 +82,11 @@ public class JMEPhysicsHandler implements IPhysicsHandler, IObservable, PhysicsC
         return new Vector(newPos.x,newPos.z);
         
     }
+    
     public float getRigidSpeed(IPhysical physModel){
-        
         return getRigidBoat(physModel).getLinearVelocity().length();
     }
+    
     public void setRigidVelocity(PhysType type, IPhysical physModel, Vector vel) {
         if(type == PhysType.BOAT){
             PhysicsRigidBody rBody = this.getRigidBoat(physModel);
@@ -120,9 +120,6 @@ public class JMEPhysicsHandler implements IPhysicsHandler, IObservable, PhysicsC
         Vector body2Dir = new Vector(body2.getLinearVelocity().getX(), 
                                      body2.getLinearVelocity().getZ());
         
-        
-        // The user object is the rigidbodys physModel, model representation
-        System.out.println(body1Dir + " \t " + body2Dir);
         if (!(body2Dir.equals(Vector.ZERO_VECTOR) || body1Dir.equals(Vector.ZERO_VECTOR))) {
             this.pcs.firePropertyChange("Collision", body1Dir, body1.getUserObject());
             this.pcs.firePropertyChange("Collision", body2Dir, body2.getUserObject());

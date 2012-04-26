@@ -133,6 +133,8 @@ public class View implements PropertyChangeListener {
                 
                 this.createGraphicalUnit(playerID, pos, dir, size, ColorRGBA.randomColor());
             
+            } else if ("CannonBall Created".equals(pce.getPropertyName())){
+                
             } else {
                 throw new RuntimeException(
                         "Unit Created-event sent without correct parameters");
