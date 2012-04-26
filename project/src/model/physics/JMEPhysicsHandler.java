@@ -61,7 +61,9 @@ public class JMEPhysicsHandler implements IPhysicsHandler, IObservable, PhysicsC
         PhysicsRigidBody body = new PhysicsRigidBody(
                 new BoxCollisionShape(size),
                 physModel.getMass());
+        
         body.setPhysicsLocation(pos);
+       // body.setKinematic(true);
         
         return body;
     }
@@ -112,8 +114,13 @@ public class JMEPhysicsHandler implements IPhysicsHandler, IObservable, PhysicsC
     public void collision(PhysicsCollisionEvent event) {
         PhysicsRigidBody body1 = ((PhysicsRigidBody)event.getObjectA());
         PhysicsRigidBody body2 = ((PhysicsRigidBody)event.getObjectB());
-        Vector body1Dir = new Vector(body1.getLinearVelocity().getX(), body1.getLinearVelocity().getZ());
-        Vector body2Dir = new Vector(body2.getLinearVelocity().getX(), body2.getLinearVelocity().getZ());
+        
+        Vector body1Dir = new Vector(body1.getLinearVelocity().getX(), 
+                                     body1.getLinearVelocity().getZ());
+        Vector body2Dir = new Vector(body2.getLinearVelocity().getX(), 
+                                     body2.getLinearVelocity().getZ());
+        
+        
         // The user object is the rigidbodys physModel, model representation
         System.out.println(body1Dir + " \t " + body2Dir);
         if (!(body2Dir.equals(Vector.ZERO_VECTOR) || body1Dir.equals(Vector.ZERO_VECTOR))) {
@@ -129,6 +136,14 @@ public class JMEPhysicsHandler implements IPhysicsHandler, IObservable, PhysicsC
 
     public void removePropertyChangeListener(PropertyChangeListener ls) {
         this.pcs.removePropertyChangeListener(ls);
+    }
+
+    public void setRigidForce(PhysType type, IPhysical model, Vector dir, float speed) {
+        this.getRigidBoat(model).getPhysicsLocation().y = 0;
+        Vector3f force = new Vector3f(dir.getX(), 0, dir.getY());
+        force.mult(speed);
+        this.getRigidBoat(model).applyCentralForce(force);
+        System.out.println("position "+this.getRigidBoat(model).getPhysicsLocation());
     }
 
 

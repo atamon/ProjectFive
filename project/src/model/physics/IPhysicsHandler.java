@@ -18,4 +18,5 @@ public interface IPhysicsHandler extends IObservable {
     public Vector getRigidPosition(final IPhysical model);
     public float getRigidSpeed(final IPhysical model);
     public void setRigidVelocity(final PhysType type, final IPhysical model, Vector vel);
+    public void setRigidForce(final PhysType type, final IPhysical model, final Vector dir, final float speed);
 }
