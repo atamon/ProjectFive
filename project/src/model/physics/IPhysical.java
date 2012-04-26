@@ -16,5 +16,6 @@ public interface IPhysical {
     public float getMass();
     public Vector getPosition();
     public Vector getDirection();
+    public PhysType getType();
     
 }

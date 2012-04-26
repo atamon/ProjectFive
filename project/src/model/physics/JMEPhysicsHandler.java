@@ -16,6 +16,7 @@ import java.beans.PropertyChangeSupport;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import model.physics.IPhysical;
 import model.tools.IObservable;
 import model.tools.Vector;
 
@@ -120,10 +121,13 @@ public class JMEPhysicsHandler implements IPhysicsHandler, IObservable, PhysicsC
         Vector body2Dir = new Vector(body2.getLinearVelocity().getX(), 
                                      body2.getLinearVelocity().getZ());
         
-        if (!(body2Dir.equals(Vector.ZERO_VECTOR) || body1Dir.equals(Vector.ZERO_VECTOR))) {
+        if (((IPhysical)body1.getUserObject()).getType() == PhysType.CANNONBALL ||
+            ((IPhysical)body2.getUserObject()).getType() == PhysType.CANNONBALL) {
+            this.pcs.firePropertyChange("Ball Collision", body1.getUserObject(), body2.getUserObject());
+        } else if (!(body2Dir.equals(Vector.ZERO_VECTOR) || body1Dir.equals(Vector.ZERO_VECTOR))) {
             this.pcs.firePropertyChange("Collision", body1Dir, body1.getUserObject());
             this.pcs.firePropertyChange("Collision", body2Dir, body2.getUserObject());
-        } // Else ignore
+        }
         
     }
 
@@ -140,7 +144,6 @@ public class JMEPhysicsHandler implements IPhysicsHandler, IObservable, PhysicsC
         Vector3f force = new Vector3f(dir.getX(), 0, dir.getY());
         force.mult(speed);
         this.getRigidBoat(model).applyCentralForce(force);
-        System.out.println("position "+this.getRigidBoat(model).getPhysicsLocation());
     }
 
 

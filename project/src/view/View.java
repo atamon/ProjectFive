@@ -14,6 +14,7 @@ import java.beans.PropertyChangeListener;
 import model.IGame;
 import model.Player;
 import model.tools.Vector;
+import model.visual.CannonBall;
 import util.Util;
 import model.visual.Unit;
 
@@ -114,7 +115,7 @@ public class View implements PropertyChangeListener {
         // Attach it
         rootNode.attachChild(gUnit.getNode());
     }
-
+    
     public void propertyChange(PropertyChangeEvent pce) {
         // If a unit was created we make sure we got a unit with it
         if ("Player Created".equals(pce.getPropertyName())) {
@@ -133,13 +134,21 @@ public class View implements PropertyChangeListener {
                 
                 this.createGraphicalUnit(playerID, pos, dir, size, ColorRGBA.randomColor());
             
-            } else if ("CannonBall Created".equals(pce.getPropertyName())){
-                
             } else {
                 throw new RuntimeException(
                         "Unit Created-event sent without correct parameters");
             }
-
         }
+        
+         if ("CannonBall Created".equals(pce.getPropertyName())) {
+                CannonBall cannonBall = (CannonBall)pce.getNewValue();
+                GraphicalCannonBall graphicalBall = new GraphicalCannonBall(ColorRGBA.Orange,
+                        Util.convertToMonkey3D(cannonBall.getPosition()),
+                        Util.convertToMonkey3D(cannonBall.getSize()), this.assetManager,
+                        null);
+                rootNode.attachChild(graphicalBall.getNode());
+                cannonBall.addPropertyChangeListener(graphicalBall);
+            }
     }
+    
 }

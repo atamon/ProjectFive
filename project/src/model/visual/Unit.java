@@ -1,5 +1,6 @@
 package model.visual;
 
+import model.physics.PhysType;
 import model.tools.Direction;
 import model.tools.Vector;
 import java.beans.PropertyChangeListener;
@@ -286,5 +287,9 @@ public class Unit extends MoveableAbstract implements IObservable,IPhysical {
 
     public float getMass() {
         return this.size.getX()*this.size.getY();
+    }
+
+    public PhysType getType() {
+        return PhysType.BOAT;
     }
 }

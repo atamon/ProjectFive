@@ -8,14 +8,17 @@ import model.tools.Vector;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import model.physics.IPhysical;
 import model.physics.IPhysicsHandler;
 import model.physics.JMEPhysicsHandler;
 import model.physics.PhysType;
 import model.visual.CannonBall;
+import model.visual.MoveableAbstract;
 import model.visual.Unit;
 
 /**
@@ -33,6 +36,7 @@ public class Game implements IGame, PropertyChangeListener {
     private List<Round> comingRounds;
     private Round currentRound;
     private IPhysicsHandler physHandler = new JMEPhysicsHandler();
+    private List<CannonBall> cannonBalls;
     /**
      * Create a game with given parameters.
      * A game consists of a number of rounds containing a given amount of players.
@@ -46,6 +50,7 @@ public class Game implements IGame, PropertyChangeListener {
         this.battlefield = battlefield;
         this.numberOfRounds = 1; // TODO
         this.comingRounds = this.createRounds(numberOfRounds);
+        this.cannonBalls = new LinkedList<CannonBall>();
         physHandler.addPropertyChangeListener(this);
         
     }
@@ -95,6 +100,13 @@ public class Game implements IGame, PropertyChangeListener {
      * @param tpf Time since last update
      */
     public void update(float tpf) {
+        Iterator<CannonBall> iterator = this.cannonBalls.iterator();
+        while(iterator.hasNext()) {
+            CannonBall ball = iterator.next();
+            this.physHandler.setRigidPosition(PhysType.CANNONBALL, ball, ball.getPosition());
+            ball.update(tpf);
+        }
+        
         for (Player player : this.playerMap.values() ){
             this.physHandler.setRigidVelocity(PhysType.BOAT, player.getUnit(), player.getUnit().getVelocity());
             this.physHandler.setRigidPosition(PhysType.BOAT, player.getUnit(), player.getUnitPosition());
@@ -285,7 +297,8 @@ public class Game implements IGame, PropertyChangeListener {
                 boat.setDirection(newDir);
                 boat.setSpeed(speed);
             }
-            
+        } else if ("Ball Collision".equals(evt.getPropertyName())) {
+            System.out.println("CannonBall hit boat");
         }
     }
     
@@ -306,9 +319,10 @@ public class Game implements IGame, PropertyChangeListener {
         CannonBall cBall = new CannonBall(player.getId(), 
                                           player.getUnitPosition(), 
                                           direction, 50);
+        
         this.physHandler.addToWorld(cBall);
-        this.pcs.firePropertyChange("CannonBall created", null, cBall);
-        this.physHandler.setRigidForce(PhysType.CANNONBALL, cBall, direction, cBall.getSpeed());
+        this.pcs.firePropertyChange("CannonBall Created", null, cBall);
+        this.cannonBalls.add(cBall);
     }
 
 }
