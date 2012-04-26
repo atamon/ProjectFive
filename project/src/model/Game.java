@@ -97,6 +97,7 @@ public class Game implements IGame, PropertyChangeListener {
         for (Player player : this.playerMap.values() ){
             this.physHandler.setRigidVelocity(PhysType.BOAT, player.getUnit(), player.getUnit().getVelocity());
             this.physHandler.setRigidPosition(PhysType.BOAT, player.getUnit(), player.getUnitPosition());
+            this.physHandler.setRigidForce(PhysType.BOAT, player.getUnit(), player.getUnitDirection(), player.getUnit().getSpeed());
             player.updateUnitPosition(tpf);
             if(this.isOutOfBounds(player.getUnitPosition())) {
                 this.doMagellanJourney(player);
