@@ -48,3 +48,5 @@ Thumbs.db
 # BUILDS #
 project/build/
 project/dist/
+project/nbproject/coverage.properties
+project/coverage/

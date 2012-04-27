@@ -6,9 +6,22 @@ import static org.junit.Assert.*;
 
 /**
  * Test class for Vector.java
+ *
  * @author Anton Lindgren
  */
 public class VectorTest {
+
+    /**
+     *
+     */
+    public void testAdd() {
+        Vector v = new Vector(1.5f, 1.5f);
+        Vector v2 = new Vector(0.5f, 0.5f);
+
+        v.add(v2);
+        assertTrue(v.getX() == 2 && v.getY() == 2);
+
+    }
 
     /**
      * Test of getX method, of class Vector.
@@ -42,7 +55,7 @@ public class VectorTest {
     }
 
     /**
-     * 
+     *
      */
     @Test
     public void testSetX() {
@@ -54,7 +67,7 @@ public class VectorTest {
     }
 
     /**
-     * 
+     *
      */
     @Test
     public void testSetY() {
@@ -66,20 +79,20 @@ public class VectorTest {
     }
 
     /**
-     * Tests if all vectors returned by getLength() have length 1 after normalized.
-     * Except the 0 vector which returns an arithmetic exception
+     * Tests if all vectors returned by getLength() have length 1 after
+     * normalized. Except the 0 vector which returns an arithmetic exception
      */
     @Test(expected = ArithmeticException.class)
     public void testNormalize() {
 
         // Test a known vector
-        Vector vector1 = new Vector(1/1321321f, 3/1231231f);
+        Vector vector1 = new Vector(1 / 1321321f, 3 / 1231231f);
         vector1.normalize();
         assertTrue(1 == vector1.getLength());
-        
+
         // Test a few random vectors
         for (int i = 0; i < 10; i++) {
-            Vector randVector = new Vector((float)Math.random()*10, (float)Math.random()*10);
+            Vector randVector = new Vector((float) Math.random() * 10, (float) Math.random() * 10);
             randVector.normalize();
             assertTrue(1 == randVector.getLength());
         }
@@ -96,24 +109,25 @@ public class VectorTest {
     public void testGetLength() {
         // A vector which should have the length Math.sqrt(2)
         Vector vector1 = new Vector(1f, 1f);
-        assertTrue(vector1.getLength() == (float)Math.sqrt(2));
+        assertTrue(vector1.getLength() == (float) Math.sqrt(2));
         // A vector with length Math.sqrt(8)
         Vector vector2 = new Vector(2f, 2f);
-        assertTrue(vector2.getLength() == (float)Math.sqrt(8));
-        
+        assertTrue(vector2.getLength() == (float) Math.sqrt(8));
+
     }
-    
+
     @Test
     public void testMult() {
-        Vector result = new Vector(1,2f);
-        result.mult(1/42233f);
-        Vector expResult = new Vector(1/42233f, 2/42233f);
+        Vector result = new Vector(1, 2f);
+        result.mult(1 / 42233f);
+        Vector expResult = new Vector(1 / 42233f, 2 / 42233f);
         assertEquals(expResult, result);
-    }
-    
-    @Test
-    public void testAdd() {
-        //TODO
+
+        Vector v = new Vector(1, 1);
+        Vector v2 = new Vector(v);
+
+        v.mult(v2);
+        assertTrue(v2.equals(v));
     }
 
     /**
@@ -155,15 +169,15 @@ public class VectorTest {
             assertTrue(vector1.hashCode() == vector2.hashCode());
         }
     }
-    
+
     @Test
-    public void testRotate(){
+    public void testRotate() {
         Vector v = new Vector(1f, 2f);
-        
-        for (int i = 0; i < 2000; i++){
-            v.rotate(2*(float)Math.PI/2000);
+
+        for (int i = 0; i < 2000; i++) {
+            v.rotate(2 * (float) Math.PI / 2000);
         }
         // floats arn't 100% accurate. We are ok with a diff less than 0.03
-        assertTrue(1f-v.getX() < 0.03 && 2f-v.getY() < 0.03);
+        assertTrue(1f - v.getX() < 0.03 && 2f - v.getY() < 0.03);
     }
 }
