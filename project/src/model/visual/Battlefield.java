@@ -15,7 +15,7 @@ public final class Battlefield implements IVisualisable {
      * Creates a Battlefield with default size (100,100) and an Item.
      */
     public Battlefield() {
-        this(new Vector(150.0f,150.0f));
+        this(new Vector(100.0f,100.0f));
     }
     
     /**

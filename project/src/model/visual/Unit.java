@@ -42,7 +42,6 @@ public class Unit extends MoveableAbstract implements IObservable, IPhysical {
         }
         this.owner = owner;
         // Register with the view that we have a new unit
-        this.pcs.firePropertyChange("Unit Created", this.pos, this.dir);
         this.maxSpeed = 20;
     }
 

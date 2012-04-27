@@ -4,6 +4,8 @@
  */
 package model;
 
+import model.player.Player;
+import model.round.RoundState;
 import model.tools.IObservable;
 import model.tools.Vector;
 import java.beans.PropertyChangeListener;

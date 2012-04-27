@@ -1,4 +1,7 @@
-package model;
+package model.round;
+
+import model.player.Player;
+
  /**
  * Class to keep track of the current round.
  * @author johnhu

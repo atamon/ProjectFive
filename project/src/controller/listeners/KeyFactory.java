@@ -2,9 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller;
+package controller.listeners;
 
-import model.Player;
+import controller.keymaps.KeyPlayable;
+import controller.keymaps.PlayerZeroKeys;
+import controller.keymaps.PlayerTwoKeys;
+import controller.keymaps.PlayerOneKeys;
+import controller.keymaps.PlayerThreeKeys;
+import model.player.Player;
 
 
 /**

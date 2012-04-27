@@ -4,11 +4,10 @@
  */
 package model;
 
+import model.player.Player;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import model.tools.Direction;
-import model.visual.Unit;
 import model.visual.Battlefield;
 import model.tools.Vector;
 import org.junit.Test;

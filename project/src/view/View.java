@@ -18,7 +18,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 import model.IGame;
-import model.Player;
+import model.player.Player;
 import model.tools.Vector;
 import model.visual.CannonBall;
 import util.Util;

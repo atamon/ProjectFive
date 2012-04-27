@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller;
+package controller.keymaps;
 
 
 /**
@@ -15,11 +15,9 @@ public interface KeyPlayable {
     public int getRightKey();
     public int getLeftFireKey();
     public int getRightFireKey();
-    public int getLeaveKey();
     public String getUpMap();
     public String getLeftMap();
     public String getRightMap();
     public String getLeftFireMap();
     public String getRightFireMap();
-    public String getLeaveMap();
 }

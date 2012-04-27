@@ -4,6 +4,7 @@
  */
 package model;
 
+import model.player.Player;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import model.tools.Direction;

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller;
+package controller.keymaps;
 
 import com.jme3.input.KeyInput;
 
@@ -58,9 +58,4 @@ public class PlayerTwoKeys implements KeyPlayable {
     public String getRightFireMap() {
         return "PlayerTwo RightFire";
     }
-    
-    public String getLeaveMap() {
-        return "PlayerTwo Leave";
-    }
-    
 }

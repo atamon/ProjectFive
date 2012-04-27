@@ -1,5 +1,11 @@
 package model;
 
+import model.player.Player;
+import model.round.WinnerNotFoundException;
+import model.round.RoundAlreadyStartedException;
+import model.round.Round;
+import model.round.RoundState;
+import model.round.RoundAlreadyEndedException;
 import java.beans.PropertyChangeEvent;
 import model.tools.Settings;
 import model.visual.Battlefield;
@@ -95,8 +101,8 @@ public class Game implements IGame, PropertyChangeListener {
 
             for (Player player : this.playerMap.values()) {
                 this.physHandler.setRigidVelocity(PhysType.BOAT, player.getUnit(), player.getUnit().getVelocity());
-                this.physHandler.setRigidPosition(PhysType.BOAT, player.getUnit(), player.getUnitPosition());
                 this.physHandler.setRigidForce(PhysType.BOAT, player.getUnit(), player.getUnitDirection(), player.getUnit().getSpeed());
+                this.physHandler.setRigidPosition(PhysType.BOAT, player.getUnit(), player.getUnitPosition());
                 player.updateUnitPosition(tpf);
                 if (this.isOutOfBounds(player.getUnitPosition())) {
                     this.doMagellanJourney(player);

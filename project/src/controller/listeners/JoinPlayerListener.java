@@ -2,65 +2,72 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller;
+package controller.listeners;
 
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
+import controller.keymaps.PlayerOneKeys;
+import controller.keymaps.PlayerThreeKeys;
+import controller.keymaps.PlayerTwoKeys;
+import controller.keymaps.PlayerZeroKeys;
 import java.util.HashMap;
 import java.util.Map;
 import model.GameState;
 import model.IGame;
-import model.Player;
+import model.player.Player;
 
 /**
  *
  * @author atamon
  */
-public class LeavePlayerListener implements ActionListener {
+public class JoinPlayerListener implements ActionListener {
 
-    private final Map<Integer, KeyTrigger> leaveKeys = new HashMap<Integer, KeyTrigger>();
+    private final Map<Integer, KeyTrigger> joinKeys = new HashMap<Integer, KeyTrigger>();
     private final IGame game;
     private final InputManager inpManager;
 
-    public LeavePlayerListener(IGame game, InputManager inpManager) {
+    public JoinPlayerListener(IGame game, InputManager inpManager) {
         this.game = game;
         this.inpManager = inpManager;
 
         // Set up join keys for all supported players and add them to manager
-        leaveKeys.put(0, new KeyTrigger(PlayerZeroKeys.KEY_LEAVE));
-        leaveKeys.put(1, new KeyTrigger(PlayerOneKeys.KEY_LEAVE));
-        leaveKeys.put(2, new KeyTrigger(PlayerTwoKeys.KEY_LEAVE));
-        leaveKeys.put(3, new KeyTrigger(PlayerThreeKeys.KEY_LEAVE));
+        joinKeys.put(0, new KeyTrigger(PlayerZeroKeys.KEY_JOIN));
+        joinKeys.put(1, new KeyTrigger(PlayerOneKeys.KEY_JOIN));
+        joinKeys.put(2, new KeyTrigger(PlayerTwoKeys.KEY_JOIN));
+        joinKeys.put(3, new KeyTrigger(PlayerThreeKeys.KEY_JOIN));
 
         this.setKeys(inpManager);
 
     }
 
     private void setKeys(InputManager inpManager) {
-        for (Integer id : leaveKeys.keySet()) {
-            KeyTrigger mapTrigger = leaveKeys.get(id);
-            inpManager.addMapping("leave" + id, mapTrigger);
-            inpManager.addListener(this, "leave" + id);
+        for (Integer id : joinKeys.keySet()) {
+            KeyTrigger mapTrigger = joinKeys.get(id);
+            inpManager.addMapping("" + id, mapTrigger);
+            inpManager.addListener(this, "" + id);
         }
     }
 
     @Override
     public void onAction(String name, boolean isPressed, float tpf) {
-        System.out.println("Player leaving!");
         if (isPressed && game.getState() == GameState.INACTIVE) {
+
+
             // Add check for roundstate 
             int id = -1;
-            String stringID = name.replace("leave", "");
             try {
-                id = Integer.parseInt(stringID);
+                id = Integer.parseInt(name);
             } catch (NumberFormatException e) {
                 System.out.println("Illegal playerID registered in GlobalKeyListener."
                         + " Not a Number!");
             }
-            if (game.hasPlayer(id)) {
-                this.game.removePlayer(id);
+
+            if (!game.hasPlayer(id)) {
+                this.game.createPlayer(id);
+                Player player = this.game.getPlayer(id);
+                new PlayerListener(player, game, inpManager);
             }
         }
     }

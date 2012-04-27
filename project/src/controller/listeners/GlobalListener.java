@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller;
+package controller.listeners;
 
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
@@ -10,7 +10,7 @@ import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
 import model.GameState;
 import model.IGame;
-import model.RoundState;
+import model.round.RoundState;
 
 /**
  *

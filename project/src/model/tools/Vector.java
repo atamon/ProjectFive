@@ -10,7 +10,7 @@ public class Vector {
     public static final Vector ZERO_VECTOR = new Vector(0, 0);
     
     // We need a constant to define a vector that does not exist in this universe(-e +ity).
-    public static final Vector NONE_EXISTANT = new Vector(Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY);
+    public static final Vector NONE_EXISTANT = new Vector(1000f, 1000f);
  
     private float x;
     private float y;

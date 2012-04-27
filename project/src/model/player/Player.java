@@ -1,4 +1,4 @@
-package model;
+package model.player;
 
 import model.tools.Direction;
 import model.tools.Vector;

@@ -5,7 +5,7 @@
 [DEFAULT]
 hitPointsMax:100
 numberOfRounds:5
-steerAngle:15
+steerAngle:2
 acceleration:10
 retardation:10
 

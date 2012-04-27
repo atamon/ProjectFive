@@ -147,7 +147,9 @@ public class JMEPhysicsHandler implements IPhysicsHandler, IObservable, PhysicsC
             }
         }
         
-        this.pcs.firePropertyChange(propertyName, phys1, phys2 );
+        if (!propertyName.isEmpty()) {
+            this.pcs.firePropertyChange(propertyName, phys1, phys2 );
+        }
     }
 
     public void addPropertyChangeListener(PropertyChangeListener ls) {
