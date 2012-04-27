@@ -14,6 +14,7 @@ import com.jme3.input.KeyInput;
 public class PlayerOneKeys implements KeyPlayable {
     
     public static final int KEY_JOIN = KeyInput.KEY_UP;
+    public static final int KEY_LEAVE = KeyInput.KEY_DOWN;
     
     public int getForwardKey() {
         return KeyInput.KEY_UP;
@@ -35,6 +36,10 @@ public class PlayerOneKeys implements KeyPlayable {
         return KeyInput.KEY_RSHIFT;
     }
     
+    public int getLeaveKey() {
+        return KeyInput.KEY_DOWN;
+    }
+    
     public String getUpMap() {
         return "PlayerOne Up";
     }
@@ -53,6 +58,10 @@ public class PlayerOneKeys implements KeyPlayable {
     
     public String getRightFireMap() {
         return "PlayerOne RightFire";
+    }
+    
+    public String getLeaveMap() {
+        return "PlayerOne Leave";
     }
     
 }

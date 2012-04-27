@@ -18,52 +18,49 @@ import model.Player;
  *
  * @author atamon
  */
-public class JoinPlayerListener implements ActionListener {
+public class LeavePlayerListener implements ActionListener {
 
-    private final Map<Integer, KeyTrigger> joinKeys = new HashMap<Integer, KeyTrigger>();
+    private final Map<Integer, KeyTrigger> leaveKeys = new HashMap<Integer, KeyTrigger>();
     private final IGame game;
     private final InputManager inpManager;
 
-    public JoinPlayerListener(IGame game, InputManager inpManager) {
+    public LeavePlayerListener(IGame game, InputManager inpManager) {
         this.game = game;
         this.inpManager = inpManager;
 
         // Set up join keys for all supported players and add them to manager
-        joinKeys.put(0, new KeyTrigger(PlayerZeroKeys.KEY_JOIN));
-        joinKeys.put(1, new KeyTrigger(PlayerOneKeys.KEY_JOIN));
-        joinKeys.put(2, new KeyTrigger(PlayerTwoKeys.KEY_JOIN));
-        joinKeys.put(3, new KeyTrigger(PlayerThreeKeys.KEY_JOIN));
+        leaveKeys.put(0, new KeyTrigger(PlayerZeroKeys.KEY_LEAVE));
+        leaveKeys.put(1, new KeyTrigger(PlayerOneKeys.KEY_LEAVE));
+        leaveKeys.put(2, new KeyTrigger(PlayerTwoKeys.KEY_LEAVE));
+        leaveKeys.put(3, new KeyTrigger(PlayerThreeKeys.KEY_LEAVE));
 
         this.setKeys(inpManager);
 
     }
 
     private void setKeys(InputManager inpManager) {
-        for (Integer id : joinKeys.keySet()) {
-            KeyTrigger mapTrigger = joinKeys.get(id);
-            inpManager.addMapping("" + id, mapTrigger);
-            inpManager.addListener(this, "" + id);
+        for (Integer id : leaveKeys.keySet()) {
+            KeyTrigger mapTrigger = leaveKeys.get(id);
+            inpManager.addMapping("leave" + id, mapTrigger);
+            inpManager.addListener(this, "leave" + id);
         }
     }
 
     @Override
     public void onAction(String name, boolean isPressed, float tpf) {
+        System.out.println("Player leaving!");
         if (isPressed && game.getState() == GameState.INACTIVE) {
-
-
             // Add check for roundstate 
             int id = -1;
+            String stringID = name.replace("leave", "");
             try {
-                id = Integer.parseInt(name);
+                id = Integer.parseInt(stringID);
             } catch (NumberFormatException e) {
                 System.out.println("Illegal playerID registered in GlobalKeyListener."
                         + " Not a Number!");
             }
-
-            if (!game.hasPlayer(id)) {
-                this.game.createPlayer(id);
-                Player player = this.game.getPlayer(id);
-                new PlayerListener(player, inpManager);
+            if (game.hasPlayer(id)) {
+                this.game.removePlayer(id);
             }
         }
     }

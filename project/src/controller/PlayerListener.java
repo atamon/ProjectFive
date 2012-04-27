@@ -7,6 +7,7 @@ package controller;
 import com.jme3.input.InputManager;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
+import model.GameState;
 import model.Player;
 import model.tools.Direction;
 
@@ -45,8 +46,10 @@ public class PlayerListener implements ActionListener {
         if (name.equals(this.layout.getLeftMap())) {
             this.player.steerUnitAntiClockWise(isPressed);
         }
+        
         if (name.equals(this.layout.getRightMap())) {
             this.player.steerUnitClockWise(isPressed);
         }
+        
     }
 }

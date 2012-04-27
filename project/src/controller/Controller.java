@@ -39,6 +39,8 @@ public class Controller {
         // Create listeners
         new JoinPlayerListener(game, inputManager);
         new GlobalListener(game, inputManager);
+        new LeavePlayerListener(game, inputManager);
+        
 
         // Build our graphical scene
         this.view.createScene();

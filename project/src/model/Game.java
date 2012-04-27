@@ -90,6 +90,18 @@ public class Game implements IGame {
         // Let listeners (views) know that we've created a player
         this.pcs.firePropertyChange("Player Created", null, player);
     }
+    
+    public void removePlayer(int id) {
+        if (playerMap.get(id) == null || !playerMap.containsKey(id)) {
+            throw new RuntimeException("ERROR: Tried to remove invalid player: " + id);
+        }
+        playerMap.get(id).getUnit().setPosition(Vector.NONE_EXISTANT);
+        playerMap.remove(id);
+    }
+    
+    public boolean hasPlayer(int id) {
+        return playerMap.containsKey(id);
+    }
 
     /**
      * Accelerates a player's unit.

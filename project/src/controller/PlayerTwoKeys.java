@@ -13,6 +13,7 @@ import com.jme3.input.KeyInput;
 public class PlayerTwoKeys implements KeyPlayable {
 
     public static final int KEY_JOIN = KeyInput.KEY_Y;
+    public static final int KEY_LEAVE = KeyInput.KEY_H;
     
     public int getForwardKey() {
         return KeyInput.KEY_Y;
@@ -34,6 +35,10 @@ public class PlayerTwoKeys implements KeyPlayable {
         return KeyInput.KEY_U;
     }
     
+    public int getLeaveKey() {
+        return KeyInput.KEY_H;
+    }
+    
     public String getUpMap() {
         return "PlayerTwo Up";
     }
@@ -52,6 +57,10 @@ public class PlayerTwoKeys implements KeyPlayable {
     
     public String getRightFireMap() {
         return "PlayerTwo RightFire";
+    }
+    
+    public String getLeaveMap() {
+        return "PlayerTwo Leave";
     }
     
 }
