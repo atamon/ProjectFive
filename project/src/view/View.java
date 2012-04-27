@@ -6,11 +6,17 @@ import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
+import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.renderer.Camera;
+import com.jme3.renderer.RenderManager;
+import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
+import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.elements.Element;
 import util.BlenderImporter;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.List;
 import model.IGame;
 import model.Player;
 import model.tools.Vector;
@@ -26,27 +32,68 @@ import model.visual.Unit;
 public class View implements PropertyChangeListener {
     
     public static final String BLEND_PATH = "Blends/P5Ship_export.blend";
+    public static final String NIFTY_XML_PATH = "xml/main.xml";
+    public static final float[] MAGICAL_VIEW_ZERO = {0.06f, 0.45f, 0.60f, 0.95f};
+    public static final float[] MAGICAL_VIEW_ONE = {0.56f, 0.95f, 0.15f, 0.50f};
+    public static final float[] MAGICAL_VIEW_TWO = {0.06f, 0.45f, 0.15f, 0.50f};
+    public static final float[] MAGICAL_VIEW_THREE = {0.56f, 0.95f, 0.60f, 0.95f};
     
     private final Node blenderUnit;
     
     private final IGame game;
     private final SimpleApplication jme3;
     
+    private RenderManager renderManager;
     private AssetManager assetManager;
     private Node rootNode;
     private Node guiNode;
+    
+    private int windowWidth;
+    private int windowHeight;
 
-    public View(SimpleApplication jme3, IGame game) {
+    public View(SimpleApplication jme3, IGame game,
+            int windowWidth, int windowHeight, NiftyJmeDisplay niftyGUI) {
+        
         this.jme3 = jme3;
         this.game = game;
+        this.renderManager = jme3.getRenderManager();
         this.assetManager = jme3.getAssetManager();
         this.rootNode = jme3.getRootNode();
         this.guiNode = jme3.getGuiNode();
 
+        // Create scene
+        this.createScene();
+        
         // Register a BlenderLoader with our assetManager so it supports .blend
         BlenderImporter.registerBlender(assetManager);
         
         blenderUnit = BlenderImporter.loadModel(assetManager, BLEND_PATH);
+        
+        // Set up individual cam positions
+//        setUpCameraView(MAGICAL_VIEW_ZERO);
+//        setUpCameraView(MAGICAL_VIEW_ONE);
+//        setUpCameraView(MAGICAL_VIEW_TWO);
+//        setUpCameraView(MAGICAL_VIEW_THREE);
+        
+        // Init GUI JoinScreen
+        Nifty nifty = niftyGUI.getNifty();
+        nifty.fromXml(NIFTY_XML_PATH, "join", new JoinScreen());
+        List<Element> list = nifty.getScreen("join").getLayerElements();
+        for (Element element : list) {
+            element.hide();
+        }
+    }
+    
+    private void setUpCameraView(float[] vpPos) {
+        // .clone() works for us now since we will use same aspect ratio as window.
+        Camera camera = jme3.getCamera().clone();
+        camera.setViewPort(vpPos[0], vpPos[1], vpPos[2], vpPos[3]);
+        camera.setLocation(jme3.getCamera().getLocation());
+        camera.lookAt(Vector3f.ZERO, Vector3f.UNIT_Y);
+        
+        ViewPort viewport = renderManager.createMainView("PiP", camera);
+        viewport.setClearFlags(true, true, true);
+        viewport.attachScene(rootNode);
     }
 
     /**
@@ -85,8 +132,8 @@ public class View implements PropertyChangeListener {
 
     private void initCamera() {
         Camera cam = jme3.getCamera();
-        cam.setLocation(new Vector3f(this.game.getBattlefieldCenter().getX(), 100, -50));
-        cam.lookAt(Util.convertToMonkey3D(this.game.getBattlefieldCenter()), Vector3f.UNIT_Y);
+        cam.setLocation(new Vector3f(this.game.getBattlefieldCenter().getX(), 110, 0));
+        cam.lookAt(Util.convertToMonkey3D(this.game.getBattlefieldCenter()).setZ(42), Vector3f.UNIT_Y);
     }
 
     /**

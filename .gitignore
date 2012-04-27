@@ -27,10 +27,10 @@ project/nbproject/private/private.properties
 *.dmg
 *.gz
 *.iso
-*.jar
+#*.jar
 *.rar
 *.tar
-*.zip
+#*.zip
 
 # Logs and databases #
 ######################
@@ -44,3 +44,9 @@ project/nbproject/private/private.properties
 ehthumbs.db
 Icon
 Thumbs.db
+
+# BUILDS #
+project/build/
+project/dist/
+project/nbproject/coverage.properties
+project/coverage/

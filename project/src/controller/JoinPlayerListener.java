@@ -10,6 +10,7 @@ import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
 import java.util.HashMap;
 import java.util.Map;
+import model.GameState;
 import model.IGame;
 import model.Player;
 
@@ -28,13 +29,13 @@ public class JoinPlayerListener implements ActionListener {
         this.inpManager = inpManager;
 
         // Set up join keys for all supported players and add them to manager
-        joinKeys.put(0, new KeyTrigger(KeyInput.KEY_W));
-        joinKeys.put(1, new KeyTrigger(KeyInput.KEY_UP));
-        joinKeys.put(2, new KeyTrigger(KeyInput.KEY_Y));
-        joinKeys.put(3, new KeyTrigger(KeyInput.KEY_P));
+        joinKeys.put(0, new KeyTrigger(PlayerZeroKeys.KEY_JOIN));
+        joinKeys.put(1, new KeyTrigger(PlayerOneKeys.KEY_JOIN));
+        joinKeys.put(2, new KeyTrigger(PlayerTwoKeys.KEY_JOIN));
+        joinKeys.put(3, new KeyTrigger(PlayerThreeKeys.KEY_JOIN));
 
         this.setKeys(inpManager);
-        
+
     }
 
     private void setKeys(InputManager inpManager) {
@@ -47,20 +48,23 @@ public class JoinPlayerListener implements ActionListener {
 
     @Override
     public void onAction(String name, boolean isPressed, float tpf) {
-        // Check if it was a join-key that was pressed
-        int id = -1;
-        try {
-            id = Integer.parseInt(name);
-        } catch (NumberFormatException e) {
-            System.out.println("Illegal playerID registered in GlobalKeyListener."
-                    + " Not a Number!");
+        if (isPressed && game.getState() == GameState.INACTIVE) {
+
+
+            // Add check for roundstate 
+            int id = -1;
+            try {
+                id = Integer.parseInt(name);
+            } catch (NumberFormatException e) {
+                System.out.println("Illegal playerID registered in GlobalKeyListener."
+                        + " Not a Number!");
+            }
+
+            if (!game.hasPlayer(id)) {
+                this.game.createPlayer(id);
+                Player player = this.game.getPlayer(id);
+                new PlayerListener(player, game, inpManager);
+            }
         }
-        
-        this.game.createPlayer(id);
-        Player player = this.game.getPlayer(id);
-        new PlayerListener(player, game, inpManager);
-        
-        // Use name since we know it was correct id
-        inpManager.deleteTrigger(name, joinKeys.get(id));
     }
 }

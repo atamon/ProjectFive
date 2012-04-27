@@ -1,0 +1,12 @@
+[SETTINGS]
+
+// String should be written like a javavariable following all conventions.
+
+[DEFAULT]
+hitPointsMax:100
+numberOfRounds:5
+steerAngle:15
+acceleration:10
+retardation:10
+
+[MODDED]

@@ -8,16 +8,28 @@ package model.tools;
  *
  * @author Victor Lindhé
  */
-public enum Direction {
-    CLOCKWISE (1), ANTICLOCKWISE (-1);
+public class Direction {
+
+    private static final int CLOCKWISE = 1;
+    private static final int ANTICLOCKWISE = -1;
+    private static final int NONE = 0;
     
-    private final int direction;
+    private boolean steeringClockWise;
+    private boolean steeringAntiClockWise;
     
-    private Direction(int direction){
-        this.direction = direction;
+    public void steerClockWise(boolean bool) {
+        this.steeringClockWise = bool;
     }
     
-    public int getValue(){
-        return this.direction;
+    public void steerAntiClockWise(boolean bool) {
+        this.steeringAntiClockWise = bool;
+    }
+
+    public int getValue() {
+        int value = 0;
+        value = steeringClockWise ? value+CLOCKWISE : value;
+        value = steeringAntiClockWise ? value+ANTICLOCKWISE : value;
+        
+        return value;
     }
 }

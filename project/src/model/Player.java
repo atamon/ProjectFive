@@ -14,7 +14,6 @@ import model.visual.Unit;
 public class Player {
     private final int playerId;
     private Unit playerUnit;
-    private int score;
     
     /**
      * Creates a player with a specific number 1-4.
@@ -22,7 +21,6 @@ public class Player {
      */
     public Player(int playerID) {
         this.playerId = playerID;
-        this.score = 0;
     }
     
     /**
@@ -57,13 +55,6 @@ public class Player {
         }
     }
     
-    /**
-     * Increments the score
-     */
-    public void incrementScore() {
-        this.score++;
-    }
-    
     public Vector getUnitDirection() {
         return this.playerUnit.getDirection();
     }
@@ -80,21 +71,19 @@ public class Player {
     }
     
     /**
-     * Getter for the score.
-     * @return int
-     */
-    public int getScore() {
-        return this.score;
-    }
-    
-    /**
      * Steers a unit.
      * @param dir Direction
      * @param tpf Time per frame
      */
-    public void steerUnit(Direction dir, float tpf) {
+    public void steerUnitClockWise(boolean bool) {
         if(this.playerUnit != null) {
-            this.playerUnit.steer(dir, tpf);
+            this.playerUnit.steerClockWise(bool);
+        }
+    }
+    
+    public void steerUnitAntiClockWise(boolean bool) {
+        if (this.playerUnit != null) {
+            this.playerUnit.steerAntiClockWise(bool);
         }
     }
     

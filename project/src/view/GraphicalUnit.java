@@ -49,6 +49,7 @@ public class GraphicalUnit implements PropertyChangeListener {
     }
 
     private void updatePosition(Vector3f pos) {
+        
         this.node.setLocalTranslation(pos);
     }
 

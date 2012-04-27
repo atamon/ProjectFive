@@ -6,126 +6,127 @@ import model.tools.Vector;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import model.physics.IPhysical;
+import model.tools.Settings;
 import model.tools.IObservable;
 
 /**
  * A unit. Probably a ship.
  * @author Johannes Wikner
- * @modified Victor Lindhé
+ * @modified Victor Lindhé, johnhu
  */
-public class Unit extends MoveableAbstract implements IObservable,IPhysical {
-    private float steerAngle = 1;
-    private int hitPointsMax;
-    private int acceleration = 10;
-    private int retardation = 10;
-    private int hitPoints;
-    private boolean isAccelerating = false;
-    private Vector size = new Vector(1,1);
+public class Unit extends MoveableAbstract implements IObservable, IPhysical {
+
+    private Vector size = new Vector(1, 1);
     private final static int MAX_STEER_SPEED = 10;
 //    private PowerUp powerUp; TODO
-    private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private final int owner;
+    private float steerAngle = Settings.getInstance().getSetting("steerAngle");
+    private int hitPointsMax = Settings.getInstance().getSetting("hitPointsMax");
+    private int acceleration = Settings.getInstance().getSetting("acceleration");
+    private int retardation = Settings.getInstance().getSetting("retardation");
+    private int hitPoints = hitPointsMax;
+    private boolean isAccelerating = false;
+    private Direction steerDirection = new Direction();
+//  private PowerUp powerUp; TODO
+    private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+
     /**
-     * Creates a new unit
-     * @param pos Initial position
-     * @param dir Initial position
-     * @param hitPointsMax 
+     * Create a unit
+     * @param pos initial position
+     * @param dir initial direction
      */
-    public Unit(Vector pos, Vector dir, int hitPointsMax, int owner) {
+    public Unit(Vector pos, Vector dir, int owner) {
         super(pos, dir);
         if (hitPointsMax <= 0) {
             throw new IllegalArgumentException("hit points must be positive");
         }
-        this.owner =  owner;
-        this.hitPointsMax = hitPointsMax;
-        this.hitPoints = hitPointsMax;
+        this.owner = owner;
         // Register with the view that we have a new unit
         this.pcs.firePropertyChange("Unit Created", this.pos, this.dir);
         this.maxSpeed = 20;
     }
 
     /**
-     * Create a unit with default hp set to 100
-     * @param pos initial position
-     * @param dir initial direction
-     */
-    public Unit(Vector pos, Vector dir, int owner) {
-        this(pos, dir, 100, owner);
-    }
-    
-    /**
      * Updates the units position according to speed, direction and updatefrequency
      * @param tpf Updatefrequency, i.e. time since last frame
      */
     public void updateUnit(float tpf) {
         this.accelerate(this.isAccelerating, tpf);
+        this.steer(tpf);
         this.move(tpf);
-        
+
     }
-    public Vector getVelocity(){
-        float x =dir.getX();
-        float y =dir.getY();
-        return new Vector((x > 0 ?1:-1)*x*x*speed,(y > 0 ?1:-1)*y*y*speed);
+
+    public Vector getVelocity() {
+        float x = dir.getX();
+        float y = dir.getY();
+        return new Vector((x > 0 ? 1 : -1) * x * x * speed, (y > 0 ? 1 : -1) * y * y * speed);
     }
+
     @Override
-    protected void directionUpdated(){
+    protected void directionUpdated() {
         this.pcs.firePropertyChange("Updated Direction", null, this.getDirection());
     }
-    
+
     @Override
-    protected void positionUpdated(){
+    protected void positionUpdated() {
         this.pcs.firePropertyChange("Updated Position", null, this.getPosition());
     }
 
-    
     /**
      * Accelerates the unit
      * @param tpf Time per frame
      */
     private void accelerate(boolean accelUp, float tpf) {
         // v = v0 + at
-        if (accelUp){
+        if (accelUp) {
             this.setSpeed(Math.min(this.maxSpeed, this.speed + this.acceleration * tpf));
         } else {
             this.setSpeed(Math.max(0, this.speed - this.retardation * tpf));
         }
     }
 
-    public void steer(Direction steerDirection, float tpf){
-        dir.rotate(steerDirection.getValue()*this.currentSteerAngle()*tpf);
+    private void steer(float tpf) {
+        dir.rotate(steerDirection.getValue() * this.currentSteerAngle() * tpf);
         dir.normalize();
         this.directionUpdated();
     }
-    public void damage(int damage){
-        if(this.hitPoints-damage <= 0){
-            System.out.println("HELLO IM A BOUT AND IM SOOOOOOO DEEAAAAAAAAAAAAAAAAAAAAAAAAD");
-        } else {
-            this.setHitPoints(hitPoints-damage);
-        }
+
+    public void damage(int damage) {
+        this.setHitPoints(hitPoints - damage);
     }
+
     /**
      * Determines how much a unit can steer depending on its speed
      * 
      * @return a steerAngle
      */
-    private float currentSteerAngle(){
-        if(this.speed <= 0) {
+    private float currentSteerAngle() {
+        if (this.speed <= 0) {
             return 0;
         }
-        
-        if(this.speed > MAX_STEER_SPEED) {
+
+        if (this.speed > MAX_STEER_SPEED) {
             return this.steerAngle;
         }
-        
-        return this.speed*this.steerAngle/MAX_STEER_SPEED;
+
+        return this.speed * this.steerAngle / MAX_STEER_SPEED;
     }
-    
+
     /**
      * Set the steer angle of the unit. 
      * @param steerAngle Angle determined in radians. Leave open interval for configuration in-game
      */
     public void setSteerAngle(float steerAngle) {
         this.steerAngle = steerAngle;
+    }
+
+    public void steerClockWise(boolean bool) {
+        this.steerDirection.steerClockWise(bool);
+    }
+
+    public void steerAntiClockWise(boolean bool) {
+        this.steerDirection.steerAntiClockWise(bool);
     }
 
     /**
@@ -135,19 +136,19 @@ public class Unit extends MoveableAbstract implements IObservable,IPhysical {
     public float getSteerAngle() {
         return this.steerAngle;
     }
-    
-    public Vector getSize(){
+
+    public Vector getSize() {
         return this.size;
     }
-    
+
     /**
      * 
      * @param value Are we accelerating true of false 
      */
-    public void setIsAccelerating(boolean value){
+    public void setIsAccelerating(boolean value) {
         this.isAccelerating = value;
     }
-    
+
     /**
      * Sets the acceleration of th unit
      * @param acceleration How fast unit will accelerate
@@ -170,9 +171,9 @@ public class Unit extends MoveableAbstract implements IObservable,IPhysical {
      * @throws IllegalArgumentExcpetion if not a valid hitPoints value is given
      */
     public void setHitPoints(int hitPoints) {
-        if (hitPoints < 0 || hitPoints > this.hitPointsMax) {
+        if (hitPoints > this.hitPointsMax) {
             throw new IllegalArgumentException(
-                    "Must have a positive hit points value < getPointsMax()");
+                    "Hit points must be < getPointsMax()");
         }
         this.hitPoints = hitPoints;
     }
@@ -198,6 +199,7 @@ public class Unit extends MoveableAbstract implements IObservable,IPhysical {
     public int getHitPoints() {
         return this.hitPoints;
     }
+
     /**
      * Sets maximum HitPoints for this unit.
      * @param hitPointsMax 
@@ -205,6 +207,7 @@ public class Unit extends MoveableAbstract implements IObservable,IPhysical {
     public void setHitPointsMax(int hitPointsMax) {
         this.hitPointsMax = hitPointsMax;
     }
+
     /**
      * 
      * @return The unit's maximum hit points (health)
@@ -229,12 +232,19 @@ public class Unit extends MoveableAbstract implements IObservable,IPhysical {
         return this.retardation;
     }
 
+    /**
+     * Returns true if and only if the boat has been sent to Davy Jones' locker.
+     * @return 
+     */
+    public boolean isDeadAndBuried() {
+        return this.pos.equals(Vector.NONE_EXISTANT);
+    }
+
     @Override
     public void addPropertyChangeListener(PropertyChangeListener ls) {
         this.pcs.addPropertyChangeListener(ls);
     }
 
-    
     @Override
     public void removePropertyChangeListener(PropertyChangeListener ls) {
         this.pcs.removePropertyChangeListener(ls);
@@ -242,7 +252,7 @@ public class Unit extends MoveableAbstract implements IObservable,IPhysical {
 
     @Override
     public String toString() {
-        return super.toString() +"\nUnit{" + "steerAngle=" + steerAngle + ", hitPointsMax=" + hitPointsMax + ", acceleration=" + acceleration + ", retardation=" + retardation + ", hitPoints=" + hitPoints + ", isAccelerating=" + isAccelerating + '}';
+        return super.toString() + "\nUnit{" + "steerAngle=" + steerAngle + ", hitPointsMax=" + hitPointsMax + ", acceleration=" + acceleration + ", retardation=" + retardation + ", hitPoints=" + hitPoints + ", isAccelerating=" + isAccelerating + '}';
     }
 
     @Override
@@ -253,7 +263,7 @@ public class Unit extends MoveableAbstract implements IObservable,IPhysical {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        if(!super.equals(obj)) {
+        if (!super.equals(obj)) {
             return false;
         }
         final Unit other = (Unit) obj;
@@ -292,7 +302,7 @@ public class Unit extends MoveableAbstract implements IObservable,IPhysical {
     }
 
     public float getMass() {
-        return this.size.getX()*this.size.getY();
+        return this.size.getX() * this.size.getY();
     }
 
     public PhysType getType() {
