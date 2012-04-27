@@ -28,7 +28,6 @@ public class Unit extends MoveableAbstract implements IObservable, IPhysical {
     private boolean isAccelerating = false;
     private Direction steerDirection = new Direction();
 //  private PowerUp powerUp; TODO
-    private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
     /**
      * Create a unit
@@ -40,8 +39,8 @@ public class Unit extends MoveableAbstract implements IObservable, IPhysical {
         if (hitPointsMax <= 0) {
             throw new IllegalArgumentException("hit points must be positive");
         }
+        
         this.owner = owner;
-        // Register with the view that we have a new unit
         this.maxSpeed = 20;
     }
 
@@ -60,16 +59,6 @@ public class Unit extends MoveableAbstract implements IObservable, IPhysical {
         float x = dir.getX();
         float y = dir.getY();
         return new Vector((x > 0 ? 1 : -1) * x * x * speed, (y > 0 ? 1 : -1) * y * y * speed);
-    }
-
-    @Override
-    protected void directionUpdated() {
-        this.pcs.firePropertyChange("Updated Direction", null, this.getDirection());
-    }
-
-    @Override
-    protected void positionUpdated() {
-        this.pcs.firePropertyChange("Updated Position", null, this.getPosition());
     }
 
     /**
@@ -237,16 +226,6 @@ public class Unit extends MoveableAbstract implements IObservable, IPhysical {
      */
     public boolean isDeadAndBuried() {
         return this.pos.equals(Vector.NONE_EXISTANT);
-    }
-
-    @Override
-    public void addPropertyChangeListener(PropertyChangeListener ls) {
-        this.pcs.addPropertyChangeListener(ls);
-    }
-
-    @Override
-    public void removePropertyChangeListener(PropertyChangeListener ls) {
-        this.pcs.removePropertyChangeListener(ls);
     }
 
     @Override

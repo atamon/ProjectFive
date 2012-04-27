@@ -16,7 +16,6 @@ import model.tools.Vector;
  * @author victorlindhe
  */
 public class CannonBall extends MoveableAbstract implements IObservable, IPhysical {
-    final private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     final private Vector size = new Vector(0.1f, 0.1f);
     final private int owner;
     private final int damage;
@@ -28,16 +27,6 @@ public class CannonBall extends MoveableAbstract implements IObservable, IPhysic
         this.setSpeed(speed);
         this.damage = (int) (speed*this.getMass());
     }
-    
-    @Override
-    protected void directionUpdated() {
-        this.pcs.firePropertyChange("Updated Direction", null, this.getDirection());
-    }
-
-    @Override
-    protected void positionUpdated() {
-        this.pcs.firePropertyChange("Updated Position", null, this.getPosition());
-    }
 
     public void update(float tpf) {
         this.move(tpf);
@@ -45,14 +34,6 @@ public class CannonBall extends MoveableAbstract implements IObservable, IPhysic
     
     public Vector getSize() {
         return this.size;
-    }
-
-    public void addPropertyChangeListener(PropertyChangeListener ls) {
-        this.pcs.addPropertyChangeListener(ls);
-    }
-
-    public void removePropertyChangeListener(PropertyChangeListener ls) {
-        this.pcs.removePropertyChangeListener(ls);
     }
 
     public float getMass() {

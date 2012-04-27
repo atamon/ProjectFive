@@ -8,6 +8,7 @@ import com.jme3.font.BitmapText;
 import com.jme3.math.ColorRGBA;
 import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.system.AppSettings;
+import java.util.logging.Level;
 import model.IGame;
 import view.View;
 
@@ -71,6 +72,7 @@ public class Main extends SimpleApplication {
         this.controller = new Controller(this.getInputManager(), view, game);
 
         // Set up debug game-state
+        java.util.logging.Logger.getLogger("").setLevel(Level.SEVERE);
         debugInfo = new BitmapText(guiFont, false);
         debugInfo.setSize(guiFont.getCharSet().getRenderedSize());      // font size
         debugInfo.setColor(ColorRGBA.Blue);                             // font color

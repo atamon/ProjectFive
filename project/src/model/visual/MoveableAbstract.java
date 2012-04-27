@@ -4,6 +4,8 @@
  */
 package model.visual;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import model.tools.Vector;
 
 /**
@@ -16,6 +18,7 @@ public abstract class MoveableAbstract implements IVisualisable {
     protected Vector dir;
     protected float speed;
     protected float maxSpeed = GLOBAL_MAX_SPEED;
+    protected PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     
     public MoveableAbstract(Vector pos, Vector dir){
 
@@ -40,17 +43,13 @@ public abstract class MoveableAbstract implements IVisualisable {
         }
     }
     
-    /**
-     * A movable needs to be - in some way - able to notify when it has changed
-     */
-    protected abstract void directionUpdated();
-    
-    
-    /**
-     * A movable needs to be - in some way - able to notify when it has changed
-     */
-    protected abstract void positionUpdated();
-    
+    protected void directionUpdated() {
+        this.pcs.firePropertyChange("Updated Direction", null, this.getDirection());
+    }
+
+    protected void positionUpdated() {
+        this.pcs.firePropertyChange("Updated Position", null, this.getPosition());
+    }
 
     /**
      * Sets the position of the moveable
@@ -184,5 +183,12 @@ public abstract class MoveableAbstract implements IVisualisable {
         return hash;
     }
 
+    public void addPropertyChangeListener(PropertyChangeListener ls) {
+        this.pcs.addPropertyChangeListener(ls);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener ls) {
+        this.pcs.removePropertyChangeListener(ls);
+    }
     
 }

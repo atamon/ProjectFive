@@ -13,15 +13,14 @@ import model.player.Player;
 
 /**
  *
- * @author victorlindhe
- * @modified johnhu
+ * @author victorlindhe @modified johnhu
  */
 public class PlayerListener implements ActionListener {
 
     private Player player;
     private KeyPlayable layout;
     private IGame game;
-    
+
     public PlayerListener(Player player, IGame game, InputManager inpManager) {
         this.player = player;
         this.game = game;
@@ -41,26 +40,27 @@ public class PlayerListener implements ActionListener {
     }
 
     public void onAction(String name, boolean isPressed, float tpf) {
-        
-        if(name.equals(this.layout.getLeftFireMap())) {
-            this.game.fireLeft(this.player);
+        if (isPressed) {
+            if (name.equals(this.layout.getLeftFireMap())) {
+                this.game.fireLeft(this.player);
+            }
+
+            if (name.equals(this.layout.getRightFireMap())) {
+                this.game.fireRight(this.player);
+            }
         }
-        
-        if(name.equals(this.layout.getRightFireMap())) {
-            this.game.fireRight(this.player);
-        }
-        
+
         if (name.equals(this.layout.getUpMap())) {
             this.player.accelerateUnit(isPressed);
         }
-        
+
         if (name.equals(this.layout.getLeftMap())) {
             this.player.steerUnitAntiClockWise(isPressed);
         }
-        
+
         if (name.equals(this.layout.getRightMap())) {
             this.player.steerUnitClockWise(isPressed);
         }
-        
+
     }
 }

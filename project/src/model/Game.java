@@ -23,6 +23,7 @@ import model.physics.JMEPhysicsHandler;
 import model.physics.PhysType;
 import model.visual.CannonBall;
 import model.visual.Unit;
+import util.Util;
 
 /**
  * Represents a Game consisting of rounds and players that compete to win!
@@ -100,10 +101,13 @@ public class Game implements IGame, PropertyChangeListener {
             }
 
             for (Player player : this.playerMap.values()) {
-                this.physHandler.setRigidVelocity(PhysType.BOAT, player.getUnit(), player.getUnit().getVelocity());
-                this.physHandler.setRigidForce(PhysType.BOAT, player.getUnit(), player.getUnitDirection(), player.getUnit().getSpeed());
-                this.physHandler.setRigidPosition(PhysType.BOAT, player.getUnit(), player.getUnitPosition());
-                player.updateUnitPosition(tpf);
+                Unit unit = player.getUnit();
+                this.physHandler.setRigidVelocity(PhysType.BOAT, unit, unit.getVelocity());
+                this.physHandler.setRigidForce(PhysType.BOAT, unit, player.getUnitDirection(), unit.getSpeed());
+                this.physHandler.setRigidPosition(PhysType.BOAT, unit, unit.getPosition());
+                
+                unit.updateUnit(tpf);
+                
                 if (this.isOutOfBounds(player.getUnitPosition())) {
                     this.doMagellanJourney(player);
                 }
@@ -150,6 +154,7 @@ public class Game implements IGame, PropertyChangeListener {
 
     /**
      * Returns the size of the logical battlefield
+     *
      * @return The size as a Vector
      */
     public Vector getBattlefieldSize() {
@@ -246,6 +251,10 @@ public class Game implements IGame, PropertyChangeListener {
         this.currentRound = new Round();
         try {
             this.currentRound.start();
+            for (CannonBall cb : cannonBalls) {
+                cb.remove();
+            }
+            cannonBalls.clear();
         } catch (RoundAlreadyStartedException e) {
             System.out.println("WARNING: " + e.getMessage());
             return;
@@ -254,8 +263,6 @@ public class Game implements IGame, PropertyChangeListener {
         // Since we are not sure the units are correctly placed we do so now
         this.resetUnits();
         this.haltPlayers();
-
-
         System.out.println("Round started!");
     }
 
@@ -337,7 +344,6 @@ public class Game implements IGame, PropertyChangeListener {
         System.out.println("This rounds winner is .... "
                 + this.currentRound.getWinner());
         if (Settings.getInstance().getSetting("numberOfRounds") <= playedRounds.size()) {
-            System.out.println("LOOOL");
             endGame();
         }
     }
@@ -412,8 +418,8 @@ public class Game implements IGame, PropertyChangeListener {
 
     @Override
     /**
-     * All stats removed but joined players are kept.
-     * We now have a "clean" game.
+     * All stats removed but joined players are kept. We now have a "clean"
+     * game.
      */
     public void clean() {
         playedRounds.clear();
