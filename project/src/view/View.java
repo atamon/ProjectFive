@@ -32,6 +32,11 @@ public class View implements PropertyChangeListener {
     
     public static final String BLEND_PATH = "Blends/P5Ship_export.blend";
     public static final String NIFTY_XML_PATH = "xml/main.xml";
+    public static final float[] MAGICAL_VIEW_ZERO = {0.06f, 0.45f, 0.60f, 0.95f};
+    public static final float[] MAGICAL_VIEW_ONE = {0.56f, 0.95f, 0.15f, 0.50f};
+    public static final float[] MAGICAL_VIEW_TWO = {0.06f, 0.45f, 0.15f, 0.50f};
+    public static final float[] MAGICAL_VIEW_THREE = {0.56f, 0.95f, 0.60f, 0.95f};
+    
     private final Node blenderUnit;
     
     private final IGame game;
@@ -55,30 +60,33 @@ public class View implements PropertyChangeListener {
         this.rootNode = jme3.getRootNode();
         this.guiNode = jme3.getGuiNode();
 
+        // Create scene
+        this.createScene();
+        
         // Register a BlenderLoader with our assetManager so it supports .blend
         BlenderImporter.registerBlender(assetManager);
         
         blenderUnit = BlenderImporter.loadModel(assetManager, BLEND_PATH);
-        setUpCameraView(windowWidth, windowHeight, 0, 0);
+        
+        // Set up individual cam positions
+        setUpCameraView(MAGICAL_VIEW_ZERO);
+        setUpCameraView(MAGICAL_VIEW_ONE);
+        setUpCameraView(MAGICAL_VIEW_TWO);
+        setUpCameraView(MAGICAL_VIEW_THREE);
         
         // Init GUI JoinScreen
         Nifty nifty = niftyGUI.getNifty();
         nifty.fromXml(NIFTY_XML_PATH, "join", new JoinScreen());
-        List<Element> list = nifty.getScreen("join").getLayerElements();
-        for (Element element : list) {
-            element.hide();
-        }
+//        List<Element> list = nifty.getScreen("join").getLayerElements();
+//        for (Element element : list) {
+////            element.hide();
+//        }
     }
     
-//    public void setUpJoinCameras(int windowWith, int windowHeight) {
-//        // Set up camera upper left corner
-//        Camera camZero = new Camera(100, 100);
-//        camZero.setViewPort(0, 100, );
-//    }
-    
-    private void setUpCameraView(int width, int height, int x, int y) {
+    private void setUpCameraView(float[] vpPos) {
+        // .clone() works for us now since we will use same aspect ratio as window.
         Camera camera = jme3.getCamera().clone();
-        camera.setViewPort(0f, 0.25f, 0, 0.25f);
+        camera.setViewPort(vpPos[0], vpPos[1], vpPos[2], vpPos[3]);
         camera.setLocation(jme3.getCamera().getLocation());
         camera.lookAt(Vector3f.ZERO, Vector3f.UNIT_Y);
         

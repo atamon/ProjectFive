@@ -42,8 +42,6 @@ public class Controller {
         new LeavePlayerListener(game, inputManager);
         
 
-        // Build our graphical scene
-        this.view.createScene();
     }
 
     public void update(float tpf) {

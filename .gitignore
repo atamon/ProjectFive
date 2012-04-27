@@ -44,3 +44,9 @@ project/nbproject/private/private.properties
 ehthumbs.db
 Icon
 Thumbs.db
+
+# BUILDS #
+project/build/
+project/dist/
+project/nbproject/coverage.properties
+project/coverage/

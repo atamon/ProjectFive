@@ -102,8 +102,6 @@ public class Vector {
             this.x = this.x/length;
             this.y = this.y/length;
             if(this.getLength() != 1){
-//                System.out.println("WARNING: Vector wasn't completely normalized"
-//                        +", normalizing another time");
                 normalize();
             }
         } else {
