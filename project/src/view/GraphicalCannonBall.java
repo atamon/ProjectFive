@@ -59,12 +59,11 @@ public class GraphicalCannonBall implements PropertyChangeListener {
         }
         if("CannonBall Removed".equals(pce.getPropertyName()) && this.node.getParent() != null) {
             this.node.getParent().detachChild(node);
-            
         }
     }
 
-    private void updatePosition(Vector3f setY) {
-        this.node.setLocalTranslation(setY);
+    private void updatePosition(Vector3f pos) {
+        this.node.setLocalTranslation(pos);
     }
     
 }

@@ -178,8 +178,8 @@ public class Game implements IGame, PropertyChangeListener {
      * @return Returns the unit created.
      */
     private Unit createUnit(int playerID) {
-        Vector position = Game.getStartingPos(playerID, battlefield.getSize());
-        Vector direction = Game.getStartingDir(playerID);
+        Vector position = this.getStartingPosition(playerID, battlefield.getSize());
+        Vector direction = this.getStartingDir(playerID);
         return new Unit(position, direction, playerID);
     }
 
@@ -407,8 +407,8 @@ public class Game implements IGame, PropertyChangeListener {
         for (Player player : players) {
             int id = player.getId();
             this.placeUnit(player.getId(),
-                    Game.getStartingPos(id, battlefield.getSize()),
-                    Game.getStartingDir(id));
+                    this.getStartingPosition(id, battlefield.getSize()),
+                    this.getStartingDir(id));
             Unit unit = player.getUnit();
             unit.setIsAccelerating(false);
             unit.setHitPoints(unit.getHitPointsMax());
@@ -504,20 +504,31 @@ public class Game implements IGame, PropertyChangeListener {
         this.cannonBalls.add(cBall);
     }
 
-    public static Vector getStartingPos(int playerID, Vector bfSize) {
+    @Override
+    public Vector getStartingPosition(int playerID, Vector bfSize) {
+        Vector upLeft = new Vector(bfSize);
+        Vector downLeft = new Vector(upLeft.getX(), 0);
+        Vector upRight = new Vector(0, upLeft.getX());
+        Vector downRight = new Vector(15f, 15f);
+        
+        // We want the starting positions a bit more towards the center
+        upLeft.add(new Vector(-15f, -15f));
+        downLeft.add(new Vector(-15f, 15f));
+        upRight.add(new Vector(15f, -15f));
+        
         Vector position;
         switch (playerID) {
             case 0:
-                position = new Vector(bfSize);
+                position = new Vector(upLeft);
                 break;
             case 1:
-                position = new Vector(0, 0);
+                position = new Vector(downRight);
                 break;
             case 2:
-                position = new Vector(bfSize.getX(), 0);
+                position = new Vector(downLeft);
                 break;
             case 3:
-                position = new Vector(0, bfSize.getY());
+                position = new Vector(upRight);
                 break;
             default:
                 throw new IllegalArgumentException("ERROR: Tried to get startingPos of invalid player with ID: "
@@ -526,7 +537,7 @@ public class Game implements IGame, PropertyChangeListener {
         return position;
     }
 
-    public static Vector getStartingDir(int playerID) {
+    public Vector getStartingDir(int playerID) {
         Vector direction;
         switch (playerID) {
             case 0:

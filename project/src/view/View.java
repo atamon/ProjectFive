@@ -38,6 +38,7 @@ public class View implements PropertyChangeListener {
     public static final float[] MAGICAL_VIEW_TWO = {0.06f, 0.45f, 0.15f, 0.50f};
     public static final float[] MAGICAL_VIEW_THREE = {0.56f, 0.95f, 0.60f, 0.95f};
     
+    
     private final Node blenderUnit;
     
     private final IGame game;
@@ -70,26 +71,28 @@ public class View implements PropertyChangeListener {
         blenderUnit = BlenderImporter.loadModel(assetManager, BLEND_PATH);
         
         // Set up individual cam positions
-//        setUpCameraView(MAGICAL_VIEW_ZERO);
-//        setUpCameraView(MAGICAL_VIEW_ONE);
-//        setUpCameraView(MAGICAL_VIEW_TWO);
-//        setUpCameraView(MAGICAL_VIEW_THREE);
+        Vector bfSize = game.getBattlefieldSize();
+        setUpCameraView(MAGICAL_VIEW_ZERO, Util.convertToMonkey3D(game.getStartingPosition(0, bfSize)));
+        setUpCameraView(MAGICAL_VIEW_ONE, Util.convertToMonkey3D(game.getStartingPosition(1, bfSize)));
+        setUpCameraView(MAGICAL_VIEW_TWO, Util.convertToMonkey3D(game.getStartingPosition(2, bfSize)));
+        setUpCameraView(MAGICAL_VIEW_THREE, Util.convertToMonkey3D(game.getStartingPosition(3, bfSize)));
         
         // Init GUI JoinScreen
         Nifty nifty = niftyGUI.getNifty();
         nifty.fromXml(NIFTY_XML_PATH, "join", new JoinScreen());
-        List<Element> list = nifty.getScreen("join").getLayerElements();
-        for (Element element : list) {
-            element.hide();
-        }
+//        List<Element> list = nifty.getScreen("join").getLayerElements();
+//        for (Element element : list) {
+//            element.hide();
+//        }
     }
     
-    private void setUpCameraView(float[] vpPos) {
+    private void setUpCameraView(float[] vpPos, Vector3f unitPos) {
         // .clone() works for us now since we will use same aspect ratio as window.
+        Vector3f position = unitPos.add(0, 25f, -10f);
         Camera camera = jme3.getCamera().clone();
         camera.setViewPort(vpPos[0], vpPos[1], vpPos[2], vpPos[3]);
-        camera.setLocation(jme3.getCamera().getLocation());
-        camera.lookAt(Vector3f.ZERO, Vector3f.UNIT_Y);
+        camera.setLocation(position);
+        camera.lookAt(unitPos, Vector3f.UNIT_Y);
         
         ViewPort viewport = renderManager.createMainView("PiP", camera);
         viewport.setClearFlags(true, true, true);
@@ -101,7 +104,6 @@ public class View implements PropertyChangeListener {
      * Very simple, only adds a blue plane, lighting and a gUint.
      */
     public void createScene() {
-        
         initGround(this.game.getBattlefieldSize(), this.game.getBattlefieldPosition());
         initCamera();
         initLighting();
@@ -109,13 +111,7 @@ public class View implements PropertyChangeListener {
 
     private void initGround(Vector size, Vector pos) {
         GraphicalBattlefield geoBattlefield = new GraphicalBattlefield(Util.convertToMonkey3D(size), Util.convertToMonkey3D(pos), assetManager);
-
         rootNode.attachChild(geoBattlefield.getGeometry());
-
-
-//        RigidBodyControl groundPhysics = new RigidBodyControl(0.0f);
-//        groundGeometry.addControl(groundPhysics);
-//        bulletAppState.getPhysicsSpace().add(groundPhysics);
     }
 
     private void initLighting() {

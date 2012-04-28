@@ -37,4 +37,5 @@ public interface IGame extends IObservable {
     public void switchPauseState();
     public void removePlayer(int id);
     public boolean hasPlayer(int id);
+    public Vector getStartingPosition(int id, Vector bfSize);
 }
