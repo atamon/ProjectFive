@@ -7,7 +7,6 @@ import java.util.LinkedList;
 import java.util.List;
 import model.physics.IPhysicsHandler;
 import model.physics.JMEPhysicsHandler;
-import model.physics.PhysType;
 import model.tools.Vector;
 
 /**
@@ -63,7 +62,7 @@ public class Battlefield implements IVisualisable, PropertyChangeListener{
             this.physHandler.setRigidVelocity(next, next.getVelocity());
             this.physHandler.setRigidForce(next, next.getDirection(), next.getSpeed());
             this.physHandler.setRigidPosition(next, next.getPosition());
-            if (next.getType() == PhysType.BOAT && this.isOutOfBounds(next.getPosition())) {
+            if (next.getClass() == Unit.class && this.isOutOfBounds(next.getPosition())) {
                 this.doMagellanJourney(next);
             }
         }

@@ -1,6 +1,6 @@
 package model.visual;
 
-import model.physics.PhysType;
+import model.tools.PhysType;
 import model.tools.Direction;
 import model.tools.Vector;
 import model.physics.IPhysical;

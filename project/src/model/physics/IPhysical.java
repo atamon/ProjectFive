@@ -4,6 +4,7 @@
  */
 package model.physics;
 
+import model.tools.PhysType;
 import model.tools.Vector;
 
 

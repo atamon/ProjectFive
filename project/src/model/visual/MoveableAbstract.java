@@ -6,7 +6,7 @@ package model.visual;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import model.physics.PhysType;
+import model.tools.PhysType;
 import model.tools.Vector;
 
 /**
