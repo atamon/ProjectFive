@@ -98,17 +98,6 @@ public class Game implements IGame{
     }
 
     /**
-     * Accelerates a player's unit.
-     *
-     * @param id The player's ID
-     * @param tpf Time since last frame
-     */
-    @Override
-    public void acceleratePlayerUnit(int id, boolean accel) {
-        this.playerMap.get(id).accelerateUnit(accel);
-    }
-
-    /**
      * Returns the size of the logical battlefield
      *
      * @return The size as a Vector
@@ -134,8 +123,8 @@ public class Game implements IGame{
      * @return Returns the unit created.
      */
     private Unit createUnit(int playerID) {
-        Vector position = this.getStartingPosition(playerID, battlefield.getSize());
-        Vector direction = this.getStartingDir(playerID);
+        Vector position = Battlefield.getStartingPosition(playerID, battlefield.getSize());
+        Vector direction = Battlefield.getStartingDir(playerID);
         return new Unit(position, direction, playerID);
     }
 
@@ -145,6 +134,7 @@ public class Game implements IGame{
             throw new RuntimeException("AddPlayer: player with id: " + id + " does already exist! Sorry :(");
         }
         Player player = new Player(id);
+        player.addPropertyChangeListener(battlefield);
         Unit unit = this.createUnit(id);
 
         player.setUnit(unit);
@@ -341,8 +331,8 @@ public class Game implements IGame{
         for (Player player : players) {
             int id = player.getId();
             this.placeUnit(player.getId(),
-                    this.getStartingPosition(id, battlefield.getSize()),
-                    this.getStartingDir(id));
+                    Battlefield.getStartingPosition(id, battlefield.getSize()),
+                    Battlefield.getStartingDir(id));
             Unit unit = player.getUnit();
             unit.setIsAccelerating(false);
             unit.setHitPoints(unit.getHitPointsMax());
@@ -374,81 +364,4 @@ public class Game implements IGame{
         this.pcs.removePropertyChangeListener(pl);
     }
 
-
-
-    public void fireLeft(Player player) {
-        Vector ballDirection = new Vector(player.getUnitDirection().getY(),
-                player.getUnitDirection().getX() * -1);
-        this.fire(player, ballDirection);
-    }
-
-    public void fireRight(Player player) {
-
-        Vector ballDirection = new Vector(player.getUnitDirection().getY() * -1,
-                player.getUnitDirection().getX());
-        this.fire(player, ballDirection);
-    }
-
-    private void fire(Player player, Vector direction) {
-        CannonBall cBall = new CannonBall(player.getId(),
-                player.getUnitPosition(),
-                direction, 50);
-        this.battlefield.addToBattlefield(cBall);
-        this.pcs.firePropertyChange("CannonBall Created", null, cBall);
-    }
-
-    @Override
-    public Vector getStartingPosition(int playerID, Vector bfSize) {
-        Vector upLeft = new Vector(bfSize);
-        Vector downLeft = new Vector(upLeft.getX(), 0);
-        Vector upRight = new Vector(0, upLeft.getX());
-        Vector downRight = new Vector(15f, 15f);
-        
-        // We want the starting positions a bit more towards the center
-        upLeft.add(new Vector(-15f, -15f));
-        downLeft.add(new Vector(-15f, 15f));
-        upRight.add(new Vector(15f, -15f));
-        
-        Vector position;
-        switch (playerID) {
-            case 0:
-                position = new Vector(upLeft);
-                break;
-            case 1:
-                position = new Vector(downRight);
-                break;
-            case 2:
-                position = new Vector(downLeft);
-                break;
-            case 3:
-                position = new Vector(upRight);
-                break;
-            default:
-                throw new IllegalArgumentException("ERROR: Tried to get startingPos of invalid player with ID: "
-                        + playerID);
-        }
-        return position;
-    }
-
-    public Vector getStartingDir(int playerID) {
-        Vector direction;
-        switch (playerID) {
-            case 0:
-                direction = new Vector(-1, -1);
-                break;
-            case 1:
-                direction = new Vector(1, 1);
-                break;
-            case 2:
-                direction = new Vector(-1, 1);
-                break;
-            case 3:
-                direction = new Vector(1, -1);
-                break;
-            default:
-                throw new IllegalArgumentException("ERROR: Tried to get startingPos of invalid player with ID: "
-                        + playerID);
-        }
-        return direction;
-    }
 }
