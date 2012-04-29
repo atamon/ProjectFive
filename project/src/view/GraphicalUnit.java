@@ -24,6 +24,7 @@ public class GraphicalUnit implements PropertyChangeListener {
     private Node node;
     private float yPosition;
     public static final float UNIT_HEIGHT = 1f;
+//    private Node trackerNode;
     public GraphicalUnit(ColorRGBA color,
                          Vector3f pos,
                          Vector3f dir,
@@ -32,7 +33,7 @@ public class GraphicalUnit implements PropertyChangeListener {
                          Node blenderModel) {
 
         this.node = blenderModel;
-        
+//        this.trackerNode = trackerNode;
         yPosition = GraphicalBattlefield.BATTLEFIELD_THICKNESS+UNIT_HEIGHT;
         size.setY(UNIT_HEIGHT);
         blenderModel.setLocalScale(size);
@@ -49,8 +50,10 @@ public class GraphicalUnit implements PropertyChangeListener {
     }
 
     private void updatePosition(Vector3f pos) {
-        
+//        Vector3f trackMovement = node.getLocalTranslation().add(pos);
+//        trackMovement = trackMovement.subtract(65f, 0, 65f);
         this.node.setLocalTranslation(pos);
+//        this.trackerNode.move(trackMovement.x, 0, trackMovement.z);
     }
 
     private void updateRotation(Vector3f dir) {

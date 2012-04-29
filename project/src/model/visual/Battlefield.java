@@ -181,6 +181,9 @@ public class Battlefield implements IVisualisable, PropertyChangeListener{
         if ("Collision BoatCannonBall".equals(evt.getPropertyName())) {
             boatHitByCannonBall((Unit) evt.getOldValue(), (CannonBall) evt.getNewValue());
         }
+        if("CannonBall Created".equals(evt.getPropertyName())) {
+            this.addToBattlefield((CannonBall)evt.getNewValue());
+        }
     }
     
     private void removeCannonBall(CannonBall cb) {
@@ -197,7 +200,58 @@ public class Battlefield implements IVisualisable, PropertyChangeListener{
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    public static Vector getStartingPosition(int playerID, Vector bfSize) {
+        Vector upLeft = new Vector(bfSize);
+        Vector downLeft = new Vector(upLeft.getX(), 0);
+        Vector upRight = new Vector(0, upLeft.getX());
+        Vector downRight = new Vector(15f, 15f);
+        
+        // We want the starting positions a bit more towards the center
+        upLeft.add(new Vector(-15f, -15f));
+        downLeft.add(new Vector(-15f, 15f));
+        upRight.add(new Vector(15f, -15f));
+        
+        Vector position;
+        switch (playerID) {
+            case 0:
+                position = new Vector(upLeft);
+                break;
+            case 1:
+                position = new Vector(downRight);
+                break;
+            case 2:
+                position = new Vector(downLeft);
+                break;
+            case 3:
+                position = new Vector(upRight);
+                break;
+            default:
+                throw new IllegalArgumentException("ERROR: Tried to get startingPos of invalid player with ID: "
+                        + playerID);
+        }
+        return position;
+    }
 
-    
+    public static Vector getStartingDir(int playerID) {
+        Vector direction;
+        switch (playerID) {
+            case 0:
+                direction = new Vector(-1, -1);
+                break;
+            case 1:
+                direction = new Vector(1, 1);
+                break;
+            case 2:
+                direction = new Vector(-1, 1);
+                break;
+            case 3:
+                direction = new Vector(1, -1);
+                break;
+            default:
+                throw new IllegalArgumentException("ERROR: Tried to get startingPos of invalid player with ID: "
+                        + playerID);
+        }
+        return direction;
+    }
     
 }
