@@ -6,13 +6,14 @@ package model.visual;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import model.physics.PhysType;
 import model.tools.Vector;
 
 /**
  *
  * @author johannes wikner
  */
-public abstract class MoveableAbstract implements IVisualisable {
+public abstract class MoveableAbstract implements IMoveable {
     public static final int GLOBAL_MAX_SPEED = 50;
     protected Vector pos;
     protected Vector dir;
@@ -32,7 +33,7 @@ public abstract class MoveableAbstract implements IVisualisable {
      * Move the moveable in its current direction and speed
      * @param tpf Time per frame 
      */
-    protected void move(float tpf){
+    protected void move(final float tpf){
         //no speed, no time per frame means no movement
         if (this.speed*tpf != 0) {
             // Update directions length according to speed and tpf
@@ -69,7 +70,11 @@ public abstract class MoveableAbstract implements IVisualisable {
         this.pos.setY(y);
         this.positionUpdated();
     }
-
+    public Vector getVelocity() {
+        final float x = dir.getX();
+        final float y = dir.getY();
+        return new Vector(x * speed, y * speed);
+    }
     /**
      * Sets the speed of the movable. 
      * @param speed The speed to be set

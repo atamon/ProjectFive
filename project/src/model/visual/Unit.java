@@ -3,8 +3,6 @@ package model.visual;
 import model.physics.PhysType;
 import model.tools.Direction;
 import model.tools.Vector;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import model.physics.IPhysical;
 import model.tools.Settings;
 import model.tools.IObservable;
@@ -48,18 +46,14 @@ public class Unit extends MoveableAbstract implements IObservable, IPhysical {
      * Updates the units position according to speed, direction and updatefrequency
      * @param tpf Updatefrequency, i.e. time since last frame
      */
-    public void updateUnit(float tpf) {
+    public void update(final float tpf) {
         this.accelerate(this.isAccelerating, tpf);
         this.steer(tpf);
         this.move(tpf);
 
     }
 
-    public Vector getVelocity() {
-        float x = dir.getX();
-        float y = dir.getY();
-        return new Vector((x > 0 ? 1 : -1) * x * x * speed, (y > 0 ? 1 : -1) * y * y * speed);
-    }
+
 
     /**
      * Accelerates the unit
@@ -289,5 +283,12 @@ public class Unit extends MoveableAbstract implements IObservable, IPhysical {
 
     public int getOwner() {
         return this.owner;
+    }
+
+    public void remove() {
+        setIsAccelerating(false);
+        setSteerAngle(0);
+        setPosition(Vector.NONE_EXISTANT);
+
     }
 }

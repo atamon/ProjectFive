@@ -67,7 +67,7 @@ public class Player {
      * Updates the units position with a 
      */
     public void updateUnitPosition(float tpf) {
-        this.playerUnit.updateUnit(tpf);
+        this.playerUnit.update(tpf);
     }
     
     /**

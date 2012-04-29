@@ -1,36 +1,24 @@
 package model;
 
-import model.player.Player;
-import model.round.WinnerNotFoundException;
-import model.round.RoundAlreadyStartedException;
-import model.round.Round;
-import model.round.RoundState;
-import model.round.RoundAlreadyEndedException;
-import java.beans.PropertyChangeEvent;
-import model.tools.Settings;
-import model.visual.Battlefield;
-import model.tools.Vector;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
-import model.physics.IPhysicsHandler;
-import model.physics.JMEPhysicsHandler;
-import model.physics.PhysType;
+import model.player.Player;
+import model.round.*;
+import model.tools.Settings;
+import model.tools.Vector;
+import model.visual.Battlefield;
 import model.visual.CannonBall;
 import model.visual.Unit;
-import util.Util;
 
 /**
  * Represents a Game consisting of rounds and players that compete to win!
  *
  * @author Anton Lindgren @modified by John Hult, Victor Lindhé
  */
-public class Game implements IGame, PropertyChangeListener {
+public class Game implements IGame{
 
     // A game is never startable without 2 players at this point
     public static final int VALID_PLAYER_AMOUNT = 2;
@@ -42,9 +30,6 @@ public class Game implements IGame, PropertyChangeListener {
     private final Map<Integer, Player> playerMap = new HashMap<Integer, Player>();
     private final Map<Integer, Round> playedRounds = new HashMap<Integer, Round>();
     private Round currentRound;
-    private IPhysicsHandler physHandler = new JMEPhysicsHandler();
-    private List<CannonBall> cannonBalls;
-
     /**
      * Create a game with given parameters. A game consists of a number of
      * rounds containing a given amount of players. The Game class starts new
@@ -53,11 +38,8 @@ public class Game implements IGame, PropertyChangeListener {
      *
      * @param battlefield The battlefield passed from Model which we'll play on.
      */
-    public Game(Battlefield battlefield) {
+    public Game(final Battlefield battlefield) {
         this.battlefield = battlefield;
-        this.cannonBalls = new LinkedList<CannonBall>();
-        physHandler.addPropertyChangeListener(this);
-
     }
 
     /**
@@ -93,36 +75,10 @@ public class Game implements IGame, PropertyChangeListener {
             lookForDeadUnits();
 
 
-            Iterator<CannonBall> iterator = this.cannonBalls.iterator();
-            while (iterator.hasNext()) {
-                CannonBall ball = iterator.next();
-                this.physHandler.setRigidPosition(PhysType.CANNONBALL, ball, ball.getPosition());
-                ball.update(tpf);
-            }
 
-            for (Player player : this.playerMap.values()) {
-                Unit unit = player.getUnit();
-                this.physHandler.setRigidVelocity(PhysType.BOAT, unit, unit.getVelocity());
-                this.physHandler.setRigidForce(PhysType.BOAT, unit, player.getUnitDirection(), unit.getSpeed());
-                this.physHandler.setRigidPosition(PhysType.BOAT, unit, unit.getPosition());
-                
-                unit.updateUnit(tpf);
-                
-                if (this.isOutOfBounds(player.getUnitPosition())) {
-                    this.doMagellanJourney(player);
-                }
-            }
+            this.battlefield.update(tpf);
 
-            this.physHandler.update(tpf);
         }
-    }
-
-    private boolean isOutOfBounds(Vector position) {
-        Vector size = this.getBattlefieldSize();
-        return position.getX() < 0
-                || position.getX() > size.getX()
-                || position.getY() < 0
-                || position.getY() > size.getY();
     }
 
     public Vector getBattlefieldPosition() {
@@ -190,11 +146,9 @@ public class Game implements IGame, PropertyChangeListener {
         }
         Player player = new Player(id);
         Unit unit = this.createUnit(id);
-        //init physcz
-        physHandler.addToWorld(unit);
 
         player.setUnit(unit);
-
+        this.battlefield.addToBattlefield(unit);
         // Keep track of the unit by its id
         this.playerMap.put(id, player);
 
@@ -248,13 +202,11 @@ public class Game implements IGame, PropertyChangeListener {
      */
     @Override
     public void nextRound() {
+        
+        this.battlefield.clear();
         this.currentRound = new Round();
         try {
             this.currentRound.start();
-            for (CannonBall cb : cannonBalls) {
-                cb.remove();
-            }
-            cannonBalls.clear();
         } catch (RoundAlreadyStartedException e) {
             System.out.println("WARNING: " + e.getMessage());
             return;
@@ -282,21 +234,6 @@ public class Game implements IGame, PropertyChangeListener {
         }
     }
 
-    private void doMagellanJourney(Player player) {
-        Vector newPosition = new Vector(player.getUnitPosition());
-        Vector direction = new Vector(player.getUnitDirection());
-
-        direction.mult(-1.0f);
-        newPosition.add(direction);
-        while (!isOutOfBounds(newPosition)) {
-            newPosition.add(direction);
-        }
-
-        direction.mult(-1.0f);
-        newPosition.add(direction);
-        player.setUnitPosition(newPosition.getX(), newPosition.getY());
-    }
-
     private void lookForDeadUnits() {
         // Check for Units with 0 HP
         Collection<Player> players = playerMap.values();
@@ -304,10 +241,7 @@ public class Game implements IGame, PropertyChangeListener {
             Unit unit = player.getUnit();
             if (unit.getHitPoints() <= 0
                     && !unit.isDeadAndBuried()) {
-                unit.setIsAccelerating(false);
-                unit.setSteerAngle(0);
-                unit.setPosition(Vector.NONE_EXISTANT);
-
+                unit.remove();
                 lookForLastManStanding(players);
             }
         }
@@ -440,46 +374,7 @@ public class Game implements IGame, PropertyChangeListener {
         this.pcs.removePropertyChangeListener(pl);
     }
 
-    private void removeCannonBall(CannonBall cb) {
-        this.cannonBalls.remove(cb);
-        cb.remove();
-    }
 
-    private void boatHitByCannonBall(Unit boat, CannonBall cBall) {
-        boat.damage(cBall.getDamage());
-        removeCannonBall(cBall);
-    }
-
-    public void propertyChange(PropertyChangeEvent evt) {
-        if ("Collision CannonBalls".equals(evt.getPropertyName())) {
-            removeCannonBall((CannonBall) evt.getOldValue());
-            removeCannonBall((CannonBall) evt.getNewValue());
-        }
-        if ("Collision Boats".equals(evt.getPropertyName())) {
-            final Unit unit1 = (Unit) evt.getOldValue();
-            final Vector newDir1 = this.physHandler.getRigidDirection(unit1);
-            final float speed1 = this.physHandler.getRigidSpeed(unit1);
-
-            newDir1.add(unit1.getDirection());
-            unit1.setDirection(newDir1);
-            unit1.setSpeed(speed1);
-
-            final Unit unit2 = (Unit) evt.getNewValue();
-            final Vector newDir2 = this.physHandler.getRigidDirection(unit2);
-            final float speed2 = this.physHandler.getRigidSpeed(unit2);
-
-            newDir2.add(unit2.getDirection());
-            unit2.setDirection(newDir2);
-            unit2.setSpeed(speed2);
-        }
-        if ("Collision CannonBallBoat".equals(evt.getPropertyName())) {
-            boatHitByCannonBall((Unit) evt.getNewValue(), (CannonBall) evt.getOldValue());
-        }
-
-        if ("Collision BoatCannonBall".equals(evt.getPropertyName())) {
-            boatHitByCannonBall((Unit) evt.getOldValue(), (CannonBall) evt.getNewValue());
-        }
-    }
 
     public void fireLeft(Player player) {
         Vector ballDirection = new Vector(player.getUnitDirection().getY(),
@@ -498,10 +393,8 @@ public class Game implements IGame, PropertyChangeListener {
         CannonBall cBall = new CannonBall(player.getId(),
                 player.getUnitPosition(),
                 direction, 50);
-
-        this.physHandler.addToWorld(cBall);
+        this.battlefield.addToBattlefield(cBall);
         this.pcs.firePropertyChange("CannonBall Created", null, cBall);
-        this.cannonBalls.add(cBall);
     }
 
     @Override

@@ -18,5 +18,7 @@ public interface IPhysical {
     public Vector getDirection();
     public PhysType getType();
     public int getOwner();
-    
+    public Vector getVelocity();
+    public float getSpeed();
+    public void update(float tpf);
 }

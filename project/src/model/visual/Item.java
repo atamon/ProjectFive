@@ -45,4 +45,8 @@ public final class Item implements IVisualisable {
         return this.size;
     }
 
+    public void remove() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 }

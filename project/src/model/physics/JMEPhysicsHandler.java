@@ -51,6 +51,7 @@ public class JMEPhysicsHandler implements IPhysicsHandler, IObservable, PhysicsC
     public void update(float tpf){
         this.bulletAppState.getPhysicsSpace().update(tpf);
         this.bulletAppState.update(tpf);
+
     }
     
     private PhysicsRigidBody createRigidBody(IPhysical physModel){
@@ -76,7 +77,7 @@ public class JMEPhysicsHandler implements IPhysicsHandler, IObservable, PhysicsC
      */
     public Vector getRigidPosition(IPhysical physModel) {
         
-        PhysicsRigidBody body = getRigidBoat(physModel);
+        PhysicsRigidBody body = getRigid(physModel);
 
         
         Vector3f newPos = body.getPhysicsLocation();
@@ -85,27 +86,24 @@ public class JMEPhysicsHandler implements IPhysicsHandler, IObservable, PhysicsC
     }
     
     public float getRigidSpeed(IPhysical physModel){
-        return getRigidBoat(physModel).getLinearVelocity().length();
+        return getRigid(physModel).getLinearVelocity().length();
     }
     
-    public void setRigidVelocity(PhysType type, IPhysical physModel, Vector vel) {
-        if(type == PhysType.BOAT){
-            PhysicsRigidBody rBody = this.getRigidBoat(physModel);
-            rBody.setLinearVelocity(new Vector3f(vel.getX(),0,vel.getY()));
-             
-        }
+    public void setRigidVelocity(IPhysical physModel, Vector vel) {
+        PhysicsRigidBody rBody = this.getRigid(physModel);
+        rBody.setLinearVelocity(new Vector3f(vel.getX(),0,vel.getY()));
     }
     
 
     public Vector getRigidDirection(IPhysical model) {
-        Vector3f dir3f = getRigidBoat(model).getLinearVelocity().normalize();
+        Vector3f dir3f = getRigid(model).getLinearVelocity().normalize();
         return new Vector(dir3f.getX(), dir3f.getZ());
     }
-    public void setRigidPosition(PhysType type, IPhysical physModel, Vector pos) {
-        this.getRigidBoat(physModel).setPhysicsLocation(new Vector3f(pos.getX(),0,pos.getY()));
+    public void setRigidPosition(IPhysical physModel, Vector pos) {
+        this.getRigid(physModel).setPhysicsLocation(new Vector3f(pos.getX(),0,pos.getY()));
     }
     
-    private PhysicsRigidBody getRigidBoat(IPhysical physModel){
+    private PhysicsRigidBody getRigid(IPhysical physModel){
         PhysicsRigidBody body = null;
         Iterator<PhysicsRigidBody> iterator = this.rigidBodies.iterator();
         while(iterator.hasNext()){
@@ -118,16 +116,16 @@ public class JMEPhysicsHandler implements IPhysicsHandler, IObservable, PhysicsC
     }
     
     public void collision(PhysicsCollisionEvent event) {
-        PhysicsRigidBody body1 = ((PhysicsRigidBody)event.getObjectA());
-        PhysicsRigidBody body2 = ((PhysicsRigidBody)event.getObjectB());
+        final PhysicsRigidBody body1 = ((PhysicsRigidBody)event.getObjectA());
+        final PhysicsRigidBody body2 = ((PhysicsRigidBody)event.getObjectB());
         
-        PhysType type1 = ((IPhysical)body1.getUserObject()).getType();
-        PhysType type2 = ((IPhysical)body2.getUserObject()).getType();
+        final IPhysical phys1 = (IPhysical)body1.getUserObject();
+        final IPhysical phys2 = (IPhysical)body2.getUserObject();
+        
+        final PhysType type1 = phys1.getType();
+        final PhysType type2 = phys2.getType();
         
         String propertyName = "";
-        
-        IPhysical phys1 = (IPhysical)body1.getUserObject();
-        IPhysical phys2 = (IPhysical)body2.getUserObject();
         
         if(type1==type2){
             if(type1==PhysType.CANNONBALL){
@@ -160,11 +158,13 @@ public class JMEPhysicsHandler implements IPhysicsHandler, IObservable, PhysicsC
         this.pcs.removePropertyChangeListener(ls);
     }
 
-    public void setRigidForce(PhysType type, IPhysical model, Vector dir, float speed) {
-        this.getRigidBoat(model).getPhysicsLocation().y = 0;
+    public void setRigidForce(IPhysical model, Vector dir, float speed) {
+
+        this.getRigid(model).getPhysicsLocation().y = 0;
         Vector3f force = new Vector3f(dir.getX(), 0, dir.getY());
         force.mult(speed);
-        this.getRigidBoat(model).applyCentralForce(force);
+        this.getRigid(model).applyCentralForce(force);
+
     }
 
 
