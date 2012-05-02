@@ -74,10 +74,10 @@ public class View implements PropertyChangeListener {
 
         // Set up individual cam positions
         Vector bfSize = game.getBattlefieldSize();
-        setUpCameraView(MAGICAL_VIEW_ZERO, Util.convertToMonkey3D(Battlefield.getStartingPosition(0, bfSize)));
-        setUpCameraView(MAGICAL_VIEW_ONE, Util.convertToMonkey3D(Battlefield.getStartingPosition(1, bfSize)));
-        setUpCameraView(MAGICAL_VIEW_TWO, Util.convertToMonkey3D(Battlefield.getStartingPosition(2, bfSize)));
-        setUpCameraView(MAGICAL_VIEW_THREE, Util.convertToMonkey3D(Battlefield.getStartingPosition(3, bfSize)));
+     //   setUpCameraView(MAGICAL_VIEW_ZERO, Util.convertToMonkey3D(Battlefield.getStartingPosition(0, bfSize)));
+      //  setUpCameraView(MAGICAL_VIEW_ONE, Util.convertToMonkey3D(Battlefield.getStartingPosition(1, bfSize)));
+      //  setUpCameraView(MAGICAL_VIEW_TWO, Util.convertToMonkey3D(Battlefield.getStartingPosition(2, bfSize)));
+      //  setUpCameraView(MAGICAL_VIEW_THREE, Util.convertToMonkey3D(Battlefield.getStartingPosition(3, bfSize)));
 
         // Init GUI JoinScreen
         nifty = niftyGUI.getNifty();
@@ -100,7 +100,7 @@ public class View implements PropertyChangeListener {
 //        chaseCam.setUpVector(Vector3f.UNIT_Y);
     }
 
-    private void setUpCameraView(float[] vpPos, Vector3f unitPos) {
+   private void setUpCameraView(float[] vpPos, Vector3f unitPos) {
         // .clone() works for us now since we will use same aspect ratio as window.
         Vector3f position = unitPos.add(0, 25f, -10f);
         Camera camera = jme3.getCamera().clone();
@@ -112,6 +112,7 @@ public class View implements PropertyChangeListener {
         viewport.setClearFlags(true, true, true);
         viewport.attachScene(rootNode);
         viewports.add(viewport);
+    
     }
 
     /**
