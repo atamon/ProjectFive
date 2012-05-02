@@ -34,11 +34,6 @@ public class CannonBallTest {
         this.speed = 20;
         this.ball = new CannonBall(owner, posOfBall, dirOfBall, speed);
     }
-    
-    @Before
-    public void setUp() {
-        
-    }
 
     /**
      * Tests if position changes from starting position when updated.
