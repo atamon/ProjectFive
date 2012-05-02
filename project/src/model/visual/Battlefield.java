@@ -43,12 +43,14 @@ public class Battlefield implements IVisualisable, PropertyChangeListener{
         
         physHandler.addPropertyChangeListener(this);
     }
-    public void removeFromBattlefield(final IVisualisable vis){
-      //  this.moveables.remove(vis);
-        vis.remove();
+    public void removeFromBattlefield(final IMoveable mov){
+        mov.remove();
     }
     
     public void addToBattlefield(final IMoveable mov){
+        if (moveables.contains(mov)) {
+            throw new IllegalArgumentException("ERROR: We tried to add a moveable to battlefield that already exists: "+mov);
+        }
         //init physcz
         physHandler.addToWorld(mov);
 
