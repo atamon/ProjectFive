@@ -65,7 +65,6 @@ public class JMEPhysicsHandler implements IPhysicsHandler, IObservable, PhysicsC
                 physModel.getMass());
         
         body.setPhysicsLocation(pos);
-        
         return body;
     }
 

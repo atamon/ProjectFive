@@ -2,7 +2,6 @@ package view;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetManager;
-import com.jme3.input.ChaseCamera;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
@@ -13,13 +12,15 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import de.lessvoid.nifty.Nifty;
-import de.lessvoid.nifty.elements.Element;
 import util.BlenderImporter;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.LinkedList;
 import java.util.List;
+import model.GameState;
 import model.IGame;
 import model.player.Player;
+import model.round.RoundState;
 import model.tools.Vector;
 import model.visual.Battlefield;
 import model.visual.CannonBall;
@@ -38,6 +39,8 @@ public class View implements PropertyChangeListener {
     public static final float[] MAGICAL_VIEW_ONE = {0.56f, 0.95f, 0.15f, 0.50f};
     public static final float[] MAGICAL_VIEW_TWO = {0.06f, 0.45f, 0.15f, 0.50f};
     public static final float[] MAGICAL_VIEW_THREE = {0.56f, 0.95f, 0.60f, 0.95f};
+    private final List<ViewPort> viewports = new LinkedList<ViewPort>();
+    private final Nifty nifty;
     private final Node blenderUnit;
     private final IGame game;
     private final SimpleApplication jme3;
@@ -48,6 +51,8 @@ public class View implements PropertyChangeListener {
     private Node trackerNode;
     private int windowWidth;
     private int windowHeight;
+    private GameState lastGameState;
+    private RoundState lastRoundState;
 
     public View(SimpleApplication jme3, IGame game,
             int windowWidth, int windowHeight, NiftyJmeDisplay niftyGUI) {
@@ -75,12 +80,12 @@ public class View implements PropertyChangeListener {
         setUpCameraView(MAGICAL_VIEW_THREE, Util.convertToMonkey3D(Battlefield.getStartingPosition(3, bfSize)));
 
         // Init GUI JoinScreen
-        Nifty nifty = niftyGUI.getNifty();
+        nifty = niftyGUI.getNifty();
         nifty.fromXml(NIFTY_XML_PATH, "join", new JoinScreen());
-        List<Element> list = nifty.getScreen("join").getLayerElements();
-        for (Element element : list) {
-            element.hide();
-        }
+
+        // We need to fetch first gamestates right away
+        lastGameState = game.getState();
+        lastRoundState = game.getRoundState();
 
         // Try out a track-node, it should always position itself in the middle of all gUnits.
 //        this.trackerNode = new Node();
@@ -106,6 +111,7 @@ public class View implements PropertyChangeListener {
         ViewPort viewport = renderManager.createMainView("PiP", camera);
         viewport.setClearFlags(true, true, true);
         viewport.attachScene(rootNode);
+        viewports.add(viewport);
     }
 
     /**
@@ -141,6 +147,33 @@ public class View implements PropertyChangeListener {
         cam.lookAt(Util.convertToMonkey3D(this.game.getBattlefieldCenter()).setZ(42), Vector3f.UNIT_Y);
     }
 
+    public void update(float tpf) {
+        boolean stateHasChanged = !(lastGameState == game.getState() && lastRoundState == game.getRoundState());
+        // No need to set viewstate if game has not changed
+        if (stateHasChanged) {
+            // Handle which GUI shall be shown
+            if (game.getState() == GameState.INACTIVE) {
+                // Show joinscreen
+                for (ViewPort vp : viewports) {
+                    vp.setEnabled(true);
+                }
+                nifty.gotoScreen("join");
+            }
+            if (game.getState() == GameState.ACTIVE) {
+                // Hide joinscreen
+                for (ViewPort vp : viewports) {
+                    vp.setEnabled(false);
+                }
+                nifty.gotoScreen("blank");
+                
+                // Display HUD
+            }
+        }
+
+        lastGameState = game.getState();
+        lastRoundState = game.getRoundState();
+    }
+
     /**
      * Places the unit in the graphical world.
      *
@@ -161,8 +194,10 @@ public class View implements PropertyChangeListener {
                 gDir,
                 gSize,
                 assetManager,
-                blenderUnit.clone(true)/*,
-                trackerNode*/);
+                blenderUnit.clone(true)/*
+                 * ,
+                 * trackerNode
+                 */);
         // Set it to start listening to its unit
         this.game.addUnitListener(playerID, gUnit);
 
@@ -175,7 +210,6 @@ public class View implements PropertyChangeListener {
         if ("Player Created".equals(pce.getPropertyName())) {
             if (pce.getNewValue().getClass() == Player.class
                     && pce.getOldValue() == null) {
-
                 // Salvage what gUnit needs to set itself up from player
                 Player player = (Player) pce.getNewValue();
                 Unit unit = player.getUnit();

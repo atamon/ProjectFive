@@ -48,6 +48,7 @@ public class Main extends SimpleApplication {
         this.height = settings.getHeight();
 
         // Set settings and start
+        this.setShowSettings(false);
         this.setSettings(settings);
         this.start();
 
@@ -72,6 +73,7 @@ public class Main extends SimpleApplication {
         this.controller = new Controller(this.getInputManager(), view, game);
 
         // Set up debug game-state
+        this.setDisplayStatView(false);
         java.util.logging.Logger.getLogger("").setLevel(Level.SEVERE);
         debugInfo = new BitmapText(guiFont, false);
         debugInfo.setSize(guiFont.getCharSet().getRenderedSize());      // font size

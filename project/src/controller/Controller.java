@@ -49,5 +49,6 @@ public class Controller {
 
     public void update(float tpf) {
         this.game.update(tpf);
+        this.view.update(tpf);
     }
 }

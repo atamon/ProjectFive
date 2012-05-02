@@ -10,6 +10,7 @@ import com.jme3.input.controls.KeyTrigger;
 import controller.keymaps.KeyPlayable;
 import model.IGame;
 import model.player.Player;
+import model.round.RoundState;
 
 /**
  *
@@ -19,10 +20,12 @@ public class PlayerListener implements ActionListener {
 
     private Player player;
     private KeyPlayable layout;
+    private IGame game;
 
-    public PlayerListener(Player player, InputManager inpManager) {
+    public PlayerListener(Player player, InputManager inpManager, IGame game) {
         this.player = player;
         this.layout = KeyFactory.getPlayerKeys(player);
+        this.game = game;
 
         inpManager.addMapping(layout.getUpMap(), new KeyTrigger(layout.getForwardKey()));
         inpManager.addMapping(layout.getLeftMap(), new KeyTrigger(layout.getLeftKey()));
@@ -38,7 +41,7 @@ public class PlayerListener implements ActionListener {
     }
 
     public void onAction(String name, boolean isPressed, float tpf) {
-        if (isPressed) {
+        if (isPressed && game.getRoundState() == RoundState.PLAYING) {
             if (name.equals(this.layout.getLeftFireMap())) {
                 this.player.fireLeft();
             }

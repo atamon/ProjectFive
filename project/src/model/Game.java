@@ -213,7 +213,7 @@ public class Game implements IGame{
      */
     @Override
     public void switchPauseState() {
-        RoundState roundState = currentRound.getState();
+        RoundState roundState = this.getRoundState();
         if (gameState == GameState.ACTIVE && (roundState == RoundState.PLAYING
                 || roundState == RoundState.PAUSED)) {
             if (this.getRoundState() == RoundState.PAUSED) {
