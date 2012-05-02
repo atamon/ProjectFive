@@ -17,5 +17,5 @@ interface IVisualisable {
     
     public Vector getSize();
  
-    public void remove();
+    public void removeFromView();
 }

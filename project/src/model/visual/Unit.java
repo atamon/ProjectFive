@@ -285,10 +285,14 @@ public class Unit extends MoveableAbstract implements IObservable, IPhysical {
         return this.owner;
     }
 
-    public void remove() {
+    public void hide() {
         setIsAccelerating(false);
         setSteerAngle(0);
         setPosition(Vector.NONE_EXISTANT);
 
+    }
+    
+    public void removeFromView(){
+        this.pcs.firePropertyChange("Unit removed", null, null);
     }
 }
