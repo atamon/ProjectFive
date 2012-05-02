@@ -18,7 +18,7 @@ import model.visual.Unit;
  *
  * @author Anton Lindgren @modified by John Hult, Victor Lindhé
  */
-public class Game implements IGame{
+public class Game implements IGame {
 
     // A game is never startable without 2 players at this point
     public static final int VALID_PLAYER_AMOUNT = 2;
