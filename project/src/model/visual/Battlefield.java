@@ -46,6 +46,7 @@ public class Battlefield implements IVisualisable, PropertyChangeListener{
     }
     public void removeFromBattlefield(final IMoveable mov) {
         mov.removeFromView();
+        this.physHandler.remove(mov);
     }
     
     public void addToBattlefield(final IMoveable mov){
@@ -163,7 +164,9 @@ public class Battlefield implements IVisualisable, PropertyChangeListener{
     public void propertyChange(final PropertyChangeEvent evt) {
         if ("Collision CannonBalls".equals(evt.getPropertyName())) {
             this.removeFromBattlefield((CannonBall) evt.getOldValue());
+            this.moveables.remove(evt.getOldValue());
             this.removeFromBattlefield((CannonBall) evt.getNewValue());
+            this.moveables.remove(evt.getNewValue());
         }
         if ("Collision Boats".equals(evt.getPropertyName())) {
             final Unit unit1 = (Unit) evt.getOldValue();

@@ -166,5 +166,9 @@ public class JMEPhysicsHandler implements IPhysicsHandler, IObservable, PhysicsC
 
     }
 
+    public void remove(IPhysical phys) {
+        this.bulletAppState.getPhysicsSpace().removeCollisionObject(this.getRigid(phys));
+    }
+
 
 }
