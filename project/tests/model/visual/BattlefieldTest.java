@@ -111,15 +111,18 @@ public class BattlefieldTest {
 
     /**
      * Test of update method, of class Battlefield.
+     * Will want to force it to perform magellan journey.
      */
     @Test
     public void testUpdate() {
         Battlefield instance = new Battlefield();
         Vector pos = new Vector(instance.getSize());
-        IMoveable mov = new CannonBall(0, pos, new Vector(1, 0), 10f);
-        instance.addToBattlefield(mov);
+        Vector dir = new Vector(1,1);
+        Unit unit = new Unit(pos, dir, 0);
+        unit.setSpeed(10f);
+        instance.addToBattlefield(unit);
         instance.update(0.016f);
-        assertFalse(pos.equals(mov));
+        assertFalse(pos.equals(unit));
     }
 
     /**
@@ -130,8 +133,10 @@ public class BattlefieldTest {
         IMoveable mov = new Unit(new Vector(1, 1), new Vector(1, 1), 0);
         Battlefield instance = new Battlefield();
         instance.addToBattlefield(mov);
-        instance.clear();
+        mov = new CannonBall(0, new Vector(1,1), new Vector(1,1), 25f);
+        instance.addToBattlefield(mov);
         // Same as removeFromBattlefield, only calls other methods, so no crash = okay
+        instance.clear();
         assertTrue(true);
     }
 
@@ -178,18 +183,5 @@ public class BattlefieldTest {
         assertEquals(dirTwo, result);
         result = Battlefield.getStartingDir(3);
         assertEquals(dirThree, result);
-    }
-
-    /**
-     * Test of propertyChange method, of class Battlefield.
-     */
-    @Test
-    public void testPropertyChange() {
-        System.out.println("propertyChange");
-        PropertyChangeEvent evt = null;
-        Battlefield instance = new Battlefield();
-        instance.propertyChange(evt);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 }

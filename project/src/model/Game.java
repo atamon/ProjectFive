@@ -347,6 +347,7 @@ public class Game implements IGame {
      */
     public void clean() {
         playedRounds.clear();
+        
         gameState = GameState.INACTIVE;
     }
 

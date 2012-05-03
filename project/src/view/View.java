@@ -12,11 +12,15 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.elements.Element;
+import de.lessvoid.nifty.tools.SizeValue;
 import util.BlenderImporter;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import model.GameState;
 import model.IGame;
 import model.player.Player;
@@ -40,6 +44,7 @@ public class View implements PropertyChangeListener {
     public static final float[] MAGICAL_VIEW_TWO = {0.06f, 0.45f, 0.15f, 0.50f};
     public static final float[] MAGICAL_VIEW_THREE = {0.56f, 0.95f, 0.60f, 0.95f};
     private final List<ViewPort> viewports = new LinkedList<ViewPort>();
+    private final Map<Element, Unit> hpBars = new HashMap<Element, Unit>();
     private final Nifty nifty;
     private final Node blenderUnit;
     private final IGame game;
@@ -74,14 +79,15 @@ public class View implements PropertyChangeListener {
 
         // Set up individual cam positions
         Vector bfSize = game.getBattlefieldSize();
-     //   setUpCameraView(MAGICAL_VIEW_ZERO, Util.convertToMonkey3D(Battlefield.getStartingPosition(0, bfSize)));
-      //  setUpCameraView(MAGICAL_VIEW_ONE, Util.convertToMonkey3D(Battlefield.getStartingPosition(1, bfSize)));
-      //  setUpCameraView(MAGICAL_VIEW_TWO, Util.convertToMonkey3D(Battlefield.getStartingPosition(2, bfSize)));
-      //  setUpCameraView(MAGICAL_VIEW_THREE, Util.convertToMonkey3D(Battlefield.getStartingPosition(3, bfSize)));
+        setUpCameraView(MAGICAL_VIEW_ZERO, Util.convertToMonkey3D(Battlefield.getStartingPosition(0, bfSize)));
+        setUpCameraView(MAGICAL_VIEW_ONE, Util.convertToMonkey3D(Battlefield.getStartingPosition(1, bfSize)));
+        setUpCameraView(MAGICAL_VIEW_TWO, Util.convertToMonkey3D(Battlefield.getStartingPosition(2, bfSize)));
+        setUpCameraView(MAGICAL_VIEW_THREE, Util.convertToMonkey3D(Battlefield.getStartingPosition(3, bfSize)));
 
         // Init GUI JoinScreen
         nifty = niftyGUI.getNifty();
         nifty.fromXml(NIFTY_XML_PATH, "join", new JoinScreen());
+        nifty.addXml("xml/HUD.xml");
 
         // We need to fetch first gamestates right away
         lastGameState = game.getState();
@@ -100,7 +106,7 @@ public class View implements PropertyChangeListener {
 //        chaseCam.setUpVector(Vector3f.UNIT_Y);
     }
 
-   private void setUpCameraView(float[] vpPos, Vector3f unitPos) {
+    private void setUpCameraView(float[] vpPos, Vector3f unitPos) {
         // .clone() works for us now since we will use same aspect ratio as window.
         Vector3f position = unitPos.add(0, 25f, -10f);
         Camera camera = jme3.getCamera().clone();
@@ -112,7 +118,7 @@ public class View implements PropertyChangeListener {
         viewport.setClearFlags(true, true, true);
         viewport.attachScene(rootNode);
         viewports.add(viewport);
-    
+
     }
 
     /**
@@ -151,7 +157,21 @@ public class View implements PropertyChangeListener {
     public void update(float tpf) {
         boolean stateHasChanged = !(lastGameState == game.getState() && lastRoundState == game.getRoundState());
         // No need to set viewstate if game has not changed
-        if (stateHasChanged) {
+        updateGui(stateHasChanged);
+
+        lastGameState = game.getState();
+        lastRoundState = game.getRoundState();
+        
+        if (lastRoundState == RoundState.PLAYING) {
+            for (Element elem : hpBars.keySet()) {
+                SizeValue hp = new SizeValue(hpBars.get(elem).getHitPoints() +"%");
+                elem.setWidth(hp.getValueAsInt(50f));
+            }
+        }
+    }
+
+    private void updateGui(boolean stateChanged) {
+        if (stateChanged) {
             // Handle which GUI shall be shown
             if (game.getState() == GameState.INACTIVE) {
                 // Show joinscreen
@@ -165,15 +185,21 @@ public class View implements PropertyChangeListener {
                 for (ViewPort vp : viewports) {
                     vp.setEnabled(false);
                 }
-                nifty.gotoScreen("blank");
-                
                 // Display HUD
+                nifty.gotoScreen("HUD");
             }
         }
-
-        lastGameState = game.getState();
-        lastRoundState = game.getRoundState();
     }
+    
+    private Element getHealthBarElement(int playerID) {
+        // Since this is done only a few times per game no need to optimize resources
+        Element elem = nifty.getScreen("HUD").findElementByName(""+playerID);
+        if (elem == null) {
+            throw new IllegalArgumentException("ERROR: No such Element in Nifty-XML, cannot get HP-bar :)");
+        } else {
+            return elem;
+        }
+    } 
 
     /**
      * Places the unit in the graphical world.
@@ -225,7 +251,7 @@ public class View implements PropertyChangeListener {
 
                 // If a player is created we need to start listening to it so we can know when it shoots
                 player.addPropertyChangeListener(this);
-
+                hpBars.put(getHealthBarElement(playerID), game.getPlayer(playerID).getUnit());
             } else {
                 throw new RuntimeException(
                         "Unit Created-event sent without correct parameters");
