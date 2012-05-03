@@ -52,7 +52,6 @@ public class LeavePlayerListener implements ActionListener {
 
     @Override
     public void onAction(String name, boolean isPressed, float tpf) {
-        System.out.println("Player leaving!");
         if (isPressed && game.getState() == GameState.INACTIVE) {
             // Add check for roundstate 
             int id = -1;

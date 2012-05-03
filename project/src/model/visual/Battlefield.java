@@ -82,7 +82,6 @@ public class Battlefield implements IVisualisable, PropertyChangeListener{
         while (!isOutOfBounds(newPosition)) {
             newPosition.add(direction);
         }
-
         direction.mult(-1.0f);
         newPosition.add(direction);
         moveable.setPosition(newPosition);
