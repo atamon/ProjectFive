@@ -138,7 +138,7 @@ public class BattlefieldTest {
     @Test (expected=UnsupportedOperationException.class)
     public void testRemove() {
         Battlefield instance = new Battlefield();
-        instance.remove();
+        instance.removeFromView();
     }
 
     /**
@@ -178,5 +178,18 @@ public class BattlefieldTest {
         assertEquals(dirTwo, result);
         result = Battlefield.getStartingDir(3);
         assertEquals(dirThree, result);
+    }
+
+    /**
+     * Test of propertyChange method, of class Battlefield.
+     */
+    @Test
+    public void testPropertyChange() {
+        System.out.println("propertyChange");
+        PropertyChangeEvent evt = null;
+        Battlefield instance = new Battlefield();
+        instance.propertyChange(evt);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
 }

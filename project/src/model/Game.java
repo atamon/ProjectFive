@@ -231,7 +231,7 @@ public class Game implements IGame {
             Unit unit = player.getUnit();
             if (unit.getHitPoints() <= 0
                     && !unit.isDeadAndBuried()) {
-                unit.remove();
+                unit.hide();
                 lookForLastManStanding(players);
             }
         }

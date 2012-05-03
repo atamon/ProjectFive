@@ -41,6 +41,12 @@ public class CannonBall extends MoveableAbstract implements IObservable, IPhysic
         this.move(tpf);
     }
     
+    public void hide(){
+        setSpeed(0);
+        this.maxSpeed = 0;
+        setPosition(Vector.NONE_EXISTANT);
+    }
+    
     /**
      * Returns the size as a Vector.
      * @return Vector
@@ -69,7 +75,7 @@ public class CannonBall extends MoveableAbstract implements IObservable, IPhysic
     /**
      * Removes the CannonBall from any instance that has it.
      */
-    public void remove() {
+    public void removeFromView() {
         this.pcs.firePropertyChange("CannonBall Removed", null, null);
     }
 

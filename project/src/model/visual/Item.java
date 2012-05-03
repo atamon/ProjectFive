@@ -4,7 +4,7 @@
  */
 package model.visual;
 
-import model.tools.ItemTypes;
+import model.tools.PowerUp;
 import model.tools.Vector;
 
 /**
@@ -13,16 +13,16 @@ import model.tools.Vector;
  */
 public final class Item implements IVisualisable {
     private final Vector position;
-    private final ItemTypes type;
+    private final PowerUp powerUp;
     private final Vector size = new Vector(0.5f,0.5f);
     /**
      * Creates an Item of a given type and at a given position.
-     * @param type ItemTypes
+     * @param PowerUp with features that will be passed on to a unit when he picks it up
      * @param position Vector
      */
-    public Item(ItemTypes type, Vector position) {
+    public Item(PowerUp powerUp, Vector position) {
         this.position = new Vector(position.getX(), position.getY());
-        this.type = type;
+        this.powerUp = powerUp;
     }
     
     /**
@@ -34,19 +34,18 @@ public final class Item implements IVisualisable {
     }
     
     /**
-     * Returns the type of this Item.
+     * Returns the power-up of this Item.
      * @return ItemTypes
      */
-    public ItemTypes getType() {
-        return this.type;
+    public PowerUp getPowerUp() {
+        return this.powerUp; // immutable class => no copy necessary 
     }
 
     public Vector getSize() {
         return this.size;
     }
 
-    public void remove() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void removeFromView() {
+        
     }
-
 }

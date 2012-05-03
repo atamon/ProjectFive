@@ -9,6 +9,7 @@ import model.physics.IPhysicsHandler;
 import model.physics.JMEPhysicsHandler;
 import model.physics.PhysType;
 import model.tools.Vector;
+import model.visual.Unit;
 
 /**
  * A class to represent a Battlefield.
@@ -43,8 +44,8 @@ public class Battlefield implements IVisualisable, PropertyChangeListener{
         
         physHandler.addPropertyChangeListener(this);
     }
-    public void removeFromBattlefield(final IMoveable mov){
-        mov.remove();
+    public void removeFromBattlefield(final IMoveable mov) {
+        mov.removeFromView();
     }
     
     public void addToBattlefield(final IMoveable mov){
@@ -110,7 +111,12 @@ public class Battlefield implements IVisualisable, PropertyChangeListener{
         final Iterator<IMoveable> iterator = this.moveables.iterator();
         while(iterator.hasNext()){
             final IMoveable mov = iterator.next();
-            this.removeFromBattlefield(mov);
+            if(mov.getClass() == Unit.class){
+                this.hideMoveable(mov);
+            } else {
+                this.removeFromBattlefield(mov); // completely remove cannonballs. out boats will just be hidden because they will be reused.
+                iterator.remove();
+            }
         }
     }
     /**
@@ -156,8 +162,8 @@ public class Battlefield implements IVisualisable, PropertyChangeListener{
  
     public void propertyChange(final PropertyChangeEvent evt) {
         if ("Collision CannonBalls".equals(evt.getPropertyName())) {
-            removeCannonBall((CannonBall) evt.getOldValue());
-            removeCannonBall((CannonBall) evt.getNewValue());
+            this.removeFromBattlefield((CannonBall) evt.getOldValue());
+            this.removeFromBattlefield((CannonBall) evt.getNewValue());
         }
         if ("Collision Boats".equals(evt.getPropertyName())) {
             final Unit unit1 = (Unit) evt.getOldValue();
@@ -188,17 +194,13 @@ public class Battlefield implements IVisualisable, PropertyChangeListener{
         }
     }
     
-    private void removeCannonBall(CannonBall cb) {
-        this.moveables.remove(cb);
-        cb.remove();
-    }
 
     private void boatHitByCannonBall(Unit boat, CannonBall cBall) {
         boat.damage(cBall.getDamage());
-        removeCannonBall(cBall);
+        this.removeFromBattlefield(cBall);
     }
 
-    public void remove() {
+    public void removeFromView() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -254,6 +256,10 @@ public class Battlefield implements IVisualisable, PropertyChangeListener{
                         + playerID);
         }
         return direction;
+    }
+
+    private void hideMoveable(IMoveable mov) {
+        mov.hide();
     }
     
 }
