@@ -7,6 +7,8 @@ package physics;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.math.Vector3f;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import math.Vector;
 import math.Direction;
 import util.Util;
@@ -19,6 +21,7 @@ public class PhysicalBody {
     
     private PhysicsRigidBody body;
     private PhyciscalBodyOwner owner;
+    private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     
     public PhysicalBody(PhyciscalBodyOwner owner, Vector startPos, Vector startDir, Vector size2D, float height, float mass) {
         Vector3f correctSize = Util.convertToMonkey3D(size2D).setY(height);
@@ -101,5 +104,13 @@ public class PhysicalBody {
     
     public Vector getDirection() {
         return new Vector(Util.convertFromMonkey3D(body.getLinearVelocity().normalize()));
+    }
+    
+    public void addPropertyChangeListener(PropertyChangeListener pcl) {
+        pcs.addPropertyChangeListener(pcl);
+    }
+    
+    public void updated() {
+        pcs.firePropertyChange("Physical Update", body.getPhysicsLocation(), body.getLinearVelocity().normalize());
     }
 }
