@@ -141,6 +141,14 @@ public abstract class MoveableAbstract implements IMoveable {
     public float getSpeed() {
         return this.speed;
     }
+    
+    /**
+     * Sets the maxSpeed of unit
+     * @param maxSpeed How fast a unit can move 
+     */
+    public void setMaxSpeed(float speed) {
+        this.maxSpeed = speed;
+    }
 
     @Override
     public String toString() {
