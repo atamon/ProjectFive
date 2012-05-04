@@ -1,8 +1,9 @@
 package model.player;
 
-import model.tools.Vector;
+import math.Vector;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import model.tools.Settings;
 import model.visual.CannonBall;
 import model.visual.Unit;
 
@@ -64,9 +65,12 @@ public class Player {
     }
 
     private void fire(Vector direction) {
-        CannonBall cBall = new CannonBall(playerId,
-                getUnitPosition(),
-                direction, 50);
+        CannonBall cBall = new CannonBall(getUnitPosition(),
+                                          direction,
+                                          new Vector(0.1f, 0.1f),
+                                          0.1f,
+                                          (float)(Settings.getInstance().getSetting("cannonBallMass")),
+                                          (float)(Settings.getInstance().getSetting("cannonBallSpeed")));
         this.pcs.firePropertyChange("CannonBall Created", null, cBall);
     }
 

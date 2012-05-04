@@ -5,7 +5,7 @@
 package util;
 
 import com.jme3.math.Vector3f;
-import model.tools.Vector;
+import math.Vector;
 
 /**
  * A class with tools.
@@ -15,6 +15,10 @@ import model.tools.Vector;
 public abstract class Util {
     public static Vector3f convertToMonkey3D(Vector vector) {
         return new Vector3f(vector.getX(), 0, vector.getY());
+    }
+    
+    public static Vector convertFromMonkey3D(Vector3f vector) {
+        return new Vector(vector.x, vector.z);
     }
 
     public static Vector3f getCenterPosition(Vector3f sizeVector) {

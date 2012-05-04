@@ -4,7 +4,7 @@
  */
 package model;
 
-import model.tools.Vector;
+import math.Vector;
 import model.visual.Item;
 import org.junit.Test;
 import static org.junit.Assert.*;

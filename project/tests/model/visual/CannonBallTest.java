@@ -6,8 +6,8 @@ package model.visual;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import model.physics.PhysType;
-import model.tools.Vector;
+import physics.PhysType;
+import math.Vector;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

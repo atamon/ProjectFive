@@ -7,9 +7,9 @@ package model;
 import model.player.Player;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import model.tools.Direction;
+import math.Direction;
 import model.visual.Battlefield;
-import model.tools.Vector;
+import math.Vector;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -128,11 +128,11 @@ public class GameTest {
     public void testAccelerateUnit(){
         this.createPlayerZero();
         testGame.getPlayer(0).getUnit().setSpeed(0);
-        float oldSpeed = testGame.getPlayer(0).getUnit().getSpeed();
+        float oldSpeed = testGame.getPlayer(0).getUnit().getVelocity();
         
         testGame.acceleratePlayerUnit(0, true);
         testGame.update(tpf);
-        assertTrue(oldSpeed < testGame.getPlayer(0).getUnit().getSpeed());
+        assertTrue(oldSpeed < testGame.getPlayer(0).getUnit().getVelocity());
         
     }
     
@@ -192,7 +192,7 @@ public class GameTest {
         instance.createPlayer(0);
         Vector oldVector = instance.getPlayerPosition(0);
         assertTrue(oldVector.getClass() == Vector.class);
-        instance.getPlayer(0).getUnit().setPosition((float)Math.random(), (float)Math.random());
+        instance.getPlayer(0).getUnit().place((float)Math.random(), (float)Math.random());
         assertFalse(oldVector.equals(instance.getPlayerPosition(0)));
     }
 }

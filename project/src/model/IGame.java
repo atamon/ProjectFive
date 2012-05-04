@@ -7,7 +7,7 @@ package model;
 import model.player.Player;
 import model.round.RoundState;
 import model.tools.IObservable;
-import model.tools.Vector;
+import math.Vector;
 import java.beans.PropertyChangeListener;
 import java.util.Map;
 

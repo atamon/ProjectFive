@@ -5,8 +5,8 @@
 package model;
 
 import model.visual.Unit;
-import model.tools.Direction;
-import model.tools.Vector;
+import math.Direction;
+import math.Vector;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -29,7 +29,7 @@ public class UnitTest {
         // direction. IE that the position vector updates according to the direction vector
 
         //Init stuff
-        unit.setPosition(zeroVector);
+        unit.place(zeroVector);
         unit.setSteerAngle(25f);
         unit.setSpeed(unit.getMaxSpeed());
 
@@ -38,28 +38,28 @@ public class UnitTest {
         // Unit should have moved only in x
         Vector pos = unit.getPosition();
         assertTrue(pos.getX() < 0 && pos.getY() == 0);
-        unit.setPosition(zeroVector);
+        unit.place(zeroVector);
 
         // Move east
         moveInDirection(new Vector(1, 0), iterations);
         // Should only have moved in x, but +
         pos = unit.getPosition();
         assertTrue(pos.getX() > 0 && pos.getY() == 0);
-        unit.setPosition(zeroVector);
+        unit.place(zeroVector);
 
         // Move north
         moveInDirection(new Vector(0, 1), iterations);
         // Should only have moved in x, but +
         pos = unit.getPosition();
         assertTrue(pos.getX() == 0 && pos.getY() > 0);
-        unit.setPosition(zeroVector);
+        unit.place(zeroVector);
 
         // Move south
         moveInDirection(new Vector(0, -1), iterations);
         // Should only have moved in x, but +
         pos = unit.getPosition();
         assertTrue(pos.getX() == 0 && pos.getY() < 0);
-        unit.setPosition(zeroVector);
+        unit.place(zeroVector);
         
         // With speed set to 0 the boat should not move, no matter the direction
         unit.setSpeed(0);
@@ -73,7 +73,7 @@ public class UnitTest {
      * @param iterations 
      */
     private void moveInDirection(Vector dir, int iterations) {
-        unit.setDirection(dir);
+        unit.setVelocity(dir);
         for (int i = 0; i < iterations; i++) {
             unit.updateUnit(test.Utils.simulateTpf());
         }
@@ -90,13 +90,13 @@ public class UnitTest {
         // and anti-clockwise should decrease it. At least for a few iterations
         unit.setSpeed(1);
         unit.setSteerAngle(25f);
-        unit.setDirection(new Vector(1, 0));
+        unit.setVelocity(new Vector(1, 0));
 
         // Clockwise
         steerInDirection(Direction.CLOCKWISE, iterations);
         double sin = Math.sin(unit.getDirection().getY()/unit.getDirection().getLength());
         assertTrue(sin > 0);
-        unit.setDirection(new Vector(1, 0));
+        unit.setVelocity(new Vector(1, 0));
         
         // Anti-clockwise
         steerInDirection(Direction.ANTICLOCKWISE, iterations);
@@ -127,26 +127,26 @@ public class UnitTest {
     }
 
     /**
-     * Test of setDirection method, of class Unit.
+     * Test of setVelocity method, of class Unit.
      */
     @Test
     public void testSetDirection() {
         // The two overloaded methods should set the same direction
-        unit.setDirection(new Vector(25f, 25f));
+        unit.setVelocity(new Vector(25f, 25f));
         Vector direction = unit.getDirection();
-        unit.setDirection(25f, 25f);
+        unit.setVelocity(25f, 25f);
         assertTrue(direction.equals(unit.getDirection()));
     }
 
     /**
-     * Test of setPosition method, of class Unit.
+     * Test of place method, of class Unit.
      */
     @Test
     public void testSetPosition() {
         // The two overloaded methods should set the same direction
-        unit.setPosition(new Vector(25f, 25f));
+        unit.place(new Vector(25f, 25f));
         Vector position = unit.getPosition();
-        unit.setPosition(25f, 25f);
+        unit.place(25f, 25f);
         assertTrue(position.equals(unit.getPosition()));
     }
 
@@ -157,7 +157,7 @@ public class UnitTest {
     public void testSetSpeed() {
         // Reset
         unit.setSpeed(0);
-        assertTrue(unit.getSpeed() == 0);
+        assertTrue(unit.getVelocity() == 0);
         // Should cast exception
         unit.setSpeed(Float.MIN_VALUE);
         unit.setSpeed(Float.POSITIVE_INFINITY);

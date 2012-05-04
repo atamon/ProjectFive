@@ -1,6 +1,6 @@
 package model;
 
-import model.tools.Vector;
+import math.Vector;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

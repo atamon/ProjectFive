@@ -8,7 +8,7 @@ import java.util.Map;
 import model.player.Player;
 import model.round.*;
 import model.tools.Settings;
-import model.tools.Vector;
+import math.Vector;
 import model.visual.Battlefield;
 import model.visual.CannonBall;
 import model.visual.Unit;
@@ -20,7 +20,7 @@ import model.visual.Unit;
  */
 public class Game implements IGame {
 
-    // A game is never startable without 2 players at this point
+    // A game is never startable without 2 players at this setVelocity
     public static final int VALID_PLAYER_AMOUNT = 2;
     public static final int LAST_MAN_STANDING = 1;
     // Instances
@@ -125,7 +125,12 @@ public class Game implements IGame {
     private Unit createUnit(int playerID) {
         Vector position = Battlefield.getStartingPosition(playerID, battlefield.getSize());
         Vector direction = Battlefield.getStartingDir(playerID);
-        return new Unit(position, direction, playerID);
+        int unitSize = Settings.getInstance().getSetting("unitSize");
+        return new Unit(position, 
+                direction, 
+                new Vector(unitSize, unitSize), 
+                unitSize, 
+                Settings.getInstance().getSetting("unitMass"));
     }
 
     public void createPlayer(int id) {
@@ -193,7 +198,7 @@ public class Game implements IGame {
     @Override
     public void nextRound() {
         
-        this.battlefield.clear();
+        this.battlefield.clearForNewRound();
         this.currentRound = new Round();
         try {
             this.currentRound.start();
@@ -353,7 +358,7 @@ public class Game implements IGame {
 
     private void haltPlayers() {
         for (Player player : playerMap.values()) {
-            player.getUnit().setSpeed(0);
+            player.getUnit().halt();
         }
     }
 

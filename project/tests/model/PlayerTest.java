@@ -10,7 +10,7 @@ import org.junit.Before;
 import model.player.Player;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import model.tools.Vector;
+import math.Vector;
 import model.visual.Unit;
 import org.junit.Test;
 import static org.junit.Assert.*;

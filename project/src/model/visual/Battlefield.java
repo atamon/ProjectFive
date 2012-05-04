@@ -5,11 +5,9 @@ import java.beans.PropertyChangeListener;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import model.physics.IPhysicsHandler;
-import model.physics.JMEPhysicsHandler;
-import model.physics.PhysType;
-import model.tools.Vector;
-import model.visual.Unit;
+import physics.JMEPhysicsHandler;
+import math.Vector;
+import physics.PhysicalBody;
 
 /**
  * A class to represent a Battlefield.
@@ -19,7 +17,7 @@ import model.visual.Unit;
 public class Battlefield implements IVisualisable, PropertyChangeListener{
     private final Vector size;
     private final Vector pos = new Vector(0,0);
-    private final IPhysicsHandler physHandler = new JMEPhysicsHandler();
+    private final JMEPhysicsHandler physHandler = new JMEPhysicsHandler();
     private final List<IMoveable> moveables = new LinkedList<IMoveable>();
     
     /**
@@ -43,19 +41,24 @@ public class Battlefield implements IVisualisable, PropertyChangeListener{
         }
         
         physHandler.addPropertyChangeListener(this);
+        
+        // Set up ocean floor
+        physHandler.createGround(size, 2.0f);
     }
     public void removeFromBattlefield(final IMoveable mov) {
-        mov.removeFromView();
-        this.physHandler.remove(mov);
+        mov.announceRemoval();
+        this.physHandler.removeFromWorld(mov.getBody());
+        this.moveables.remove(mov);
     }
     
     public void addToBattlefield(final IMoveable mov){
         if (moveables.contains(mov)) {
             throw new IllegalArgumentException("ERROR: We tried to add a moveable to battlefield that already exists: "+mov);
         }
-        //init physcz
-        physHandler.addToWorld(mov);
-
+        //Add to our physical world which controls movement
+        physHandler.addToWorld(mov.getBody());  
+        
+        // Save it for keepsake
         this.moveables.add(mov);
     }
     
@@ -64,10 +67,7 @@ public class Battlefield implements IVisualisable, PropertyChangeListener{
         while(iterator.hasNext()){
             final IMoveable next = iterator.next();
             next.update(tpf);
-            this.physHandler.setRigidVelocity(next, next.getVelocity());
-            this.physHandler.setRigidForce(next, next.getDirection(), next.getSpeed());
-            this.physHandler.setRigidPosition(next, next.getPosition());
-            if (next.getType() == PhysType.BOAT && this.isOutOfBounds(next.getPosition())) {
+            if (next.getClass() == Unit.class && this.isOutOfBounds(next.getPosition())) {
                 this.doMagellanJourney(next);
             }
         }
@@ -106,15 +106,14 @@ public class Battlefield implements IVisualisable, PropertyChangeListener{
                 || position.getY() > this.size.getY();
     }
 
-
-    public void clear(){
+    public void clearForNewRound(){
         final Iterator<IMoveable> iterator = this.moveables.iterator();
         while(iterator.hasNext()){
             final IMoveable mov = iterator.next();
             if(mov.getClass() == Unit.class){
-                this.hideMoveable(mov);
+                mov.hide();
             } else {
-                this.removeFromBattlefield(mov); // completely remove cannonballs. out boats will just be hidden because they will be reused.
+                this.removeFromBattlefield(mov); // completely removeFromWorld cannonballs. out boats will just be hidden because they will be reused.
                 iterator.remove();
             }
         }
@@ -161,7 +160,7 @@ public class Battlefield implements IVisualisable, PropertyChangeListener{
 
  
     public void propertyChange(final PropertyChangeEvent evt) {
-        if ("Collision CannonBalls".equals(evt.getPropertyName())) {
+        /*if ("Collision CannonBalls".equals(evt.getPropertyName())) {
             this.removeFromBattlefield((CannonBall) evt.getOldValue());
             this.moveables.remove(evt.getOldValue());
             this.removeFromBattlefield((CannonBall) evt.getNewValue());
@@ -173,7 +172,7 @@ public class Battlefield implements IVisualisable, PropertyChangeListener{
             final float speed1 = this.physHandler.getRigidSpeed(unit1);
 
             newDir1.add(unit1.getDirection());
-            unit1.setDirection(newDir1);
+            unit1.setVelocity(newDir1);
             unit1.setSpeed(speed1);
 
             final Unit unit2 = (Unit) evt.getNewValue();
@@ -181,7 +180,7 @@ public class Battlefield implements IVisualisable, PropertyChangeListener{
             final float speed2 = this.physHandler.getRigidSpeed(unit2);
 
             newDir2.add(unit2.getDirection());
-            unit2.setDirection(newDir2);
+            unit2.setVelocity(newDir2);
             unit2.setSpeed(speed2);
         }
         if ("Collision CannonBallBoat".equals(evt.getPropertyName())) {
@@ -190,7 +189,7 @@ public class Battlefield implements IVisualisable, PropertyChangeListener{
 
         if ("Collision BoatCannonBall".equals(evt.getPropertyName())) {
             boatHitByCannonBall((Unit) evt.getOldValue(), (CannonBall) evt.getNewValue());
-        }
+        }*/
         if("CannonBall Created".equals(evt.getPropertyName())) {
             this.addToBattlefield((CannonBall)evt.getNewValue());
         }
@@ -202,7 +201,7 @@ public class Battlefield implements IVisualisable, PropertyChangeListener{
         this.removeFromBattlefield(cBall);
     }
 
-    public void removeFromView() {
+    public void announceRemoval() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -260,8 +259,8 @@ public class Battlefield implements IVisualisable, PropertyChangeListener{
         return direction;
     }
 
-    private void hideMoveable(IMoveable mov) {
-        mov.hide();
+    public void setPosition(Vector pos) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
 }

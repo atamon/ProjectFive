@@ -7,7 +7,7 @@ package model.visual;
 import controller.SettingsLoader;
 import java.beans.PropertyChangeEvent;
 import model.tools.Settings;
-import model.tools.Vector;
+import math.Vector;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -126,7 +126,7 @@ public class BattlefieldTest {
     }
 
     /**
-     * Test of clear method, of class Battlefield.
+     * Test of clearForNewRound method, of class Battlefield.
      */
     @Test
     public void testClear() {
@@ -136,14 +136,14 @@ public class BattlefieldTest {
         mov = new CannonBall(0, new Vector(1,1), new Vector(1,1), 25f);
         instance.addToBattlefield(mov);
         // Same as removeFromBattlefield, only calls other methods, so no crash = okay
-        instance.clear();
+        instance.clearForNewRound();
         assertTrue(true);
     }
 
     @Test (expected=UnsupportedOperationException.class)
     public void testRemove() {
         Battlefield instance = new Battlefield();
-        instance.removeFromView();
+        instance.announceRemoval();
     }
 
     /**

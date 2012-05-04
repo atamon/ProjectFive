@@ -5,7 +5,7 @@
 package model.visual;
 
 import model.tools.PowerUp;
-import model.tools.Vector;
+import math.Vector;
 import org.junit.*;
 import static org.junit.Assert.*;
 
@@ -53,6 +53,6 @@ public class ItemTest {
     
     public void testRemove() {
         // cannot test remove
-        this.testInstance.removeFromView();
+        this.testInstance.announceRemoval();
     }
 }

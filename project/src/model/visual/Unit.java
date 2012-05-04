@@ -1,9 +1,8 @@
 package model.visual;
 
-import model.physics.PhysType;
-import model.tools.Direction;
-import model.tools.Vector;
-import model.physics.IPhysical;
+import physics.PhysType;
+import math.Direction;
+import math.Vector;
 import model.tools.Settings;
 import model.tools.IObservable;
 
@@ -12,33 +11,26 @@ import model.tools.IObservable;
  * @author Johannes Wikner
  * @modified Victor Lindhé, johnhu
  */
-public class Unit extends MoveableAbstract implements IObservable, IPhysical {
+public class Unit extends MoveableAbstract implements IObservable {
 
-    private Vector size = new Vector(1, 1);
     private final static int MAX_STEER_SPEED = 10;
-//    private PowerUp powerUp; TODO
-    private final int owner;
     private float steerAngle = Settings.getInstance().getSetting("steerAngle");
     private int hitPointsMax = Settings.getInstance().getSetting("hitPointsMax");
-    private int acceleration = Settings.getInstance().getSetting("acceleration");
-    private int retardation = Settings.getInstance().getSetting("retardation");
     private int hitPoints = hitPointsMax;
     private boolean isAccelerating = false;
     private Direction steerDirection = new Direction();
-//  private PowerUp powerUp; TODO
 
     /**
      * Create a unit
      * @param pos initial position
      * @param dir initial direction
      */
-    public Unit(Vector pos, Vector dir, int owner) {
-        super(pos, dir);
+    public Unit(Vector pos, Vector dir, Vector size2D, float height, float mass) {
+        super(pos, dir, size2D, height, mass);
         if (hitPointsMax <= 0) {
             throw new IllegalArgumentException("hit points must be positive");
         }
         
-        this.owner = owner;
         this.maxSpeed = 20;
     }
 
@@ -48,9 +40,9 @@ public class Unit extends MoveableAbstract implements IObservable, IPhysical {
      */
     public void update(final float tpf) {
         this.accelerate(this.isAccelerating, tpf);
+        positionUpdated();
         this.steer(tpf);
-        this.move(tpf);
-
+        directionUpdated();
     }
 
 
@@ -59,18 +51,14 @@ public class Unit extends MoveableAbstract implements IObservable, IPhysical {
      * Accelerates the unit
      * @param tpf Time per frame
      */
-    private void accelerate(boolean accelUp, float tpf) {
-        // v = v0 + at
-        if (accelUp) {
-            this.setSpeed(Math.min(this.maxSpeed, this.speed + this.acceleration * tpf));
-        } else {
-            this.setSpeed(Math.max(0, this.speed - this.retardation * tpf));
+    private void accelerate(boolean isAccelerating, float tpf) {
+        if (isAccelerating && getMaxSpeed() < getSpeed()) {
+            this.body.accelerate(tpf);
         }
     }
 
     private void steer(float tpf) {
-        dir.rotate(steerDirection.getValue() * this.currentSteerAngle() * tpf);
-        dir.normalize();
+        body.steer(steerDirection, tpf);
         this.directionUpdated();
     }
 
@@ -84,15 +72,15 @@ public class Unit extends MoveableAbstract implements IObservable, IPhysical {
      * @return a steerAngle
      */
     private float currentSteerAngle() {
-        if (this.speed <= 0) {
+        if (this.getSpeed() <= 0) {
             return 0;
         }
 
-        if (this.speed > MAX_STEER_SPEED) {
+        if (this.getSpeed() > MAX_STEER_SPEED) {
             return this.steerAngle;
         }
 
-        return this.speed * this.steerAngle / MAX_STEER_SPEED;
+        return this.getSpeed() * this.steerAngle / MAX_STEER_SPEED;
     }
 
     /**
@@ -119,30 +107,12 @@ public class Unit extends MoveableAbstract implements IObservable, IPhysical {
         return this.steerAngle;
     }
 
-    public Vector getSize() {
-        return this.size;
-    }
-
     /**
      * 
      * @param value Are we accelerating true of false 
      */
     public void setIsAccelerating(boolean value) {
         this.isAccelerating = value;
-    }
-
-    /**
-     * Sets the acceleration of th unit
-     * @param acceleration How fast unit will accelerate
-     * @precon acceleration >= 0 Acceleration must be positive
-     * @throws IllegalArgumentException If a given acceleration is les than 0
-     */
-    public void setAcceleration(int acceleration) {
-        if (acceleration < 0) {
-            throw new IllegalArgumentException(
-                    "Must have a positive acceleration value");
-        }
-        this.acceleration = acceleration;
     }
 
     /**
@@ -161,33 +131,11 @@ public class Unit extends MoveableAbstract implements IObservable, IPhysical {
     }
 
     /**
-     * Sets the retardation. 
-     * @param retardation How fast the unit will slow down. Higher means faster
-     * @precon retardation must be positive integer
-     * @throws IllegalArgumentException If not a valid value was given
-     */
-    public void setRetardation(int retardation) {
-        if (retardation < 0) {
-            throw new IllegalArgumentException(
-                    "Must have a positive retardation value");
-        }
-        this.retardation = retardation;
-    }
-
-    /**
      * 
      * @return The unit's current hit points (health)
      */
     public int getHitPoints() {
         return this.hitPoints;
-    }
-
-    /**
-     * Sets maximum HitPoints for this unit.
-     * @param hitPointsMax 
-     */
-    public void setHitPointsMax(int hitPointsMax) {
-        this.hitPointsMax = hitPointsMax;
     }
 
     /**
@@ -199,32 +147,15 @@ public class Unit extends MoveableAbstract implements IObservable, IPhysical {
     }
 
     /**
-     * 
-     * @return The unit's acceleration
-     */
-    public int getAcceleration() {
-        return this.acceleration;
-    }
-
-    /**
-     * 
-     * @return The unit's retardation
-     */
-    public int getRetardation() {
-        return this.retardation;
-    }
-
-    /**
      * Returns true if and only if the boat has been sent to Davy Jones' locker.
      * @return 
      */
     public boolean isDeadAndBuried() {
-        return this.pos.equals(Vector.NONE_EXISTANT);
+        return body.getPosition().equals(Vector.NONE_EXISTANT);
     }
-
-    @Override
-    public String toString() {
-        return super.toString() + "\nUnit{" + "steerAngle=" + steerAngle + ", hitPointsMax=" + hitPointsMax + ", acceleration=" + acceleration + ", retardation=" + retardation + ", hitPoints=" + hitPoints + ", isAccelerating=" + isAccelerating + '}';
+    
+    public void announceRemoval(){
+        this.pcs.firePropertyChange("Unit removed", null, null);
     }
 
     @Override
@@ -233,9 +164,6 @@ public class Unit extends MoveableAbstract implements IObservable, IPhysical {
             return false;
         }
         if (getClass() != obj.getClass()) {
-            return false;
-        }
-        if (!super.equals(obj)) {
             return false;
         }
         final Unit other = (Unit) obj;
@@ -248,13 +176,13 @@ public class Unit extends MoveableAbstract implements IObservable, IPhysical {
         if (this.acceleration != other.acceleration) {
             return false;
         }
-        if (this.retardation != other.retardation) {
-            return false;
-        }
         if (this.hitPoints != other.hitPoints) {
             return false;
         }
         if (this.isAccelerating != other.isAccelerating) {
+            return false;
+        }
+        if (this.steerDirection != other.steerDirection && (this.steerDirection == null || !this.steerDirection.equals(other.steerDirection))) {
             return false;
         }
         return true;
@@ -262,37 +190,17 @@ public class Unit extends MoveableAbstract implements IObservable, IPhysical {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 11 * hash + super.hashCode();
-        hash = 23 * hash + Float.floatToIntBits(this.steerAngle);
-        hash = 23 * hash + this.hitPointsMax;
-        hash = 23 * hash + this.acceleration;
-        hash = 23 * hash + this.retardation;
-        hash = 23 * hash + this.hitPoints;
-        hash = 23 * hash + (this.isAccelerating ? 1 : 0);
+        int hash = 5;
+        hash = 67 * hash + Float.floatToIntBits(this.steerAngle);
+        hash = 67 * hash + this.hitPointsMax;
+        hash = 67 * hash + this.hitPoints;
+        hash = 67 * hash + (this.isAccelerating ? 1 : 0);
+        hash = 67 * hash + (this.steerDirection != null ? this.steerDirection.hashCode() : 0);
         return hash;
     }
 
-    public float getMass() {
-        return this.size.getX() * this.size.getY();
-    }
-
-    public PhysType getType() {
-        return PhysType.BOAT;
-    }
-
-    public int getOwner() {
-        return this.owner;
-    }
-
-    public void hide() {
-        setIsAccelerating(false);
-        setSteerAngle(0);
-        setPosition(Vector.NONE_EXISTANT);
-
-    }
-    
-    public void removeFromView(){
-        this.pcs.firePropertyChange("Unit removed", null, null);
+    @Override
+    public String toString() {
+        return "Unit{" + super.toString() + "steerAngle=" + steerAngle + ", hitPointsMax=" + hitPointsMax + ", acceleration=" + acceleration + ", hitPoints=" + hitPoints + ", isAccelerating=" + isAccelerating + ", steerDirection=" + steerDirection + '}';
     }
 }

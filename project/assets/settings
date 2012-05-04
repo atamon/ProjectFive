@@ -6,7 +6,12 @@
 hitPointsMax:100
 numberOfRounds:5
 steerAngle:2
-acceleration:10
+acceleration:5
 retardation:10
+maxSpeed:15
+unitSize:1
+unitMass:5
+cannonBallMass:1
+cannonBallSpeed:1
 
 [MODDED]
