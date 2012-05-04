@@ -8,14 +8,14 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import model.tools.Settings;
 import math.Vector;
-import physics.PhyciscalBodyOwner;
+import physics.PhysicalBodyOwner;
 import physics.PhysicalBody;
 
 /**
  *
  * @author johannes wikner
  */
-public abstract class MoveableAbstract implements IMoveable, PhyciscalBodyOwner {
+public abstract class MoveableAbstract implements IMoveable, PhysicalBodyOwner {
 
     protected int maxSpeed = Settings.getInstance().getSetting("maxSpeed");
     protected int acceleration = Settings.getInstance().getSetting("acceleration");
@@ -149,6 +149,7 @@ public abstract class MoveableAbstract implements IMoveable, PhyciscalBodyOwner 
     }
 
     public void addPropertyChangeListener(PropertyChangeListener ls) {
+        body.addPropertyChangeListener(ls);
         this.pcs.addPropertyChangeListener(ls);
     }
 

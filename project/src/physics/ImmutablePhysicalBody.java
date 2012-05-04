@@ -18,7 +18,7 @@ public class ImmutablePhysicalBody {
     
     private PhysicsRigidBody body;
     
-    public ImmutablePhysicalBody(PhyciscalBodyOwner owner, Vector startPos, Vector startDir, Vector size2D, float height) {
+    public ImmutablePhysicalBody(PhysicalBodyOwner owner, Vector startPos, Vector startDir, Vector size2D, float height) {
         Vector3f correctSize = Util.convertToMonkey3D(size2D);
         correctSize.setY(height);
         BoxCollisionShape shape = new BoxCollisionShape(correctSize);

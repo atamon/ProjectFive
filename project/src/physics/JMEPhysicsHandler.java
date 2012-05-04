@@ -57,7 +57,12 @@ public class JMEPhysicsHandler implements PhysicsCollisionListener {
     
     public void update(float tpf) {
         this.bulletAppState.getPhysicsSpace().update(tpf);
-        this.bulletAppState.update(tpf);    
+        this.bulletAppState.update(tpf);   
+        
+        for (PhysicsRigidBody body : rigidBodies) {
+            IPhysical unit = (IPhysical)body.getUserObject();
+            unit.getBody().updated();
+        }
     }
 
     public void collision(PhysicsCollisionEvent event) {

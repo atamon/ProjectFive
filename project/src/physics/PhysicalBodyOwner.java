@@ -4,7 +4,7 @@ package physics;
  *
  * @author atamon
  */
-public interface PhyciscalBodyOwner {
+public interface PhysicalBodyOwner {
     
     public int getAcceleration();
 }

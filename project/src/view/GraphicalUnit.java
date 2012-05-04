@@ -64,15 +64,27 @@ public class GraphicalUnit implements PropertyChangeListener {
 
     public void propertyChange(PropertyChangeEvent pce) {
 
+        if ("Physical Update".equals(pce.getPropertyName())) {
+            // Pos == old
+            
+            // Dir == new
+            
+            Vector3f pos = (Vector3f)pce.getOldValue();
+            Vector3f dir = (Vector3f)pce.getNewValue();
+            
+            updatePosition(pos);
+            updateRotation(dir);
+        }
+        
         if (pce.getNewValue() != null && pce.getNewValue().getClass() == Vector.class) {
             Vector3f direction = Util.convertToMonkey3D((Vector) pce.getNewValue());
 
             if (pce.getPropertyName().equals("Updated Position")) {
-                this.updatePosition(direction.setY(this.yPosition));
+//                this.updatePosition(direction.setY(this.yPosition));
             }
             
             if (pce.getPropertyName().equals("Updated Direction")) {
-                this.updateRotation(direction);
+//                this.updateRotation(direction);
             }
         }
     }

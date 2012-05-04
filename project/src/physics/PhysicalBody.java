@@ -20,10 +20,10 @@ import util.Util;
 public class PhysicalBody {
     
     private PhysicsRigidBody body;
-    private PhyciscalBodyOwner owner;
+    private PhysicalBodyOwner owner;
     private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     
-    public PhysicalBody(PhyciscalBodyOwner owner, Vector startPos, Vector startDir, Vector size2D, float height, float mass) {
+    public PhysicalBody(PhysicalBodyOwner owner, Vector startPos, Vector startDir, Vector size2D, float height, float mass) {
         Vector3f correctSize = Util.convertToMonkey3D(size2D).setY(height);
         BoxCollisionShape shape = new BoxCollisionShape(correctSize);
         body = new PhysicsRigidBody(shape, mass);
