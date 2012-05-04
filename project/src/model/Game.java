@@ -74,8 +74,6 @@ public class Game implements IGame {
                 && currentRound.getState() == RoundState.PLAYING) {
             lookForDeadUnits();
 
-
-
             this.battlefield.update(tpf);
 
         }
@@ -128,7 +126,7 @@ public class Game implements IGame {
         int unitSize = Settings.getInstance().getSetting("unitSize");
         return new Unit(position, 
                 direction, 
-                new Vector(unitSize, unitSize), 
+                new Vector(unitSize, unitSize, unitSize), 
                 unitSize, 
                 Settings.getInstance().getSetting("unitMass"));
     }

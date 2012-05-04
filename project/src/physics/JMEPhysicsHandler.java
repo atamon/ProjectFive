@@ -28,24 +28,26 @@ public class JMEPhysicsHandler implements PhysicsCollisionListener {
     private List<PhysicsRigidBody> rigidBodies =
             new LinkedList<PhysicsRigidBody>();
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
-
+    private PhysicsRigidBody ground;
+   
     public JMEPhysicsHandler() {
         this.bulletAppState = new BulletAppState();
         this.bulletAppState.initialize(null, null);
         this.bulletAppState.getPhysicsSpace().addCollisionListener(this);
-
     }
     
-    public void createGround(Vector size, float height) {
-        PhysicsRigidBody body = new PhysicsRigidBody(new BoxCollisionShape(Util.convertToMonkey3D(size).setY(height)), 0);
-        body.setFriction(0);
-        body.setPhysicsLocation(Vector3f.ZERO.setY(-1f));
-        bulletAppState.getPhysicsSpace().addCollisionObject(body);
+    public void createGround(Vector size) {
+        System.out.println("size of battlefield: "+size);
+        this.ground = new PhysicsRigidBody(new BoxCollisionShape(Util.convertToMonkey3D(size)), 0);
+        ground.setMass(0);
+        ground.setFriction(0);
+        bulletAppState.getPhysicsSpace().add(ground);
+        bulletAppState.getPhysicsSpace().addCollisionObject(ground);
     }
 
     public void addToWorld(PhysicalBody object) {
         PhysicsRigidBody body = object.getBody();
-        body.setGravity(Vector3f.ZERO);
+        body.setGravity(new Vector3f(0,-1,0));
         this.rigidBodies.add(body);
         this.bulletAppState.getPhysicsSpace().addCollisionObject(body);
     }

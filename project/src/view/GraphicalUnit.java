@@ -72,8 +72,8 @@ public class GraphicalUnit implements PropertyChangeListener {
             Vector3f pos = (Vector3f)pce.getOldValue();
             Vector3f dir = (Vector3f)pce.getNewValue();
             
-            updatePosition(pos);
-            updateRotation(dir);
+            this.updatePosition(pos);
+            this.updateRotation(dir);
         }
         
         if (pce.getNewValue() != null && pce.getNewValue().getClass() == Vector.class) {

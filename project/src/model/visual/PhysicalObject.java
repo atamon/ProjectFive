@@ -41,8 +41,8 @@ public abstract class PhysicalObject implements IMoveable {
      * @param x New position in x-axis
      * @param y New positoin in y-axis
      */
-    public void place(float x, float y) {
-        this.place(new Vector(x, y));
+    public void place(float x, float y, float z) {
+        this.place(new Vector(x, y, z));
     }
 
 //    public Vector getVelocity() {
@@ -67,8 +67,8 @@ public abstract class PhysicalObject implements IMoveable {
      * @param x Direction in x-axis
      * @param y Direction in y-axis
      */
-    public void setVelocity(float x, float y) {
-        this.setVelocity(new Vector(x, y));
+    public void setVelocity(float x, float y, float z) {
+        this.setVelocity(new Vector(x, y, z));
     }
 
     /**

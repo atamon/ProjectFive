@@ -8,14 +8,15 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import model.tools.Settings;
 import math.Vector;
-import physics.PhysicalBodyOwner;
+import physics.AbstractGameObject;
 import physics.PhysicalBody;
+import physics.PhysicalGameObject;
 
 /**
  *
  * @author johannes wikner
  */
-public abstract class MoveableAbstract implements IMoveable, PhysicalBodyOwner {
+public abstract class MoveableAbstract implements IMoveable, AbstractGameObject {
 
     protected int maxSpeed = Settings.getInstance().getSetting("maxSpeed");
     protected int acceleration = Settings.getInstance().getSetting("acceleration");
@@ -23,11 +24,11 @@ public abstract class MoveableAbstract implements IMoveable, PhysicalBodyOwner {
     protected PhysicalBody body;
 
     public MoveableAbstract(Vector pos, Vector dir, Vector size, float height, float mass) {
-        body = new PhysicalBody(this, new Vector(pos), new Vector(dir), new Vector(size), height, mass);
+        this.body = new PhysicalBody(this, new Vector(pos), new Vector(dir), new Vector(size), height, mass);
     }
 
     public PhysicalBody getBody() {
-        return body;
+        return this.body;
     }
 
     /**
@@ -36,7 +37,7 @@ public abstract class MoveableAbstract implements IMoveable, PhysicalBodyOwner {
      * @param pos Vector with coordinates where to position the unit
      */
     public void setPosition(Vector pos) {
-        body.place(pos);
+        this.body.place(pos);
         this.positionUpdated();
     }
 
@@ -45,9 +46,10 @@ public abstract class MoveableAbstract implements IMoveable, PhysicalBodyOwner {
      *
      * @param x New position in x-axis
      * @param y New positoin in y-axis
+     * @param z New position in z-axis
      */
-    public void setPosition(float x, float y) {
-        this.setPosition(new Vector(x, y));
+    public void setPosition(float x, float y, float z) {
+        this.setPosition(new Vector(x, y, z));
     }
 
     /**
@@ -66,8 +68,8 @@ public abstract class MoveableAbstract implements IMoveable, PhysicalBodyOwner {
      * @param x Direction in x-axis
      * @param y Direction in y-axis
      */
-    public void setDirection(float x, float y) {
-        setDirection(new Vector(x, y));
+    public void setDirection(float x, float y, float z) {
+        setDirection(new Vector(x, y, z));
     }
 
     public Vector getDirection() {

@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import physics.JMEPhysicsHandler;
 import math.Vector;
+import physics.AbstractGameObject;
 import physics.PhysicalBody;
 
 /**
@@ -14,9 +15,9 @@ import physics.PhysicalBody;
  * @author Victor Lindhé
  * @modified johnnes
  */
-public class Battlefield implements IVisualisable, PropertyChangeListener{
+public class Battlefield implements IVisualisable, PropertyChangeListener, AbstractGameObject {
     private final Vector size;
-    private final Vector pos = new Vector(0,0);
+    private final Vector pos = new Vector(0,0,0);
     private final JMEPhysicsHandler physHandler = new JMEPhysicsHandler();
     private final List<IMoveable> moveables = new LinkedList<IMoveable>();
     
@@ -24,7 +25,7 @@ public class Battlefield implements IVisualisable, PropertyChangeListener{
      * Creates a Battlefield with default size (100,100) and an Item.
      */
     public Battlefield() {
-        this(new Vector(100.0f,100.0f));
+        this(new Vector(100.0f, 1.0f, 100.0f));
     }
     
     /**
@@ -34,7 +35,7 @@ public class Battlefield implements IVisualisable, PropertyChangeListener{
      * @throws NumberFormatException
      */
     public Battlefield(final Vector size) throws NumberFormatException {
-        if(size.getX() > 0 && size.getY() > 0) {
+        if(size.getX() > 0 && size.getY() > 0 && size.getZ() > 0) {
             this.size = new Vector(size);
         } else {
             throw new NumberFormatException("Size must be > 0");
@@ -43,7 +44,7 @@ public class Battlefield implements IVisualisable, PropertyChangeListener{
         physHandler.addPropertyChangeListener(this);
         
         // Set up ocean floor
-        physHandler.createGround(size, 2.0f);
+        physHandler.createGround(this.size);
     }
     public void removeFromBattlefield(final IMoveable mov) {
         mov.announceRemoval();
@@ -67,9 +68,9 @@ public class Battlefield implements IVisualisable, PropertyChangeListener{
         while(iterator.hasNext()){
             final IMoveable next = iterator.next();
             next.update(tpf);
-            if (next.getClass() == Unit.class && this.isOutOfBounds(next.getPosition())) {
-                this.doMagellanJourney(next);
-            }
+           // if (next.getClass() == Unit.class && this.isOutOfBounds(next.getPosition())) {
+           //     this.doMagellanJourney(next);
+           // }
         }
         this.physHandler.update(tpf);
 
@@ -123,7 +124,7 @@ public class Battlefield implements IVisualisable, PropertyChangeListener{
      * @return Vector
      */
     public Vector getCenter() {
-        return new Vector(this.size.getX()/2, this.size.getY()/2);
+        return new Vector(this.size.getX()/2, this.size.getY(), this.size.getZ()/2);
     }
 
 
@@ -206,15 +207,16 @@ public class Battlefield implements IVisualisable, PropertyChangeListener{
     }
 
     public static Vector getStartingPosition(int playerID, Vector bfSize) {
+        bfSize.setY(bfSize.getY()+2.5f); // smelly code
         Vector upLeft = new Vector(bfSize);
-        Vector downLeft = new Vector(upLeft.getX(), 0);
-        Vector upRight = new Vector(0, upLeft.getX());
-        Vector downRight = new Vector(15f, 15f);
+        Vector downLeft = new Vector(upLeft.getX(), upLeft.getY(), 0);
+        Vector upRight = new Vector(0, upLeft.getY(), upLeft.getX());
+        Vector downRight = new Vector(15f, upLeft.getY(), 15f);
         
         // We want the starting positions a bit more towards the center
-        upLeft.add(new Vector(-15f, -15f));
-        downLeft.add(new Vector(-15f, 15f));
-        upRight.add(new Vector(15f, -15f));
+        upLeft.add(new Vector(-15f, 0, -15f));
+        downLeft.add(new Vector(-15f, 0, 15f));
+        upRight.add(new Vector(15f, 0, -15f));
         
         Vector position;
         switch (playerID) {
@@ -241,16 +243,16 @@ public class Battlefield implements IVisualisable, PropertyChangeListener{
         Vector direction;
         switch (playerID) {
             case 0:
-                direction = new Vector(-1, -1);
+                direction = new Vector(-1, 0, -1);
                 break;
             case 1:
-                direction = new Vector(1, 1);
+                direction = new Vector(1, 0, 1);
                 break;
             case 2:
-                direction = new Vector(-1, 1);
+                direction = new Vector(-1, 0, 1);
                 break;
             case 3:
-                direction = new Vector(1, -1);
+                direction = new Vector(1, 0, -1);
                 break;
             default:
                 throw new IllegalArgumentException("ERROR: Tried to get startingPos of invalid player with ID: "
@@ -260,6 +262,10 @@ public class Battlefield implements IVisualisable, PropertyChangeListener{
     }
 
     public void setPosition(Vector pos) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public int getAcceleration() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     

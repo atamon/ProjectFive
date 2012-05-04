@@ -4,7 +4,6 @@ package physics;
  *
  * @author atamon
  */
-public interface PhysicalBodyOwner {
-    
+public interface AbstractGameObject {
     public int getAcceleration();
 }
