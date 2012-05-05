@@ -68,9 +68,9 @@ public class Battlefield implements IVisualisable, PropertyChangeListener, Abstr
         while(iterator.hasNext()){
             final IMoveable next = iterator.next();
             next.update(tpf);
-           // if (next.getClass() == Unit.class && this.isOutOfBounds(next.getPosition())) {
-           //     this.doMagellanJourney(next);
-           // }
+//            if (next.getClass() == Unit.class && this.isOutOfBounds(next.getPosition())) {
+//                this.doMagellanJourney(next);
+//            }
         }
         this.physHandler.update(tpf);
 
