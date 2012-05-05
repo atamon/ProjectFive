@@ -31,7 +31,7 @@ public class PhysicalCannonBall implements PhysicalGameObject {
         body = new PhysicsRigidBody(shape, mass);
         body.setUserObject(owner);
         body.setPhysicsLocation(Util.convertToMonkey3D(startPos).setY(3.0f));
-        body.applyCentralForce(Util.convertToMonkey3D(startDir).mult(speed));
+        body.applyCentralForce(Util.convertToMonkey3D(startDir).mult(speed*10));
         body.setDamping(0, 0.1f);
         this.initSize = correctSize;
         this.owner = owner;

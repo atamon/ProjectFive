@@ -46,7 +46,6 @@ public class PhysicalUnit implements PhysicalGameObject {
      */
     @Override
     public void accelerate(boolean isAccelerating, float tpf) {
-        System.out.println("FUCK");
         Vector3f force = body.getLinearVelocity();
         float acceleration = tpf*owner.getAcceleration();
         acceleration = isAccelerating ? acceleration : acceleration*-1;
@@ -129,7 +128,7 @@ public class PhysicalUnit implements PhysicalGameObject {
     @Override
     public void updated() {
         pcs.firePropertyChange("Physical Update", body.getPhysicsLocation(), 
-                                       body.getLinearVelocity());
+        body.getLinearVelocity());
     }
 
     public int getOwnerID() {

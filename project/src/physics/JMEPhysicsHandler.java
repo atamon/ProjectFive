@@ -52,7 +52,6 @@ public class JMEPhysicsHandler implements PhysicsCollisionListener {
 
     public void addToWorld(PhysicalGameObject object) {
         PhysicsRigidBody body = object.getBody();
-        body.addCollideWithGroup(object.getOwnerID());
         body.setGravity(new Vector3f(0,-1,0));
         this.rigidBodies.add(body);
         this.bulletAppState.getPhysicsSpace().addCollisionObject(body);
@@ -75,7 +74,11 @@ public class JMEPhysicsHandler implements PhysicsCollisionListener {
 
     public void collision(PhysicsCollisionEvent event) {
         if (event.getObjectA() != ground && event.getObjectB() != ground)
-        System.out.println("COLLIIIIIIIIIISSSSIOOOOOOOOOON!!!!!!");
+            if(event.getObjectA().getUserObject().getClass().equals(PhysicalCannonBall.class) &&
+               event.getObjectB().getUserObject().getClass().equals(PhysicalUnit.class)) {
+                    this.pcs.firePropertyChange("Collision CannonBallBoat", 
+                                        event.getObjectA(), event.getObjectB());
+            }
     }
 
     public void addPropertyChangeListener(PropertyChangeListener ls) {

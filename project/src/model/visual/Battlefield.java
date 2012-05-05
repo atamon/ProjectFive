@@ -162,13 +162,13 @@ public class Battlefield implements IVisualisable, PropertyChangeListener, Abstr
 
  
     public void propertyChange(final PropertyChangeEvent evt) {
-        /*if ("Collision CannonBalls".equals(evt.getPropertyName())) {
+        if ("Collision CannonBalls".equals(evt.getPropertyName())) {
             this.removeFromBattlefield((CannonBall) evt.getOldValue());
             this.moveables.remove(evt.getOldValue());
             this.removeFromBattlefield((CannonBall) evt.getNewValue());
             this.moveables.remove(evt.getNewValue());
         }
-        if ("Collision Boats".equals(evt.getPropertyName())) {
+     /*   if ("Collision Boats".equals(evt.getPropertyName())) {
             final Unit unit1 = (Unit) evt.getOldValue();
             final Vector newDir1 = this.physHandler.getRigidDirection(unit1);
             final float speed1 = this.physHandler.getRigidSpeed(unit1);
@@ -184,14 +184,14 @@ public class Battlefield implements IVisualisable, PropertyChangeListener, Abstr
             newDir2.add(unit2.getDirection());
             unit2.setVelocity(newDir2);
             unit2.setSpeed(speed2);
-        }
+        }*/
         if ("Collision CannonBallBoat".equals(evt.getPropertyName())) {
-            boatHitByCannonBall((Unit) evt.getNewValue(), (CannonBall) evt.getOldValue());
+            System.out.println("collision");
         }
 
         if ("Collision BoatCannonBall".equals(evt.getPropertyName())) {
-            boatHitByCannonBall((Unit) evt.getOldValue(), (CannonBall) evt.getNewValue());
-        }*/
+            System.out.println("collision");
+        }
         if("CannonBall Created".equals(evt.getPropertyName())) {
             this.addToBattlefield((CannonBall)evt.getNewValue());
         }

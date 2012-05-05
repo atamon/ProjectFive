@@ -65,7 +65,7 @@ public class Player {
     }
 
     private void fire(Vector direction) {
-        CannonBall cBall = new CannonBall(getUnitPosition(),
+        CannonBall cBall = new CannonBall(this.getCannonBallPos(direction),
                                           direction,
                                           new Vector(0.1f, 0, 0.1f),
                                           0.1f,
@@ -75,6 +75,15 @@ public class Player {
         this.pcs.firePropertyChange("CannonBall Created", null, cBall);
     }
 
+    private Vector getCannonBallPos(Vector ballDir) {
+        Vector pos = new Vector(this.getUnitPosition());
+        Vector dir = new Vector(ballDir);
+        dir.normalize();
+        dir.mult(this.playerUnit.getSize());
+        pos.add(dir);
+        return pos;
+    }
+    
     /**
      * Accelerates this player's unit.
      *
