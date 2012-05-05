@@ -42,7 +42,7 @@ public class PhysicalCannonBall implements PhysicalGameObject {
      * @param tpf 
      */
     @Override
-    public void accelerate(float tpf) {
+    public void accelerate(boolean isAccelerating, float tpf) {
         Vector3f force = body.getLinearVelocity();
         body.applyCentralForce(force.mult(owner.getAcceleration()));
     }

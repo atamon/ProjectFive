@@ -34,7 +34,6 @@ public class Unit extends MoveableAbstract implements IObservable {
             throw new IllegalArgumentException("hit points must be positive");
         }
         
-        this.maxSpeed = 20;
         this.owner = owner;
     }
 
@@ -56,8 +55,8 @@ public class Unit extends MoveableAbstract implements IObservable {
      * @param tpf Time per frame
      */
     private void accelerate(boolean isAccelerating, float tpf) {
-        if (isAccelerating && getMaxSpeed() < getSpeed()) {
-            this.body.accelerate(tpf);
+        if (getSpeed() < getMaxSpeed() || !isAccelerating) {
+            this.body.accelerate(isAccelerating, tpf);
         }
     }
 

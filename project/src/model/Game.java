@@ -114,23 +114,6 @@ public class Game implements IGame {
         return player;
     }
 
-    /**
-     * Creates and places a unit according to its playerID.
-     *
-     * @param playerID The playerID making sure we place the unit where the
-     * player should start.
-     * @return Returns the unit created.
-     */
-    private Unit createUnit(int playerID) {
-        Vector position = Battlefield.getStartingPosition(playerID, battlefield.getSize());
-        Vector direction = Battlefield.getStartingDir(playerID);
-        int unitSize = Settings.getInstance().getSetting("unitSize");
-        return new Unit(position,
-                direction,
-                new Vector(unitSize, unitSize, unitSize),
-                Settings.getInstance().getSetting("unitMass"), playerID);
-    }
-
     public void createPlayer(int id) {
         if (playerMap.get(id) != null) {
             System.out.println("Warning!: playerMap had object: " + playerMap.get(id) + " set to supplied key");
@@ -138,13 +121,21 @@ public class Game implements IGame {
         }
         Player player = new Player(id);
         player.addPropertyChangeListener(battlefield);
-        Unit unit = this.createUnit(id);
-
-        player.setUnit(unit);
-        this.battlefield.addToBattlefield(unit);
-        // Keep track of the unit by its id
         this.playerMap.put(id, player);
-
+        
+        // Add unit
+        Vector position = Battlefield.getStartingPosition(id, battlefield.getSize());
+        Vector direction = Battlefield.getStartingDir(id);
+        int unitSize = Settings.getInstance().getSetting("unitSize");
+        Unit unit = new Unit(position,
+                direction,
+                new Vector(unitSize, unitSize, unitSize),
+                Settings.getInstance().getSetting("unitMass"),
+                id);
+        player.setUnit(unit);
+        
+        this.battlefield.addToBattlefield(unit);
+        
         // Let listeners (views) know that we've created a player
         this.pcs.firePropertyChange("Player Created", null, player);
     }

@@ -29,13 +29,15 @@ public class PhysicalUnit implements PhysicalGameObject {
         Vector correctSize = new Vector(size);
         BoxCollisionShape shape = new BoxCollisionShape(Util.convertToMonkey3D(correctSize));
         body = new PhysicsRigidBody(shape, mass);
-        body.setUserObject(owner);
-        body.setPhysicsLocation(Util.convertToMonkey3D(startPos).setY(2.0f));
+        
+        body.setPhysicsLocation(Util.convertToMonkey3D(startPos));
         body.setLinearVelocity(Util.convertToMonkey3D(startDir).normalize());
-        body.setDamping(0, 0.1f);
+        
         
         this.owner = owner;
         this.initSize = correctSize;
+        
+        body.setUserObject(owner);
     }
     
     /**
@@ -43,9 +45,12 @@ public class PhysicalUnit implements PhysicalGameObject {
      * @param tpf 
      */
     @Override
-    public void accelerate(float tpf) {
+    public void accelerate(boolean isAccelerating, float tpf) {
+        System.out.println("FUCK");
         Vector3f force = body.getLinearVelocity();
-        body.applyCentralForce(force.mult(owner.getAcceleration()));
+        float acceleration = tpf*owner.getAcceleration();
+        acceleration = isAccelerating ? acceleration : acceleration*-1;
+        body.applyCentralForce(force.mult(acceleration));
     }
     
     /**
@@ -80,7 +85,6 @@ public class PhysicalUnit implements PhysicalGameObject {
             float length = body.getLinearVelocity().length();
             body.setLinearVelocity(Util.convertToMonkey3D(dir).mult(length));
         }
-        System.out.println(body.getLinearVelocity());
     }
     
     @Override
@@ -114,7 +118,7 @@ public class PhysicalUnit implements PhysicalGameObject {
     
     @Override
     public Vector getDirection() {
-        return new Vector(Util.convertFromMonkey3D(body.getLinearVelocity().normalize()));
+        return new Vector(Util.convertFromMonkey3D(body.getLinearVelocity()));
     }
     
     @Override
@@ -125,7 +129,7 @@ public class PhysicalUnit implements PhysicalGameObject {
     @Override
     public void updated() {
         pcs.firePropertyChange("Physical Update", body.getPhysicsLocation(), 
-                                       body.getLinearVelocity().normalize());
+                                       body.getLinearVelocity());
     }
 
     public int getOwnerID() {

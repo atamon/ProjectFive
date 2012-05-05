@@ -88,7 +88,6 @@ public abstract class MoveableAbstract implements IMoveable, AbstractGameObject 
 
     public void hide() {
         halt();
-        this.maxSpeed = 0;
         setPosition(Vector.NONE_EXISTANT);
     }
 

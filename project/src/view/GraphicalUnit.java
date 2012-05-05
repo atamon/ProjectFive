@@ -16,20 +16,21 @@ import util.Util;
 
 /**
  * A class to hold a Mesh.
+ *
  * @author Victor Lindhé
  */
 public class GraphicalUnit implements PropertyChangeListener {
 
-    
     private Node node;
     public static final float UNIT_HEIGHT = 1f;
 //    private Node trackerNode;
+
     public GraphicalUnit(ColorRGBA color,
-                         Vector3f pos,
-                         Vector3f dir,
-                         Vector3f size,
-                         AssetManager assetManager,
-                         Node blenderModel) {
+            Vector3f pos,
+            Vector3f dir,
+            Vector3f size,
+            AssetManager assetManager,
+            Node blenderModel) {
 
         this.node = blenderModel;
         blenderModel.setLocalScale(size);
@@ -38,10 +39,6 @@ public class GraphicalUnit implements PropertyChangeListener {
 
     public Node getNode() {
         return this.node;
-    }
-
-    public Vector3f getLocation() {
-        return this.node.getLocalTranslation();
     }
 
     private void updatePosition(Vector3f pos) {
@@ -60,27 +57,13 @@ public class GraphicalUnit implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent pce) {
 
         if ("Physical Update".equals(pce.getPropertyName())) {
-            // Pos == old
-            
-            // Dir == new
-            
-            Vector3f pos = (Vector3f)pce.getOldValue();
-            Vector3f dir = (Vector3f)pce.getNewValue();
-            
-            this.updatePosition(pos);
-            this.updateRotation(dir);
-        }
-        
-        if (pce.getNewValue() != null && pce.getNewValue().getClass() == Vector.class) {
-            Vector3f direction = Util.convertToMonkey3D((Vector) pce.getNewValue());
 
-            if (pce.getPropertyName().equals("Updated Position")) {
-//                this.updatePosition(direction.setY(this.yPosition));
-            }
-            
-            if (pce.getPropertyName().equals("Updated Direction")) {
-//                this.updateRotation(direction);
-            }
+
+            Vector3f pos = (Vector3f) pce.getOldValue();
+            Vector3f dir = (Vector3f) pce.getNewValue();
+                        
+            this.updateRotation(dir.setY(0)); // TODO REMOVE WORKAROUND
+            this.updatePosition(pos);
         }
     }
 }

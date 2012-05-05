@@ -74,6 +74,7 @@ public class JMEPhysicsHandler implements PhysicsCollisionListener {
     }
 
     public void collision(PhysicsCollisionEvent event) {
+        if (event.getObjectA() != ground && event.getObjectB() != ground)
         System.out.println("COLLIIIIIIIIIISSSSIOOOOOOOOOON!!!!!!");
     }
 
