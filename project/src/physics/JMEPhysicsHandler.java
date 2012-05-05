@@ -50,14 +50,15 @@ public class JMEPhysicsHandler implements PhysicsCollisionListener {
         bulletAppState.getPhysicsSpace().addCollisionObject(ground);
     }
 
-    public void addToWorld(PhysicalBody object) {
+    public void addToWorld(PhysicalGameObject object) {
         PhysicsRigidBody body = object.getBody();
+        body.addCollideWithGroup(object.getOwnerID());
         body.setGravity(new Vector3f(0,-1,0));
         this.rigidBodies.add(body);
         this.bulletAppState.getPhysicsSpace().addCollisionObject(body);
     }
 
-    public void removeFromWorld(PhysicalBody object) {
+    public void removeFromWorld(PhysicalGameObject object) {
         this.bulletAppState.getPhysicsSpace().removeCollisionObject(object.getBody());
         rigidBodies.remove(object);
     }
@@ -68,7 +69,7 @@ public class JMEPhysicsHandler implements PhysicsCollisionListener {
         
         for (PhysicsRigidBody body : rigidBodies) {
             IPhysical unit = (IPhysical)body.getUserObject();
-            unit.getBody().updated();
+            unit.getGameObject().updated();
         }
     }
 

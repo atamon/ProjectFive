@@ -7,6 +7,7 @@ package model.visual;
 import physics.PhysType;
 import model.tools.IObservable;
 import math.Vector;
+import physics.PhysicalCannonBall;
 
 /**
  * A class to represent a CannonBall.
@@ -14,7 +15,7 @@ import math.Vector;
  * @author victorlindhe
  */
 public class CannonBall extends MoveableAbstract implements IObservable {
-
+    private final int owner;
     /**
      * Creates a CannonBall.
      *
@@ -28,12 +29,15 @@ public class CannonBall extends MoveableAbstract implements IObservable {
             final Vector size,
             final float height,
             final float mass,
-            final float speed) {
-        super(position, direction, size, mass);
+            final float speed,
+            final int owner) {
+        this.body = new PhysicalCannonBall(this, position, direction, size, mass, speed);
+        this.owner = owner;
     }
 
     public void update(float tpf) {
-        ; // TODO Left for fututre implementation of cool splittable cannonballs
+        setPosition(this.body.getPosition());
+        setDirection(this.body.getDirection());
     }
 
     /**
@@ -50,5 +54,9 @@ public class CannonBall extends MoveableAbstract implements IObservable {
      */
     public void announceRemoval() {
         this.pcs.firePropertyChange("CannonBall Removed", null, null);
+    }
+
+    public int getID() {
+        return this.owner;
     }
 }

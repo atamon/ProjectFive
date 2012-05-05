@@ -8,7 +8,7 @@ import java.util.List;
 import physics.JMEPhysicsHandler;
 import math.Vector;
 import physics.AbstractGameObject;
-import physics.PhysicalBody;
+import physics.PhysicalGameObject;
 
 /**
  * A class to represent a Battlefield.
@@ -48,7 +48,7 @@ public class Battlefield implements IVisualisable, PropertyChangeListener, Abstr
     }
     public void removeFromBattlefield(final IMoveable mov) {
         mov.announceRemoval();
-        this.physHandler.removeFromWorld(mov.getBody());
+        this.physHandler.removeFromWorld(mov.getGameObject());
         this.moveables.remove(mov);
     }
     
@@ -57,7 +57,7 @@ public class Battlefield implements IVisualisable, PropertyChangeListener, Abstr
             throw new IllegalArgumentException("ERROR: We tried to add a moveable to battlefield that already exists: "+mov);
         }
         //Add to our physical world which controls movement
-        physHandler.addToWorld(mov.getBody());  
+        physHandler.addToWorld(mov.getGameObject());  
         
         // Save it for keepsake
         this.moveables.add(mov);
@@ -119,6 +119,7 @@ public class Battlefield implements IVisualisable, PropertyChangeListener, Abstr
             }
         }
     }
+    
     /**
      * Returns the position of the center.
      * @return Vector
@@ -267,6 +268,10 @@ public class Battlefield implements IVisualisable, PropertyChangeListener, Abstr
 
     public int getAcceleration() {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public int getID() {
+        return -1;
     }
     
 }

@@ -17,14 +17,14 @@ import util.Util;
  * A body to represent our models in the physical world
  * @author atamon
  */
-public class PhysicalBody implements PhysicalGameObject {
+public class PhysicalUnit implements PhysicalGameObject {
     
     private PhysicsRigidBody body;
     private AbstractGameObject owner;
     private final Vector initSize;
     private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     
-    public PhysicalBody(AbstractGameObject owner, Vector startPos, 
+    public PhysicalUnit(AbstractGameObject owner, Vector startPos, 
                         Vector startDir, Vector size, float mass) {
         Vector correctSize = new Vector(size);
         BoxCollisionShape shape = new BoxCollisionShape(Util.convertToMonkey3D(correctSize));
@@ -34,8 +34,8 @@ public class PhysicalBody implements PhysicalGameObject {
         body.setLinearVelocity(Util.convertToMonkey3D(startDir).normalize());
         body.setDamping(0, 0.1f);
         
-        this.initSize = correctSize;
         this.owner = owner;
+        this.initSize = correctSize;
     }
     
     /**
@@ -88,7 +88,7 @@ public class PhysicalBody implements PhysicalGameObject {
         body.clearForces();
     }
     
-    protected PhysicsRigidBody getBody() {
+    public PhysicsRigidBody getBody() {
         return body;
     }
     
@@ -127,4 +127,9 @@ public class PhysicalBody implements PhysicalGameObject {
         pcs.firePropertyChange("Physical Update", body.getPhysicsLocation(), 
                                        body.getLinearVelocity().normalize());
     }
+
+    public int getOwnerID() {
+        return this.owner.getID();
+    }
+    
 }

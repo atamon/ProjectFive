@@ -70,7 +70,8 @@ public class Player {
                                           new Vector(0.1f, 0, 0.1f),
                                           0.1f,
                                           (float)(Settings.getInstance().getSetting("cannonBallMass")),
-                                          (float)(Settings.getInstance().getSetting("cannonBallSpeed")));
+                                          (float)(Settings.getInstance().getSetting("cannonBallSpeed")),
+                                           this.playerId);
         this.pcs.firePropertyChange("CannonBall Created", null, cBall);
     }
 

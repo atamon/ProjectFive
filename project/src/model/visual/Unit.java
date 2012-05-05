@@ -5,6 +5,8 @@ import math.Direction;
 import math.Vector;
 import model.tools.Settings;
 import model.tools.IObservable;
+import physics.PhysicalGameObject;
+import physics.PhysicalUnit;
 
 /**
  * A unit. Probably a ship.
@@ -19,19 +21,21 @@ public class Unit extends MoveableAbstract implements IObservable {
     private int hitPoints = hitPointsMax;
     private boolean isAccelerating = false;
     private Direction steerDirection = new Direction();
+    private final int owner;
 
     /**
      * Create a unit
      * @param pos initial position
      * @param dir initial direction
      */
-    public Unit(Vector pos, Vector dir, Vector size, float mass) {
-        super(pos, dir, size, mass);
+    public Unit(Vector pos, Vector dir, Vector size, float mass, int owner) {
+        this.body = new PhysicalUnit(this,pos,dir,size,mass);
         if (hitPointsMax <= 0) {
             throw new IllegalArgumentException("hit points must be positive");
         }
         
         this.maxSpeed = 20;
+        this.owner = owner;
     }
 
     /**
@@ -201,6 +205,13 @@ public class Unit extends MoveableAbstract implements IObservable {
 
     @Override
     public String toString() {
-        return "Unit{" + super.toString() + "steerAngle=" + steerAngle + ", hitPointsMax=" + hitPointsMax + ", acceleration=" + acceleration + ", hitPoints=" + hitPoints + ", isAccelerating=" + isAccelerating + ", steerDirection=" + steerDirection + '}';
+        return "Unit{" + super.toString() + "steerAngle=" + steerAngle + ", "
+                + "hitPointsMax=" + hitPointsMax + ", acceleration=" + 
+                acceleration + ", hitPoints=" + hitPoints + ", isAccelerating=" 
+                + isAccelerating + ", steerDirection=" + steerDirection + '}';
+    }
+
+    public int getID() {
+        return this.owner;
     }
 }

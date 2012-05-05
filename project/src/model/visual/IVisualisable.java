@@ -13,10 +13,7 @@ import math.Vector;
  * @author johnnes wikner
  */
 interface IVisualisable {
-
     public void setPosition(Vector pos);
-
     public Vector getPosition();
-
     public void announceRemoval();
 }

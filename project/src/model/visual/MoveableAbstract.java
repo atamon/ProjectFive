@@ -9,8 +9,8 @@ import java.beans.PropertyChangeSupport;
 import model.tools.Settings;
 import math.Vector;
 import physics.AbstractGameObject;
-import physics.PhysicalBody;
 import physics.PhysicalGameObject;
+import util.Util;
 
 /**
  *
@@ -21,15 +21,7 @@ public abstract class MoveableAbstract implements IMoveable, AbstractGameObject 
     protected int maxSpeed = Settings.getInstance().getSetting("maxSpeed");
     protected int acceleration = Settings.getInstance().getSetting("acceleration");
     protected PropertyChangeSupport pcs = new PropertyChangeSupport(this);
-    protected PhysicalBody body;
-
-    public MoveableAbstract(Vector pos, Vector dir, Vector size, float mass) {
-        this.body = new PhysicalBody(this, new Vector(pos), new Vector(dir), new Vector(size), mass);
-    }
-
-    public PhysicalBody getBody() {
-        return this.body;
-    }
+    protected PhysicalGameObject body;
 
     /**
      * Sets the position of the moveable
@@ -153,7 +145,11 @@ public abstract class MoveableAbstract implements IMoveable, AbstractGameObject 
     }
 
     protected void positionUpdated() {
-        this.pcs.firePropertyChange("Updated Position", null, this.getPosition());
+        this.pcs.firePropertyChange("Updated Position", null, Util.convertToMonkey3D(this.getPosition()));
+    }
+    
+    public PhysicalGameObject getGameObject() {
+        return this.body;
     }
 
     public abstract void announceRemoval();

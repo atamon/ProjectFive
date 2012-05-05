@@ -128,7 +128,7 @@ public class Game implements IGame {
         return new Unit(position,
                 direction,
                 new Vector(unitSize, unitSize, unitSize),
-                Settings.getInstance().getSetting("unitMass"));
+                Settings.getInstance().getSetting("unitMass"), playerID);
     }
 
     public void createPlayer(int id) {

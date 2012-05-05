@@ -4,6 +4,7 @@
  */
 package physics;
 
+import com.jme3.bullet.objects.PhysicsRigidBody;
 import java.beans.PropertyChangeListener;
 import math.Direction;
 import math.Vector;
@@ -33,6 +34,8 @@ public interface PhysicalGameObject {
     float getSpeed();
 
     void halt();
+    
+    PhysicsRigidBody getBody();
 
     /**
      * Places the body at a given point in the physical world.
@@ -54,5 +57,7 @@ public interface PhysicalGameObject {
     void steer(Direction dir, float tpf);
 
     void updated();
+    
+    int getOwnerID();
     
 }
