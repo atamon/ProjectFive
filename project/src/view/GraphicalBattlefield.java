@@ -22,7 +22,7 @@ public class GraphicalBattlefield {
     
     public GraphicalBattlefield(Vector3f size, Vector3f position, AssetManager assetManager){
         
-        Vector3f sizeVector = new Vector3f(size.x,BATTLEFIELD_THICKNESS,size.z);
+        Vector3f sizeVector = new Vector3f(size.x,size.y,size.z);
         
         System.out.println("Graphical battlefield dimensions: "+size);
         

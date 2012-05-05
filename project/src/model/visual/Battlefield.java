@@ -103,8 +103,8 @@ public class Battlefield implements IVisualisable, PropertyChangeListener, Abstr
     private boolean isOutOfBounds(final Vector position) {
         return position.getX() < 0
                 || position.getX() > this.size.getX()
-                || position.getY() < 0
-                || position.getY() > this.size.getY();
+                || position.getZ() < 0
+                || position.getZ() > this.size.getZ();
     }
 
     public void clearForNewRound(){

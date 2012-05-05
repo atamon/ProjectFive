@@ -36,12 +36,17 @@ public class JMEPhysicsHandler implements PhysicsCollisionListener {
         this.bulletAppState.getPhysicsSpace().addCollisionListener(this);
     }
     
+    /**
+     * Creates the ground in the physics world.
+     * Because the engine sees the Vector size as half extents, we divide by 2.
+     * @param size 
+     */
     public void createGround(Vector size) {
-        System.out.println("size of battlefield: "+size);
-        this.ground = new PhysicsRigidBody(new BoxCollisionShape(Util.convertToMonkey3D(size)), 0);
-        ground.setMass(0);
+        Vector position = new Vector(size);
+        position.mult(0.5f);
+        this.ground = new PhysicsRigidBody(new BoxCollisionShape(Util.convertToMonkey3D(size).mult(0.5f)), 0);
+        ground.setPhysicsLocation(Util.convertToMonkey3D(position));
         ground.setFriction(0);
-        bulletAppState.getPhysicsSpace().add(ground);
         bulletAppState.getPhysicsSpace().addCollisionObject(ground);
     }
 

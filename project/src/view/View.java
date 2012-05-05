@@ -138,7 +138,7 @@ public class View implements PropertyChangeListener {
 
     private void initCamera() {
         Camera cam = jme3.getCamera();
-        cam.setLocation(new Vector3f(this.game.getBattlefieldCenter().getX(), 210, 0));
+        cam.setLocation(new Vector3f(this.game.getBattlefieldCenter().getX(), 110, 0));
         cam.lookAt(Util.convertToMonkey3D(this.game.getBattlefieldCenter()).setZ(42), Vector3f.UNIT_Y);
     }
 
