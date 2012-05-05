@@ -9,7 +9,7 @@ steerAngle:2
 acceleration:5
 retardation:10
 maxSpeed:15
-unitSize:1
+unitSize:3
 unitMass:5
 cannonBallMass:1
 cannonBallSpeed:1

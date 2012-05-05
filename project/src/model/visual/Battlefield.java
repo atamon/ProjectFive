@@ -207,16 +207,16 @@ public class Battlefield implements IVisualisable, PropertyChangeListener, Abstr
     }
 
     public static Vector getStartingPosition(int playerID, Vector bfSize) {
-        bfSize.setY(bfSize.getY()+2.5f); // smelly code
+        float corrHeight = bfSize.getY()+1.9f;
         Vector upLeft = new Vector(bfSize);
         Vector downLeft = new Vector(upLeft.getX(), upLeft.getY(), 0);
         Vector upRight = new Vector(0, upLeft.getY(), upLeft.getX());
-        Vector downRight = new Vector(15f, upLeft.getY(), 15f);
+        Vector downRight = new Vector(15f, upLeft.getY()+corrHeight, 15f);
         
         // We want the starting positions a bit more towards the center
-        upLeft.add(new Vector(-15f, 0, -15f));
-        downLeft.add(new Vector(-15f, 0, 15f));
-        upRight.add(new Vector(15f, 0, -15f));
+        upLeft.add(new Vector(-15f, corrHeight, -15f));
+        downLeft.add(new Vector(-15f, corrHeight, 15f));
+        upRight.add(new Vector(15f, corrHeight, -15f));
         
         Vector position;
         switch (playerID) {

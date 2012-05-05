@@ -25,11 +25,11 @@ public class CannonBall extends MoveableAbstract implements IObservable {
      */
     public CannonBall(final Vector position,
             final Vector direction,
-            final Vector size2D,
+            final Vector size,
             final float height,
             final float mass,
             final float speed) {
-        super(position, direction, size2D, height, mass);
+        super(position, direction, size, mass);
     }
 
     public void update(float tpf) {

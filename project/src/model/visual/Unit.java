@@ -25,8 +25,8 @@ public class Unit extends MoveableAbstract implements IObservable {
      * @param pos initial position
      * @param dir initial direction
      */
-    public Unit(Vector pos, Vector dir, Vector size2D, float height, float mass) {
-        super(pos, dir, size2D, height, mass);
+    public Unit(Vector pos, Vector dir, Vector size, float mass) {
+        super(pos, dir, size, mass);
         if (hitPointsMax <= 0) {
             throw new IllegalArgumentException("hit points must be positive");
         }

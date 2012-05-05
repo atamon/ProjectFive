@@ -23,8 +23,8 @@ public abstract class MoveableAbstract implements IMoveable, AbstractGameObject 
     protected PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     protected PhysicalBody body;
 
-    public MoveableAbstract(Vector pos, Vector dir, Vector size, float height, float mass) {
-        this.body = new PhysicalBody(this, new Vector(pos), new Vector(dir), new Vector(size), height, mass);
+    public MoveableAbstract(Vector pos, Vector dir, Vector size, float mass) {
+        this.body = new PhysicalBody(this, new Vector(pos), new Vector(dir), new Vector(size), mass);
     }
 
     public PhysicalBody getBody() {
@@ -62,16 +62,6 @@ public abstract class MoveableAbstract implements IMoveable, AbstractGameObject 
         this.directionUpdated();
     }
 
-    /**
-     * Sets our moveable's direction.
-     *
-     * @param x Direction in x-axis
-     * @param y Direction in y-axis
-     */
-    public void setDirection(float x, float y, float z) {
-        setDirection(new Vector(x, y, z));
-    }
-
     public Vector getDirection() {
         return body.getDirection();
     }
@@ -105,7 +95,6 @@ public abstract class MoveableAbstract implements IMoveable, AbstractGameObject 
     }
 
     public void hide() {
-        System.out.println("LOOOOOOOOOOOOOOOOOOL");
         halt();
         this.maxSpeed = 0;
         setPosition(Vector.NONE_EXISTANT);

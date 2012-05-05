@@ -21,21 +21,20 @@ public class PhysicalBody implements PhysicalGameObject {
     
     private PhysicsRigidBody body;
     private AbstractGameObject owner;
+    private final Vector initSize;
     private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     
     public PhysicalBody(AbstractGameObject owner, Vector startPos, 
-                        Vector startDir, Vector size2D, 
-                        float height, float mass) {
-        Vector3f correctSize = Util.convertToMonkey3D(size2D).setY(height);
-        BoxCollisionShape shape = new BoxCollisionShape(correctSize);
+                        Vector startDir, Vector size, float mass) {
+        Vector correctSize = new Vector(size);
+        BoxCollisionShape shape = new BoxCollisionShape(Util.convertToMonkey3D(correctSize));
         body = new PhysicsRigidBody(shape, mass);
         body.setUserObject(owner);
         body.setPhysicsLocation(Util.convertToMonkey3D(startPos).setY(2.0f));
-        System.out.println(body.getPhysicsLocation());
         body.setLinearVelocity(Util.convertToMonkey3D(startDir).normalize());
-        body.clearForces();
         body.setDamping(0, 0.1f);
         
+        this.initSize = correctSize;
         this.owner = owner;
     }
     
@@ -66,7 +65,7 @@ public class PhysicalBody implements PhysicalGameObject {
      */
     @Override
     public void place(Vector pos) {
-        body.setPhysicsLocation(Util.convertToMonkey3D(pos).setY(1.0f));
+        body.setPhysicsLocation(Util.convertToMonkey3D(pos));
     }
     
     /**
@@ -100,7 +99,7 @@ public class PhysicalBody implements PhysicalGameObject {
     
     @Override
     public Vector getSize() {
-        return Util.convertFromMonkey3D(body.getCollisionShape().getScale());
+        return initSize;
     }
     
     @Override

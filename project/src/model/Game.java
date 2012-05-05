@@ -30,6 +30,7 @@ public class Game implements IGame {
     private final Map<Integer, Player> playerMap = new HashMap<Integer, Player>();
     private final Map<Integer, Round> playedRounds = new HashMap<Integer, Round>();
     private Round currentRound;
+
     /**
      * Create a game with given parameters. A game consists of a number of
      * rounds containing a given amount of players. The Game class starts new
@@ -124,10 +125,9 @@ public class Game implements IGame {
         Vector position = Battlefield.getStartingPosition(playerID, battlefield.getSize());
         Vector direction = Battlefield.getStartingDir(playerID);
         int unitSize = Settings.getInstance().getSetting("unitSize");
-        return new Unit(position, 
-                direction, 
-                new Vector(unitSize, unitSize, unitSize), 
-                unitSize, 
+        return new Unit(position,
+                direction,
+                new Vector(unitSize, unitSize, unitSize),
                 Settings.getInstance().getSetting("unitMass"));
     }
 
@@ -195,7 +195,7 @@ public class Game implements IGame {
      */
     @Override
     public void nextRound() {
-        
+
         this.battlefield.clearForNewRound();
         this.currentRound = new Round();
         try {
@@ -350,7 +350,6 @@ public class Game implements IGame {
      */
     public void clean() {
         playedRounds.clear();
-        
         gameState = GameState.INACTIVE;
     }
 
@@ -367,5 +366,4 @@ public class Game implements IGame {
     public void removePropertyChangeListener(PropertyChangeListener pl) {
         this.pcs.removePropertyChangeListener(pl);
     }
-
 }
