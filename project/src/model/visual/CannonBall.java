@@ -16,6 +16,8 @@ import physics.PhysicalGameObject;
  * @author victorlindhe
  */
 public class CannonBall extends MoveableAbstract implements IObservable {
+    private final Unit owner;
+    
     /**
      * Creates a CannonBall.
      *
@@ -29,8 +31,9 @@ public class CannonBall extends MoveableAbstract implements IObservable {
             final Vector size,
             final float height,
             final float mass,
-            final float speed) {
+            final float speed, final Unit owner) {
         this.body = new PhysicalCannonBall(this, position, direction, size, mass, speed);
+        this.owner = owner;
     }
 
     public void update(float tpf) {
@@ -52,5 +55,9 @@ public class CannonBall extends MoveableAbstract implements IObservable {
      */
     public void announceRemoval() {
         this.pcs.firePropertyChange("CannonBall Removed", null, null);
+    }
+
+    public Unit getOwner() {
+        return this.owner;
     }
 }

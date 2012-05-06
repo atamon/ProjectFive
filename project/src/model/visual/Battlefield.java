@@ -191,8 +191,9 @@ public class Battlefield implements IVisualisable, PropertyChangeListener, Abstr
     
 
     private void boatHitByCannonBall(Unit boat, CannonBall cBall) {
-        boat.damage(cBall.getDamage());
-        this.removeFromBattlefield(cBall);
+            boat.damage(cBall.getDamage());
+            this.removeFromBattlefield(cBall);
+        
     }
 
     public void announceRemoval() {

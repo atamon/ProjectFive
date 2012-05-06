@@ -23,6 +23,7 @@ public class PhysicalUnit implements PhysicalGameObject {
     private AbstractGameObject owner;
     private final Vector initSize;
     private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+    private Vector3f oldDirection;
     
     public PhysicalUnit(AbstractGameObject owner, Vector startPos, 
                         Vector startDir, Vector size, float mass) {
@@ -31,9 +32,9 @@ public class PhysicalUnit implements PhysicalGameObject {
         body = new PhysicsRigidBody(shape, mass);
         
         body.setPhysicsLocation(Util.convertToMonkey3D(startPos));
-        body.setLinearVelocity(Util.convertToMonkey3D(startDir).normalize());
+        body.setLinearVelocity(Util.convertToMonkey3D(startDir));
         
-        
+        this.oldDirection = body.getLinearVelocity();
         this.owner = owner;
         this.initSize = correctSize;
         
@@ -127,6 +128,10 @@ public class PhysicalUnit implements PhysicalGameObject {
     
     @Override
     public void updated() {
+        if(body.getLinearVelocity().length() < 1.0f) {
+            body.setLinearVelocity(this.oldDirection);
+        }
+        System.out.println("length of velo: "+body.getLinearVelocity().length());
         pcs.firePropertyChange("Physical Update", body.getPhysicsLocation(), 
         body.getLinearVelocity());
     }
