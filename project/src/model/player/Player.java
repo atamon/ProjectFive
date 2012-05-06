@@ -65,22 +65,24 @@ public class Player {
     }
 
     private void fire(Vector direction) {
-        CannonBall cBall = new CannonBall(this.getCannonBallPos(direction),
+        CannonBall cBall = new CannonBall(new Vector(25, 0, 25),
                                           direction,
                                           new Vector(0.1f, 0, 0.1f),
                                           0.1f,
                                           (float)(Settings.getInstance().getSetting("cannonBallMass")),
-                                          (float)(Settings.getInstance().getSetting("cannonBallSpeed")),
-                                           this.playerId);
+                                          (float)(Settings.getInstance().getSetting("cannonBallSpeed")));
         this.pcs.firePropertyChange("CannonBall Created", null, cBall);
     }
 
     private Vector getCannonBallPos(Vector ballDir) {
         Vector pos = new Vector(this.getUnitPosition());
         Vector dir = new Vector(ballDir);
-        dir.normalize();
-        dir.mult(this.playerUnit.getSize());
-        pos.add(dir);
+        ballDir.normalize();
+        ballDir.mult(25.0f);
+        Vector newPosition = new Vector(pos.getX()+ballDir.getX(), pos.getY()+ballDir.getY(), pos.getZ()+ballDir.getZ());
+        System.out.println("pos of boat "+this.getUnitPosition());
+        System.out.println("pos of ball "+newPosition);
+        System.out.println("ballDir "+ballDir);
         return pos;
     }
     

@@ -6,5 +6,4 @@ package physics;
  */
 public interface AbstractGameObject {
     public int getAcceleration();
-    public int getID();
 }

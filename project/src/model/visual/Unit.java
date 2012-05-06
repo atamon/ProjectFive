@@ -21,7 +21,6 @@ public class Unit extends MoveableAbstract implements IObservable {
     private int hitPoints = hitPointsMax;
     private boolean isAccelerating = false;
     private Direction steerDirection = new Direction();
-    private final int owner;
 
     /**
      * Create a unit
@@ -33,8 +32,6 @@ public class Unit extends MoveableAbstract implements IObservable {
         if (hitPointsMax <= 0) {
             throw new IllegalArgumentException("hit points must be positive");
         }
-        
-        this.owner = owner;
     }
 
     /**
@@ -208,9 +205,5 @@ public class Unit extends MoveableAbstract implements IObservable {
                 + "hitPointsMax=" + hitPointsMax + ", acceleration=" + 
                 acceleration + ", hitPoints=" + hitPoints + ", isAccelerating=" 
                 + isAccelerating + ", steerDirection=" + steerDirection + '}';
-    }
-
-    public int getID() {
-        return this.owner;
     }
 }

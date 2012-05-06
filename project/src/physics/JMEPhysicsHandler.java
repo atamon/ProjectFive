@@ -73,12 +73,10 @@ public class JMEPhysicsHandler implements PhysicsCollisionListener {
     }
 
     public void collision(PhysicsCollisionEvent event) {
-        if (event.getObjectA() != ground && event.getObjectB() != ground)
-            if(event.getObjectA().getUserObject().getClass().equals(PhysicalCannonBall.class) &&
-               event.getObjectB().getUserObject().getClass().equals(PhysicalUnit.class)) {
-                    this.pcs.firePropertyChange("Collision CannonBallBoat", 
-                                        event.getObjectA(), event.getObjectB());
-            }
+            this.pcs.firePropertyChange("Collision", 
+                    event.getObjectA().getUserObject(), 
+                    event.getObjectB().getUserObject());
+        
     }
 
     public void addPropertyChangeListener(PropertyChangeListener ls) {

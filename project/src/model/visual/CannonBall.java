@@ -8,6 +8,7 @@ import physics.PhysType;
 import model.tools.IObservable;
 import math.Vector;
 import physics.PhysicalCannonBall;
+import physics.PhysicalGameObject;
 
 /**
  * A class to represent a CannonBall.
@@ -15,7 +16,6 @@ import physics.PhysicalCannonBall;
  * @author victorlindhe
  */
 public class CannonBall extends MoveableAbstract implements IObservable {
-    private final int owner;
     /**
      * Creates a CannonBall.
      *
@@ -29,10 +29,8 @@ public class CannonBall extends MoveableAbstract implements IObservable {
             final Vector size,
             final float height,
             final float mass,
-            final float speed,
-            final int owner) {
+            final float speed) {
         this.body = new PhysicalCannonBall(this, position, direction, size, mass, speed);
-        this.owner = owner;
     }
 
     public void update(float tpf) {
@@ -54,9 +52,5 @@ public class CannonBall extends MoveableAbstract implements IObservable {
      */
     public void announceRemoval() {
         this.pcs.firePropertyChange("CannonBall Removed", null, null);
-    }
-
-    public int getID() {
-        return this.owner;
     }
 }

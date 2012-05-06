@@ -162,36 +162,28 @@ public class Battlefield implements IVisualisable, PropertyChangeListener, Abstr
 
  
     public void propertyChange(final PropertyChangeEvent evt) {
-        if ("Collision CannonBalls".equals(evt.getPropertyName())) {
-            this.removeFromBattlefield((CannonBall) evt.getOldValue());
-            this.moveables.remove(evt.getOldValue());
-            this.removeFromBattlefield((CannonBall) evt.getNewValue());
-            this.moveables.remove(evt.getNewValue());
+        if("Collision".equals(evt.getPropertyName())) {
+            
+            // Removes CannonBall if it hits the ocean
+            if(evt.getOldValue() == null && evt.getNewValue() instanceof CannonBall) {
+                ((CannonBall)evt.getNewValue()).announceRemoval();
+            }
+            else if(evt.getOldValue() instanceof CannonBall && evt.getOldValue() == null) {
+                ((CannonBall)evt.getOldValue()).announceRemoval();                
+            }
+            else if(evt.getOldValue() instanceof Unit && evt.getNewValue() instanceof Unit) {
+                // Code to handle UCRAM
+            }
+            // Deals with collisions betwwen cannonballs and units
+            else if(evt.getOldValue() instanceof Unit && evt.getNewValue() instanceof CannonBall) {
+                this.boatHitByCannonBall((Unit)evt.getOldValue(),(CannonBall)evt.getNewValue());
+            }
+            else if(evt.getNewValue() instanceof CannonBall && evt.getNewValue() instanceof Unit) {
+                this.boatHitByCannonBall((Unit)evt.getOldValue(),(CannonBall)evt.getOldValue());
+            }
+            
         }
-     /*   if ("Collision Boats".equals(evt.getPropertyName())) {
-            final Unit unit1 = (Unit) evt.getOldValue();
-            final Vector newDir1 = this.physHandler.getRigidDirection(unit1);
-            final float speed1 = this.physHandler.getRigidSpeed(unit1);
-
-            newDir1.add(unit1.getDirection());
-            unit1.setVelocity(newDir1);
-            unit1.setSpeed(speed1);
-
-            final Unit unit2 = (Unit) evt.getNewValue();
-            final Vector newDir2 = this.physHandler.getRigidDirection(unit2);
-            final float speed2 = this.physHandler.getRigidSpeed(unit2);
-
-            newDir2.add(unit2.getDirection());
-            unit2.setVelocity(newDir2);
-            unit2.setSpeed(speed2);
-        }*/
-        if ("Collision CannonBallBoat".equals(evt.getPropertyName())) {
-            System.out.println("collision");
-        }
-
-        if ("Collision BoatCannonBall".equals(evt.getPropertyName())) {
-            System.out.println("collision");
-        }
+        
         if("CannonBall Created".equals(evt.getPropertyName())) {
             this.addToBattlefield((CannonBall)evt.getNewValue());
         }
@@ -269,9 +261,4 @@ public class Battlefield implements IVisualisable, PropertyChangeListener, Abstr
     public int getAcceleration() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
-    public int getID() {
-        return -1;
-    }
-    
 }

@@ -57,7 +57,4 @@ public interface PhysicalGameObject {
     void steer(Direction dir, float tpf);
 
     void updated();
-    
-    int getOwnerID();
-    
 }

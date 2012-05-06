@@ -107,7 +107,7 @@ public class Vector {
     
     /**
      * Multiplies a number to this
-     * @param number The number to multiply x and y with
+     * @param number The number to multiply x and y and z with
      */
     public void mult(float number) {
         this.x = this.x*number;
@@ -152,6 +152,7 @@ public class Vector {
         this.x = (float)( Math.cos(radian)*x - Math.sin(radian)*y);
         this.y = (float)( Math.sin(radian)*orgX + Math.cos(radian)*y);
     }
+    
     /**
      * Returns a string with the format "X = X.XXXX, Y = Y.YYYY".
      * @return 

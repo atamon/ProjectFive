@@ -130,9 +130,5 @@ public class PhysicalUnit implements PhysicalGameObject {
         pcs.firePropertyChange("Physical Update", body.getPhysicsLocation(), 
         body.getLinearVelocity());
     }
-
-    public int getOwnerID() {
-        return this.owner.getID();
-    }
     
 }

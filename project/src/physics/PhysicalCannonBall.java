@@ -31,7 +31,7 @@ public class PhysicalCannonBall implements PhysicalGameObject {
         body = new PhysicsRigidBody(shape, mass);
         body.setUserObject(owner);
         body.setPhysicsLocation(Util.convertToMonkey3D(startPos).setY(3.0f));
-        body.applyCentralForce(Util.convertToMonkey3D(startDir).mult(speed*10));
+        body.applyCentralForce(Util.convertToMonkey3D(startDir).mult(speed*100).setY(1.0f));
         body.setDamping(0, 0.1f);
         this.initSize = correctSize;
         this.owner = owner;
@@ -79,7 +79,6 @@ public class PhysicalCannonBall implements PhysicalGameObject {
             float length = body.getLinearVelocity().length();
             body.setLinearVelocity(Util.convertToMonkey3D(dir).mult(length));
         }
-        System.out.println(body.getLinearVelocity());
     }
     
     @Override
@@ -125,9 +124,4 @@ public class PhysicalCannonBall implements PhysicalGameObject {
     public void updated() {
         pcs.firePropertyChange("Updated Position", null, body.getPhysicsLocation());
     }
-
-    public int getOwnerID() {
-        return this.owner.getID();
-    }
-    
 }
