@@ -67,24 +67,27 @@ public class Battlefield implements IVisualisable, PropertyChangeListener, Abstr
         while(iterator.hasNext()){
             final IMoveable next = iterator.next();
             next.update(tpf);
-//            if (next.getClass() == Unit.class && this.isOutOfBounds(next.getPosition())) {
-//                this.doMagellanJourney(next);
-//            }
+            if (next.getClass() == Unit.class && this.isOutOfBounds(next.getPosition())) {
+                System.out.println(next + " is out of bounds!");
+                this.doMagellanJourney(next);
+            }
         }
         this.physHandler.update(tpf);
 
     }
     private void doMagellanJourney(final IMoveable moveable) {
-        final Vector newPosition = moveable.getPosition();
-        final Vector direction = moveable.getDirection();
-        direction.mult(-1.0f);
-        newPosition.add(direction);
-        while (!isOutOfBounds(newPosition)) {
-            newPosition.add(direction);
+        Vector moddedPos = new Vector(moveable.getPosition());
+        moddedPos.setX(moddedPos.getX()%size.getX());
+        moddedPos.setZ(moddedPos.getZ()%size.getZ());
+        if (moddedPos.getX() < 0) {
+            moddedPos.setX(size.getX());
         }
-        direction.mult(-1.0f);
-        newPosition.add(direction);
-        moveable.setPosition(newPosition);
+        if (moddedPos.getZ() < 0 ) {
+            moddedPos.setZ(size.getZ());
+        }
+        
+        moddedPos.setY(3.9f);
+        moveable.setPosition(moddedPos);
     }
     /**
      * Returns a copy of the size Vector.

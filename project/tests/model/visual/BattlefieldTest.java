@@ -1,11 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package model.visual;
 
 import controller.SettingsLoader;
-import java.beans.PropertyChangeEvent;
 import model.tools.Settings;
 import math.Vector;
 import org.junit.Before;
@@ -34,7 +29,7 @@ public class BattlefieldTest {
      */
     @Test(expected = NumberFormatException.class)
     public void testConstructorArgument() {
-        Battlefield secondBField = new Battlefield(new Vector(-50, -50));
+        Battlefield secondBField = new Battlefield(new Vector(-50, 1, -50));
     }
 
     /**
@@ -43,7 +38,7 @@ public class BattlefieldTest {
      */
     @Test
     public void testGetSize() {
-        assertTrue(bField.getSize().equals(new Vector(100.0f, 100.0f)));
+        assertTrue(bField.getSize().equals(new Vector(100.0f, 1, 100.0f)));
     }
 
     /**
@@ -53,7 +48,7 @@ public class BattlefieldTest {
      */
     @Test
     public void testGetPosition() {
-        assertTrue(bField.getPosition().equals(new Vector(0, 0)));
+        assertTrue(bField.getPosition().equals(new Vector(0, 0, 0)));
     }
 
     /**
@@ -61,7 +56,7 @@ public class BattlefieldTest {
      */
     @Test
     public void testGetCenter() {
-        Vector expFirstSize = new Vector(50, 50);
+        Vector expFirstSize = new Vector(50, 1, 50);
         assertTrue(expFirstSize.equals(this.bField.getCenter()));
     }
 
@@ -70,7 +65,7 @@ public class BattlefieldTest {
      */
     @Test
     public void testEquals() {
-        Battlefield secondBField = new Battlefield(new Vector(50.0f, 50.0f));
+        Battlefield secondBField = new Battlefield(new Vector(50.0f, 1, 50.0f));
         assertTrue(this.bField.equals(this.bField));
         assertFalse(this.bField.equals(secondBField));
     }
@@ -80,7 +75,7 @@ public class BattlefieldTest {
      */
     @Test
     public void testHashCode() {
-        Battlefield secondBField = new Battlefield(new Vector(50.0f, 50.0f));
+        Battlefield secondBField = new Battlefield(new Vector(50.0f, 1, 50.0f));
         assertFalse(this.bField.hashCode() == secondBField.hashCode());
     }
 
@@ -89,7 +84,7 @@ public class BattlefieldTest {
      */
     @Test(expected = IllegalArgumentException.class)
     public void testAddToBattlefield() {
-        IMoveable mov = new Unit(new Vector(1, -1), new Vector(1, 1), 0);
+        IMoveable mov = new Unit(new Vector(1, 0, -1), new Vector(1, 0, 1), new Vector(1, 1, 1), 0, 0);
         Battlefield instance = new Battlefield();
         instance.addToBattlefield(mov);
         // Now we crash
@@ -101,7 +96,7 @@ public class BattlefieldTest {
      */
     @Test
     public void testRemoveFromBattlefield() {
-        IMoveable mov = new CannonBall(0, new Vector(1, 1), new Vector(1, 0), 10f);
+        IMoveable mov = new CannonBall(new Vector(1, 1, 1), new Vector(1, 1, 0), new Vector(1, 1, 1), 0, 0, null);
         Battlefield instance = new Battlefield();
         instance.addToBattlefield(mov);
         instance.removeFromBattlefield(mov);
@@ -117,9 +112,10 @@ public class BattlefieldTest {
     public void testUpdate() {
         Battlefield instance = new Battlefield();
         Vector pos = new Vector(instance.getSize());
-        Vector dir = new Vector(1,1);
-        Unit unit = new Unit(pos, dir, 0);
-        unit.setSpeed(10f);
+        Vector dir = new Vector(1, 1, 1);
+        Vector size = new Vector(1, 1, 1);
+        Unit unit = new Unit(pos, dir, size, 0, 0);
+        unit.setIsAccelerating(true);
         instance.addToBattlefield(unit);
         instance.update(0.016f);
         assertFalse(pos.equals(unit));
@@ -130,17 +126,17 @@ public class BattlefieldTest {
      */
     @Test
     public void testClear() {
-        IMoveable mov = new Unit(new Vector(1, 1), new Vector(1, 1), 0);
+        IMoveable mov = new Unit(new Vector(1, 0, -1), new Vector(1, 0, 1), new Vector(1, 1, 1), 0, 0);
         Battlefield instance = new Battlefield();
         instance.addToBattlefield(mov);
-        mov = new CannonBall(0, new Vector(1,1), new Vector(1,1), 25f);
+        mov = new CannonBall(new Vector(1, 1, 1), new Vector(1, 1, 0), new Vector(1, 1, 1), 0, 0, null);
         instance.addToBattlefield(mov);
         // Same as removeFromBattlefield, only calls other methods, so no crash = okay
         instance.clearForNewRound();
         assertTrue(true);
     }
 
-    @Test (expected=UnsupportedOperationException.class)
+    @Test(expected = UnsupportedOperationException.class)
     public void testRemove() {
         Battlefield instance = new Battlefield();
         instance.announceRemoval();
@@ -151,11 +147,11 @@ public class BattlefieldTest {
      */
     @Test
     public void testGetStartingPosition() {
-        Vector bfSize = new Vector(100, 100);
-        Vector posZero = new Vector(85f, 85f);
-        Vector posOne = new Vector(15f, 15f);
-        Vector posTwo = new Vector(85f, 15f);
-        Vector posThree = new Vector(15f, 85f);
+        Vector bfSize = new Vector(100, 1, 100);
+        Vector posZero = new Vector(85f, 3.9f, 85f);
+        Vector posOne = new Vector(15f, 3.9f, 15f);
+        Vector posTwo = new Vector(85f, 3.9f, 15f);
+        Vector posThree = new Vector(15f, 3.9f, 85f);
         Vector result = Battlefield.getStartingPosition(0, bfSize);
         assertEquals(posZero, result);
         result = Battlefield.getStartingPosition(1, bfSize);
@@ -171,10 +167,10 @@ public class BattlefieldTest {
      */
     @Test
     public void testGetStartingDir() {
-        Vector dirZero = new Vector(-1, -1);
-        Vector dirOne = new Vector(1, 1);
-        Vector dirTwo = new Vector(-1, 1);
-        Vector dirThree = new Vector(1, -1);
+        Vector dirZero = new Vector(-1, 0, -1);
+        Vector dirOne = new Vector(1, 0, 1);
+        Vector dirTwo = new Vector(-1, 0, 1);
+        Vector dirThree = new Vector(1, 0, -1);
         Vector result = Battlefield.getStartingDir(0);
         assertEquals(dirZero, result);
         result = Battlefield.getStartingDir(1);

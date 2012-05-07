@@ -29,9 +29,9 @@ public class CannonBall extends MoveableAbstract implements IObservable {
     public CannonBall(final Vector position,
             final Vector direction,
             final Vector size,
-            final float height,
             final float mass,
-            final float speed, final Unit owner) {
+            final float speed,
+            final Unit owner) {
         this.body = new PhysicalCannonBall(this, position, direction, size, mass, speed);
         this.owner = owner;
     }

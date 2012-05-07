@@ -69,8 +69,7 @@ public class Player {
     private void fire(Vector direction) {
         CannonBall cBall = new CannonBall(this.getCannonBallPos(direction),
                                           direction,
-                                          new Vector(0.1f, 0, 0.1f),
-                                          0.1f,
+                                          new Vector(0.1f, 0.1f, 0.1f),
                                           (float)(Settings.getInstance().getSetting("cannonBallMass")),
                                           (float)(Settings.getInstance().getSetting("cannonBallSpeed")), this.playerUnit);
         this.pcs.firePropertyChange("CannonBall Created", null, cBall);

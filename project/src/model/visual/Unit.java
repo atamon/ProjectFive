@@ -69,23 +69,6 @@ public class Unit extends MoveableAbstract implements IObservable {
     }
 
     /**
-     * Determines how much a unit can steer depending on its speed
-     * 
-     * @return a steerAngle
-     */
-    private float currentSteerAngle() {
-        if (this.getSpeed() <= 0) {
-            return 0;
-        }
-
-        if (this.getSpeed() > MAX_STEER_SPEED) {
-            return this.steerAngle;
-        }
-
-        return this.getSpeed() * this.steerAngle / MAX_STEER_SPEED;
-    }
-
-    /**
      * Set the steer angle of the unit. 
      * @param steerAngle Angle determined in radians. Leave open interval for configuration in-game
      */
@@ -99,14 +82,6 @@ public class Unit extends MoveableAbstract implements IObservable {
 
     public void steerAntiClockWise(boolean bool) {
         this.steerDirection.steerAntiClockWise(bool);
-    }
-
-    /**
-     * Returns the steerAngle for this unit.
-     * @return A float representing how fast the unit can steer.
-     */
-    public float getSteerAngle() {
-        return this.steerAngle;
     }
 
     /**
