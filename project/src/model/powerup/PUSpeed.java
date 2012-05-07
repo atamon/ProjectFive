@@ -4,7 +4,7 @@ package model.powerup;
  *
  * @author jnes
  */
-public class PUSpeed extends AbstractPowerUp {
+public final class PUSpeed extends AbstractPowerUp {
 
     private final String name = "Speed up";
     private final String message = "Sppeeeeeeeeeeeeeddddd";
@@ -13,10 +13,15 @@ public class PUSpeed extends AbstractPowerUp {
         super();
         this.maxSpeed = 10;
         this.acceleration = 15;
+        this.lifeTime = 10;
     }
     
-    public void update(float tpf) {
-        this.lifeTime -= tpf;
+    public void update(final float tpf) {
+        if(lifeTime <= 0){
+            this.isActive = false;
+        } else {
+            this.lifeTime -= tpf;
+        }
     }
 
     public String getMessage() {
@@ -26,5 +31,6 @@ public class PUSpeed extends AbstractPowerUp {
     public String getName() {
         return this.name;
     }
+
     
 }

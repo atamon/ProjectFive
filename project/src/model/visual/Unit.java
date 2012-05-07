@@ -4,6 +4,8 @@ import model.physics.PhysType;
 import model.tools.Direction;
 import model.tools.Vector;
 import model.physics.IPhysical;
+import model.powerup.IPowerUp;
+import model.powerup.PUEmpty;
 import model.tools.*;
 
 /**
@@ -24,7 +26,7 @@ public class Unit extends MoveableAbstract implements IObservable, IPhysical {
     private int hitPoints = hitPointsMax;
     private boolean isAccelerating = false;
     private Direction steerDirection = new Direction();
-    private PowerUp powerUp;
+    private IPowerUp powerUp = new PUEmpty();
 
     /**
      * Create a unit
@@ -50,12 +52,10 @@ public class Unit extends MoveableAbstract implements IObservable, IPhysical {
         this.steer(tpf);
         this.move(tpf);
         if (this.powerUp != null) {
-            this.powerUp.update(tpf);
-            if (powerUp.timeLeft <= 0) {
-                this.removePowerUp();
+            if (powerUp.isActive()) {
+                this.powerUp.update(tpf);
             }
         }
-
     }
 
 
@@ -301,24 +301,13 @@ public class Unit extends MoveableAbstract implements IObservable, IPhysical {
         this.pcs.firePropertyChange("Unit removed", null, null);
     }
     
-    public void setPowerUp(PowerUp power) {
+    public void setPowerUp(IPowerUp power) {
         this.powerUp = power;
         this.applyPowerUp();
     }
     
-    public void applyPowerUp() {
-        this.setAcceleration(this.acceleration + powerUp.getValue("acceleration"));
-        this.setHitPoints(this.hitPoints + powerUp.getValue("hitPoints"));
-        this.setMaxSpeed(this.maxSpeed + powerUp.getValue("maxSpeed"));
-        this.setSteerAngle(this.steerAngle + powerUp.getValue("steerAngle"));
-        this.setHitPointsMax(this.hitPointsMax + powerUp.getValue("hitPointsMax"));
+    private void applyPowerUp() {
+        
     }
     
-    public void removePowerUp() {
-        this.setAcceleration(this.acceleration - powerUp.getValue("acceleration"));
-        this.setMaxSpeed(this.maxSpeed - powerUp.getValue("maxSpeed"));
-        this.setSteerAngle(this.steerAngle - powerUp.getValue("steerAngle"));
-        this.setHitPointsMax(this.hitPointsMax - powerUp.getValue("hitPointsMax"));
-        this.powerUp = null;
-    }
 }
