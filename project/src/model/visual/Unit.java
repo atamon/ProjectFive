@@ -17,7 +17,6 @@ public class Unit extends MoveableAbstract implements IObservable, IPhysical {
 
     private Vector size = new Vector(1, 1);
     private final static int MAX_STEER_SPEED = 10;
-//    private PowerUp powerUp; TODO
     private final int owner;
     private float steerAngle = Settings.getInstance().getSetting("steerAngle");
     private int hitPointsMax = Settings.getInstance().getSetting("hitPointsMax");
@@ -54,8 +53,11 @@ public class Unit extends MoveableAbstract implements IObservable, IPhysical {
         if (this.powerUp != null) {
             if (powerUp.isActive()) {
                 this.powerUp.update(tpf);
+            } else {
+                disablePowerUp();
             }
         }
+        
     }
 
 
@@ -301,13 +303,26 @@ public class Unit extends MoveableAbstract implements IObservable, IPhysical {
         this.pcs.firePropertyChange("Unit removed", null, null);
     }
     
-    public void setPowerUp(IPowerUp power) {
+
+    private void applyPowerUp(final IPowerUp power) {
         this.powerUp = power;
-        this.applyPowerUp();
+        togglePowerUp();
     }
-    
-    private void applyPowerUp() {
+    private void togglePowerUp(){
+        final int onOff = this.powerUp.isActive() ? 1 : -1; //1=activate pu, -1=deactivate pu
         
+        this.setAcceleration(acceleration + onOff * this.powerUp.getAcceleration());
+        this.setMaxSpeed(    speed        + onOff * this.powerUp.getMaxSpeed());
+        this.setSteerAngle(  steerAngle   + onOff * this.powerUp.getSteerAngle());
+
+        //hitpoints are special, they SET value instead of ADD. Power Ups with these features dont have lifetime and wont reset. 
+        this.setHitPoints(this.powerUp.getHitPoints());
+        this.setHitPointsMax(this.powerUp.getHitPointsMax());
+
     }
-    
+
+    private void disablePowerUp() {
+        this.togglePowerUp();
+        this.powerUp = null; // maybe assign an empty powerUp instead...
+    }
 }

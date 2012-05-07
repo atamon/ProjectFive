@@ -12,7 +12,7 @@ public interface IPowerUp {
 
     public boolean isActive();
 
-    public float getAcceleration();
+    public int getAcceleration();
 
     public int getHitPoints();
 
@@ -22,7 +22,7 @@ public interface IPowerUp {
 
     public float getMaxSpeed();
 
-    public float getRetardation();
+    public int getRetardation();
 
     public int getSteerAngle();
     

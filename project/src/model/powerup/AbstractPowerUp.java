@@ -12,16 +12,16 @@ public abstract class AbstractPowerUp implements IPowerUp {
     
     protected float lifeTime;
     protected float maxSpeed;
-    protected float acceleration;
-    protected float retardation;
+    protected int acceleration;
+    protected int retardation;
     protected int steerAngle;
     protected int hitPoints;
     protected int hitPointsMax;
 
-    protected boolean isActive = false;
+    protected boolean isActive = true;
     
     @Override
-    public float getAcceleration() {
+    public int getAcceleration() {
         return acceleration;
     }
 
@@ -46,7 +46,7 @@ public abstract class AbstractPowerUp implements IPowerUp {
     }
 
     @Override
-    public float getRetardation() {
+    public int getRetardation() {
         return retardation;
     }
 

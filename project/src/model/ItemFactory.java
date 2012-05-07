@@ -6,7 +6,9 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
-import model.tools.PowerUp;
+import model.powerup.IPowerUp;
+import model.powerup.PUEmpty;
+import model.powerup.PUSpeed;
 import model.tools.Vector;
 import model.visual.Item;
 
@@ -16,15 +18,21 @@ import model.visual.Item;
  */
 public class ItemFactory {
     
-    private List<PowerUp> powerUps = new ArrayList<PowerUp>();
+    private List<IPowerUp> powerUps = new ArrayList<IPowerUp>();
+    public ItemFactory(){
+        populatePUs();
+    }
     
-    public static Item createNewItem(Vector fieldSize) {
-        String powerName = "";
-        final int randNumber = (int)(Math.random()*2+1);
+    private void populatePUs(){
+        powerUps.add(new PUSpeed());
+    }
+    
+    public Item createNewItem(final Vector fieldSize) {
+        final int randNumber = (int)(Math.random()*this.powerUps.size());
         
         
-        float randXPos = (float)Math.random() * fieldSize.getX();
-        float randYPos = (float)Math.random() * fieldSize.getY();
+        final float randXPos = (float)Math.random() * fieldSize.getX();
+        final float randYPos = (float)Math.random() * fieldSize.getY();
         
         return new Item(powerUps.get(randNumber), new Vector(randXPos, randYPos));
     }
