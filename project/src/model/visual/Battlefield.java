@@ -49,7 +49,6 @@ public class Battlefield implements IVisualisable, PropertyChangeListener, Abstr
     public void removeFromBattlefield(final IMoveable mov) {
         mov.announceRemoval();
         this.physHandler.removeFromWorld(mov.getGameObject());
-        this.moveables.remove(mov);
     }
     
     public void addToBattlefield(final IMoveable mov){
@@ -108,9 +107,9 @@ public class Battlefield implements IVisualisable, PropertyChangeListener, Abstr
     }
 
     public void clearForNewRound(){
-        final Iterator<IMoveable> iterator = this.moveables.iterator();
+        Iterator<IMoveable> iterator = this.moveables.iterator();
         while(iterator.hasNext()){
-            final IMoveable mov = iterator.next();
+            IMoveable mov = iterator.next();
             if(mov.getClass() == Unit.class){
                 mov.hide();
             } else {

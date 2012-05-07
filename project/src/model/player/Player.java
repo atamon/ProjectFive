@@ -52,10 +52,10 @@ public class Player {
     }
 
     public void fireLeft() {
-        Vector direction = this.getUnitDirection();
-        direction.normalize();
-        Vector ballDirection = new Vector(direction.getZ(), 0,
-               direction.getX() * -1);
+        Vector unitDirection = this.getUnitDirection();
+        unitDirection.normalize();
+        Vector ballDirection = new Vector(unitDirection.getZ(), 0,
+               unitDirection.getX() * -1);
         this.fire(ballDirection);
     }
 
@@ -79,9 +79,9 @@ public class Player {
     private Vector getCannonBallPos(Vector ballDir) {
         Vector pos = new Vector(this.getUnitPosition());
         Vector dir = new Vector(ballDir);
-        ballDir.normalize();
-        ballDir.mult(5.0f);
-        Vector newPosition = new Vector(pos.getX()+ballDir.getX(), pos.getY()+ballDir.getY(), pos.getZ()+ballDir.getZ());
+        dir.normalize();
+        dir.mult(5.0f);
+        Vector newPosition = new Vector(pos.getX()+dir.getX(), pos.getY()+dir.getY(), pos.getZ()+dir.getZ());
         return newPosition;
     }
     

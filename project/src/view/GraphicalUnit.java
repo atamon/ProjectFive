@@ -34,7 +34,11 @@ public class GraphicalUnit implements PropertyChangeListener {
 
         this.node = blenderModel;
         blenderModel.setLocalScale(size);
-        this.updateRotation(dir);
+        Quaternion rot = new Quaternion();
+        rot.lookAt(dir, Vector3f.UNIT_Y);
+        
+        this.updatePosition(pos);
+        this.updateRotation(rot);
     }
 
     public Node getNode() {
@@ -48,21 +52,17 @@ public class GraphicalUnit implements PropertyChangeListener {
 //        this.trackerNode.move(trackMovement.x, 0, trackMovement.z);
     }
 
-    private void updateRotation(Vector3f dir) {
-        Quaternion newRotation = new Quaternion();
-        newRotation.lookAt(dir, Vector3f.UNIT_Y);
-        this.node.setLocalRotation(newRotation);
+    private void updateRotation(Quaternion rot) {
+        this.node.setLocalRotation(rot);
     }
 
     public void propertyChange(PropertyChangeEvent pce) {
 
         if ("Physical Update".equals(pce.getPropertyName())) {
-
-
             Vector3f pos = (Vector3f) pce.getOldValue();
-            Vector3f dir = (Vector3f) pce.getNewValue();
+            Quaternion dir = (Quaternion) pce.getNewValue();
                         
-            this.updateRotation(dir.setY(0)); // TODO REMOVE WORKAROUND
+            this.updateRotation(dir);
             this.updatePosition(pos);
         }
     }

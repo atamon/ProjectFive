@@ -19,7 +19,7 @@ public interface PhysicalGameObject {
      * Accelerates the body with an applied force.
      * @param tpf
      */
-    void accelerate(boolean isAccelerating, float tpf);
+    void accelerate(float tpf);
 
     void addPropertyChangeListener(PropertyChangeListener pcl);
 

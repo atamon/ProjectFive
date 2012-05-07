@@ -52,14 +52,16 @@ public class Unit extends MoveableAbstract implements IObservable {
      * @param tpf Time per frame
      */
     private void accelerate(boolean isAccelerating, float tpf) {
-        if (getSpeed() < getMaxSpeed() || !isAccelerating) {
-            this.body.accelerate(isAccelerating, tpf);
+        if (getSpeed() < getMaxSpeed() && isAccelerating) {
+            this.body.accelerate(tpf);
         }
     }
 
     private void steer(float tpf) {
-        body.steer(steerDirection, tpf);
-        this.directionUpdated();
+        if (steerDirection.getValue() != 0) {
+            body.steer(steerDirection, tpf);
+            this.directionUpdated();
+        }
     }
 
     public void damage(int damage) {
