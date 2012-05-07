@@ -4,6 +4,7 @@
  */
 package model.tools;
 
+import controller.ValueLoader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,25 +17,33 @@ import java.util.Map;
  * @author jnes
  */
 public final class PowerUp {
-    private Map<Integer, Float> attributes = new HashMap<Integer, Float>();
-    public static int PU_SPEED = 1;
-    public static int PU_ACCELERATE = 2;
-    public static int PU_HP = 3;
+    private Map<String, Integer> attributes = new HashMap<String, Integer>();
+    public float timeLeft;
     
     
-    public PowerUp(Map<Integer, Float> attributes){
-        //Contruct for a powerup with multiple attributes
+    public PowerUp() {
+        this.attributes = ValueLoader.readValues("assets/powerUps", getRandomPower());
+        this.timeLeft = this.attributes.get("lifetime");
     }
     
-    public PowerUp(int attribKey, Float value){
-        //Constructor for a powerup with a single attribute
-    }
-    
-    public PowerUp(){
-        //Constructor for a randomized PowerUp
-    }
-    
-    public float getValue(int attrib) {
+    public Integer getValue(String attrib) {
         return attributes.get(attrib);
+    }
+    
+    private String getRandomPower() {
+        String power = "";
+        int randNumber = (int)(Math.random()*2+1);
+        switch (randNumber) {
+            case 1:
+                power = "SPEED";
+                break;
+            case 2:
+                power = "HEALTH";
+                break;
+        } return power;
+    }
+
+    public void update(float tpf) {
+        timeLeft -= tpf;
     }
 }
