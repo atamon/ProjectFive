@@ -29,7 +29,7 @@ public class PlayerOneKeys implements KeyPlayable {
     }
     
     public int getLeftFireKey() {
-        return KeyInput.KEY_MINUS;
+        return KeyInput.KEY_SLASH;
     }
     
     public int getRightFireKey() {

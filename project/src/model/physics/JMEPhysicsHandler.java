@@ -66,7 +66,6 @@ public class JMEPhysicsHandler implements IPhysicsHandler, IObservable, PhysicsC
                 physModel.getMass());
         
         body.setPhysicsLocation(pos);
-        
         return body;
     }
 
@@ -137,6 +136,7 @@ public class JMEPhysicsHandler implements IPhysicsHandler, IObservable, PhysicsC
                 propertyName="Collision Boats";    
             }
         } else {
+            System.out.println("It's \"removed\" ");
             if(type1 == PhysType.CANNONBALL && phys1.getOwner() != phys2.getOwner()){ // Friendlyfire Off shouldn't be determined here though.....
                 propertyName="Collision CannonBallBoat";
                 this.bulletAppState.getPhysicsSpace().removeCollisionObject(body1);
@@ -166,6 +166,10 @@ public class JMEPhysicsHandler implements IPhysicsHandler, IObservable, PhysicsC
         force.mult(speed);
         this.getRigid(model).applyCentralForce(force);
 
+    }
+
+    public void remove(IPhysical phys) {
+        this.bulletAppState.getPhysicsSpace().removeCollisionObject(this.getRigid(phys));
     }
 
 

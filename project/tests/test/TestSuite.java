@@ -4,11 +4,9 @@
  */
 package test;
 
-import model.GameTest;
-import model.PlayerTest;
-import model.UnitTest;
-import model.VectorTest;
+import model.*;
 import model.visual.BattlefieldTest;
+import model.visual.ItemTest;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -25,7 +23,9 @@ import org.junit.runners.Suite;
                      PlayerTest.class,
                      UnitTest.class,
                      VectorTest.class,
-                     GameTest.class})
+                     GameTest.class,
+                     ItemTest.class,
+                     ItemFactoryTest.class})
 public class TestSuite {
 
     @BeforeClass

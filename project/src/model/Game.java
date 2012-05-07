@@ -18,7 +18,7 @@ import model.visual.Unit;
  *
  * @author Anton Lindgren @modified by John Hult, Victor Lindhé
  */
-public class Game implements IGame{
+public class Game implements IGame {
 
     // A game is never startable without 2 players at this point
     public static final int VALID_PLAYER_AMOUNT = 2;
@@ -213,7 +213,7 @@ public class Game implements IGame{
      */
     @Override
     public void switchPauseState() {
-        RoundState roundState = currentRound.getState();
+        RoundState roundState = this.getRoundState();
         if (gameState == GameState.ACTIVE && (roundState == RoundState.PLAYING
                 || roundState == RoundState.PAUSED)) {
             if (this.getRoundState() == RoundState.PAUSED) {
@@ -231,7 +231,7 @@ public class Game implements IGame{
             Unit unit = player.getUnit();
             if (unit.getHitPoints() <= 0
                     && !unit.isDeadAndBuried()) {
-                unit.remove();
+                unit.hide();
                 lookForLastManStanding(players);
             }
         }
@@ -347,6 +347,7 @@ public class Game implements IGame{
      */
     public void clean() {
         playedRounds.clear();
+        
         gameState = GameState.INACTIVE;
     }
 

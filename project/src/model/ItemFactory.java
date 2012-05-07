@@ -4,7 +4,9 @@
  */
 package model;
 
-import model.tools.ItemTypes;
+import java.util.ArrayList;
+import java.util.List;
+import model.tools.PowerUp;
 import model.tools.Vector;
 import model.visual.Item;
 
@@ -14,22 +16,16 @@ import model.visual.Item;
  */
 public class ItemFactory {
     
+    private List<PowerUp> powerUps = new ArrayList<PowerUp>();
+    
     public static Item createNewItem(Vector fieldSize) {
-        double randNumber = Math.random();
-        ItemTypes type;
-        if(randNumber > 0.00 && randNumber < 0.25) {
-            type = ItemTypes.GOLD;
-        } else if (randNumber >= 0.25 && randNumber < 0.50) {
-            type = ItemTypes.MERMAID;
-        } else if (randNumber >= 0.50 && randNumber < 0.75) {
-            type = ItemTypes.POWERUP;
-        } else {
-            type = ItemTypes.RUM;
-        }
+        String powerName = "";
+        final int randNumber = (int)(Math.random()*2+1);
+        
         
         float randXPos = (float)Math.random() * fieldSize.getX();
         float randYPos = (float)Math.random() * fieldSize.getY();
         
-        return new Item(type, new Vector(randXPos, randYPos));
+        return new Item(powerUps.get(randNumber), new Vector(randXPos, randYPos));
     }
 }

@@ -20,4 +20,6 @@ public interface IMoveable extends IVisualisable, IPhysical {
     public void update(float tpf);
     public Vector getVelocity();
     public PhysType getType();
+
+    public void hide();
 }

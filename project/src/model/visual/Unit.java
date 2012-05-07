@@ -4,8 +4,9 @@ import model.tools.PhysType;
 import model.tools.Direction;
 import model.tools.Vector;
 import model.physics.IPhysical;
-import model.tools.Settings;
-import model.tools.IObservable;
+import model.powerup.IPowerUp;
+import model.powerup.PUEmpty;
+import model.tools.*;
 
 /**
  * A unit. Probably a ship.
@@ -25,7 +26,7 @@ public class Unit extends MoveableAbstract implements IObservable, IPhysical {
     private int hitPoints = hitPointsMax;
     private boolean isAccelerating = false;
     private Direction steerDirection = new Direction();
-//  private PowerUp powerUp; TODO
+    private IPowerUp powerUp = new PUEmpty();
 
     /**
      * Create a unit
@@ -50,7 +51,11 @@ public class Unit extends MoveableAbstract implements IObservable, IPhysical {
         this.accelerate(this.isAccelerating, tpf);
         this.steer(tpf);
         this.move(tpf);
-
+        if (this.powerUp != null) {
+            if (powerUp.isActive()) {
+                this.powerUp.update(tpf);
+            }
+        }
     }
 
 
@@ -285,10 +290,24 @@ public class Unit extends MoveableAbstract implements IObservable, IPhysical {
         return this.owner;
     }
 
-    public void remove() {
+    public void hide() {
         setIsAccelerating(false);
         setSteerAngle(0);
         setPosition(Vector.NONE_EXISTANT);
 
     }
+    
+    public void removeFromView(){
+        this.pcs.firePropertyChange("Unit removed", null, null);
+    }
+    
+    public void setPowerUp(IPowerUp power) {
+        this.powerUp = power;
+        this.applyPowerUp();
+    }
+    
+    private void applyPowerUp() {
+        
+    }
+    
 }

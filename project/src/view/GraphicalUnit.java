@@ -64,7 +64,7 @@ public class GraphicalUnit implements PropertyChangeListener {
 
     public void propertyChange(PropertyChangeEvent pce) {
 
-        if (pce.getNewValue().getClass() == Vector.class) {
+        if (pce.getNewValue() != null && pce.getNewValue().getClass() == Vector.class) {
             Vector3f direction = Util.convertToMonkey3D((Vector) pce.getNewValue());
 
             if (pce.getPropertyName().equals("Updated Position")) {
