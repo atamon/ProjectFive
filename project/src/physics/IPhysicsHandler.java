@@ -12,7 +12,7 @@ import math.Vector;
  * @author jnes
  */
 public interface IPhysicsHandler {
-    public void addToWorld(PhysicalGameObject obj);
-    public void removeFromWorld(PhysicalGameObject obj);
+    public void addToWorld(IPhysicalBody obj);
+    public void removeFromWorld(IPhysicalBody obj);
     public void update(float tpf);
 }

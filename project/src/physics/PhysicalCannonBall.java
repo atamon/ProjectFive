@@ -17,14 +17,14 @@ import util.Util;
  * A body to represent our models in the physical world
  * @author atamon
  */
-public class PhysicalCannonBall implements PhysicalGameObject {
+public class PhysicalCannonBall implements IPhysicalBody {
     
     private PhysicsRigidBody body;
-    private AbstractGameObject owner;
+    private IPhysicalModel owner;
     private final Vector initSize;
     private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     
-    public PhysicalCannonBall(AbstractGameObject owner, Vector startPos, 
+    public PhysicalCannonBall(IPhysicalModel owner, Vector startPos, 
                         Vector startDir, Vector size, float mass, float speed) {
         Vector correctSize = new Vector(size);
         BoxCollisionShape shape = new BoxCollisionShape(Util.convertToMonkey3D(correctSize));

@@ -7,15 +7,13 @@ import java.util.LinkedList;
 import java.util.List;
 import physics.JMEPhysicsHandler;
 import math.Vector;
-import physics.AbstractGameObject;
-import physics.PhysicalGameObject;
 
 /**
  * A class to represent a Battlefield.
  * @author Victor Lindhé
  * @modified johnnes
  */
-public class Battlefield implements IVisualisable, PropertyChangeListener, AbstractGameObject {
+public class Battlefield implements PropertyChangeListener{
     private final Vector size;
     private final Vector pos = new Vector(0,0,0);
     private final JMEPhysicsHandler physHandler = new JMEPhysicsHandler();
@@ -258,10 +256,6 @@ public class Battlefield implements IVisualisable, PropertyChangeListener, Abstr
     }
 
     public void setPosition(Vector pos) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public int getAcceleration() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

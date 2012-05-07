@@ -20,14 +20,14 @@ import util.Util;
  *
  * @author atamon
  */
-public class PhysicalUnit implements PhysicalGameObject {
+public class PhysicalUnit implements IPhysicalBody {
 
     private PhysicsRigidBody body;
-    private AbstractGameObject owner;
+    private IPhysicalModel owner;
     private final Vector initSize;
     private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
-    public PhysicalUnit(AbstractGameObject owner, Vector startPos,
+    public PhysicalUnit(IPhysicalModel owner, Vector startPos,
             Vector startDir, Vector size, float mass) {
         Vector correctSize = new Vector(size);
         BoxCollisionShape shape = new BoxCollisionShape(Util.convertToMonkey3D(correctSize));

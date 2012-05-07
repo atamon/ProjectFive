@@ -13,7 +13,7 @@ import math.Vector;
  *
  * @author victorlindhe
  */
-public interface PhysicalGameObject {
+public interface IPhysicalBody {
 
     /**
      * Accelerates the body with an applied force.

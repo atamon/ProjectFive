@@ -4,11 +4,10 @@
  */
 package model.visual;
 
-import physics.PhysType;
 import model.tools.IObservable;
 import math.Vector;
+import physics.IPhysicalModel;
 import physics.PhysicalCannonBall;
-import physics.PhysicalGameObject;
 
 /**
  * A class to represent a CannonBall.
@@ -59,5 +58,11 @@ public class CannonBall extends MoveableAbstract implements IObservable {
 
     public Unit getOwner() {
         return this.owner;
+    }
+    
+    public void collidedWith(IPhysicalModel obj, float objImpactSpeed) {
+        if (obj instanceof Unit) {
+            //TODO UC:Fire
+        }
     }
 }

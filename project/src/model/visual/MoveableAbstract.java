@@ -8,20 +8,20 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import model.tools.Settings;
 import math.Vector;
-import physics.AbstractGameObject;
-import physics.PhysicalGameObject;
+import physics.IPhysicalBody;
+import physics.IPhysicalModel;
 import util.Util;
 
 /**
  *
  * @author johannes wikner
  */
-public abstract class MoveableAbstract implements IMoveable, AbstractGameObject {
+public abstract class MoveableAbstract implements IMoveable {
 
     protected int maxSpeed = Settings.getInstance().getSetting("maxSpeed");
     protected int acceleration = Settings.getInstance().getSetting("acceleration");
     protected PropertyChangeSupport pcs = new PropertyChangeSupport(this);
-    protected PhysicalGameObject body;
+    protected IPhysicalBody body;
 
     /**
      * Sets the position of the moveable
@@ -147,9 +147,10 @@ public abstract class MoveableAbstract implements IMoveable, AbstractGameObject 
         this.pcs.firePropertyChange("Updated Position", null, Util.convertToMonkey3D(this.getPosition()));
     }
     
-    public PhysicalGameObject getGameObject() {
+    public IPhysicalBody getGameObject() {
         return this.body;
     }
 
     public abstract void announceRemoval();
+    public abstract void collidedWith(IPhysicalModel obj, float objImpactSpeed);
 }

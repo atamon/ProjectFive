@@ -5,7 +5,8 @@ import math.Direction;
 import math.Vector;
 import model.tools.Settings;
 import model.tools.IObservable;
-import physics.PhysicalGameObject;
+import physics.IPhysicalModel;
+import physics.IPhysicalBody;
 import physics.PhysicalUnit;
 
 /**
@@ -19,6 +20,7 @@ public class Unit extends MoveableAbstract implements IObservable {
     private float steerAngle = Settings.getInstance().getSetting("steerAngle");
     private int hitPointsMax = Settings.getInstance().getSetting("hitPointsMax");
     private int hitPoints = hitPointsMax;
+    private float hullStrength = Settings.getInstance().getSetting("hullStrength");
     private boolean isAccelerating = false;
     private Direction steerDirection = new Direction();
 
@@ -182,5 +184,12 @@ public class Unit extends MoveableAbstract implements IObservable {
                 + "hitPointsMax=" + hitPointsMax + ", acceleration=" + 
                 acceleration + ", hitPoints=" + hitPoints + ", isAccelerating=" 
                 + isAccelerating + ", steerDirection=" + steerDirection + '}';
+    }
+
+    public void collidedWith(IPhysicalModel obj, float objImpactSpeed) {
+        // Two units crashing
+        if (obj instanceof Unit) {
+            this.hitPoints -= Math.abs(objImpactSpeed/hullStrength);
+        }
     }
 }
