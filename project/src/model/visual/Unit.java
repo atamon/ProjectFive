@@ -1,6 +1,6 @@
 package model.visual;
 
-import model.physics.PhysType;
+import model.tools.PhysType;
 import model.tools.Direction;
 import model.tools.Vector;
 import model.physics.IPhysical;
@@ -17,7 +17,6 @@ public class Unit extends MoveableAbstract implements IObservable, IPhysical {
 
     private Vector size = new Vector(1, 1);
     private final static int MAX_STEER_SPEED = 10;
-//    private PowerUp powerUp; TODO
     private final int owner;
     private float steerAngle = Settings.getInstance().getSetting("steerAngle");
     private int hitPointsMax = Settings.getInstance().getSetting("hitPointsMax");
@@ -58,6 +57,7 @@ public class Unit extends MoveableAbstract implements IObservable, IPhysical {
                 this.removePowerUp();
             }
         }
+        
     }
 
 

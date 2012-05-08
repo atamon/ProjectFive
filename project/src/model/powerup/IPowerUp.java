@@ -22,7 +22,7 @@ public interface IPowerUp {
 
     public float getMaxSpeed();
 
-    public float getRetardation();
+    public int getRetardation();
 
     public int getSteerAngle();
     

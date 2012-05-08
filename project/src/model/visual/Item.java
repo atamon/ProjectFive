@@ -5,16 +5,20 @@
 package model.visual;
 
 import model.powerup.IPowerUp;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import model.tools.IObservable;
 import model.tools.Vector;
 
 /**
  * A class to represent an immutable Item.
  * @author Victor Lindhé
  */
-public final class Item implements IVisualisable {
+public final class Item implements IVisualisable, IObservable {
     private final Vector position;
     private final IPowerUp powerUp;
     private final Vector size = new Vector(0.5f,0.5f);
+    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     /**
      * Creates an Item of a given type and at a given position.
      * @param PowerUp with features that will be passed on to a unit when he picks it up
@@ -46,6 +50,14 @@ public final class Item implements IVisualisable {
     }
 
     public void removeFromView() {
-        
+        this.pcs.firePropertyChange("Item Removed", null, null);
+    }
+
+    public void addPropertyChangeListener(final PropertyChangeListener ls) {
+        this.pcs.addPropertyChangeListener(ls);
+    }
+
+    public void removePropertyChangeListener(final PropertyChangeListener ls) {
+        this.pcs.removePropertyChangeListener(ls);
     }
 }

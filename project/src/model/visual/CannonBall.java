@@ -5,7 +5,7 @@
 package model.visual;
 
 import model.physics.IPhysical;
-import model.physics.PhysType;
+import model.tools.PhysType;
 import model.tools.IObservable;
 import model.tools.Vector;
 
