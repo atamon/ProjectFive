@@ -337,6 +337,7 @@ public class Game implements IGame {
             unit.setIsAccelerating(false);
             unit.setHitPoints(unit.getHitPointsMax());
             unit.setSteerAngle(Settings.getInstance().getSetting("steerAngle"));
+            unit.removePowerUp();
         }
     }
 

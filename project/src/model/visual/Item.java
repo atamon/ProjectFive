@@ -4,7 +4,7 @@
  */
 package model.visual;
 
-import model.tools.PowerUp;
+import model.powerup.IPowerUp;
 import model.tools.Vector;
 
 /**
@@ -13,14 +13,14 @@ import model.tools.Vector;
  */
 public final class Item implements IVisualisable {
     private final Vector position;
-    private final PowerUp powerUp;
+    private final IPowerUp powerUp;
     private final Vector size = new Vector(0.5f,0.5f);
     /**
      * Creates an Item of a given type and at a given position.
      * @param PowerUp with features that will be passed on to a unit when he picks it up
      * @param position Vector
      */
-    public Item(PowerUp powerUp, Vector position) {
+    public Item(IPowerUp powerUp, Vector position) {
         this.position = new Vector(position.getX(), position.getY());
         this.powerUp = powerUp;
     }
@@ -37,7 +37,7 @@ public final class Item implements IVisualisable {
      * Returns the power-up of this Item.
      * @return ItemTypes
      */
-    public PowerUp getPowerUp() {
+    public IPowerUp getPowerUp() {
         return this.powerUp; // immutable class => no copy necessary 
     }
 

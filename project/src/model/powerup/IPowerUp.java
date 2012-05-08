@@ -12,7 +12,7 @@ public interface IPowerUp {
 
     public boolean isActive();
 
-    public float getAcceleration();
+    public int getAcceleration();
 
     public int getHitPoints();
 

@@ -54,6 +54,8 @@ public class Unit extends MoveableAbstract implements IObservable, IPhysical {
         if (this.powerUp != null) {
             if (powerUp.isActive()) {
                 this.powerUp.update(tpf);
+            } else {
+                this.removePowerUp();
             }
         }
     }
@@ -67,12 +69,13 @@ public class Unit extends MoveableAbstract implements IObservable, IPhysical {
     private void accelerate(boolean accelUp, float tpf) {
         // v = v0 + at
         if (accelUp) {
-            this.setSpeed(Math.min(this.maxSpeed, this.speed + this.acceleration * tpf));
+            this.setSpeed(Math.min(this.getMaxSpeed(), this.speed + this.getAcceleration() * tpf));
+            System.out.println("" + getMaxSpeed() + " " + powerUp.getMaxSpeed());
         } else {
             this.setSpeed(Math.max(0, this.speed - this.retardation * tpf));
         }
     }
-
+    
     private void steer(float tpf) {
         dir.rotate(steerDirection.getValue() * this.currentSteerAngle() * tpf);
         dir.normalize();
@@ -94,10 +97,10 @@ public class Unit extends MoveableAbstract implements IObservable, IPhysical {
         }
 
         if (this.speed > MAX_STEER_SPEED) {
-            return this.steerAngle;
+            return this.getSteerAngle();
         }
 
-        return this.speed * this.steerAngle / MAX_STEER_SPEED;
+        return this.speed * this.getSteerAngle() / MAX_STEER_SPEED;
     }
 
     /**
@@ -301,13 +304,20 @@ public class Unit extends MoveableAbstract implements IObservable, IPhysical {
         this.pcs.firePropertyChange("Unit removed", null, null);
     }
     
-    public void setPowerUp(IPowerUp power) {
+    public void applyPowerUp(IPowerUp power) {
         this.powerUp = power;
-        this.applyPowerUp();
+        this.setHitPointsMax(this.getHitPointsMax() + powerUp.getHitPointsMax());
+        this.setHitPoints(this.getHitPoints() + powerUp.getHitPoints());
+        this.setAcceleration(this.getAcceleration() + powerUp.getAcceleration());
+        this.setMaxSpeed(this.getMaxSpeed() + powerUp.getMaxSpeed());
+        this.setSteerAngle(this.getSteerAngle() + powerUp.getSteerAngle());
     }
     
-    private void applyPowerUp() {
-        
+    public void removePowerUp() {
+        this.setHitPointsMax(this.getHitPointsMax() - powerUp.getHitPointsMax());
+        this.setAcceleration(this.getAcceleration() - powerUp.getAcceleration());
+        this.setMaxSpeed(this.getMaxSpeed() - powerUp.getMaxSpeed());
+        this.setSteerAngle(this.getSteerAngle() - powerUp.getSteerAngle());
+        this.powerUp = new PUEmpty();
     }
-    
 }

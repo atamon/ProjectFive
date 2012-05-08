@@ -10,6 +10,7 @@ import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
 import model.GameState;
 import model.IGame;
+import model.powerup.PUTurn;
 import model.round.RoundState;
 
 /**
@@ -27,14 +28,19 @@ public class GlobalListener implements ActionListener {
 
         inpManager.addMapping("Pause", new KeyTrigger(KeyInput.KEY_P));
         inpManager.addMapping("Start", new KeyTrigger(KeyInput.KEY_SPACE));
+        inpManager.addMapping("dummyPowerUp", new KeyTrigger(KeyInput.KEY_R));
 
         inpManager.addListener(this, "Pause");
         inpManager.addListener(this, "Start");
+        inpManager.addListener(this, "dummyPowerUp");
     }
 
     public void onAction(String name, boolean isPressed, float tpf) {
 
         if (isPressed && game.hasValidAmountOfPlayers()) {
+            if ("dummyPowerUp".equals(name)) {
+                game.getPlayer(1).getUnit().applyPowerUp(new PUTurn());
+            }
             if ("Pause".equals(name)) {
                 game.switchPauseState();
             }

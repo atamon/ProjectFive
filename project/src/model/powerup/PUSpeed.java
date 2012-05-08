@@ -11,12 +11,14 @@ public final class PUSpeed extends AbstractPowerUp {
     
     public PUSpeed(){
         super();
-        this.maxSpeed = 10;
-        this.acceleration = 15;
+        this.maxSpeed = 20;
+        this.acceleration = 10;
         this.lifeTime = 10;
     }
     
     public void update(final float tpf) {
+        System.out.println(message);
+        System.out.println(isActive);
         if(lifeTime <= 0){
             this.isActive = false;
         } else {
@@ -32,5 +34,4 @@ public final class PUSpeed extends AbstractPowerUp {
         return this.name;
     }
 
-    
 }
