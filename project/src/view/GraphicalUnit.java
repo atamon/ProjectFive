@@ -61,5 +61,9 @@ public class GraphicalUnit implements PropertyChangeListener {
             this.updateRotation(dir);
             this.updatePosition(pos);
         }
+        
+        if ("Unit removed".equals(pce.getPropertyName())) {
+            node.removeFromParent();
+        }
     }
 }

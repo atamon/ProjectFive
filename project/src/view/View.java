@@ -221,7 +221,6 @@ public class View implements PropertyChangeListener {
     }
 
     public void propertyChange(PropertyChangeEvent pce) {
-        // If a unit was created we make sure we got a unit with it
         if ("Player Created".equals(pce.getPropertyName())) {
             if (pce.getNewValue().getClass() == Player.class
                     && pce.getOldValue() == null) {
