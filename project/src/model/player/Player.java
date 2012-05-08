@@ -16,6 +16,7 @@ public class Player {
 
     private final int playerId;
     private Unit playerUnit;
+    private float firePower = 0;
     private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
     /**
@@ -50,6 +51,10 @@ public class Player {
             this.playerUnit = boat;
         }
     }
+    
+    public void increaseFirePower(float value) {
+        firePower += value;
+    }
 
     public void fireLeft() {
         Vector unitDirection = this.getUnitDirection();
@@ -71,8 +76,9 @@ public class Player {
                                           direction,
                                           new Vector(0.1f, 0.1f, 0.1f),
                                           (float)(Settings.getInstance().getSetting("cannonBallMass")),
-                                          (float)(Settings.getInstance().getSetting("cannonBallSpeed")), this.playerUnit);
+                                          (float)(Settings.getInstance().getSetting("cannonBallSpeed"))*firePower, this.playerUnit);
         this.pcs.firePropertyChange("CannonBall Created", null, cBall);
+        firePower = 0;
     }
 
     private Vector getCannonBallPos(Vector ballDir) {

@@ -88,7 +88,10 @@ public class Game implements IGame {
         if (playerMap.get(id) == null || !playerMap.containsKey(id)) {
             throw new RuntimeException("ERROR: Tried to remove invalid player: " + id);
         }
-        playerMap.get(id).getUnit().setPosition(Vector.NONE_EXISTANT);
+        Unit unit = playerMap.get(id).getUnit();
+        unit.setPosition(Vector.NONE_EXISTANT);
+        unit.announceRemoval();
+        battlefield.removeFromBattlefield(unit);
         playerMap.remove(id);
     }
 

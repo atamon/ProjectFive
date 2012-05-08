@@ -42,9 +42,7 @@ public class Unit extends MoveableAbstract implements IObservable {
      */
     public void update(final float tpf) {
         this.accelerate(this.isAccelerating, tpf);
-        positionUpdated();
         this.steer(tpf);
-        directionUpdated();
     }
 
 
@@ -62,7 +60,6 @@ public class Unit extends MoveableAbstract implements IObservable {
     private void steer(float tpf) {
         if (steerDirection.getValue() != 0) {
             body.steer(steerDirection, tpf);
-            this.directionUpdated();
         }
     }
 
@@ -189,7 +186,11 @@ public class Unit extends MoveableAbstract implements IObservable {
     public void collidedWith(IPhysicalModel obj, float objImpactSpeed) {
         // Two units crashing
         if (obj instanceof Unit) {
-            this.hitPoints -= Math.abs(objImpactSpeed/hullStrength);
+            this.hitPoints -= Math.abs(objImpactSpeed*hullStrength);
+        }
+        
+        if (obj instanceof CannonBall) {
+            this.hitPoints -= ((CannonBall)obj).getDamage();
         }
     }
 }

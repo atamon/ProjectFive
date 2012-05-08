@@ -64,7 +64,7 @@ public class JMEPhysicsHandler implements PhysicsCollisionListener {
 
         for (PhysicsRigidBody body : rigidBodies) {
             IPhysicalModel unit = (IPhysicalModel) body.getUserObject();
-            unit.getGameObject().updated();
+            unit.getPhysicalObject().updated();
         }
     }
 

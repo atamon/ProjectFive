@@ -10,7 +10,6 @@ import model.tools.Settings;
 import math.Vector;
 import physics.IPhysicalBody;
 import physics.IPhysicalModel;
-import util.Util;
 
 /**
  *
@@ -30,7 +29,6 @@ public abstract class MoveableAbstract implements IMoveable {
      */
     public void setPosition(Vector pos) {
         this.body.place(pos);
-        this.positionUpdated();
     }
 
     /**
@@ -51,7 +49,6 @@ public abstract class MoveableAbstract implements IMoveable {
      */
     public void setDirection(Vector dir) {
         body.point(dir);
-        this.directionUpdated();
     }
 
     public Vector getDirection() {
@@ -138,16 +135,8 @@ public abstract class MoveableAbstract implements IMoveable {
     public void removePropertyChangeListener(PropertyChangeListener ls) {
         this.pcs.removePropertyChangeListener(ls);
     }
-
-    protected void directionUpdated() {
-        this.pcs.firePropertyChange("Updated Direction", null, this.getDirection());
-    }
-
-    protected void positionUpdated() {
-        this.pcs.firePropertyChange("Updated Position", null, Util.convertToMonkey3D(this.getPosition()));
-    }
     
-    public IPhysicalBody getGameObject() {
+    public IPhysicalBody getPhysicalObject() {
         return this.body;
     }
 

@@ -17,111 +17,26 @@ import util.Util;
  * A body to represent our models in the physical world
  * @author atamon
  */
-public class PhysicalCannonBall implements IPhysicalBody {
+public class PhysicalCannonBall extends PhysicalAbstractBody {
     
     private PhysicsRigidBody body;
-    private IPhysicalModel owner;
-    private final Vector initSize;
-    private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     
     public PhysicalCannonBall(IPhysicalModel owner, Vector startPos, 
                         Vector startDir, Vector size, float mass, float speed) {
-        Vector correctSize = new Vector(size);
-        BoxCollisionShape shape = new BoxCollisionShape(Util.convertToMonkey3D(correctSize));
-        body = new PhysicsRigidBody(shape, mass);
-        body.setUserObject(owner);
-        body.setPhysicsLocation(Util.convertToMonkey3D(startPos).setY(3.0f));
-        body.applyCentralForce(Util.convertToMonkey3D(startDir).setY(4.0f).mult(speed*100));
+       
+        super(owner, startPos, startDir, size, mass);
+        
+        body = getBody();
+        Vector3f vec = getSteeringDirection();
+        vec.normalizeLocal();
+        body.setLinearVelocity(vec.mult(speed));
         body.setDamping(0, 0.1f);
-        this.initSize = correctSize;
-        this.owner = owner;
+        System.out.println(getSpeed());
     }
-    
-    /**
-     * Accelerates the body with an applied force.
-     * @param tpf 
-     */
-    @Override
-    public void accelerate(float tpf) {
-        Vector3f force = body.getLinearVelocity();
-        body.applyCentralForce(force.mult(owner.getAcceleration()));
-    }
-    
-    /**
-     * Steers the body with an applied force in a crossproduct direction of velocity.
-     * @param dir
-     * @param tpf 
-     */
+
     @Override
     public void steer(Direction dir, float tpf) {
-        Vector3f force = body.getLinearVelocity().cross(Vector3f.UNIT_Y).mult(dir.getValue());
-        body.applyCentralForce(force.mult(5f));
-    }
-    
-    /**
-     * Places the body at a given point in the physical world.
-     * @param pos 
-     */
-    @Override
-    public void place(Vector pos) {
-        body.setPhysicsLocation(Util.convertToMonkey3D(pos));
-    }
-    
-    /**
-     * Points the body in a given direction in the physical world.
-     * @param dir 
-     */
-    @Override
-    public void point(Vector dir) {
-        if (body.getLinearVelocity().isUnitVector()) {
-            body.setLinearVelocity(Util.convertToMonkey3D(dir));
-        } else {
-            float length = body.getLinearVelocity().length();
-            body.setLinearVelocity(Util.convertToMonkey3D(dir).mult(length));
-        }
-    }
-    
-    @Override
-    public void halt() {
-        body.clearForces();
-    }
-    
-    public PhysicsRigidBody getBody() {
-        return body;
-    }
-    
-    @Override
-    public float getSpeed() {
-        return body.getLinearVelocity().length();
-    }
-    
-    @Override
-    public Vector getSize() {
-        return initSize;
-    }
-    
-    @Override
-    public float getMass() {
-        return body.getMass();
-    }
-    
-    @Override
-    public Vector getPosition() {
-        return new Vector(Util.convertFromMonkey3D(body.getPhysicsLocation()));
-    }
-    
-    @Override
-    public Vector getDirection() {
-        return new Vector(Util.convertFromMonkey3D(body.getLinearVelocity().normalize()));
-    }
-    
-    @Override
-    public void addPropertyChangeListener(PropertyChangeListener pcl) {
-        pcs.addPropertyChangeListener(pcl);
-    }
-    
-    @Override
-    public void updated() {
-        pcs.firePropertyChange("Updated Position", null, body.getPhysicsLocation());
+        // TODO, Add homing missilies! :D
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

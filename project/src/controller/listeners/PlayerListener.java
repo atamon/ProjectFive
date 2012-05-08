@@ -6,6 +6,7 @@ package controller.listeners;
 
 import com.jme3.input.InputManager;
 import com.jme3.input.controls.ActionListener;
+import com.jme3.input.controls.AnalogListener;
 import com.jme3.input.controls.KeyTrigger;
 import controller.keymaps.KeyPlayable;
 import model.IGame;
@@ -16,7 +17,7 @@ import model.round.RoundState;
  *
  * @author victorlindhe @modified johnhu
  */
-public class PlayerListener implements ActionListener {
+public class PlayerListener implements ActionListener, AnalogListener {
 
     private Player player;
     private KeyPlayable layout;
@@ -41,7 +42,7 @@ public class PlayerListener implements ActionListener {
     }
 
     public void onAction(String name, boolean isPressed, float tpf) {
-        if (isPressed && game.getRoundState() == RoundState.PLAYING) {
+        if (!isPressed && game.getRoundState() == RoundState.PLAYING) {
             if (name.equals(this.layout.getLeftFireMap())) {
                 this.player.fireLeft();
             }
@@ -63,5 +64,14 @@ public class PlayerListener implements ActionListener {
             this.player.steerUnitClockWise(isPressed);
         }
 
+    }
+
+    public void onAnalog(String name, float value, float tpf) {
+        
+        if (game.getRoundState() == RoundState.PLAYING) {
+            if (name.equals(this.layout.getLeftFireMap()) || name.equals(this.layout.getRightFireMap())) {
+                this.player.increaseFirePower(value);
+            }
+        }
     }
 }

@@ -36,8 +36,8 @@ public class CannonBall extends MoveableAbstract implements IObservable {
     }
 
     public void update(float tpf) {
-        setPosition(this.body.getPosition());
-        setDirection(this.body.getDirection());
+        ;
+        // TODO ADD COOL UPDATELOOP?
     }
 
     /**
@@ -53,7 +53,7 @@ public class CannonBall extends MoveableAbstract implements IObservable {
      * Removes the CannonBall from any instance that has it.
      */
     public void announceRemoval() {
-        this.pcs.firePropertyChange("CannonBall Removed", null, null);
+        this.pcs.firePropertyChange("CannonBall Removed", null, this);
     }
 
     public Unit getOwner() {
@@ -61,8 +61,13 @@ public class CannonBall extends MoveableAbstract implements IObservable {
     }
     
     public void collidedWith(IPhysicalModel obj, float objImpactSpeed) {
+        // On crash we just disappear, Unit takes care of damage
         if (obj instanceof Unit) {
-            //TODO UC:Fire
+            announceRemoval();
+        }
+        
+        if ("Battlefield".equals(obj)) {
+            announceRemoval();
         }
     }
 }

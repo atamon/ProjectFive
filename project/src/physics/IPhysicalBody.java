@@ -22,6 +22,8 @@ public interface IPhysicalBody {
     void accelerate(float tpf);
 
     void addPropertyChangeListener(PropertyChangeListener pcl);
+    
+    void removePropertyChangeListener(PropertyChangeListener pcl);
 
     Vector getDirection();
 

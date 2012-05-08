@@ -4,6 +4,7 @@
  */
 package model.visual;
 
+import java.beans.PropertyChangeListener;
 import physics.IPhysicalModel;
 import math.Vector;
 
@@ -19,4 +20,6 @@ public interface IMoveable extends IPhysicalModel {
     public void update(float tpf);
     public void hide();
     public void announceRemoval();
+    public void addPropertyChangeListener(PropertyChangeListener ls);
+    public void removePropertyChangeListener(PropertyChangeListener ls);
 }
