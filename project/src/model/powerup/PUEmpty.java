@@ -10,6 +10,10 @@ package model.powerup;
  */
 public class PUEmpty extends AbstractPowerUp {
 
+    public PUEmpty() {
+        super();
+    }
+    
     public void update(final float tpf) {
         // nothing to be done here..
     }

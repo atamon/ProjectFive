@@ -70,7 +70,6 @@ public class Unit extends MoveableAbstract implements IObservable, IPhysical {
         // v = v0 + at
         if (accelUp) {
             this.setSpeed(Math.min(this.getMaxSpeed(), this.speed + this.getAcceleration() * tpf));
-            System.out.println("" + getMaxSpeed() + " " + powerUp.getMaxSpeed());
         } else {
             this.setSpeed(Math.max(0, this.speed - this.retardation * tpf));
         }
@@ -156,18 +155,15 @@ public class Unit extends MoveableAbstract implements IObservable, IPhysical {
     /**
      * Sets the unit's current hit points (health).
      * @param hitPoints The number of hit points to be set
-     * @precon hitPoints must be a positive value and less than
-     * or equal to the maximum number of hit points
-     * @throws IllegalArgumentExcpetion if not a valid hitPoints value is given
      */
     public void setHitPoints(int hitPoints) {
         if (hitPoints > this.hitPointsMax) {
-            throw new IllegalArgumentException(
-                    "Hit points must be < getPointsMax()");
+            this.hitPoints = this.hitPointsMax;
+        } else {
+            this.hitPoints = hitPoints;
         }
-        this.hitPoints = hitPoints;
     }
-
+    
     /**
      * Sets the retardation. 
      * @param retardation How fast the unit will slow down. Higher means faster
@@ -295,9 +291,7 @@ public class Unit extends MoveableAbstract implements IObservable, IPhysical {
 
     public void hide() {
         setIsAccelerating(false);
-        setSteerAngle(0);
         setPosition(Vector.NONE_EXISTANT);
-
     }
     
     public void removeFromView(){
@@ -305,6 +299,7 @@ public class Unit extends MoveableAbstract implements IObservable, IPhysical {
     }
     
     public void applyPowerUp(IPowerUp power) {
+        this.removePowerUp(); //remove old powerUp before adding a new one
         this.powerUp = power;
         this.setHitPointsMax(this.getHitPointsMax() + powerUp.getHitPointsMax());
         this.setHitPoints(this.getHitPoints() + powerUp.getHitPoints());

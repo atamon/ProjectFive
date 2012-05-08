@@ -17,6 +17,7 @@ public abstract class AbstractPowerUp implements IPowerUp {
     protected int steerAngle;
     protected int hitPoints;
     protected int hitPointsMax;
+    protected int damage;
 
     protected boolean isActive = true;
     
@@ -58,5 +59,9 @@ public abstract class AbstractPowerUp implements IPowerUp {
     public boolean isActive() {
         return isActive;
     }
-
+    
+    public void setActive(final boolean active) {
+        this.isActive = active;
+    }
+    
 }

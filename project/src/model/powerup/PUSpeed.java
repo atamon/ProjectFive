@@ -17,8 +17,6 @@ public final class PUSpeed extends AbstractPowerUp {
     }
     
     public void update(final float tpf) {
-        System.out.println(message);
-        System.out.println(isActive);
         if(lifeTime <= 0){
             this.isActive = false;
         } else {

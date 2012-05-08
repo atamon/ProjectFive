@@ -4,19 +4,20 @@
  */
 package model.powerup;
 
+import model.tools.Settings;
+
 /**
  *
  * @author johnhu
  */
-public class PUTurn extends AbstractPowerUp {
+public class PUDrunk extends AbstractPowerUp {
 
-    private String name = "Turn";
-    private String message = "Ya drank so much so ya do not give a crap about"
-            + " the safety of yer crew! Fast turns won't be a problem matey!";
+    private String name = "Drunk";
+    private String message = "Yer drunk!!!!!!!! Inverted steering";
 
-    public PUTurn() {
+    public PUDrunk() {
         super();
-        this.steerAngle = 3;
+        this.steerAngle = -Settings.getInstance().getSetting("steerAngle")*2;
         this.lifeTime = 10;
     }
 

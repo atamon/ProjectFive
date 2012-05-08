@@ -8,7 +8,7 @@ import model.tools.Settings;
 
 /**
  *
- * @author CaptainAwesome
+ * @author johnhu
  */
 public class PUHealth extends AbstractPowerUp {
 

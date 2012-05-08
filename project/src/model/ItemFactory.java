@@ -38,6 +38,8 @@ public class ItemFactory {
         final float randXPos = (float)Math.random() * fieldSize.getX();
         final float randYPos = (float)Math.random() * fieldSize.getY();
         
-        return new Item(powerUps.get(randNumber), new Vector(randXPos, randYPos));
+        Item powerUp = new Item(powerUps.get(randNumber), new Vector(randXPos, randYPos));
+        powerUp.getPowerUp().setActive(true);
+        return powerUp;
     }
 }

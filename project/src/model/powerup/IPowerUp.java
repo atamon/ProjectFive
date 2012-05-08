@@ -26,4 +26,6 @@ public interface IPowerUp {
 
     public int getSteerAngle();
     
+    public void setActive(final boolean active);
+        
 }

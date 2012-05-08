@@ -136,7 +136,6 @@ public class JMEPhysicsHandler implements IPhysicsHandler, IObservable, PhysicsC
                 propertyName="Collision Boats";    
             }
         } else {
-            System.out.println("It's \"removed\" ");
             if(type1 == PhysType.CANNONBALL && phys1.getOwner() != phys2.getOwner()){ // Friendlyfire Off shouldn't be determined here though.....
                 propertyName="Collision CannonBallBoat";
                 this.bulletAppState.getPhysicsSpace().removeCollisionObject(body1);
