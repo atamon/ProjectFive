@@ -133,8 +133,7 @@ public class Game implements IGame {
         Unit unit = new Unit(position,
                 direction,
                 new Vector(unitSize, unitSize, unitSize),
-                Settings.getInstance().getSetting("unitMass"),
-                id);
+                Settings.getInstance().getSetting("unitMass"));
         player.setUnit(unit);
         
         this.battlefield.addToBattlefield(unit);

@@ -29,7 +29,7 @@ public class Unit extends MoveableAbstract implements IObservable {
      * @param pos initial position
      * @param dir initial direction
      */
-    public Unit(Vector pos, Vector dir, Vector size, float mass, int owner) {
+    public Unit(Vector pos, Vector dir, Vector size, float mass) {
         this.body = new PhysicalUnit(this,pos,dir,size,mass);
         if (hitPointsMax <= 0) {
             throw new IllegalArgumentException("hit points must be positive");

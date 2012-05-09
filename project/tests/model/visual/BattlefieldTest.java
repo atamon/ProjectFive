@@ -14,14 +14,25 @@ import static org.junit.Assert.*;
 public class BattlefieldTest {
 
     private Battlefield bField;
-
+    private Unit unit;
+    private IMoveable movBall;
     /**
      * Tests to instatiate a Battlefield object with default size.
      */
     @Before
     public void setUp() {
-        this.bField = new Battlefield();
         Settings.getInstance().loadSettings(SettingsLoader.readSettings("assets/settings"));
+        this.bField = new Battlefield();
+        int uSize = Settings.getInstance().getSetting("unitSize");
+        unit = new Unit(Battlefield.getStartingPosition(0, bField.getSize()),
+                                                        Battlefield.getStartingDir(0),
+                                                        new Vector(uSize, uSize, uSize),
+                                                        Settings.getInstance().getSetting("unitMass"));
+        movBall = new CannonBall(new Vector(unit.getPosition()),
+                                          new Vector(unit.getDirection()),
+                                          new Vector(0.1f, 0.1f, 0.1f),
+                                          (float)(Settings.getInstance().getSetting("cannonBallMass")),
+                                          (float)(Settings.getInstance().getSetting("cannonBallSpeed"))*1f, unit);
     }
 
     /**
@@ -84,11 +95,10 @@ public class BattlefieldTest {
      */
     @Test(expected = IllegalArgumentException.class)
     public void testAddToBattlefield() {
-        IMoveable mov = new Unit(new Vector(1, 0, -1), new Vector(1, 0, 1), new Vector(1, 1, 1), 0, 0);
         Battlefield instance = new Battlefield();
-        instance.addToBattlefield(mov);
+        instance.addToBattlefield(movBall);
         // Now we crash
-        instance.addToBattlefield(mov);
+        instance.addToBattlefield(movBall);
     }
 
     /**
@@ -96,11 +106,11 @@ public class BattlefieldTest {
      */
     @Test
     public void testRemoveFromBattlefield() {
-        IMoveable mov = new CannonBall(new Vector(1, 1, 1), new Vector(1, 1, 0), new Vector(1, 1, 1), 0, 0, null);
         Battlefield instance = new Battlefield();
-        instance.addToBattlefield(mov);
-        instance.removeFromBattlefield(mov);
-        // It only calls other methods, so if it does not crash it's okay
+        instance.addToBattlefield(unit);
+        instance.removeFromBattlefield(unit);
+        instance.addToBattlefield(unit);
+        // Removing should only assert that we can add again without crash.
         assertTrue(true);
     }
 
@@ -112,9 +122,9 @@ public class BattlefieldTest {
     public void testUpdate() {
         Battlefield instance = new Battlefield();
         Vector pos = new Vector(instance.getSize());
-        Vector dir = new Vector(1, 1, 1);
-        Vector size = new Vector(1, 1, 1);
-        Unit unit = new Unit(pos, dir, size, 0, 0);
+        Vector dir = new Vector(1, 0, 1);
+        unit.setPosition(pos);
+        unit.setDirection(dir);
         unit.setIsAccelerating(true);
         instance.addToBattlefield(unit);
         instance.update(0.016f);
@@ -124,28 +134,23 @@ public class BattlefieldTest {
     /**
      * Test of clearForNewRound method, of class Battlefield.
      */
-    @Test
-    public void testClear() {
-        IMoveable mov = new Unit(new Vector(1, 0, -1), new Vector(1, 0, 1), new Vector(1, 1, 1), 0, 0);
+    @Test (expected=IllegalArgumentException.class)
+    public void testClear() {        
         Battlefield instance = new Battlefield();
-        instance.addToBattlefield(mov);
-        mov = new CannonBall(new Vector(1, 1, 1), new Vector(1, 1, 0), new Vector(1, 1, 1), 0, 0, null);
-        instance.addToBattlefield(mov);
+        instance.addToBattlefield(unit);
+        instance.addToBattlefield(movBall);
         // Same as removeFromBattlefield, only calls other methods, so no crash = okay
         instance.clearForNewRound();
+        instance.addToBattlefield(movBall);
         assertTrue(true);
-    }
-
-    @Test(expected = UnsupportedOperationException.class)
-    public void testRemove() {
-        Battlefield instance = new Battlefield();
-        instance.announceRemoval();
+        // Throws exception
+        instance.addToBattlefield(unit);
     }
 
     /**
      * Test of getStartingPosition method, of class Battlefield.
      */
-    @Test
+    @Test (expected=IllegalArgumentException.class)
     public void testGetStartingPosition() {
         Vector bfSize = new Vector(100, 1, 100);
         Vector posZero = new Vector(85f, 3.9f, 85f);
@@ -160,12 +165,14 @@ public class BattlefieldTest {
         assertEquals(posTwo, result);
         result = Battlefield.getStartingPosition(3, bfSize);
         assertEquals(posThree, result);
+        
+        Battlefield.getStartingPosition(4, bfSize);
     }
 
     /**
      * Test of getStartingDir method, of class Battlefield.
      */
-    @Test
+    @Test (expected=IllegalArgumentException.class)
     public void testGetStartingDir() {
         Vector dirZero = new Vector(-1, 0, -1);
         Vector dirOne = new Vector(1, 0, 1);
@@ -179,5 +186,7 @@ public class BattlefieldTest {
         assertEquals(dirTwo, result);
         result = Battlefield.getStartingDir(3);
         assertEquals(dirThree, result);
+        
+        Battlefield.getStartingDir(4);
     }
 }

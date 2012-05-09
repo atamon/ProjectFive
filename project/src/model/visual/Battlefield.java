@@ -128,17 +128,6 @@ public class Battlefield implements PropertyChangeListener {
                 this.removeFromBattlefield(mov);
             }
         }
-//        
-//        while (iterator.hasNext()) {
-//            IMoveable mov = iterator.next();
-//            if (mov.getClass() == Unit.class) {
-//                mov.hide();
-//            } else {
-//                iterator.remove();
-//                mov.announceRemoval();
-//                this.removeFromBattlefield(mov);
-//            }
-//        }
     }
 
     /**

@@ -65,9 +65,5 @@ public class CannonBall extends MoveableAbstract implements IObservable {
         if (obj instanceof Unit) {
             announceRemoval();
         }
-        
-        if ("Battlefield".equals(obj)) {
-            announceRemoval();
-        }
     }
 }
