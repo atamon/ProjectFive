@@ -33,7 +33,7 @@ public class PUSpeedTest {
     @Test
     public void testGetMessage() {
         IPowerUp puSpeed = new PUSpeed();
-        assertTrue(puSpeed.getMessage() != null || puSpeed.getMessage() instanceof String);
+        assertTrue(puSpeed.getMessage() != null && puSpeed.getMessage() instanceof String);
     }
     
     @Test

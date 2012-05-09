@@ -33,7 +33,7 @@ public class PUHealthTest {
     @Test
     public void testGetMessage() {
         IPowerUp puHealth = new PUHealth();
-        assertTrue(puHealth.getMessage() != null || puHealth.getMessage() instanceof String);
+        assertTrue(puHealth.getMessage() != null && puHealth.getMessage() instanceof String);
     }
     
     @Test

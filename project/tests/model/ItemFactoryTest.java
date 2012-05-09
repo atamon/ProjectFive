@@ -4,10 +4,13 @@
  */
 package model;
 
+import controller.SettingsLoader;
+import model.tools.Settings;
 import model.tools.Vector;
 import model.visual.Item;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Before;
 
 /**
  * ItemFactory still a WIP so test will be updated.
@@ -15,13 +18,19 @@ import static org.junit.Assert.*;
  */
 public class ItemFactoryTest {
     
+    @Before
+    public void setUp() {
+        Settings.getInstance().loadSettings(SettingsLoader.readSettings("assets/settings"));
+    }
+    
     /**
      * Test to see if new items are created.
      * 
      */
     @Test
-    public void testCreateNewItem() {
-        Item testItem = ItemFactory.createNewItem(new Vector(1, 1));
-        assertTrue(testItem != null);
+    public void testPopulateUs() {
+        ItemFactory iFac = new ItemFactory();
+        Item testItem = iFac.createNewItem(Vector.ZERO_VECTOR);
+        assertTrue(testItem != null && testItem.getPosition().equals(new Vector(Vector.ZERO_VECTOR)));
     }
 }

@@ -33,7 +33,7 @@ public class PUTurnTest {
     @Test
     public void testGetMessage() {
         IPowerUp puTurn = new PUTurn();
-        assertTrue(puTurn.getMessage() != null || puTurn.getMessage() instanceof String);
+        assertTrue(puTurn.getMessage() != null && puTurn.getMessage() instanceof String);
     }
     
     @Test

@@ -33,7 +33,7 @@ public class PUEmptyTest {
     @Test
     public void testGetMessage() {
         IPowerUp puEmpty = new PUEmpty();
-        assertTrue(puEmpty.getMessage() != null || puEmpty.getMessage() instanceof String);
+        assertTrue(puEmpty.getMessage() != null && puEmpty.getMessage() instanceof String);
     }
     
     @Test

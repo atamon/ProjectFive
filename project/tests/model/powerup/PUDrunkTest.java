@@ -33,7 +33,7 @@ public class PUDrunkTest {
     @Test
     public void testGetMessage() {
         IPowerUp puDrunk = new PUDrunk();
-        assertTrue(puDrunk.getMessage() != null || puDrunk.getMessage() instanceof String);
+        assertTrue(puDrunk.getMessage() != null && puDrunk.getMessage() instanceof String);
     }
     
     @Test
