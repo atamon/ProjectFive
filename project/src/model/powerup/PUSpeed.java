@@ -6,7 +6,7 @@ package model.powerup;
  */
 public final class PUSpeed extends AbstractPowerUp {
 
-    private final String name = "Speed up";
+    private final String name = "Speed";
     private final String message = "Sppeeeeeeeeeeeeeddddd";
     
     public PUSpeed(){
