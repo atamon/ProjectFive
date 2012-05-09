@@ -37,10 +37,6 @@ public class Player {
         return this.playerUnit;
     }
 
-    public Vector getUnitPosition() {
-        return this.playerUnit.getPosition();
-    }
-
     /**
      * Sets the unit of the boat to a specific player.
      *
@@ -53,21 +49,24 @@ public class Player {
     }
     
     public void increaseFirePower(float value) {
+        if (value < 0) {
+            throw new IllegalArgumentException("ERROR: Tried to increase firepower with negative value! Exiting");
+        }
         firePower += value;
     }
 
+    // TODO COMBINE FIRELEFT AND FIRERIGHT INTO ONE!
     public void fireLeft() {
-        Vector unitDirection = this.getUnitDirection();
-        unitDirection.normalize();
+        Vector unitDirection = playerUnit.getDirection();
         Vector ballDirection = new Vector(unitDirection.getZ(), 0,
                unitDirection.getX() * -1);
         this.fire(ballDirection);
     }
 
     public void fireRight() {
-
-        Vector ballDirection = new Vector(getUnitDirection().getZ() * -1, 0,
-                getUnitDirection().getX());
+        Vector unitDirection = playerUnit.getDirection();
+        Vector ballDirection = new Vector(unitDirection.getZ() * -1, 0,
+                unitDirection.getX());
         this.fire(ballDirection);
     }
 
@@ -82,7 +81,7 @@ public class Player {
     }
 
     private Vector getCannonBallPos(Vector ballDir) {
-        Vector pos = new Vector(this.getUnitPosition());
+        Vector pos = new Vector(playerUnit.getPosition());
         Vector dir = new Vector(ballDir);
         dir.normalize();
         dir.mult(5.0f);
@@ -99,21 +98,6 @@ public class Player {
         if (this.playerUnit != null) {
             this.playerUnit.setIsAccelerating(accelUp);
         }
-    }
-
-    public Vector getUnitDirection() {
-        return this.playerUnit.getDirection();
-    }
-
-    public void setUnitPosition(float x, float y, float z) {
-        this.playerUnit.setPosition(x, y, z);
-    }
-
-    /**
-     * Updates the units position with a
-     */
-    public void updateUnitPosition(float tpf) {
-        this.playerUnit.update(tpf);
     }
 
     /**
