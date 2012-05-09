@@ -82,4 +82,19 @@ public class PUHealthTest {
         IPowerUp puHealth = new PUHealth();
         assertEquals(puHealth.getSteerAngle(), 0);
     }
+    
+    @Test
+    public void testGetActive() {
+        IPowerUp puHealth = new PUHealth();
+        assertTrue(puHealth.isActive());
+    }
+    
+    @Test
+    public void testSetActive() {
+        IPowerUp puHealth = new PUHealth();
+        assertTrue(puHealth.isActive());
+        
+        puHealth.setActive(false);
+        assertFalse(puHealth.isActive());
+    }
 }

@@ -82,4 +82,19 @@ public class PUEmptyTest {
         IPowerUp puEmpty = new PUEmpty();
         assertEquals(puEmpty.getSteerAngle(), 0);
     }
+    
+    @Test
+    public void testGetActive() {
+        IPowerUp puEmpty = new PUEmpty();
+        assertTrue(puEmpty.isActive());
+    }
+    
+    @Test
+    public void testSetActive() {
+        IPowerUp puEmpty = new PUEmpty();
+        assertTrue(puEmpty.isActive());
+        
+        puEmpty.setActive(false);
+        assertFalse(puEmpty.isActive());
+    }
 }

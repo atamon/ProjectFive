@@ -84,4 +84,19 @@ public class PUDrunkTest {
         IPowerUp puDrunk = new PUDrunk();
         assertEquals(puDrunk.getSteerAngle(), -4);
     }
+    
+    @Test
+    public void testGetActive() {
+        IPowerUp puDrunk = new PUDrunk();
+        assertTrue(puDrunk.isActive());
+    }
+    
+    @Test
+    public void testSetActive() {
+        IPowerUp puDrunk = new PUDrunk();
+        assertTrue(puDrunk.isActive());
+        
+        puDrunk.setActive(false);
+        assertFalse(puDrunk.isActive());
+    }
 }

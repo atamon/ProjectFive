@@ -84,4 +84,19 @@ public class PUSpeedTest {
         IPowerUp puSpeed = new PUSpeed();
         assertEquals(puSpeed.getSteerAngle(), 0);
     }
+    
+    @Test
+    public void testGetActive() {
+        IPowerUp puSpeed = new PUSpeed();
+        assertTrue(puSpeed.isActive());
+    }
+    
+    @Test
+    public void testSetActive() {
+        IPowerUp puSpeed = new PUSpeed();
+        assertTrue(puSpeed.isActive());
+        
+        puSpeed.setActive(false);
+        assertFalse(puSpeed.isActive());
+    }
 }
