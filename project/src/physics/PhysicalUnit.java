@@ -38,15 +38,15 @@ public class PhysicalUnit extends PhysicalAbstractBody {
      * @param dir
      * @param tpf
      */
-    public void steer(Direction dir, float tpf) {
+    public void steer(float angle, float tpf) {
 
         // Update the physical objects rotation
-        float angle = -1 * dir.getValue() * tpf;
+        float corrAngle = -1 * angle * tpf;
         float currentSpeed = getSpeed();
         if (currentSpeed < 1) {
-            angle = angle*currentSpeed*currentSpeed;
+            corrAngle = corrAngle*currentSpeed*currentSpeed;
         }
-        Quaternion rot = body.getPhysicsRotation().mult(new Quaternion().fromAngleAxis(angle, Vector3f.UNIT_Y));
+        Quaternion rot = body.getPhysicsRotation().mult(new Quaternion().fromAngleAxis(corrAngle, Vector3f.UNIT_Y));
         body.setPhysicsRotation(rot);
 
         // Adjust the linear velocity to always travel in the boats direction

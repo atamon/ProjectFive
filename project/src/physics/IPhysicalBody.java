@@ -56,7 +56,7 @@ public interface IPhysicalBody {
      * @param dir
      * @param tpf
      */
-    void steer(Direction dir, float tpf);
+    void steer(float angle, float tpf);
 
     void updated();
 }

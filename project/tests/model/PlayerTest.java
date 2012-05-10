@@ -24,6 +24,7 @@ public class PlayerTest {
 
     private Unit unit;
     private Player player;
+    private Battlefield bf;
     private boolean fireCreatedCB = false;
 
     @Before
@@ -35,6 +36,7 @@ public class PlayerTest {
                 Battlefield.getStartingDir(0),
                 new Vector(uSize, uSize, uSize),
                 Settings.getInstance().getSetting("unitMass"));
+        bf = new Battlefield();
 
         PropertyChangeListener pListener = new PropertyChangeListener() {
 
@@ -45,7 +47,9 @@ public class PlayerTest {
             }
         };
         player.setUnit(unit);
+        bf.addToBattlefield(unit);
         player.addPropertyChangeListener(pListener);
+        
     }
 
     /**
@@ -117,8 +121,8 @@ public class PlayerTest {
         player.getUnit().halt();
         player.accelerateUnit(true);
         // Simulate frame
-        unit.update(0.16f);
-        assertTrue(unit.getSpeed() >= 0);
+        bf.update(0.016f);
+        assertTrue(unit.getSpeed() > 0);
     }
 
     @Test

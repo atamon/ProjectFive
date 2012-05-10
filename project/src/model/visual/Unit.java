@@ -11,8 +11,8 @@ import physics.PhysicalUnit;
 
 /**
  * A unit. Probably a ship.
- * @author Johannes Wikner
- * @modified Victor Lindhé, johnhu
+ *
+ * @author Johannes Wikner @modified Victor Lindhé, johnhu
  */
 public class Unit extends MoveableAbstract implements IObservable {
 
@@ -26,18 +26,21 @@ public class Unit extends MoveableAbstract implements IObservable {
 
     /**
      * Create a unit
+     *
      * @param pos initial position
      * @param dir initial direction
      */
     public Unit(Vector pos, Vector dir, Vector size, float mass) {
-        this.body = new PhysicalUnit(this,pos,dir,size,mass);
+        this.body = new PhysicalUnit(this, pos, dir, size, mass);
         if (hitPointsMax <= 0) {
             throw new IllegalArgumentException("hit points must be positive");
         }
     }
 
     /**
-     * Updates the units position according to speed, direction and updatefrequency
+     * Updates the units position according to speed, direction and
+     * updatefrequency
+     *
      * @param tpf Updatefrequency, i.e. time since last frame
      */
     public void update(final float tpf) {
@@ -45,10 +48,9 @@ public class Unit extends MoveableAbstract implements IObservable {
         this.steer(tpf);
     }
 
-
-
     /**
      * Accelerates the unit
+     *
      * @param tpf Time per frame
      */
     private void accelerate(boolean isAccelerating, float tpf) {
@@ -59,7 +61,7 @@ public class Unit extends MoveableAbstract implements IObservable {
 
     private void steer(float tpf) {
         if (steerDirection.getValue() != 0) {
-            body.steer(steerDirection, tpf);
+            body.steer(steerDirection.getValue() * steerAngle, tpf);
         }
     }
 
@@ -68,11 +70,17 @@ public class Unit extends MoveableAbstract implements IObservable {
     }
 
     /**
-     * Set the steer angle of the unit. 
-     * @param steerAngle Angle determined in radians. Leave open interval for configuration in-game
+     * Set the steer angle of the unit.
+     *
+     * @param steerAngle Angle determined in radians. Leave open interval for
+     * configuration in-game
      */
     public void setSteerAngle(float steerAngle) {
         this.steerAngle = steerAngle;
+    }
+
+    public float getSteerAngle() {
+        return this.steerAngle;
     }
 
     public void steerClockWise(boolean bool) {
@@ -84,8 +92,8 @@ public class Unit extends MoveableAbstract implements IObservable {
     }
 
     /**
-     * 
-     * @param value Are we accelerating true of false 
+     *
+     * @param value Are we accelerating true of false
      */
     public void setIsAccelerating(boolean value) {
         this.isAccelerating = value;
@@ -93,9 +101,10 @@ public class Unit extends MoveableAbstract implements IObservable {
 
     /**
      * Sets the unit's current hit points (health).
-     * @param hitPoints The number of hit points to be set
-     * @precon hitPoints must be a positive value and less than
-     * or equal to the maximum number of hit points
+     *
+     * @param hitPoints The number of hit points to be set @precon hitPoints
+     * must be a positive value and less than or equal to the maximum number of
+     * hit points
      * @throws IllegalArgumentExcpetion if not a valid hitPoints value is given
      */
     public void setHitPoints(int hitPoints) {
@@ -107,7 +116,7 @@ public class Unit extends MoveableAbstract implements IObservable {
     }
 
     /**
-     * 
+     *
      * @return The unit's current hit points (health)
      */
     public int getHitPoints() {
@@ -115,7 +124,7 @@ public class Unit extends MoveableAbstract implements IObservable {
     }
 
     /**
-     * 
+     *
      * @return The unit's maximum hit points (health)
      */
     public int getHitPointsMax() {
@@ -124,14 +133,26 @@ public class Unit extends MoveableAbstract implements IObservable {
 
     /**
      * Returns true if and only if the boat has been sent to Davy Jones' locker.
-     * @return 
+     *
+     * @return
      */
     public boolean isDeadAndBuried() {
         return body.getPosition().equals(Vector.NONE_EXISTANT);
     }
-    
-    public void announceRemoval(){
+
+    public void announceRemoval() {
         this.pcs.firePropertyChange("Unit removed", null, null);
+    }
+
+    public void collidedWith(IPhysicalModel obj, float objImpactSpeed) {
+        // Two units crashing
+        if (obj instanceof Unit) {
+            this.hitPoints -= Math.abs(objImpactSpeed * hullStrength);
+        }
+
+        if (obj instanceof CannonBall) {
+            this.hitPoints -= ((CannonBall) obj).getDamage();
+        }
     }
 
     @Override
@@ -149,10 +170,10 @@ public class Unit extends MoveableAbstract implements IObservable {
         if (this.hitPointsMax != other.hitPointsMax) {
             return false;
         }
-        if (this.acceleration != other.acceleration) {
+        if (this.hitPoints != other.hitPoints) {
             return false;
         }
-        if (this.hitPoints != other.hitPoints) {
+        if (Float.floatToIntBits(this.hullStrength) != Float.floatToIntBits(other.hullStrength)) {
             return false;
         }
         if (this.isAccelerating != other.isAccelerating) {
@@ -166,31 +187,21 @@ public class Unit extends MoveableAbstract implements IObservable {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 67 * hash + Float.floatToIntBits(this.steerAngle);
-        hash = 67 * hash + this.hitPointsMax;
-        hash = 67 * hash + this.hitPoints;
-        hash = 67 * hash + (this.isAccelerating ? 1 : 0);
-        hash = 67 * hash + (this.steerDirection != null ? this.steerDirection.hashCode() : 0);
+        int hash = 7;
+        hash = 59 * hash + Float.floatToIntBits(this.steerAngle);
+        hash = 59 * hash + this.hitPointsMax;
+        hash = 59 * hash + this.hitPoints;
+        hash = 59 * hash + Float.floatToIntBits(this.hullStrength);
+        hash = 59 * hash + (this.isAccelerating ? 1 : 0);
+        hash = 59 * hash + (this.steerDirection != null ? this.steerDirection.hashCode() : 0);
         return hash;
     }
 
     @Override
     public String toString() {
         return "Unit{" + super.toString() + "steerAngle=" + steerAngle + ", "
-                + "hitPointsMax=" + hitPointsMax + ", acceleration=" + 
-                acceleration + ", hitPoints=" + hitPoints + ", isAccelerating=" 
+                + "hitPointsMax=" + hitPointsMax + ", acceleration="
+                + acceleration + ", hitPoints=" + hitPoints + ", isAccelerating="
                 + isAccelerating + ", steerDirection=" + steerDirection + '}';
-    }
-
-    public void collidedWith(IPhysicalModel obj, float objImpactSpeed) {
-        // Two units crashing
-        if (obj instanceof Unit) {
-            this.hitPoints -= Math.abs(objImpactSpeed*hullStrength);
-        }
-        
-        if (obj instanceof CannonBall) {
-            this.hitPoints -= ((CannonBall)obj).getDamage();
-        }
     }
 }

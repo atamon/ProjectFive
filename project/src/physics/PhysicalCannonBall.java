@@ -35,7 +35,7 @@ public class PhysicalCannonBall extends PhysicalAbstractBody {
     }
 
     @Override
-    public void steer(Direction dir, float tpf) {
+    public void steer(float angle, float tpf) {
         // TODO, Add homing missilies! :D
         throw new UnsupportedOperationException("Not supported yet.");
     }

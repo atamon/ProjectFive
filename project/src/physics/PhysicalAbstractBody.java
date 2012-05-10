@@ -81,6 +81,8 @@ public abstract class PhysicalAbstractBody implements IPhysicalBody {
     @Override
     public void halt() {
         body.clearForces();
+        body.setLinearVelocity(Vector3f.ZERO);
+        body.setAngularVelocity(Vector3f.ZERO);
     }
 
     public PhysicsRigidBody getBody() {
@@ -129,5 +131,5 @@ public abstract class PhysicalAbstractBody implements IPhysicalBody {
                 body.getPhysicsRotation());
     }
     
-    public abstract void steer(Direction dir, float tpf);
+    public abstract void steer(float angle, float tpf);
 }

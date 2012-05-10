@@ -32,4 +32,37 @@ public class Direction {
         
         return value;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Direction other = (Direction) obj;
+        if (this.steeringClockWise != other.steeringClockWise) {
+            return false;
+        }
+        if (this.steeringAntiClockWise != other.steeringAntiClockWise) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 53 * hash + (this.steeringClockWise ? 1 : 0);
+        hash = 53 * hash + (this.steeringAntiClockWise ? 1 : 0);
+        return hash;
+    }
+
+    @Override
+    public String toString() {
+        return "Direction{" + "steeringClockWise=" + steeringClockWise + ", steeringAntiClockWise=" + steeringAntiClockWise + '}';
+    }
+    
+
 }
