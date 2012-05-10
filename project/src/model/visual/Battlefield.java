@@ -191,7 +191,6 @@ public class Battlefield implements PropertyChangeListener {
         }
         
         if ("Item Removed".equals(evt.getPropertyName())){
-            System.out.println("Battlefield: i was informed that item was to be removed");
             Item item = (Item)(evt.getNewValue());
             this.removeFromBattlefield(item);
             

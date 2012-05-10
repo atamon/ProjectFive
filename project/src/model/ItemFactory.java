@@ -36,7 +36,7 @@ public class ItemFactory {
         final float randZPos = (float)Math.random() * (fieldSize.getZ()-MARGINS[2]) + MARGINS[3];
         // TODO REMOVE STATIC UGLY NUMBER
         final Item item = new Item(powerUps.get(randNumber), new Vector(randXPos, 3.9f, randZPos));
-        System.out.println("i created a PU: "+item.getPowerUp().getName());
+        System.out.println("ItemFactory: i created a PU: "+item.getPowerUp().getName());
         item.getPowerUp().setActive(true);
         return item;
     }

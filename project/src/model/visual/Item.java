@@ -62,7 +62,6 @@ public final class Item extends MoveableAbstract {
         
         this.lifeTime -= tpf;
         if(this.lifeTime <= 0){
-            System.out.println("REMOVEEEEEEEEE !!!!");
             this.announceRemoval();
             return;
         }

@@ -40,7 +40,6 @@ public class GraphicalItem implements PropertyChangeListener{
         this.node = new Node();
         this.node.attachChild(boxGeo);
         this.updatePosition(pos);
-        System.out.println("added item");
     }
     
     private void updatePosition(Vector3f pos) {
