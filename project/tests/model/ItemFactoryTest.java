@@ -4,9 +4,13 @@
  */
 package model;
 
+<<<<<<< HEAD
 import controller.SettingsLoader;
 import model.tools.Settings;
 import model.tools.Vector;
+=======
+import math.Vector;
+>>>>>>> phys-refactor
 import model.visual.Item;
 import org.junit.Test;
 import static org.junit.Assert.*;

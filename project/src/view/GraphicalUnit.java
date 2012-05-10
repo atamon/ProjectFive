@@ -11,69 +11,59 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import model.tools.Vector;
+import math.Vector;
 import util.Util;
 
 /**
  * A class to hold a Mesh.
+ *
  * @author Victor Lindhé
  */
 public class GraphicalUnit implements PropertyChangeListener {
 
-    
     private Node node;
-    private float yPosition;
-    public static final float UNIT_HEIGHT = 1f;
 //    private Node trackerNode;
+
     public GraphicalUnit(ColorRGBA color,
-                         Vector3f pos,
-                         Vector3f dir,
-                         Vector3f size,
-                         AssetManager assetManager,
-                         Node blenderModel) {
+            Vector3f pos,
+            Vector3f dir,
+            Vector3f size,
+            AssetManager assetManager,
+            Node blenderModel) {
 
         this.node = blenderModel;
-//        this.trackerNode = trackerNode;
-        yPosition = GraphicalBattlefield.BATTLEFIELD_THICKNESS+UNIT_HEIGHT;
-        size.setY(UNIT_HEIGHT);
         blenderModel.setLocalScale(size);
-        this.updatePosition(pos.setY(yPosition));
-        this.updateRotation(dir);
+        Quaternion rot = new Quaternion();
+        rot.lookAt(dir, Vector3f.UNIT_Y);
+        
+        this.updatePosition(pos);
+        this.updateRotation(rot);
     }
 
     public Node getNode() {
         return this.node;
     }
 
-    public Vector3f getLocation() {
-        return this.node.getLocalTranslation();
-    }
-
     private void updatePosition(Vector3f pos) {
-//        Vector3f trackMovement = node.getLocalTranslation().add(pos);
-//        trackMovement = trackMovement.subtract(65f, 0, 65f);
         this.node.setLocalTranslation(pos);
-//        this.trackerNode.move(trackMovement.x, 0, trackMovement.z);
     }
 
-    private void updateRotation(Vector3f dir) {
-        Quaternion newRotation = new Quaternion();
-        newRotation.lookAt(dir, Vector3f.UNIT_Y);
-        this.node.setLocalRotation(newRotation);
+    private void updateRotation(Quaternion rot) {
+        this.node.setLocalRotation(rot);
     }
 
     public void propertyChange(PropertyChangeEvent pce) {
 
-        if (pce.getNewValue() != null && pce.getNewValue().getClass() == Vector.class) {
-            Vector3f direction = Util.convertToMonkey3D((Vector) pce.getNewValue());
-
-            if (pce.getPropertyName().equals("Updated Position")) {
-                this.updatePosition(direction.setY(this.yPosition));
-            }
-            
-            if (pce.getPropertyName().equals("Updated Direction")) {
-                this.updateRotation(direction);
-            }
+        if ("Physical Update".equals(pce.getPropertyName())) {
+            Vector3f pos = (Vector3f) pce.getOldValue();
+            Quaternion dir = (Quaternion) pce.getNewValue();
+                        
+            this.updateRotation(dir);
+            this.updatePosition(pos);
+        }
+        
+        if ("Unit removed".equals(pce.getPropertyName())) {
+            node.removeFromParent();
         }
     }
 }

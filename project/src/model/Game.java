@@ -8,7 +8,7 @@ import java.util.Map;
 import model.player.Player;
 import model.round.*;
 import model.tools.Settings;
-import model.tools.Vector;
+import math.Vector;
 import model.visual.Battlefield;
 import model.visual.CannonBall;
 import model.visual.Unit;
@@ -20,7 +20,7 @@ import model.visual.Unit;
  */
 public class Game implements IGame {
 
-    // A game is never startable without 2 players at this point
+    // A game is never startable without 2 players at this setVelocity
     public static final int VALID_PLAYER_AMOUNT = 2;
     public static final int LAST_MAN_STANDING = 1;
     // Instances
@@ -30,6 +30,7 @@ public class Game implements IGame {
     private final Map<Integer, Player> playerMap = new HashMap<Integer, Player>();
     private final Map<Integer, Round> playedRounds = new HashMap<Integer, Round>();
     private Round currentRound;
+
     /**
      * Create a game with given parameters. A game consists of a number of
      * rounds containing a given amount of players. The Game class starts new
@@ -74,8 +75,6 @@ public class Game implements IGame {
                 && currentRound.getState() == RoundState.PLAYING) {
             lookForDeadUnits();
 
-
-
             this.battlefield.update(tpf);
 
         }
@@ -89,7 +88,10 @@ public class Game implements IGame {
         if (playerMap.get(id) == null || !playerMap.containsKey(id)) {
             throw new RuntimeException("ERROR: Tried to remove invalid player: " + id);
         }
-        playerMap.get(id).getUnit().setPosition(Vector.NONE_EXISTANT);
+        Unit unit = playerMap.get(id).getUnit();
+        unit.setPosition(Vector.NONE_EXISTANT);
+        unit.announceRemoval();
+        battlefield.removeFromBattlefield(unit);
         playerMap.remove(id);
     }
 
@@ -115,19 +117,6 @@ public class Game implements IGame {
         return player;
     }
 
-    /**
-     * Creates and places a unit according to its playerID.
-     *
-     * @param playerID The playerID making sure we place the unit where the
-     * player should start.
-     * @return Returns the unit created.
-     */
-    private Unit createUnit(int playerID) {
-        Vector position = Battlefield.getStartingPosition(playerID, battlefield.getSize());
-        Vector direction = Battlefield.getStartingDir(playerID);
-        return new Unit(position, direction, playerID);
-    }
-
     public void createPlayer(int id) {
         if (playerMap.get(id) != null) {
             System.out.println("Warning!: playerMap had object: " + playerMap.get(id) + " set to supplied key");
@@ -135,13 +124,20 @@ public class Game implements IGame {
         }
         Player player = new Player(id);
         player.addPropertyChangeListener(battlefield);
-        Unit unit = this.createUnit(id);
-
-        player.setUnit(unit);
-        this.battlefield.addToBattlefield(unit);
-        // Keep track of the unit by its id
         this.playerMap.put(id, player);
-
+        
+        // Add unit
+        Vector position = Battlefield.getStartingPosition(id, battlefield.getSize());
+        Vector direction = Battlefield.getStartingDir(id);
+        int unitSize = Settings.getInstance().getSetting("unitSize");
+        Unit unit = new Unit(position,
+                direction,
+                new Vector(unitSize, unitSize, unitSize),
+                Settings.getInstance().getSetting("unitMass"));
+        player.setUnit(unit);
+        
+        this.battlefield.addToBattlefield(unit);
+        
         // Let listeners (views) know that we've created a player
         this.pcs.firePropertyChange("Player Created", null, player);
     }
@@ -192,8 +188,8 @@ public class Game implements IGame {
      */
     @Override
     public void nextRound() {
-        
-        this.battlefield.clear();
+
+        this.battlefield.clearForNewRound();
         this.currentRound = new Round();
         try {
             this.currentRound.start();
@@ -347,13 +343,12 @@ public class Game implements IGame {
      */
     public void clean() {
         playedRounds.clear();
-        
         gameState = GameState.INACTIVE;
     }
 
     private void haltPlayers() {
         for (Player player : playerMap.values()) {
-            player.getUnit().setSpeed(0);
+            player.getUnit().halt();
         }
     }
 
@@ -364,5 +359,4 @@ public class Game implements IGame {
     public void removePropertyChangeListener(PropertyChangeListener pl) {
         this.pcs.removePropertyChangeListener(pl);
     }
-
 }

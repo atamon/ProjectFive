@@ -7,13 +7,14 @@ package view;
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Sphere;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import model.tools.Vector;
+import math.Vector;
 import util.Util;
 
 /**
@@ -40,13 +41,15 @@ public class GraphicalCannonBall implements PropertyChangeListener {
         
         this.node = new Node();
         this.node.attachChild(ballGeo);
-        
-        yPosition = GraphicalBattlefield.BATTLEFIELD_THICKNESS+size.z;
-        this.updatePosition(pos.setY(yPosition));
+        this.updatePosition(pos);
     }
     
-    public Vector3f getLocation() {
-        return this.node.getLocalTranslation();
+    private void updatePosition(Vector3f pos) {
+        this.node.setLocalTranslation(pos);
+    }
+
+    private void updateRotation(Quaternion rot) {
+        this.node.setLocalRotation(rot);
     }
     
     public Node getNode() {
@@ -54,16 +57,12 @@ public class GraphicalCannonBall implements PropertyChangeListener {
     }
     
     public void propertyChange(PropertyChangeEvent pce) {
-        if("Updated Position".equals(pce.getPropertyName())) {
-            this.updatePosition(Util.convertToMonkey3D((Vector)pce.getNewValue()).setY(yPosition));
+        if("Physical Update".equals(pce.getPropertyName())) {
+            this.updatePosition((Vector3f)pce.getOldValue());
+            this.updateRotation((Quaternion)pce.getNewValue());
         }
         if("CannonBall Removed".equals(pce.getPropertyName()) && this.node.getParent() != null) {
             this.node.getParent().detachChild(node);
         }
     }
-
-    private void updatePosition(Vector3f pos) {
-        this.node.setLocalTranslation(pos);
-    }
-    
 }

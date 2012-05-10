@@ -1,8 +1,9 @@
 package model.player;
 
-import model.tools.Vector;
+import math.Vector;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import model.tools.Settings;
 import model.visual.CannonBall;
 import model.visual.Unit;
 
@@ -15,6 +16,7 @@ public class Player {
 
     private final int playerId;
     private Unit playerUnit;
+    private float firePower = 0;
     private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
     /**
@@ -36,10 +38,6 @@ public class Player {
         return this.playerUnit;
     }
 
-    public Vector getUnitPosition() {
-        return this.playerUnit.getPosition();
-    }
-
     /**
      * Sets the unit of the boat to a specific player.
      *
@@ -50,27 +48,48 @@ public class Player {
             this.playerUnit = boat;
         }
     }
+    
+    public void increaseFirePower(float value) {
+        if (value < 0) {
+            throw new IllegalArgumentException("ERROR: Tried to increase firepower with negative value! Exiting");
+        }
+        firePower += value;
+    }
 
+    // TODO COMBINE FIRELEFT AND FIRERIGHT INTO ONE!
     public void fireLeft() {
-        Vector ballDirection = new Vector(getUnitDirection().getY(),
-                getUnitDirection().getX() * -1);
+        Vector unitDirection = playerUnit.getDirection();
+        Vector ballDirection = new Vector(unitDirection.getZ(), 0,
+               unitDirection.getX() * -1);
         this.fire(ballDirection);
     }
 
     public void fireRight() {
-
-        Vector ballDirection = new Vector(getUnitDirection().getY() * -1,
-                getUnitDirection().getX());
+        Vector unitDirection = playerUnit.getDirection();
+        Vector ballDirection = new Vector(unitDirection.getZ() * -1, 0,
+                unitDirection.getX());
         this.fire(ballDirection);
     }
 
     private void fire(Vector direction) {
-        CannonBall cBall = new CannonBall(playerId,
-                getUnitPosition(),
-                direction, 50);
+        CannonBall cBall = new CannonBall(this.getCannonBallPos(direction),
+                                          direction,
+                                          new Vector(0.1f, 0.1f, 0.1f),
+                                          (float)(Settings.getInstance().getSetting("cannonBallMass")),
+                                          (float)(Settings.getInstance().getSetting("cannonBallSpeed"))*firePower, this.playerUnit);
         this.pcs.firePropertyChange("CannonBall Created", null, cBall);
+        firePower = 0;
     }
 
+    private Vector getCannonBallPos(Vector ballDir) {
+        Vector pos = new Vector(playerUnit.getPosition());
+        Vector dir = new Vector(ballDir);
+        dir.normalize();
+        dir.mult(5.0f);
+        Vector newPosition = new Vector(pos.getX()+dir.getX(), pos.getY()+dir.getY(), pos.getZ()+dir.getZ());
+        return newPosition;
+    }
+    
     /**
      * Accelerates this player's unit.
      *
@@ -80,21 +99,6 @@ public class Player {
         if (this.playerUnit != null) {
             this.playerUnit.setIsAccelerating(accelUp);
         }
-    }
-
-    public Vector getUnitDirection() {
-        return this.playerUnit.getDirection();
-    }
-
-    public void setUnitPosition(float x, float y) {
-        this.playerUnit.setPosition(x, y);
-    }
-
-    /**
-     * Updates the units position with a
-     */
-    public void updateUnitPosition(float tpf) {
-        this.playerUnit.update(tpf);
     }
 
     /**

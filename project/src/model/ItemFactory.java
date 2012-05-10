@@ -6,11 +6,11 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import math.Vector;
 import model.powerup.IPowerUp;
 import model.powerup.PUHealth;
 import model.powerup.PUSpeed;
 import model.powerup.PUTurn;
-import model.tools.Vector;
 import model.visual.Item;
 
 /**
@@ -36,9 +36,9 @@ public class ItemFactory {
         
         
         final float randXPos = (float)Math.random() * fieldSize.getX();
-        final float randYPos = (float)Math.random() * fieldSize.getY();
-        
-        Item powerUp = new Item(powerUps.get(randNumber), new Vector(randXPos, randYPos));
+        final float randZPos = (float)Math.random() * fieldSize.getZ();
+        // TODO REMOVE STATIC UGLY NUMBER
+        Item powerUp = new Item(powerUps.get(randNumber), new Vector(randXPos, 3.9f, randZPos));
         powerUp.getPowerUp().setActive(true);
         return powerUp;
     }

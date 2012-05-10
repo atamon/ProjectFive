@@ -4,22 +4,22 @@
  */
 package model.visual;
 
-import model.physics.IPhysical;
-import model.tools.PhysType;
-import model.tools.Vector;
+import java.beans.PropertyChangeListener;
+import physics.IPhysicalModel;
+import math.Vector;
 
 /**
  *
  * @author Johannes
  */
-public interface IMoveable extends IVisualisable, IPhysical {
+public interface IMoveable extends IPhysicalModel {
     public void setPosition(Vector pos);
     public void setDirection(Vector dir);
+    public Vector getPosition();
     public Vector getDirection();
-
     public void update(float tpf);
-    public Vector getVelocity();
-    public PhysType getType();
-
     public void hide();
+    public void announceRemoval();
+    public void addPropertyChangeListener(PropertyChangeListener ls);
+    public void removePropertyChangeListener(PropertyChangeListener ls);
 }

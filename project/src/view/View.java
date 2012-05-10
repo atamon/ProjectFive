@@ -14,7 +14,6 @@ import com.jme3.scene.Node;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.tools.SizeValue;
-import util.BlenderImporter;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.HashMap;
@@ -25,7 +24,7 @@ import model.GameState;
 import model.IGame;
 import model.player.Player;
 import model.round.RoundState;
-import model.tools.Vector;
+import math.Vector;
 import model.visual.Battlefield;
 import model.visual.CannonBall;
 import util.Util;
@@ -92,18 +91,6 @@ public class View implements PropertyChangeListener {
         // We need to fetch first gamestates right away
         lastGameState = game.getState();
         lastRoundState = game.getRoundState();
-
-        // Try out a track-node, it should always position itself in the middle of all gUnits.
-//        this.trackerNode = new Node();
-//        Vector3f bfCenter = Util.convertToMonkey3D(game.getBattlefieldCenter());
-//        trackerNode.setLocalTranslation(bfCenter);
-//        rootNode.attachChild(trackerNode);
-//        ChaseCamera chaseCam = new ChaseCamera(jme3.getCamera(), trackerNode);
-//        chaseCam.setDefaultDistance(10f);
-//        chaseCam.setMinDistance(10f);
-//        chaseCam.setMaxDistance(20f);
-//        chaseCam.setSmoothMotion(true);
-//        chaseCam.setUpVector(Vector3f.UNIT_Y);
     }
 
     private void setUpCameraView(float[] vpPos, Vector3f unitPos) {
@@ -132,7 +119,8 @@ public class View implements PropertyChangeListener {
     }
 
     private void initGround(Vector size, Vector pos) {
-        GraphicalBattlefield geoBattlefield = new GraphicalBattlefield(Util.convertToMonkey3D(size), Util.convertToMonkey3D(pos), assetManager);
+        GraphicalBattlefield geoBattlefield = new GraphicalBattlefield(Util.convertToMonkey3D(size), 
+                                     Util.convertToMonkey3D(pos), assetManager);
         rootNode.attachChild(geoBattlefield.getGeometry());
     }
 
@@ -233,7 +221,6 @@ public class View implements PropertyChangeListener {
     }
 
     public void propertyChange(PropertyChangeEvent pce) {
-        // If a unit was created we make sure we got a unit with it
         if ("Player Created".equals(pce.getPropertyName())) {
             if (pce.getNewValue().getClass() == Player.class
                     && pce.getOldValue() == null) {

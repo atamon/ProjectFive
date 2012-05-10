@@ -3,10 +3,17 @@
 // String should be written like a javavariable following all conventions.
 
 [DEFAULT]
-hitPointsMax:100
+hitPointsMax:20
 numberOfRounds:5
-steerAngle:2
-acceleration:10
+steerAngle:1
+acceleration:3500
 retardation:10
+maxSpeed:20
+maxSteerSpeed:10
+unitSize:3
+unitMass:5
+cannonBallMass:1
+cannonBallSpeed:25
+hullStrength:10
 
 [MODDED]

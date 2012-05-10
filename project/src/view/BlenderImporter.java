@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package util;
+package view;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.asset.BlenderKey;

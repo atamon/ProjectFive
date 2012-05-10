@@ -5,67 +5,71 @@ import java.beans.PropertyChangeListener;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import model.physics.IPhysicsHandler;
-import model.physics.JMEPhysicsHandler;
-import model.tools.Vector;
-import model.visual.Unit;
+import physics.JMEPhysicsHandler;
+import math.Vector;
 
 /**
  * A class to represent a Battlefield.
- * @author Victor Lindhé
- * @modified johnnes
+ *
+ * @author Victor Lindhé @modified johnnes
  */
-public class Battlefield implements IVisualisable, PropertyChangeListener{
+public class Battlefield implements PropertyChangeListener {
+
     private final Vector size;
-    private final Vector pos = new Vector(0,0);
-    private final IPhysicsHandler physHandler = new JMEPhysicsHandler();
+    private final Vector pos = new Vector(0, 0, 0);
+    private final JMEPhysicsHandler physHandler = new JMEPhysicsHandler();
     private final List<IMoveable> moveables = new LinkedList<IMoveable>();
-    
+
     /**
      * Creates a Battlefield with default size (100,100) and an Item.
      */
     public Battlefield() {
-        this(new Vector(100.0f,100.0f));
+        this(new Vector(100.0f, 1.0f, 100.0f));
     }
-    
+
     /**
      * Creates a Battlefield with a size x-wise and size y-wise.
-     * @param xWidth 
-     * @param yWidth 
+     *
+     * @param xWidth
+     * @param yWidth
      * @throws NumberFormatException
      */
     public Battlefield(final Vector size) throws NumberFormatException {
-        if(size.getX() > 0 && size.getY() > 0) {
+        if (size.getX() > 0 && size.getY() > 0 && size.getZ() > 0) {
             this.size = new Vector(size);
         } else {
             throw new NumberFormatException("Size must be > 0");
         }
-        
-        physHandler.addPropertyChangeListener(this);
-    }
-    public void removeFromBattlefield(final IMoveable mov) {
-        mov.removeFromView();
-        this.physHandler.remove(mov);
-    }
-    
-    public void addToBattlefield(final IMoveable mov){
-        if (moveables.contains(mov)) {
-            throw new IllegalArgumentException("ERROR: We tried to add a moveable to battlefield that already exists: "+mov);
-        }
-        //init physcz
-        physHandler.addToWorld(mov);
 
+        physHandler.addPropertyChangeListener(this);
+
+        // Set up ocean floor
+        physHandler.createGround(this.size);
+    }
+
+    public void addToBattlefield(final IMoveable mov) {
+        if (moveables.contains(mov)) {
+            throw new IllegalArgumentException("ERROR: We tried to add a moveable to battlefield that already exists: " + mov);
+        }
+        //Add to our physical world which controls movement
+        physHandler.addToWorld(mov.getPhysicalObject());
+
+        // Save it for keepsake and listen for removal
+        mov.addPropertyChangeListener(this);
         this.moveables.add(mov);
     }
-    
-    public void update(final float tpf){
+
+    public void removeFromBattlefield(final IMoveable mov) {
+        this.physHandler.removeFromWorld(mov.getPhysicalObject());
+        mov.removePropertyChangeListener(this);
+        moveables.remove(mov);
+    }
+
+    public void update(final float tpf) {
         final Iterator<IMoveable> iterator = moveables.iterator();
-        while(iterator.hasNext()){
+        while (iterator.hasNext()) {
             final IMoveable next = iterator.next();
             next.update(tpf);
-            this.physHandler.setRigidVelocity(next, next.getVelocity());
-            this.physHandler.setRigidForce(next, next.getDirection(), next.getSpeed());
-            this.physHandler.setRigidPosition(next, next.getPosition());
             if (next.getClass() == Unit.class && this.isOutOfBounds(next.getPosition())) {
                 this.doMagellanJourney(next);
             }
@@ -73,62 +77,71 @@ public class Battlefield implements IVisualisable, PropertyChangeListener{
         this.physHandler.update(tpf);
 
     }
+
     private void doMagellanJourney(final IMoveable moveable) {
-        final Vector newPosition = moveable.getPosition();
-        final Vector direction = moveable.getDirection();
-        direction.mult(-1.0f);
-        newPosition.add(direction);
-        while (!isOutOfBounds(newPosition)) {
-            newPosition.add(direction);
+        Vector moddedPos = new Vector(moveable.getPosition());
+        moddedPos.setX(moddedPos.getX() % size.getX());
+        moddedPos.setZ(moddedPos.getZ() % size.getZ());
+        if (moddedPos.getX() < 0) {
+            moddedPos.setX(size.getX());
         }
-        direction.mult(-1.0f);
-        newPosition.add(direction);
-        moveable.setPosition(newPosition);
+        if (moddedPos.getZ() < 0) {
+            moddedPos.setZ(size.getZ());
+        }
+
+        moddedPos.setY(moveable.getPosition().getY());
+        moveable.setPosition(moddedPos);
     }
+
     /**
      * Returns a copy of the size Vector.
+     *
      * @return Vector
      */
     public Vector getSize() {
         return this.size;
     }
-    
+
     public Vector getPosition() {
         return new Vector(this.pos);
     }
-    
-    
+
     private boolean isOutOfBounds(final Vector position) {
         return position.getX() < 0
                 || position.getX() > this.size.getX()
-                || position.getY() < 0
-                || position.getY() > this.size.getY();
+                || position.getZ() < 0
+                || position.getZ() > this.size.getZ();
     }
 
-
-    public void clear(){
-        final Iterator<IMoveable> iterator = this.moveables.iterator();
-        while(iterator.hasNext()){
-            final IMoveable mov = iterator.next();
-            if(mov.getClass() == Unit.class){
-                this.hideMoveable(mov);
+    public void clearForNewRound() {
+        Iterator<IMoveable> iterator = this.moveables.iterator();
+        // Copy list so we're able to remove from moveables in removeFromBattlefield
+        // This improves consistency
+        List<IMoveable> list = new LinkedList<IMoveable>();
+        list.addAll(moveables);
+        for (IMoveable mov : list) {
+            // Keep units but remove everything else
+            if (mov.getClass() == Unit.class) {
+                mov.hide();
             } else {
-                this.removeFromBattlefield(mov); // completely remove cannonballs. out boats will just be hidden because they will be reused.
-                iterator.remove();
+                mov.announceRemoval();
+                this.removeFromBattlefield(mov);
             }
         }
     }
+
     /**
      * Returns the position of the center.
+     *
      * @return Vector
      */
     public Vector getCenter() {
-        return new Vector(this.size.getX()/2, this.size.getY()/2);
+        return new Vector(this.size.getX() / 2, this.size.getY(), this.size.getZ() / 2);
     }
-
 
     /**
      * Compares Battlefield to another Battlefield with respect to the size.
+     *
      * @param obj Another Battlefield
      * @return true or false
      */
@@ -158,64 +171,32 @@ public class Battlefield implements IVisualisable, PropertyChangeListener{
         return hash;
     }
 
- 
     public void propertyChange(final PropertyChangeEvent evt) {
-        if ("Collision CannonBalls".equals(evt.getPropertyName())) {
-            this.removeFromBattlefield((CannonBall) evt.getOldValue());
-            this.moveables.remove(evt.getOldValue());
-            this.removeFromBattlefield((CannonBall) evt.getNewValue());
-            this.moveables.remove(evt.getNewValue());
-        }
-        if ("Collision Boats".equals(evt.getPropertyName())) {
-            final Unit unit1 = (Unit) evt.getOldValue();
-            final Vector newDir1 = this.physHandler.getRigidDirection(unit1);
-            final float speed1 = this.physHandler.getRigidSpeed(unit1);
 
-            newDir1.add(unit1.getDirection());
-            unit1.setDirection(newDir1);
-            unit1.setSpeed(speed1);
-
-            final Unit unit2 = (Unit) evt.getNewValue();
-            final Vector newDir2 = this.physHandler.getRigidDirection(unit2);
-            final float speed2 = this.physHandler.getRigidSpeed(unit2);
-
-            newDir2.add(unit2.getDirection());
-            unit2.setDirection(newDir2);
-            unit2.setSpeed(speed2);
-        }
-        if ("Collision CannonBallBoat".equals(evt.getPropertyName())) {
-            boatHitByCannonBall((Unit) evt.getNewValue(), (CannonBall) evt.getOldValue());
+        if ("CannonBall Created".equals(evt.getPropertyName())) {
+            CannonBall cb = (CannonBall) evt.getNewValue();
+            this.addToBattlefield(cb);
         }
 
-        if ("Collision BoatCannonBall".equals(evt.getPropertyName())) {
-            boatHitByCannonBall((Unit) evt.getOldValue(), (CannonBall) evt.getNewValue());
+        if ("CannonBall Removed".equals(evt.getPropertyName())) {
+            CannonBall cb = (CannonBall) evt.getNewValue();
+            this.removeFromBattlefield(cb);
+            moveables.remove(cb);
         }
-        if("CannonBall Created".equals(evt.getPropertyName())) {
-            this.addToBattlefield((CannonBall)evt.getNewValue());
-        }
-    }
-    
-
-    private void boatHitByCannonBall(Unit boat, CannonBall cBall) {
-        boat.damage(cBall.getDamage());
-        this.removeFromBattlefield(cBall);
-    }
-
-    public void removeFromView() {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public static Vector getStartingPosition(int playerID, Vector bfSize) {
+        float corrHeight = bfSize.getY() + 1.9f;
         Vector upLeft = new Vector(bfSize);
-        Vector downLeft = new Vector(upLeft.getX(), 0);
-        Vector upRight = new Vector(0, upLeft.getX());
-        Vector downRight = new Vector(15f, 15f);
-        
+        Vector downLeft = new Vector(upLeft.getX(), upLeft.getY(), 0);
+        Vector upRight = new Vector(0, upLeft.getY(), upLeft.getX());
+        Vector downRight = new Vector(15f, upLeft.getY() + corrHeight, 15f);
+
         // We want the starting positions a bit more towards the center
-        upLeft.add(new Vector(-15f, -15f));
-        downLeft.add(new Vector(-15f, 15f));
-        upRight.add(new Vector(15f, -15f));
-        
+        upLeft.add(new Vector(-15f, corrHeight, -15f));
+        downLeft.add(new Vector(-15f, corrHeight, 15f));
+        upRight.add(new Vector(15f, corrHeight, -15f));
+
         Vector position;
         switch (playerID) {
             case 0:
@@ -241,16 +222,16 @@ public class Battlefield implements IVisualisable, PropertyChangeListener{
         Vector direction;
         switch (playerID) {
             case 0:
-                direction = new Vector(-1, -1);
+                direction = new Vector(-1, 0, -1);
                 break;
             case 1:
-                direction = new Vector(1, 1);
+                direction = new Vector(1, 0, 1);
                 break;
             case 2:
-                direction = new Vector(-1, 1);
+                direction = new Vector(-1, 0, 1);
                 break;
             case 3:
-                direction = new Vector(1, -1);
+                direction = new Vector(1, 0, -1);
                 break;
             default:
                 throw new IllegalArgumentException("ERROR: Tried to get startingPos of invalid player with ID: "
@@ -258,9 +239,4 @@ public class Battlefield implements IVisualisable, PropertyChangeListener{
         }
         return direction;
     }
-
-    private void hideMoveable(IMoveable mov) {
-        mov.hide();
-    }
-    
 }

@@ -7,7 +7,6 @@ package test;
 import model.*;
 import model.powerup.*;
 import model.visual.BattlefieldTest;
-import model.visual.ItemTest;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -24,9 +23,6 @@ import org.junit.runners.Suite;
                      PlayerTest.class,
                      UnitTest.class,
                      VectorTest.class,
-                     GameTest.class,
-                     ItemTest.class,
-                     ItemFactoryTest.class,
                      PUDrunkTest.class,
                      PUEmptyTest.class,
                      PUHealthTest.class,
