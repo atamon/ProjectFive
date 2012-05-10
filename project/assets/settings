@@ -3,12 +3,12 @@
 // String should be written like a javavariable following all conventions.
 
 [DEFAULT]
-hitPointsMax:20
+hitPointsMax:100
 numberOfRounds:5
 steerAngle:1
 acceleration:3500
 retardation:10
-maxSpeed:20
+maxSpeed:30
 maxSteerSpeed:10
 unitSize:3
 unitMass:5

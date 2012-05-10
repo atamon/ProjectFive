@@ -53,9 +53,6 @@ public class View implements PropertyChangeListener {
     private AssetManager assetManager;
     private Node rootNode;
     private Node guiNode;
-    private Node trackerNode;
-    private int windowWidth;
-    private int windowHeight;
     private GameState lastGameState;
     private RoundState lastRoundState;
 
@@ -205,7 +202,7 @@ public class View implements PropertyChangeListener {
         Vector3f gDir = Util.convertToMonkey3D(dir);
         Vector3f gSize = Util.convertToMonkey3D(size);
         // Create the graphicalUnit-object
-        GraphicalUnit gUnit = new GraphicalUnit(color,
+        GraphicalUnit gUnit = new GraphicalUnit(playerID, color,
                 gPos,
                 gDir,
                 gSize,

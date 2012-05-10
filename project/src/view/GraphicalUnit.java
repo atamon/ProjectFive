@@ -5,14 +5,17 @@
 package view;
 
 import com.jme3.asset.AssetManager;
+import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
+import com.jme3.terrain.noise.Color;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import math.Vector;
-import util.Util;
+import java.util.List;
 
 /**
  * A class to hold a Mesh.
@@ -20,50 +23,72 @@ import util.Util;
  * @author Victor Lindhé
  */
 public class GraphicalUnit implements PropertyChangeListener {
-
+    
     private Node node;
 //    private Node trackerNode;
 
-    public GraphicalUnit(ColorRGBA color,
+    public GraphicalUnit(int id, ColorRGBA color,
             Vector3f pos,
             Vector3f dir,
             Vector3f size,
             AssetManager assetManager,
             Node blenderModel) {
-
+        
         this.node = blenderModel;
         blenderModel.setLocalScale(size);
         Quaternion rot = new Quaternion();
         rot.lookAt(dir, Vector3f.UNIT_Y);
+        System.out.println("" + this.node.getChildren().size());
+        //We know that node only contains the model of the boat.
+        Node boatModelNode = (Node) this.node.getChild(0);
+        Geometry sailGeometry = (Geometry) boatModelNode.getChild(1);
+        setSailColor(id, sailGeometry);        
         
         this.updatePosition(pos);
         this.updateRotation(rot);
     }
-
+    
     public Node getNode() {
         return this.node;
     }
-
+    
     private void updatePosition(Vector3f pos) {
         this.node.setLocalTranslation(pos);
     }
-
+    
     private void updateRotation(Quaternion rot) {
         this.node.setLocalRotation(rot);
     }
-
+    
     public void propertyChange(PropertyChangeEvent pce) {
-
+        
         if ("Physical Update".equals(pce.getPropertyName())) {
             Vector3f pos = (Vector3f) pce.getOldValue();
             Quaternion dir = (Quaternion) pce.getNewValue();
-                        
+            
             this.updateRotation(dir);
             this.updatePosition(pos);
         }
         
         if ("Unit removed".equals(pce.getPropertyName())) {
             node.removeFromParent();
+        }
+    }
+    
+    private void setSailColor(int id, Geometry sail) {
+        switch(id) {
+            case 0:
+                sail.getMaterial().setColor("Ambient", ColorRGBA.Cyan);
+                break;
+            case 1:
+                sail.getMaterial().setColor("Ambient", ColorRGBA.Magenta);
+                break;
+            case 2:
+                sail.getMaterial().setColor("Ambient", ColorRGBA.Orange);
+                break;
+            case 3:
+                sail.getMaterial().setColor("Ambient", ColorRGBA.Pink);
+                break;
         }
     }
 }
