@@ -52,9 +52,6 @@ public class View implements PropertyChangeListener {
     private AssetManager assetManager;
     private Node rootNode;
     private Node guiNode;
-    private Node trackerNode;
-    private int windowWidth;
-    private int windowHeight;
     private GameState lastGameState;
     private RoundState lastRoundState;
 
