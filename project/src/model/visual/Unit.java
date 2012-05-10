@@ -2,7 +2,6 @@ package model.visual;
 
 import model.powerup.IPowerUp;
 import model.powerup.PUEmpty;
-import physics.PhysType;
 import math.Direction;
 import math.Vector;
 import model.tools.Settings;
@@ -176,8 +175,8 @@ public class Unit extends MoveableAbstract implements IObservable {
             this.hitPoints -= Math.abs(objImpactSpeed * hullStrength);
         }
 
-        if (obj instanceof CannonBall) {
-            this.hitPoints -= ((CannonBall) obj).getDamage();
+        if (obj instanceof IProjectile) {
+            this.hitPoints -= ((IProjectile) obj).getDamage();
         }
     }
 
