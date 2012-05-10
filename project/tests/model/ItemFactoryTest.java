@@ -4,20 +4,16 @@
  */
 package model;
 
-<<<<<<< HEAD
 import controller.SettingsLoader;
 import model.tools.Settings;
-import model.tools.Vector;
-=======
 import math.Vector;
->>>>>>> phys-refactor
 import model.visual.Item;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 
 /**
- * ItemFactory still a WIP so test will be updated.
+ * ItemFactory test.
  * @author johnhu
  */
 public class ItemFactoryTest {
@@ -28,13 +24,13 @@ public class ItemFactoryTest {
     }
     
     /**
-     * Test to see if new items are created.
+     * Test to see if new items are created. Also tests the private method populateUs
      * 
      */
     @Test
-    public void testPopulateUs() {
+    public void testCreateNewItem() {
         ItemFactory iFac = new ItemFactory();
         Item testItem = iFac.createNewItem(Vector.ZERO_VECTOR);
-        assertTrue(testItem != null && testItem.getPosition().equals(new Vector(Vector.ZERO_VECTOR)));
+        assertTrue(testItem != null && testItem.getPosition().equals(Vector.ZERO_VECTOR));
     }
 }

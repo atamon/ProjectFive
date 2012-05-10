@@ -56,7 +56,7 @@ public class PUHealthTest {
     @Test
     public void testGetHitPoints() {
         IPowerUp puHealth = new PUHealth();
-        assertEquals(puHealth.getHitPoints(), 100);
+        assertEquals(puHealth.getHitPoints(), Settings.getInstance().getSetting("hitPointsMax"));
     }
     
     @Test

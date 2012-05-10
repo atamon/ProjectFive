@@ -82,7 +82,7 @@ public class PUDrunkTest {
     @Test
     public void testGetSteerAngle() {
         IPowerUp puDrunk = new PUDrunk();
-        assertEquals(puDrunk.getSteerAngle(), -4);
+        assertEquals(puDrunk.getSteerAngle(), -Settings.getInstance().getSetting("steerAngle")*2);
     }
     
     @Test
