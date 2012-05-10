@@ -63,7 +63,51 @@ public final class Item extends MoveableAbstract {
         this.lifeTime -= tpf;
         if(this.lifeTime <= 0){
             this.announceRemoval();
-            return;
         }
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Item other = (Item) obj;
+        if (this.powerUp != other.powerUp && (this.powerUp == null || !this.powerUp.equals(other.powerUp))) {
+            return false;
+        }
+        if (this.size != other.size && (this.size == null || !this.size.equals(other.size))) {
+            return false;
+        }
+        if (Float.floatToIntBits(this.lifeTime) != Float.floatToIntBits(other.lifeTime)) {
+            return false;
+        }
+        if (this.pointingDir != other.pointingDir && (this.pointingDir == null || !this.pointingDir.equals(other.pointingDir))) {
+            return false;
+        }
+        if (Float.floatToIntBits(this.mass) != Float.floatToIntBits(other.mass)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 79 * hash + (this.powerUp != null ? this.powerUp.hashCode() : 0);
+        hash = 79 * hash + (this.size != null ? this.size.hashCode() : 0);
+        hash = 79 * hash + Float.floatToIntBits(this.lifeTime);
+        hash = 79 * hash + (this.pointingDir != null ? this.pointingDir.hashCode() : 0);
+        hash = 79 * hash + Float.floatToIntBits(this.mass);
+        return hash;
+    }
+
+    @Override
+    public String toString() {
+        return "Item{" + "powerUp=" + powerUp + ", size=" + size + ", lifeTime=" + lifeTime + ", pointingDir=" + pointingDir + ", mass=" + mass + '}';
+    }
+    
+    
 }

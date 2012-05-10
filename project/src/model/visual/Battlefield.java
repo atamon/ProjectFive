@@ -19,6 +19,8 @@ public class Battlefield implements PropertyChangeListener {
     private final Vector pos = new Vector(0, 0, 0);
     private final JMEPhysicsHandler physHandler = new JMEPhysicsHandler();
     private final List<IMoveable> moveables = new LinkedList<IMoveable>();
+    private final List<IMoveable> removeBuffer = new LinkedList<IMoveable>();
+    
     /**
      * Creates a Battlefield with default size (100,100) and an Item.
      */
@@ -65,26 +67,28 @@ public class Battlefield implements PropertyChangeListener {
     }
     
     public void update(final float tpf) {
-        final Iterator<IMoveable> iterator = moveables.iterator();
+        Iterator<IMoveable> iterator = moveables.iterator();
         while (iterator.hasNext()) {
             
-            IMoveable next;
-            try {
-                next = iterator.next();
-                next.update(tpf);
-                if (next.getClass() == Unit.class && this.isOutOfBounds(next.getPosition())) {
-                    this.doMagellanJourney(next);
-                }
-            } catch(Exception e){
-                if(this.moveables != null)
-                    System.out.println(this.moveables + "\n / " + this.moveables.size() ); 
-                break;
+            final IMoveable next = iterator.next();
+            next.update(tpf);
+            if (next.getClass() == Unit.class && this.isOutOfBounds(next.getPosition())) {
+                this.doMagellanJourney(next);
             }
         }
         this.physHandler.update(tpf);
-
+        
+        clearRemoveBuffer();
     }
 
+    private void clearRemoveBuffer(){
+        Iterator<IMoveable> iterator  = this.removeBuffer.iterator();
+        while (iterator.hasNext()){
+            final IMoveable next = iterator.next();
+            this.removeFromBattlefield(next);
+        }
+        this.removeBuffer.clear();
+    }
     private void doMagellanJourney(final IMoveable moveable) {
         Vector moddedPos = new Vector(moveable.getPosition());
         moddedPos.setX(moddedPos.getX() % size.getX());
@@ -121,18 +125,14 @@ public class Battlefield implements PropertyChangeListener {
     }
 
     public void clearForNewRound() {
-        Iterator<IMoveable> iterator = this.moveables.iterator();
-        // Copy list so we're able to remove from moveables in removeFromBattlefield
-        // This improves consistency
-        List<IMoveable> list = new LinkedList<IMoveable>();
-        list.addAll(moveables);
-        for (IMoveable mov : list) {
+        final Iterator<IMoveable> iterator = this.moveables.iterator();
+        while(iterator.hasNext()) {
+            final IMoveable mov = iterator.next();
             // Keep units but remove everything else
             if (mov.getClass() == Unit.class) {
                 mov.hide();
             } else {
                 mov.announceRemoval();
-                this.removeFromBattlefield(mov);
             }
         }
     }
@@ -187,13 +187,12 @@ public class Battlefield implements PropertyChangeListener {
 
         if ("CannonBall Removed".equals(evt.getPropertyName())) {
             CannonBall cb = (CannonBall) evt.getNewValue();
-            this.removeFromBattlefield(cb);
+            this.removeBuffer.add(cb);
         }
         
         if ("Item Removed".equals(evt.getPropertyName())){
             Item item = (Item)(evt.getNewValue());
-            this.removeFromBattlefield(item);
-            
+            this.removeBuffer.add(item);
         }
     }
 
