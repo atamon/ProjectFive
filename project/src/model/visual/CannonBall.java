@@ -14,7 +14,7 @@ import physics.PhysicalCannonBall;
  *
  * @author victorlindhe
  */
-public class CannonBall extends MoveableAbstract implements IObservable {
+public class CannonBall extends MoveableAbstract implements IObservable, IProjectile {
     private final Unit owner;
     
     /**
