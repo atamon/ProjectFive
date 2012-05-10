@@ -27,6 +27,7 @@ import model.round.RoundState;
 import math.Vector;
 import model.visual.Battlefield;
 import model.visual.CannonBall;
+import model.visual.Item;
 import util.Util;
 import model.visual.Unit;
 
@@ -253,6 +254,17 @@ public class View implements PropertyChangeListener {
                     null);
             rootNode.attachChild(graphicalBall.getNode());
             cannonBall.addPropertyChangeListener(graphicalBall);
+        }
+        
+        if ("Item Created".equals(pce.getPropertyName())) {
+            Item item = (Item) pce.getNewValue();
+            GraphicalItem graphicalItem = new GraphicalItem(ColorRGBA.randomColor(),
+                    Util.convertToMonkey3D(item.getPosition()),
+                    Util.convertToMonkey3D(item.getSize()),
+                    this.assetManager, null);
+            rootNode.attachChild(graphicalItem.getNode());
+            System.out.println("VIEW: IM CREATING AN ITEM");
+            item.addPropertyChangeListener(graphicalItem);
         }
     }
 }

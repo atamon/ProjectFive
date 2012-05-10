@@ -19,7 +19,6 @@ public class Battlefield implements PropertyChangeListener {
     private final Vector pos = new Vector(0, 0, 0);
     private final JMEPhysicsHandler physHandler = new JMEPhysicsHandler();
     private final List<IMoveable> moveables = new LinkedList<IMoveable>();
-
     /**
      * Creates a Battlefield with default size (100,100) and an Item.
      */
@@ -64,14 +63,22 @@ public class Battlefield implements PropertyChangeListener {
         mov.removePropertyChangeListener(this);
         moveables.remove(mov);
     }
-
+    
     public void update(final float tpf) {
         final Iterator<IMoveable> iterator = moveables.iterator();
         while (iterator.hasNext()) {
-            final IMoveable next = iterator.next();
-            next.update(tpf);
-            if (next.getClass() == Unit.class && this.isOutOfBounds(next.getPosition())) {
-                this.doMagellanJourney(next);
+            
+            IMoveable next;
+            try {
+                next = iterator.next();
+                next.update(tpf);
+                if (next.getClass() == Unit.class && this.isOutOfBounds(next.getPosition())) {
+                    this.doMagellanJourney(next);
+                }
+            } catch(Exception e){
+                if(this.moveables != null)
+                    System.out.println(this.moveables + "\n / " + this.moveables.size() ); 
+                break;
             }
         }
         this.physHandler.update(tpf);
@@ -181,7 +188,13 @@ public class Battlefield implements PropertyChangeListener {
         if ("CannonBall Removed".equals(evt.getPropertyName())) {
             CannonBall cb = (CannonBall) evt.getNewValue();
             this.removeFromBattlefield(cb);
-            moveables.remove(cb);
+        }
+        
+        if ("Item Removed".equals(evt.getPropertyName())){
+            System.out.println("Battlefield: i was informed that item was to be removed");
+            Item item = (Item)(evt.getNewValue());
+            this.removeFromBattlefield(item);
+            
         }
     }
 

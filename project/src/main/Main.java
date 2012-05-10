@@ -8,8 +8,10 @@ import com.jme3.font.BitmapText;
 import com.jme3.math.ColorRGBA;
 import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.system.AppSettings;
+import controller.SettingsLoader;
 import java.util.logging.Level;
 import model.IGame;
+import model.tools.Settings;
 import view.View;
 
 /**
@@ -66,6 +68,9 @@ public class Main extends SimpleApplication {
                                                             audioRenderer, 
                                                             guiViewPort);
         guiViewPort.addProcessor(niftyDisplay);
+        
+        // init settings
+        Settings.getInstance().loadSettings(SettingsLoader.readSettings("assets/settings"));
         
         // Create MVC and make connections
         this.game = new Game(new Battlefield());

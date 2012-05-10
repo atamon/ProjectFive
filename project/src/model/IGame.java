@@ -16,7 +16,6 @@ import java.util.Map;
  * @author Victor Lindhé
  */
 public interface IGame extends IObservable {
-    public void setSettings(Map <String, Integer> settings);
     public void createPlayer(int id);
     public void removePlayer(int id);
     public Player getPlayer(int playerID);

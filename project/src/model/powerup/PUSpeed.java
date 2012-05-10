@@ -12,7 +12,7 @@ public final class PUSpeed extends AbstractPowerUp {
     public PUSpeed(){
         super();
         this.maxSpeed = 20;
-        this.acceleration = 10;
+        this.acceleration = 10000;
         this.lifeTime = 10;
     }
     

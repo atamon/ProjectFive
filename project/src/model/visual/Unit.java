@@ -208,21 +208,28 @@ public class Unit extends MoveableAbstract implements IObservable {
         if (this.steerDirection != other.steerDirection && (this.steerDirection == null || !this.steerDirection.equals(other.steerDirection))) {
             return false;
         }
+        if (this.powerUp != other.powerUp && (this.powerUp == null || !this.powerUp.equals(other.powerUp))) {
+            return false;
+        }
         return super.equals(obj);
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 59 * hash + Float.floatToIntBits(this.steerAngle);
-        hash = 59 * hash + this.hitPointsMax;
-        hash = 59 * hash + this.hitPoints;
-        hash = 59 * hash + Float.floatToIntBits(this.hullStrength);
-        hash = 59 * hash + (this.isAccelerating ? 1 : 0);
-        hash = 59 * hash + (this.steerDirection != null ? this.steerDirection.hashCode() : 0);
+        hash = 23 * hash + Float.floatToIntBits(this.steerAngle);
+        hash = 23 * hash + this.hitPointsMax;
+        hash = 23 * hash + this.hitPoints;
+        hash = 23 * hash + Float.floatToIntBits(this.hullStrength);
+        hash = 23 * hash + (this.isAccelerating ? 1 : 0);
+        hash = 23 * hash + (this.steerDirection != null ? this.steerDirection.hashCode() : 0);
+        hash = 23 * hash + (this.powerUp != null ? this.powerUp.hashCode() : 0);
         return hash;
     }
 
+    public IPowerUp getPowerUp(){
+        return this.powerUp;
+    }
     public void applyPowerUp(IPowerUp power) {
         this.removePowerUp(); //remove old powerUp before adding a new one
         this.powerUp = power;
@@ -234,10 +241,10 @@ public class Unit extends MoveableAbstract implements IObservable {
     }
 
     public void removePowerUp() {
-        this.hitPointsMax += powerUp.getHitPointsMax();
-        this.acceleration += powerUp.getAcceleration();
-        this.setMaxSpeed(this.getMaxSpeed() - powerUp.getMaxSpeed());
-        this.setSteerAngle(this.getSteerAngle() - powerUp.getSteerAngle());
+        this.hitPointsMax -= powerUp.getHitPointsMax();
+        this.acceleration -= powerUp.getAcceleration();
+        this.maxSpeed -= powerUp.getMaxSpeed();
+        this.steerAngle -= powerUp.getSteerAngle();
         this.powerUp = new PUEmpty();
     }
 

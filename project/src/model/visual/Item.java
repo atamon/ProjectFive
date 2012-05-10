@@ -5,11 +5,9 @@
 package model.visual;
 
 import model.powerup.IPowerUp;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import math.Vector;
-import model.tools.IObservable;
 import physics.IPhysicalModel;
+import physics.PhysicalItem;
 
 /**
  * A class to represent an immutable Item.
@@ -18,11 +16,11 @@ import physics.IPhysicalModel;
  */
 public final class Item extends MoveableAbstract {
 
-    private final Vector position;
     private final IPowerUp powerUp;
-    private final Vector size = new Vector(0.5f, 0.5f, 0.5f);
-    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
-
+    private final Vector size = new Vector(2f, 2f, 2f);
+    private float lifeTime=10;
+    private final Vector pointingDir = new Vector(1,1,1);
+    private final float mass = 0.1f;
     /**
      * Creates an Item of a given type and at a given position.
      *
@@ -30,8 +28,8 @@ public final class Item extends MoveableAbstract {
      * picks it up
      * @param position Vector
      */
-    public Item(IPowerUp powerUp, Vector position) {
-        this.position = new Vector(position);
+    public Item(final IPowerUp powerUp, final Vector position) {
+        this.body = new PhysicalItem(this, position, pointingDir, size, mass);
         this.powerUp = powerUp;
     }
 
@@ -46,15 +44,27 @@ public final class Item extends MoveableAbstract {
 
     @Override
     public void announceRemoval() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        this.pcs.firePropertyChange("Item Removed", null, this);
     }
 
     @Override
-    public void collidedWith(IPhysicalModel obj, float objImpactSpeed) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void collidedWith(final IPhysicalModel obj, final float objImpactSpeed) {
+        if(obj instanceof Unit){
+            this.announceRemoval();
+            ((Unit)obj).applyPowerUp(powerUp);
+        }
     }
 
-    public void update(float tpf) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public float getLifeTime(){
+        return this.lifeTime;
+    }
+    public void update(final float tpf) {
+        
+        this.lifeTime -= tpf;
+        if(this.lifeTime <= 0){
+            System.out.println("REMOVEEEEEEEEE !!!!");
+            this.announceRemoval();
+            return;
+        }
     }
 }

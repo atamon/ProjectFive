@@ -1,5 +1,6 @@
 package model;
 
+import controller.SettingsLoader;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.Collection;
@@ -11,6 +12,7 @@ import model.tools.Settings;
 import math.Vector;
 import model.visual.Battlefield;
 import model.visual.CannonBall;
+import model.visual.Item;
 import model.visual.Unit;
 
 /**
@@ -31,6 +33,8 @@ public class Game implements IGame {
     private final Map<Integer, Round> playedRounds = new HashMap<Integer, Round>();
     private Round currentRound;
 
+    private final ItemFactory itemFactory;
+    private float itemTimeout = 5f;
     /**
      * Create a game with given parameters. A game consists of a number of
      * rounds containing a given amount of players. The Game class starts new
@@ -41,6 +45,7 @@ public class Game implements IGame {
      */
     public Game(final Battlefield battlefield) {
         this.battlefield = battlefield;
+        this.itemFactory = new ItemFactory();
     }
 
     /**
@@ -76,10 +81,19 @@ public class Game implements IGame {
             lookForDeadUnits();
 
             this.battlefield.update(tpf);
-
+            this.itemTimeout -= tpf;
+            if(itemTimeout <= 0 ){
+                this.createItem();
+                this.itemTimeout = 10f;
+            }
         }
     }
 
+    private void createItem(){
+        Item item = this.itemFactory.createNewItem(this.getBattlefieldSize());
+        this.battlefield.addToBattlefield(item);
+        pcs.firePropertyChange("Item Created", null, item);
+    }
     public Vector getBattlefieldPosition() {
         return battlefield.getPosition();
     }
@@ -166,13 +180,6 @@ public class Game implements IGame {
         this.playerMap.get(playerID).removeUnitListener(pl);
     }
 
-    /**
-     *
-     * @param settings
-     */
-    public void setSettings(Map<String, Integer> settings) {
-        Settings.getInstance().loadSettings(settings);
-    }
 
     public boolean hasValidAmountOfPlayers() {
         return playerMap.size() >= VALID_PLAYER_AMOUNT;

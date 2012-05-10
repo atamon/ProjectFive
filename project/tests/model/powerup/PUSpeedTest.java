@@ -52,7 +52,7 @@ public class PUSpeedTest {
     @Test
     public void testGetAcceleration() {
         IPowerUp puSpeed = new PUSpeed();
-        assertEquals(puSpeed.getAcceleration(), 10);
+        assertEquals(puSpeed.getAcceleration(), 10000);
     }
     
     @Test

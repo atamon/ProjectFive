@@ -6,7 +6,9 @@ package test;
 
 import model.*;
 import model.powerup.*;
+import model.round.RoundTest;
 import model.visual.BattlefieldTest;
+import model.visual.ItemTest;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -27,7 +29,9 @@ import org.junit.runners.Suite;
                      PUEmptyTest.class,
                      PUHealthTest.class,
                      PUSpeedTest.class,
-                     PUTurnTest.class})
+                     PUTurnTest.class,
+                     ItemTest.class,
+                     RoundTest.class })
 public class TestSuite {
 
     @BeforeClass
