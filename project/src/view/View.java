@@ -5,6 +5,7 @@ import com.jme3.asset.AssetManager;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Ray;
 import com.jme3.math.Vector3f;
 import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.renderer.Camera;
@@ -117,8 +118,8 @@ public class View implements PropertyChangeListener {
     }
 
     private void initGround(Vector size, Vector pos) {
-        GraphicalBattlefield geoBattlefield = new GraphicalBattlefield(Util.convertToMonkey3D(size), 
-                                     Util.convertToMonkey3D(pos), assetManager);
+        GraphicalBattlefield geoBattlefield = new GraphicalBattlefield(Util.convertToMonkey3D(size),
+                Util.convertToMonkey3D(pos), assetManager);
         rootNode.attachChild(geoBattlefield.getGeometry());
     }
 
@@ -147,11 +148,22 @@ public class View implements PropertyChangeListener {
 
         lastGameState = game.getState();
         lastRoundState = game.getRoundState();
-        
+
         if (lastRoundState == RoundState.PLAYING) {
-            for (Element elem : hpBars.keySet()) {
-                SizeValue hp = new SizeValue(hpBars.get(elem).getHitPoints() +"%");
-                elem.setWidth(hp.getValueAsInt(50f));
+            for (Element bar : hpBars.keySet()) {
+                Vector3f screenPos = jme3.getCamera().getScreenCoordinates(Util.convertToMonkey3D(hpBars.get(bar).getPosition()));
+                Element placeHolder = bar.getParent();
+
+                // X needs an offset and Y needs to be inverted across the screen and an offset
+                int xPos = (int) screenPos.getX() - 20;
+                int yPos = placeHolder.getParent().getHeight() - (int) screenPos.getY() + 25;
+
+                placeHolder.setConstraintX(new SizeValue("" + xPos + "px"));
+                placeHolder.setConstraintY(new SizeValue("" + yPos + "px"));
+                placeHolder.getParent().layoutElements();
+
+                SizeValue hp = new SizeValue(hpBars.get(bar).getHitPoints() +"%");
+                bar.setConstraintWidth(hp);
             }
         }
     }
@@ -174,18 +186,21 @@ public class View implements PropertyChangeListener {
                 // Display HUD
                 nifty.gotoScreen("HUD");
             }
+            if (game.getRoundState() == RoundState.PAUSED) {
+                nifty.gotoScreen("pause");
+            }
         }
     }
-    
+
     private Element getHealthBarElement(int playerID) {
         // Since this is done only a few times per game no need to optimize resources
-        Element elem = nifty.getScreen("HUD").findElementByName(""+playerID);
+        Element elem = nifty.getScreen("HUD").findElementByName("" + playerID);
         if (elem == null) {
             throw new IllegalArgumentException("ERROR: No such Element in Nifty-XML, cannot get HP-bar :)");
         } else {
             return elem;
         }
-    } 
+    }
 
     /**
      * Places the unit in the graphical world.
@@ -197,20 +212,16 @@ public class View implements PropertyChangeListener {
      */
     public void createGraphicalUnit(int playerID, Vector pos, Vector dir,
             Vector size, ColorRGBA color) {
-        // To be replaced with argument from model
         Vector3f gPos = Util.convertToMonkey3D(pos);
         Vector3f gDir = Util.convertToMonkey3D(dir);
         Vector3f gSize = Util.convertToMonkey3D(size);
-        // Create the graphicalUnit-object
+
         GraphicalUnit gUnit = new GraphicalUnit(playerID, color,
                 gPos,
                 gDir,
                 gSize,
                 assetManager,
-                blenderUnit.clone(true)/*
-                 * ,
-                 * trackerNode
-                 */);
+                blenderUnit.clone(true));
         // Set it to start listening to its unit
         this.game.addUnitListener(playerID, gUnit);
 
@@ -236,7 +247,10 @@ public class View implements PropertyChangeListener {
 
                 // If a player is created we need to start listening to it so we can know when it shoots
                 player.addPropertyChangeListener(this);
-                hpBars.put(getHealthBarElement(playerID), game.getPlayer(playerID).getUnit());
+                Element bar = getHealthBarElement(playerID);
+                bar.getParent().setVisible(true);
+                hpBars.put(bar, game.getPlayer(playerID).getUnit());
+
             } else {
                 throw new RuntimeException(
                         "Unit Created-event sent without correct parameters");
@@ -252,7 +266,7 @@ public class View implements PropertyChangeListener {
             rootNode.attachChild(graphicalBall.getNode());
             cannonBall.addPropertyChangeListener(graphicalBall);
         }
-        
+
         if ("Item Created".equals(pce.getPropertyName())) {
             Item item = (Item) pce.getNewValue();
             GraphicalItem graphicalItem = new GraphicalItem(ColorRGBA.randomColor(),

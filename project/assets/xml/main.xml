@@ -11,7 +11,8 @@
             <panel id="joinCamsUpper" valign="top" childLayout="horizontal" width="100%" height="45%">
                 <panel padding="12%" width="50%" height="100%" align="left" childLayout="center">
                     <panel id="joinCamZero" width="100%" height="100%" align="center" childLayout="center">
-                        <text id="joinTextZero" font="aurulent-sans-16.fnt" color="#000C" text="Press Key to Join" />
+                        <text id="joinTextZero" font="aurulent-sans-16.fnt" color="#000C" text="Press W to Join" />
+                        <text id="activeTextZero" font="aurulent-sans-16.fnt" color="#000C" text="Press S to Leave" />
                         <effect>
                             <onActive name="border" border="5px" color="#000D" timeType="infinite" />
                         </effect>
@@ -19,7 +20,8 @@
                 </panel>
                 <panel padding="12%" width="50%" height="100%" align="left" childLayout="center">
                     <panel id="joinCamOne" width="100%" height="100%" align="center" childLayout="center">
-                        <text id="joinTextZero" font="aurulent-sans-16.fnt" color="#000C" text="Press Key to Join" />
+                        <text id="joinTextOne" font="aurulent-sans-16.fnt" color="#000C" text="Press Up to Join" />
+                        <text id="activeTextOne" font="aurulent-sans-16.fnt" color="#000C" text="Press Down to Leave" />
                         <effect>
                             <onActive name="border" border="5px" color="#000D" timeType="infinite" />
                         </effect>
@@ -29,7 +31,8 @@
             <panel id="joinCamsLower" valign="top" childLayout="horizontal" width="100%" height="45%">
                 <panel padding="12%" width="50%" height="100%" align="left" childLayout="center">
                     <panel id="joinCamTwo" width="100%" height="100%" align="center" childLayout="center">
-                        <text id="joinTextZero" font="aurulent-sans-16.fnt" color="#000C" text="Press Key to Join" />
+                        <text id="joinTextTwo" font="aurulent-sans-16.fnt" color="#000C" text="Press Y to Join" />
+                        <text id="activeTextTwo" font="aurulent-sans-16.fnt" color="#000C" text="Press H to Leave" />
                         <effect>
                             <onActive name="border" border="5px" color="#000D" timeType="infinite" />
                         </effect>
@@ -37,7 +40,8 @@
                 </panel>
                 <panel padding="12%" width="50%" height="100%" align="left" childLayout="center">
                     <panel id="joinCamThree" width="100%" height="100%" align="center" childLayout="center">
-                        <text id="joinTextZero" font="aurulent-sans-16.fnt" color="#000C" text="Press Key to Join" />
+                        <text id="joinTextThree" font="aurulent-sans-16.fnt" color="#000C" text="Press Numpad 8 to Join" />
+                        <text id="activeTextThree" font="aurulent-sans-16.fnt" color="#000C" text="Press Numpad 5 to Leave" />
                         <effect>
                             <onActive name="border" border="5px" color="#000D" timeType="infinite" />
                         </effect>
