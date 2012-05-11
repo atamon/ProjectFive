@@ -113,7 +113,6 @@ public class ItemTest {
         assertFalse(old == this.testInstance.getLifeTime());
         PropertyChangeListener pcl = new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
-                System.out.println("testUpdate: Got Event!");
                 assertTrue("Item Removed".equals(evt.getPropertyName()));
             }
         };

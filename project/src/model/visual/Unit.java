@@ -180,37 +180,14 @@ public class Unit extends MoveableAbstract implements IObservable {
         }
     }
 
+    /**
+    * A unit is only equal to itself, no man is another man alike.
+    * @param obj Must be == this to be equal
+    * @return Returns true if obj is the same as this.
+    */
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Unit other = (Unit) obj;
-        if (Float.floatToIntBits(this.steerAngle) != Float.floatToIntBits(other.steerAngle)) {
-            return false;
-        }
-        if (this.hitPointsMax != other.hitPointsMax) {
-            return false;
-        }
-        if (this.hitPoints != other.hitPoints) {
-            return false;
-        }
-        if (Float.floatToIntBits(this.hullStrength) != Float.floatToIntBits(other.hullStrength)) {
-            return false;
-        }
-        if (this.isAccelerating != other.isAccelerating) {
-            return false;
-        }
-        if (this.steerDirection != other.steerDirection && (this.steerDirection == null || !this.steerDirection.equals(other.steerDirection))) {
-            return false;
-        }
-        if (this.powerUp != other.powerUp && (this.powerUp == null || !this.powerUp.equals(other.powerUp))) {
-            return false;
-        }
-        return super.equals(obj);
+        return this == obj;
     }
 
     @Override

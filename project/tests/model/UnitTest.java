@@ -112,14 +112,13 @@ public class UnitTest {
     /**
      * Test of setHitPoints method, of class Unit.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testSetHitPoints() {
         int HPMax = unit.getHitPointsMax();
         unit.setHitPoints(HPMax);
-        int result = unit.getHitPoints() - HPMax;
-        System.out.println(result);
-        assertTrue(result == 0);
+        assertTrue(unit.getHitPoints() == HPMax);
         unit.setHitPoints(HPMax+1);
+        assertTrue(unit.getHitPoints() == unit.getHitPointsMax());
     }
 
     @Test
@@ -146,9 +145,8 @@ public class UnitTest {
      */
     @Test
     public void testEquals() {
-        // These two should be equal but not ==
         Unit unit2 = new Unit(unit.getPosition(), unit.getDirection(), unit.getSize(), unit.getPhysicalObject().getMass());
         Unit unit3 = new Unit(unit.getPosition(), unit.getDirection(), unit.getSize(), unit.getPhysicalObject().getMass());
-        assertTrue(unit3.equals(unit2) && unit2.equals(unit3) && unit3 != unit2);
+        assertTrue(!unit3.equals(unit2) && !unit2.equals(unit3) && unit2.equals(unit2));
     }
 }
