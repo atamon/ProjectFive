@@ -6,6 +6,7 @@ import math.Direction;
 import math.Vector;
 import model.tools.Settings;
 import model.tools.IObservable;
+import physics.ICollideable;
 import physics.IPhysicalModel;
 import physics.PhysicalUnit;
 
@@ -169,7 +170,7 @@ public class Unit extends MoveableAbstract implements IObservable {
         this.pcs.firePropertyChange("Unit removed", null, null);
     }
 
-    public void collidedWith(IPhysicalModel obj, float objImpactSpeed) {
+    public void collidedWith(ICollideable obj, float objImpactSpeed) {
         // Two units crashing
         if (obj instanceof Unit) {
             this.hitPoints -= Math.abs(objImpactSpeed * hullStrength);

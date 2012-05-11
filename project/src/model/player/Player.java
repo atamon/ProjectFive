@@ -72,11 +72,15 @@ public class Player {
     }
 
     private void fire(Vector direction) {
+        // Magical 10f is to reduce size from int >= 1 in settings
+        float size = Settings.getInstance().getSetting("cannonBallSize") / 10f;
+        
         CannonBall cBall = new CannonBall(this.getCannonBallPos(direction),
                                           direction,
-                                          new Vector(0.1f, 0.1f, 0.1f),
+                                          new Vector(size, size, size),
                                           (float)(Settings.getInstance().getSetting("cannonBallMass")),
                                           (float)(Settings.getInstance().getSetting("cannonBallSpeed"))*firePower, this.playerUnit);
+        
         this.pcs.firePropertyChange("CannonBall Created", null, cBall);
         firePower = 0;
     }

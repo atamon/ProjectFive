@@ -31,8 +31,8 @@ public class GraphicalCannonBall implements PropertyChangeListener {
                          Vector3f size,
                          AssetManager assetManager,
                          Node blenderModel) {
-
-        Sphere ball = new Sphere(10, 10, 1.0f);
+        System.out.println(size.getX());
+        Sphere ball = new Sphere(10, 10, size.getX());
         Geometry ballGeo = new Geometry("CannonBall", ball);
         Material mat = new Material(assetManager, 
                                     "Common/MatDefs/Misc/Unshaded.j3md");

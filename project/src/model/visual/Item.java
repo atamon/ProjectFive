@@ -6,6 +6,7 @@ package model.visual;
 
 import model.powerup.IPowerUp;
 import math.Vector;
+import physics.ICollideable;
 import physics.IPhysicalModel;
 import physics.PhysicalItem;
 
@@ -48,7 +49,7 @@ public final class Item extends MoveableAbstract {
     }
 
     @Override
-    public void collidedWith(final IPhysicalModel obj, final float objImpactSpeed) {
+    public void collidedWith(final ICollideable obj, final float objImpactSpeed) {
         if(obj instanceof Unit){
             this.announceRemoval();
             ((Unit)obj).applyPowerUp(powerUp);

@@ -14,6 +14,7 @@ unitSize:3
 unitMass:5
 cannonBallMass:1
 cannonBallSpeed:25
+cannonBallSize:8
 hullStrength:10
 
 [MODDED]

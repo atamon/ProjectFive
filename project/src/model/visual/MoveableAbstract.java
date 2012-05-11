@@ -8,6 +8,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import model.tools.Settings;
 import math.Vector;
+import physics.ICollideable;
 import physics.IPhysicalBody;
 import physics.IPhysicalModel;
 
@@ -150,5 +151,5 @@ public abstract class MoveableAbstract implements IMoveable {
     }
 
     public abstract void announceRemoval();
-    public abstract void collidedWith(IPhysicalModel obj, float objImpactSpeed);
+    public abstract void collidedWith(ICollideable obj, float objImpactSpeed);
 }

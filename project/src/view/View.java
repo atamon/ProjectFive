@@ -8,10 +8,12 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Ray;
 import com.jme3.math.Vector3f;
 import com.jme3.niftygui.NiftyJmeDisplay;
+import com.jme3.post.FilterPostProcessor;
 import com.jme3.renderer.Camera;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
+import com.jme3.water.WaterFilter;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.tools.SizeValue;
@@ -50,10 +52,8 @@ public class View implements PropertyChangeListener {
     private final Node blenderUnit;
     private final IGame game;
     private final SimpleApplication jme3;
-    private RenderManager renderManager;
     private AssetManager assetManager;
     private Node rootNode;
-    private Node guiNode;
     private GameState lastGameState;
     private RoundState lastRoundState;
 
@@ -62,25 +62,31 @@ public class View implements PropertyChangeListener {
 
         this.jme3 = jme3;
         this.game = game;
-        this.renderManager = jme3.getRenderManager();
         this.assetManager = jme3.getAssetManager();
         this.rootNode = jme3.getRootNode();
-        this.guiNode = jme3.getGuiNode();
 
         // Create scene
         this.createScene();
+
 
         // Register a BlenderLoader with our assetManager so it supports .blend
         BlenderImporter.registerBlender(assetManager);
 
         blenderUnit = BlenderImporter.loadModel(assetManager, BLEND_PATH);
 
+        // Create water effects
+        FilterPostProcessor waterPostProcessor = new FilterPostProcessor(assetManager);
+        WaterFilter water = new WaterFilter(rootNode, new Vector3f(0, -1, 1));
+        water.setWaterHeight(4f);
+        waterPostProcessor.addFilter(water);
+        jme3.getViewPort().addProcessor(waterPostProcessor);
+
         // Set up individual cam positions
         Vector bfSize = game.getBattlefieldSize();
-        setUpCameraView(MAGICAL_VIEW_ZERO, Util.convertToMonkey3D(Battlefield.getStartingPosition(0, bfSize)));
-        setUpCameraView(MAGICAL_VIEW_ONE, Util.convertToMonkey3D(Battlefield.getStartingPosition(1, bfSize)));
-        setUpCameraView(MAGICAL_VIEW_TWO, Util.convertToMonkey3D(Battlefield.getStartingPosition(2, bfSize)));
-        setUpCameraView(MAGICAL_VIEW_THREE, Util.convertToMonkey3D(Battlefield.getStartingPosition(3, bfSize)));
+        viewports.add(setUpCameraView(MAGICAL_VIEW_ZERO, Util.convertToMonkey3D(Battlefield.getStartingPosition(0, bfSize)), waterPostProcessor));
+        viewports.add(setUpCameraView(MAGICAL_VIEW_ONE, Util.convertToMonkey3D(Battlefield.getStartingPosition(1, bfSize)), waterPostProcessor));
+        viewports.add(setUpCameraView(MAGICAL_VIEW_TWO, Util.convertToMonkey3D(Battlefield.getStartingPosition(2, bfSize)), waterPostProcessor));
+        viewports.add(setUpCameraView(MAGICAL_VIEW_THREE, Util.convertToMonkey3D(Battlefield.getStartingPosition(3, bfSize)), waterPostProcessor));
 
         // Init GUI JoinScreen
         nifty = niftyGUI.getNifty();
@@ -92,7 +98,7 @@ public class View implements PropertyChangeListener {
         lastRoundState = game.getRoundState();
     }
 
-    private void setUpCameraView(float[] vpPos, Vector3f unitPos) {
+    private ViewPort setUpCameraView(float[] vpPos, Vector3f unitPos, FilterPostProcessor fpp) {
         // .clone() works for us now since we will use same aspect ratio as window.
         Vector3f position = unitPos.add(0, 25f, -10f);
         Camera camera = jme3.getCamera().clone();
@@ -100,11 +106,11 @@ public class View implements PropertyChangeListener {
         camera.setLocation(position);
         camera.lookAt(unitPos, Vector3f.UNIT_Y);
 
-        ViewPort viewport = renderManager.createMainView("PiP", camera);
+        ViewPort viewport = jme3.getRenderManager().createMainView("PiP", camera);
         viewport.setClearFlags(true, true, true);
         viewport.attachScene(rootNode);
-        viewports.add(viewport);
-
+        viewport.addProcessor(fpp);
+        return viewport;
     }
 
     /**
@@ -162,7 +168,7 @@ public class View implements PropertyChangeListener {
                 placeHolder.setConstraintY(new SizeValue("" + yPos + "px"));
                 placeHolder.getParent().layoutElements();
 
-                SizeValue hp = new SizeValue(hpBars.get(bar).getHitPoints() +"%");
+                SizeValue hp = new SizeValue(hpBars.get(bar).getHitPoints() + "%");
                 bar.setConstraintWidth(hp);
             }
         }

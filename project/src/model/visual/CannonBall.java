@@ -6,6 +6,7 @@ package model.visual;
 
 import model.tools.IObservable;
 import math.Vector;
+import physics.ICollideable;
 import physics.IPhysicalModel;
 import physics.PhysicalCannonBall;
 
@@ -60,9 +61,13 @@ public class CannonBall extends MoveableAbstract implements IObservable, IProjec
         return this.owner;
     }
     
-    public void collidedWith(IPhysicalModel obj, float objImpactSpeed) {
+    public void collidedWith(ICollideable obj, float objImpactSpeed) {
         // On crash we just disappear, Unit takes care of damage
         if (obj instanceof Unit) {
+            announceRemoval();
+        }
+        
+        if (obj instanceof Battlefield) {
             announceRemoval();
         }
     }

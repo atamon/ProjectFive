@@ -38,10 +38,11 @@ public class JMEPhysicsHandler implements PhysicsCollisionListener {
      *
      * @param size
      */
-    public void createGround(Vector size) {
+    public void createGround(Vector size, ICollideable model) {
         Vector position = new Vector(size);
         position.mult(0.5f);
         this.ground = new PhysicsRigidBody(new BoxCollisionShape(Util.convertToMonkey3D(size).mult(0.5f)), 0);
+        ground.setUserObject(model);
         ground.setPhysicsLocation(Util.convertToMonkey3D(position));
         bulletAppState.getPhysicsSpace().addCollisionObject(ground);
     }
@@ -71,9 +72,9 @@ public class JMEPhysicsHandler implements PhysicsCollisionListener {
     public void collision(PhysicsCollisionEvent event) {
         if (event.getObjectA().getUserObject() == null || event.getObjectB().getUserObject() == null) return;
 
-        IPhysicalModel objA = ((IPhysicalModel) (event.getObjectA().getUserObject()));
+        ICollideable objA = ((ICollideable) (event.getObjectA().getUserObject()));
         float impactSpeedA = event.getAppliedImpulseLateral1();
-        IPhysicalModel objB = ((IPhysicalModel) (event.getObjectB().getUserObject()));
+        ICollideable objB = ((ICollideable) (event.getObjectB().getUserObject()));
         float impactSpeedB = event.getAppliedImpulseLateral2();
 
         objA.collidedWith(objB, impactSpeedB);

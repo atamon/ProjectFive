@@ -7,13 +7,15 @@ import java.util.LinkedList;
 import java.util.List;
 import physics.JMEPhysicsHandler;
 import math.Vector;
+import physics.ICollideable;
+import physics.IPhysicalModel;
 
 /**
  * A class to represent a Battlefield.
  *
  * @author Victor Lindhé @modified johnnes
  */
-public class Battlefield implements PropertyChangeListener {
+public class Battlefield implements PropertyChangeListener, ICollideable {
 
     private final Vector size;
     private final Vector pos = new Vector(0, 0, 0);
@@ -45,7 +47,7 @@ public class Battlefield implements PropertyChangeListener {
         physHandler.addPropertyChangeListener(this);
 
         // Set up ocean floor
-        physHandler.createGround(this.size);
+        physHandler.createGround(this.size, this);
     }
 
     public void addToBattlefield(final IMoveable mov) {
@@ -176,6 +178,10 @@ public class Battlefield implements PropertyChangeListener {
         hash = 37 * hash + (this.size != null ? this.size.hashCode() : 0);
         hash = 37 * hash + (this.pos != null ? this.pos.hashCode() : 0);
         return hash;
+    }
+    
+    public void collidedWith(ICollideable obj, float objImpactSpeed) {
+        // Nothing to do here yet, all other objects handle collision with BF atm
     }
 
     public void propertyChange(final PropertyChangeEvent evt) {

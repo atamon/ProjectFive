@@ -4,8 +4,7 @@ package physics;
  *
  * @author atamon
  */
-public interface IPhysicalModel {
+public interface IPhysicalModel extends ICollideable {
     public IPhysicalBody getPhysicalObject();
-    public void collidedWith(IPhysicalModel obj, float objImpactSpeed);
     public int getAcceleration();
 }
