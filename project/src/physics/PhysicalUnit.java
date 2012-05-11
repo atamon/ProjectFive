@@ -27,8 +27,8 @@ public class PhysicalUnit extends PhysicalAbstractBody {
         super(owner, startPos, startDir, size, mass);
 
         body = getBody();
-        body.setFriction(0);
-        body.setDamping(0.7f, 0.7f);
+        body.setFriction(0.1f);
+        body.setDamping(0.2f, 0.6f);
     }
 
     /**
