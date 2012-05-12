@@ -1,6 +1,5 @@
 package model;
 
-import controller.SettingsLoader;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.Collection;
@@ -11,7 +10,6 @@ import model.round.*;
 import model.tools.Settings;
 import math.Vector;
 import model.visual.Battlefield;
-import model.visual.CannonBall;
 import model.visual.Item;
 import model.visual.Unit;
 

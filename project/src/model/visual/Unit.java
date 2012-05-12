@@ -1,13 +1,12 @@
 package model.visual;
 
-import model.powerup.IPowerUp;
-import model.powerup.PUEmpty;
 import math.Direction;
 import math.Vector;
-import model.tools.Settings;
+import model.powerup.IPowerUp;
+import model.powerup.PUEmpty;
 import model.tools.IObservable;
+import model.tools.Settings;
 import physics.ICollideable;
-import physics.IPhysicalModel;
 import physics.PhysicalUnit;
 
 /**
@@ -70,7 +69,7 @@ public class Unit extends MoveableAbstract implements IObservable {
 
     private void steer(float tpf) {
         if (steerDirection.getValue() != 0) {
-            body.steer(steerDirection.getValue() * steerAngle, tpf);
+            body.steer(steerDirection.getValue() * currentSteerAngle(), tpf);
         }
     }
 
