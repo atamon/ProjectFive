@@ -17,10 +17,6 @@ public class SimpleRoundModel implements RoundModel {
     private Round currentRound;
     private final Map<Integer, Round> playedRounds = new HashMap<Integer, Round>();
     
-    public Round getCurrentRound() {
-        return currentRound;
-    }
-    
     public RoundState getRoundState() {
         if (currentRound == null) {
             return RoundState.NONE_EXISTANT;

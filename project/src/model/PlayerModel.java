@@ -21,5 +21,6 @@ public interface PlayerModel extends IObservable {
     public void resetUnits();
     public boolean gameOver();
     public void haltPlayers();
+    public Player findRoundWinner();
     public Map<Integer, Player> getPlayerMap();
 }

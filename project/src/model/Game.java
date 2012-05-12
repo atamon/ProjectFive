@@ -123,20 +123,6 @@ public class Game implements IGame {
         playerModel.createPlayer(id);
     }
 
-    /**
-     * Places a unit for the specified player on the given position with the
-     * given direction.
-     *
-     * @param id The playerID used to locate which unit to be placed.
-     * @param position The position to place the unit on.
-     * @param direction The direction the unit should use.
-     */
-    private void placeUnit(int id, Vector position, Vector direction) {
-        Unit unit = playerModel.getPlayerMap().get(id).getUnit();
-        unit.setPosition(position);
-        unit.setDirection(direction);
-    }
-
     @Override
     public void addUnitListener(int playerID, PropertyChangeListener pl) {
         playerModel.getPlayerMap().get(playerID).addUnitListener(pl);
@@ -195,7 +181,7 @@ public class Game implements IGame {
      * winner and clears the battlefield.
      */
     private void endRound() {
-        roundModel.endRound(findRoundWinner());
+        roundModel.endRound(playerModel.findRoundWinner());
 
         System.out.println("This rounds winner is .... "
                 + roundModel.getWinner());
@@ -203,25 +189,6 @@ public class Game implements IGame {
                 <= roundModel.playedRounds()) {
             endGame();
         }
-    }
-    
-    /**
-     * Returns the winner, I.E. the player last man standing.
-     */
-    private Player findRoundWinner() {
-        Player winner = null;
-        for (Player player : playerModel.getPlayerMap().values()) {
-            if (player.getUnit().getHitPoints() > 0) {
-                if (winner != null) {
-                    throw new WinnerNotFoundException("Several players still alive, no winner declared!");
-                }
-                winner = player;
-            }
-        }
-        if (winner == null) {
-            throw new WinnerNotFoundException("No winner for the active round was found!");
-        }
-        return winner;
     }
 
     private void endGame() {
@@ -266,10 +233,12 @@ public class Game implements IGame {
     }
 
     public void addPropertyChangeListener(PropertyChangeListener pl) {
+        this.pcs.addPropertyChangeListener(pl);
         playerModel.addPropertyChangeListener(pl);
     }
 
     public void removePropertyChangeListener(PropertyChangeListener pl) {
+        this.pcs.addPropertyChangeListener(pl);
         playerModel.addPropertyChangeListener(pl);
     }
 }

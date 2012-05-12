@@ -23,6 +23,5 @@ public interface RoundModel {
     
     public int playedRounds();
     public Player getWinner();
-    public Round getCurrentRound();
     public RoundState getRoundState();
 }

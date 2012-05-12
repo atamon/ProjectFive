@@ -9,7 +9,9 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import math.Vector;
 import model.player.Player;
+import model.round.RoundModel;
 import model.round.RoundState;
+import model.round.SimpleRoundModel;
 import model.tools.Settings;
 import model.visual.Unit;
 import org.junit.*;
@@ -26,6 +28,16 @@ public class GameTest {
 
         public void propertyChange(PropertyChangeEvent pce) {
             throw new UnsupportedOperationException("Not supported yet.");
+        }
+        
+    };
+    
+    private PropertyChangeListener itemListener = new PropertyChangeListener() {
+
+        public void propertyChange(PropertyChangeEvent pce) {
+            if(pce.getPropertyName().equals("Item Created")) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
         }
         
     };
@@ -85,6 +97,7 @@ public class GameTest {
     
     @Test (expected=RuntimeException.class)
     public void testRemovePlayer() {
+        game.createPlayer(0);
         game.removePlayer(0); // should work
         game.removePlayer(1); // should not work! throws exception
         try {
@@ -96,9 +109,38 @@ public class GameTest {
         }
     }
     
-    @Test
+    @Test (expected=UnsupportedOperationException.class)
     public void testUpdate() {
+        game.createPlayer(0);
+        game.createPlayer(1);
+        game.start();
+        game.update(1.0f);
+        game.addPropertyChangeListener(itemListener);
+        game.update(10.0f); // Should result in the creation of an item
+                            // which leads to an exception
+    }
+    
+    @Test
+    public void testUpdateAgain() {
+        game.createPlayer(0);
+        game.createPlayer(1);
+        game.start();
+        game.getPlayer(0).getUnit().setHitPoints(-1);
+        game.update(1.0f);
+        game.start();
+        game.getPlayer(0).getUnit().setHitPoints(-1);
+        game.update(1.0f);
+        game.start();
+        game.getPlayer(0).getUnit().setHitPoints(-1);
+        game.update(1.0f);
+        game.start();
+        game.getPlayer(0).getUnit().setHitPoints(-1);
+        game.update(1.0f);
+        game.start();
+        game.getPlayer(0).getUnit().setHitPoints(-1);
+        game.update(1.0f);
         
+        assertTrue(game.getState() == GameState.STATS);
     }
     
     @Test
@@ -144,16 +186,6 @@ public class GameTest {
     }
     
     @Test
-    public void testEndRound() {
-        game.createPlayer(0);
-        game.createPlayer(1);
-        game.start();
-        game.getPlayer(0).getUnit().setHitPoints(-1);
-        
-        game.endRound();
-    }
-    
-    @Test
     public void testClean() {
         game.clean();
         assertTrue(game.getState() == GameState.INACTIVE);
@@ -174,7 +206,7 @@ public class GameTest {
         assertTrue(called);
     }
     
-    @Test
+    @Test (expected=UnsupportedOperationException.class)
     public void testRemovePropertyChangeListener() {
         game.removePropertyChangeListener(new PropertyChangeListener() {
 

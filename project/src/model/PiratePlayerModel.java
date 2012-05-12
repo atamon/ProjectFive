@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import math.Vector;
 import model.player.Player;
+import model.round.WinnerNotFoundException;
 import model.tools.Settings;
 import model.visual.Battlefield;
 import model.visual.Unit;
@@ -153,5 +154,23 @@ public class PiratePlayerModel implements PlayerModel {
         for (Player player : playerMap.values()) {
             player.getUnit().halt();
         }
+    }
+    /**
+     * Returns the winner, I.E. the player last man standing.
+     */
+    public Player findRoundWinner() {
+        Player winner = null;
+        for (Player player : playerMap.values()) {
+            if (player.getUnit().getHitPoints() > 0) {
+                if (winner != null) {
+                    throw new WinnerNotFoundException("Several players still alive, no winner declared!");
+                }
+                winner = player;
+            }
+        }
+        if (winner == null) {
+            throw new WinnerNotFoundException("No winner for the active round was found!");
+        }
+        return winner;
     }
 }
