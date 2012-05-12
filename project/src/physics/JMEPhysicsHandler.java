@@ -3,6 +3,7 @@ package physics;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.collision.PhysicsCollisionEvent;
 import com.jme3.bullet.collision.PhysicsCollisionListener;
+import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.math.Vector3f;
@@ -11,6 +12,7 @@ import java.beans.PropertyChangeSupport;
 import java.util.LinkedList;
 import java.util.List;
 import math.Vector;
+import model.visual.Unit;
 import util.Util;
 
 /**
@@ -70,18 +72,30 @@ public class JMEPhysicsHandler implements PhysicsCollisionListener {
     }
 
     public void collision(PhysicsCollisionEvent event) {
-        if (event.getObjectA().getUserObject() == null || event.getObjectB().getUserObject() == null) return;
+        if (event.getObjectA().getUserObject() == null || event.getObjectB().getUserObject() == null) {
+            return;
+        }
 
-        ICollideable objA = ((ICollideable) (event.getObjectA().getUserObject()));
-        float impactSpeedA = event.getAppliedImpulseLateral1();
-        ICollideable objB = ((ICollideable) (event.getObjectB().getUserObject()));
-        float impactSpeedB = event.getAppliedImpulseLateral2();
+        ICollideable modelA = ((ICollideable) (event.getObjectA().getUserObject()));
+        ICollideable modelB = ((ICollideable) (event.getObjectB().getUserObject()));
 
-        objA.collidedWith(objB, impactSpeedB);
-        objB.collidedWith(objA, impactSpeedA);
+        PhysicsCollisionObject objA = event.getObjectA();
+        PhysicsCollisionObject objB = event.getObjectB();
 
+        PhysicsRigidBody bodyA = (PhysicsRigidBody) event.getObjectA();
+        PhysicsRigidBody bodyB = (PhysicsRigidBody) event.getObjectB();
+        
+        Vector3f collision = bodyA.getLinearVelocity().cross(Vector3f.UNIT_Y).normalize().mult(event.getAppliedImpulse());
+
+        boolean isGrinding = event.getLifeTime() > 2;
+        float impulseA = isGrinding ? 0 : collision.cross(bodyA.getLinearVelocity()).length();
+        float impulseB = isGrinding ? 0 : collision.cross(bodyB.getLinearVelocity()).length();
+
+        
+        modelA.collidedWith(modelB, impulseB);
+        modelB.collidedWith(modelA, impulseA);
     }
-
+    
     public void addPropertyChangeListener(PropertyChangeListener ls) {
         this.pcs.addPropertyChangeListener(ls);
     }

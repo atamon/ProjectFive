@@ -8,7 +8,6 @@ import java.util.List;
 import physics.JMEPhysicsHandler;
 import math.Vector;
 import physics.ICollideable;
-import physics.IPhysicalModel;
 
 /**
  * A class to represent a Battlefield.
@@ -187,17 +186,17 @@ public class Battlefield implements PropertyChangeListener, ICollideable {
     public void propertyChange(final PropertyChangeEvent evt) {
 
         if ("CannonBall Created".equals(evt.getPropertyName())) {
-            CannonBall cb = (CannonBall) evt.getNewValue();
+            IMoveable cb = (IMoveable) evt.getNewValue();
             this.addToBattlefield(cb);
         }
 
         if ("CannonBall Removed".equals(evt.getPropertyName())) {
-            CannonBall cb = (CannonBall) evt.getNewValue();
+            IMoveable cb = (IMoveable) evt.getNewValue();
             this.removeBuffer.add(cb);
         }
         
         if ("Item Removed".equals(evt.getPropertyName())){
-            Item item = (Item)(evt.getNewValue());
+            IMoveable item = (Item)(evt.getNewValue());
             this.removeBuffer.add(item);
         }
     }

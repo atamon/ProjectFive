@@ -19,8 +19,4 @@ public enum RoundState {
     private RoundState(int state) {
         this.state = state;
     }
-    
-    public int getValue() {
-        return state;
-    }
 }

@@ -172,7 +172,7 @@ public class Unit extends MoveableAbstract implements IObservable {
     public void collidedWith(ICollideable obj, float objImpactSpeed) {
         // Two units crashing
         if (obj instanceof Unit) {
-            this.hitPoints -= Math.abs(objImpactSpeed * hullStrength);
+            this.hitPoints -= Math.abs(objImpactSpeed / hullStrength);
         }
 
         if (obj instanceof IProjectile) {

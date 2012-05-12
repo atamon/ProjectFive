@@ -41,7 +41,6 @@ import model.visual.Unit;
  */
 public class View implements PropertyChangeListener {
 
-    public static final String BLEND_PATH = "Blends/P5Ship_export.blend";
     public static final String NIFTY_XML_PATH = "xml/main.xml";
     public static final float[] MAGICAL_VIEW_ZERO = {0.06f, 0.45f, 0.60f, 0.95f};
     public static final float[] MAGICAL_VIEW_ONE = {0.56f, 0.95f, 0.15f, 0.50f};
@@ -73,7 +72,7 @@ public class View implements PropertyChangeListener {
         // Register a BlenderLoader with our assetManager so it supports .blend
         BlenderImporter.registerBlender(assetManager);
 
-        blenderUnit = BlenderImporter.loadModel(assetManager, BLEND_PATH);
+        blenderUnit = BlenderImporter.loadModel(assetManager, BlenderImporter.BOAT_PATH);
 
         // Create water effects
         FilterPostProcessor waterPostProcessor = new FilterPostProcessor(assetManager);
@@ -93,7 +92,7 @@ public class View implements PropertyChangeListener {
 
         // Init GUI JoinScreen
         nifty = niftyGUI.getNifty();
-        nifty.fromXml(NIFTY_XML_PATH, "join", new JoinScreen());
+        nifty.fromXml(NIFTY_XML_PATH, "join");
         nifty.addXml("xml/HUD.xml");
 
         // We need to fetch first gamestates right away
