@@ -1,9 +1,7 @@
 package model;
 
-import controller.SettingsLoader;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import model.player.Player;
@@ -11,28 +9,28 @@ import model.round.*;
 import model.tools.Settings;
 import math.Vector;
 import model.visual.Battlefield;
-import model.visual.CannonBall;
 import model.visual.Item;
 import model.visual.Unit;
 
 /**
  * Represents a Game consisting of rounds and players that compete to win!
  *
- * @author Anton Lindgren @modified by John Hult, Victor Lindhé
  */
 public class Game implements IGame {
 
+    
     // A game is never startable without 2 players at this setVelocity
     public static final int VALID_PLAYER_AMOUNT = 2;
     public static final int LAST_MAN_STANDING = 1;
+    
     // Instances
     private final Battlefield battlefield;
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private GameState gameState = GameState.INACTIVE;
-    private final Map<Integer, Player> playerMap = new HashMap<Integer, Player>();
-    private final Map<Integer, Round> playedRounds = new HashMap<Integer, Round>();
-    private Round currentRound;
 
+    private final RoundModel roundModel;
+    private final PlayerModel playerModel;
+    
     private final ItemFactory itemFactory;
     private float itemTimeout = 5f;
     /**
@@ -46,6 +44,8 @@ public class Game implements IGame {
     public Game(final Battlefield battlefield) {
         this.battlefield = battlefield;
         this.itemFactory = new ItemFactory();
+        this.roundModel = new SimpleRoundModel();
+        this.playerModel = new PiratePlayerModel(battlefield);
     }
 
     /**
@@ -60,10 +60,7 @@ public class Game implements IGame {
     }
 
     public RoundState getRoundState() {
-        if (currentRound == null) {
-            return RoundState.NONE_EXISTANT;
-        }
-        return this.currentRound.getState();
+        return roundModel.getRoundState();
     }
 
     public Vector getBattlefieldCenter() {
@@ -77,8 +74,10 @@ public class Game implements IGame {
      */
     public void update(float tpf) {
         if (gameState == GameState.ACTIVE
-                && currentRound.getState() == RoundState.PLAYING) {
-            lookForDeadUnits();
+                && roundModel.getRoundState() == RoundState.PLAYING) {
+            if(playerModel.gameOver()) {
+                endRound();
+            }
 
             this.battlefield.update(tpf);
             this.itemTimeout -= tpf;
@@ -94,23 +93,17 @@ public class Game implements IGame {
         this.battlefield.addToBattlefield(item);
         pcs.firePropertyChange("Item Created", null, item);
     }
+    
     public Vector getBattlefieldPosition() {
         return battlefield.getPosition();
     }
 
     public void removePlayer(int id) {
-        if (playerMap.get(id) == null || !playerMap.containsKey(id)) {
-            throw new RuntimeException("ERROR: Tried to remove invalid player: " + id);
-        }
-        Unit unit = playerMap.get(id).getUnit();
-        unit.setPosition(Vector.NONE_EXISTANT);
-        unit.announceRemoval();
-        battlefield.removeFromBattlefield(unit);
-        playerMap.remove(id);
+        playerModel.removePlayer(id);
     }
 
     public boolean hasPlayer(int id) {
-        return playerMap.containsKey(id);
+        return playerModel.hasPlayer(id);
     }
 
     /**
@@ -123,37 +116,11 @@ public class Game implements IGame {
     }
 
     public Player getPlayer(int playerID) {
-        Player player = this.playerMap.get(playerID);
-        if (player == null) {
-            throw new IllegalArgumentException("ERROR getPlayer: player with id "
-                    + playerID + " does not exist! ;/");
-        }
-        return player;
+        return playerModel.getPlayer(playerID);
     }
 
     public void createPlayer(int id) {
-        if (playerMap.get(id) != null) {
-            System.out.println("Warning!: playerMap had object: " + playerMap.get(id) + " set to supplied key");
-            throw new RuntimeException("AddPlayer: player with id: " + id + " does already exist! Sorry :(");
-        }
-        Player player = new Player(id);
-        player.addPropertyChangeListener(battlefield);
-        this.playerMap.put(id, player);
-        
-        // Add unit
-        Vector position = Battlefield.getStartingPosition(id, battlefield.getSize());
-        Vector direction = Battlefield.getStartingDir(id);
-        int unitSize = Settings.getInstance().getSetting("unitSize");
-        Unit unit = new Unit(position,
-                direction,
-                new Vector(unitSize, unitSize, unitSize),
-                Settings.getInstance().getSetting("unitMass"));
-        player.setUnit(unit);
-        
-        this.battlefield.addToBattlefield(unit);
-        
-        // Let listeners (views) know that we've created a player
-        this.pcs.firePropertyChange("Player Created", null, player);
+        playerModel.createPlayer(id);
     }
 
     /**
@@ -165,24 +132,24 @@ public class Game implements IGame {
      * @param direction The direction the unit should use.
      */
     private void placeUnit(int id, Vector position, Vector direction) {
-        Unit unit = this.playerMap.get(id).getUnit();
+        Unit unit = playerModel.getPlayerMap().get(id).getUnit();
         unit.setPosition(position);
         unit.setDirection(direction);
     }
 
     @Override
     public void addUnitListener(int playerID, PropertyChangeListener pl) {
-        this.playerMap.get(playerID).addUnitListener(pl);
+        playerModel.getPlayerMap().get(playerID).addUnitListener(pl);
     }
 
     @Override
     public void removeUnitListener(int playerID, PropertyChangeListener pl) {
-        this.playerMap.get(playerID).removeUnitListener(pl);
+        playerModel.getPlayerMap().get(playerID).removeUnitListener(pl);
     }
 
 
     public boolean hasValidAmountOfPlayers() {
-        return playerMap.size() >= VALID_PLAYER_AMOUNT;
+        return playerModel.getPlayerMap().size() >= VALID_PLAYER_AMOUNT;
     }
 
     public void start() {
@@ -196,18 +163,13 @@ public class Game implements IGame {
     @Override
     public void nextRound() {
 
-        this.battlefield.clearForNewRound();
-        this.currentRound = new Round();
-        try {
-            this.currentRound.start();
-        } catch (RoundAlreadyStartedException e) {
-            System.out.println("WARNING: " + e.getMessage());
-            return;
-        }
+        battlefield.clearForNewRound();
+        roundModel.newRound();
+        roundModel.startRound();
 
         // Since we are not sure the units are correctly placed we do so now
-        this.resetUnits();
-        this.haltPlayers();
+        playerModel.resetUnits();
+        playerModel.haltPlayers();
         System.out.println("Round started!");
     }
 
@@ -220,35 +182,10 @@ public class Game implements IGame {
         if (gameState == GameState.ACTIVE && (roundState == RoundState.PLAYING
                 || roundState == RoundState.PAUSED)) {
             if (this.getRoundState() == RoundState.PAUSED) {
-                currentRound.unPause();
+                roundModel.unPause();
             } else {
-                currentRound.pause();
+                roundModel.pause();
             }
-        }
-    }
-
-    private void lookForDeadUnits() {
-        // Check for Units with 0 HP
-        Collection<Player> players = playerMap.values();
-        for (Player player : players) {
-            Unit unit = player.getUnit();
-            if (unit.getHitPoints() <= 0
-                    && !unit.isDeadAndBuried()) {
-                unit.hide();
-                lookForLastManStanding(players);
-            }
-        }
-    }
-
-    private void lookForLastManStanding(Collection<Player> players) {
-        int alivePlayers = 0;
-        for (Player player : players) {
-            if (!player.getUnit().isDeadAndBuried()) {
-                alivePlayers++;
-            }
-        }
-        if (alivePlayers == LAST_MAN_STANDING) {
-            this.endRound();
         }
     }
 
@@ -257,30 +194,23 @@ public class Game implements IGame {
      * runs out. It delivers statistics from played round, sets score to the
      * winner and clears the battlefield.
      */
-    public void endRound() {
-        try {
-            this.currentRound.end(findRoundWinner());
-        } catch (RoundAlreadyEndedException e) {
-            System.out.println("WARNING: " + e.getMessage());
-            return;
-        }
-
-        int roundNumber = playedRounds.size();
-        this.playedRounds.put(roundNumber, currentRound);
+    private void endRound() {
+        roundModel.endRound(findRoundWinner());
 
         System.out.println("This rounds winner is .... "
-                + this.currentRound.getWinner());
-        if (Settings.getInstance().getSetting("numberOfRounds") <= playedRounds.size()) {
+                + roundModel.getWinner());
+        if (Settings.getInstance().getSetting("numberOfRounds") 
+                <= roundModel.playedRounds()) {
             endGame();
         }
     }
-
+    
     /**
      * Returns the winner, I.E. the player last man standing.
      */
     private Player findRoundWinner() {
         Player winner = null;
-        for (Player player : playerMap.values()) {
+        for (Player player : playerModel.getPlayerMap().values()) {
             if (player.getUnit().getHitPoints() > 0) {
                 if (winner != null) {
                     throw new WinnerNotFoundException("Several players still alive, no winner declared!");
@@ -301,11 +231,11 @@ public class Game implements IGame {
         // Calculate statistics
         // TODO Add real GUI-listeners to this.
         Map<Player, Integer> playerWins = new HashMap<Player, Integer>();
-        for (Player player : playerMap.values()) {
+        for (Player player : playerModel.getPlayerMap().values()) {
             playerWins.put(player, 0);
         }
 
-        for (Round round : playedRounds.values()) {
+        for (Round round : roundModel.getPlayedRounds()) {
             Player roundWinner = round.getWinner();
             Integer wonRounds = playerWins.get(roundWinner);
             if (wonRounds == null) {
@@ -322,48 +252,24 @@ public class Game implements IGame {
         // We have ended the game so it is now STATS
         gameState = GameState.STATS;
         // Reset units and disable moving, firing and all.
-        this.resetUnits();
+        playerModel.resetUnits();
     }
-
-    /**
-     * Makes sure all units are at the default starting state. This includes,
-     * position, direction, steering, steeringDirection, HP
-     */
-    private void resetUnits() {
-        Collection<Player> players = playerMap.values();
-        for (Player player : players) {
-            int id = player.getId();
-            this.placeUnit(player.getId(),
-                    Battlefield.getStartingPosition(id, battlefield.getSize()),
-                    Battlefield.getStartingDir(id));
-            Unit unit = player.getUnit();
-            unit.setIsAccelerating(false);
-            unit.setHitPoints(unit.getHitPointsMax());
-            unit.removePowerUp();
-        }
-    }
-
+    
     @Override
     /**
      * All stats removed but joined players are kept. We now have a "clean"
      * game.
      */
     public void clean() {
-        playedRounds.clear();
+        roundModel.clearPlayedRounds();
         gameState = GameState.INACTIVE;
     }
 
-    private void haltPlayers() {
-        for (Player player : playerMap.values()) {
-            player.getUnit().halt();
-        }
-    }
-
     public void addPropertyChangeListener(PropertyChangeListener pl) {
-        this.pcs.addPropertyChangeListener(pl);
+        playerModel.addPropertyChangeListener(pl);
     }
 
     public void removePropertyChangeListener(PropertyChangeListener pl) {
-        this.pcs.removePropertyChangeListener(pl);
+        playerModel.addPropertyChangeListener(pl);
     }
 }

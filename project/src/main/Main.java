@@ -65,6 +65,7 @@ public class Main extends SimpleApplication {
      */
     @Override
     public void simpleInitApp() {
+        this.settings.setFullscreen(true);
         // Create and init NiftyGUI
         NiftyJmeDisplay niftyDisplay = new NiftyJmeDisplay(assetManager, 
                                                             inputManager, 

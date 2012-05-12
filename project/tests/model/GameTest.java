@@ -4,195 +4,198 @@
  */
 package model;
 
-import model.player.Player;
+import controller.SettingsLoader;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import math.Direction;
-import model.visual.Battlefield;
 import math.Vector;
-import org.junit.Test;
+import model.player.Player;
+import model.round.RoundState;
+import model.tools.Settings;
+import model.visual.Unit;
+import org.junit.*;
 import static org.junit.Assert.*;
 
 /**
  *
- * @author johnhu
+ * @author victorlindhe
  */
 public class GameTest {
-    private Battlefield testBf = new Battlefield(200);
-    private Game testGame = new Game(testBf);
-    private float tpf = test.Utils.simulateTpf();
-    
-    private void createPlayerZero(){
-        try{
-            testGame.createPlayer(0);
-        } catch(IllegalArgumentException e){
-            // ok player with id 0 already exist.
+    private Game game;
+    private Unit unit;
+    private PropertyChangeListener listener = new PropertyChangeListener() {
+
+        public void propertyChange(PropertyChangeEvent pce) {
+            throw new UnsupportedOperationException("Not supported yet.");
         }
-    }
-    
-    @Test(expected = RuntimeException.class)
-    public void testCreatePlayer(){
-        testGame.createPlayer(6);
         
-        assertTrue(testGame.getPlayer(6) instanceof Player);
-        
-        testGame.createPlayer(6); // exception here
-    }
+    };
     
-    @Test(expected = IllegalArgumentException.class)
-    public void testGetPlayer(){
-        testGame.createPlayer(0);
-        
-        testGame.getPlayer(1123); //exception here
+    @Before
+    public void setUp() {
+        Settings.getInstance().loadSettings(SettingsLoader.readSettings("assets/settings"));
+        game = new Game();
     }
-    
 
     @Test
-    public void testAddUnitListener(){
-        createPlayerZero();
-        PropertyChangeListener pl = new PropertyChangeListener() {
-
-            public void propertyChange(PropertyChangeEvent evt) {
-                throw new UnsupportedOperationException("Test");
-            }
-            
-        };
-        testGame.addUnitListener(0, pl);
+    public void testStaticVariables() {
+        assertTrue(Game.VALID_PLAYER_AMOUNT == 2);
+        assertTrue(Game.LAST_MAN_STANDING == 1);
     }
     
     @Test
-    public void testRemoveUnitListener(){
-        createPlayerZero();
-        PropertyChangeListener pl = new PropertyChangeListener() {
-
-            public void propertyChange(PropertyChangeEvent evt) {
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
-        };
-        
-        testGame.addUnitListener(0, pl);
-        testGame.removePropertyChangeListener(pl);
-    }
-    
-    @Test(expected = RuntimeException.class) // some kind of runtime exception
-
-    public void testStartRound(){
-        Game instance = new Game();
-        
-        instance.nextRound(); // exception here, no players -> no round
-        instance.createPlayer(0);
-        instance.createPlayer(1);
-        
-        instance.nextRound();
+    public void testGetState() {
+        assertTrue(game.getState() == GameState.INACTIVE);
     }
     
     @Test
-    public void testEndRound(){
-        Game instance = new Game();
-        float rounds = instance.getNbrOfRounds();
-        instance.endRound(); // no round started.
-        assertTrue(rounds == instance.getNbrOfRounds());
-        instance.nextRound();
-        instance.endRound();
-        assertTrue(rounds-1 == instance.getNbrOfRounds());
-        
+    public void testGetRoundState() {
+        assertTrue(game.getRoundState() == RoundState.NONE_EXISTANT);
+        game.start();
+        assertFalse(game.getRoundState() == RoundState.NONE_EXISTANT);
+    }
+    
+    @Test
+    public void testGetBattlefieldCenter() {
+        assertTrue(game.getBattlefieldCenter().getClass().equals(Vector.class));
     }
     
     @Test
     public void testGetBattlefieldPosition() {
-        assertTrue(testBf.getPosition().equals(testGame.getBattlefieldPosition()));
+        assertTrue(game.getBattlefieldPosition().getClass().equals(Vector.class));
     }
     
-    /**
-     * Test of getBattlefieldSize method, of class Game.
-     */
     @Test
-    public void testGetBattlefieldSize() {
-        System.out.println("getBattlefieldSize");
-        Game instance = new Game(new Battlefield(200));
-        assertTrue(instance.getBattlefieldSize() == this.testGame.getBattlefieldSize());
+    public void testCreatePlayer() {
+        game.createPlayer(0);
+        assertTrue(game.getPlayer(0) != null);
     }
+    
+    @Test (expected=RuntimeException.class)
+    public void testCreatePlayerAgain() {
+        game.createPlayer(0);
+        game.createPlayer(0); // Should fail
+    }
+    
+    @Test (expected=IllegalArgumentException.class)
+    public void testGetPlayer() {
+        assertTrue(game.getPlayer(0).getClass().equals(Player.class));
+        unit = game.getPlayer(0).getUnit();
+        game.getPlayer(1); // Doesn't exist and throws exception
+    }
+    
+    @Test (expected=RuntimeException.class)
+    public void testRemovePlayer() {
+        game.removePlayer(0); // should work
+        game.removePlayer(1); // should not work! throws exception
+        try {
+            game.getPlayer(0);
+            fail(); // if we get that player we have failed the test
+        } catch (IllegalArgumentException e) {
+            assertTrue(unit.getPosition().equals(Vector.NONE_EXISTANT));
+            assertTrue(unit.isDeadAndBuried());
+        }
+    }
+    
+    @Test
+    public void testUpdate() {
+        
+    }
+    
+    @Test
+    public void testHasPlayer() {
+        assertFalse(game.hasPlayer(0)); // Should return false
+    }
+    
+    @Test
+    public void testBattlefieldSize() {
+        Vector size = game.getBattlefieldSize();
+        assertTrue(size.getClass().equals(Vector.class));
+        assertTrue(size.getX() > 0 && size.getY() > 0);
+    }
+    
+    @Test
+    public void testHasValidAmountOfPlayers() {
+        assertFalse(game.hasValidAmountOfPlayers()); // We have no players 
+                                                     // so false
+        game.createPlayer(0);
+        game.createPlayer(1);
+        assertTrue(game.hasValidAmountOfPlayers());
+    }
+    
+    @Test
+    public void testSwitchPauseState() {
+        game.createPlayer(0);
+        game.createPlayer(1);
+        game.start();
+        assertTrue(game.getState() == GameState.ACTIVE && 
+                game.getRoundState() == RoundState.PLAYING);
+        game.switchPauseState();
+        assertTrue(game.getRoundState() == RoundState.PAUSED);
+        game.switchPauseState();
+        assertTrue(game.getRoundState() == RoundState.PLAYING);
+    }
+    
+    @Test
+    public void testNextRound() {
+        game.createPlayer(0);
+        game.createPlayer(1);
+        game.start();
+        game.nextRound();
+    }
+    
+    @Test
+    public void testEndRound() {
+        game.createPlayer(0);
+        game.createPlayer(1);
+        game.start();
+        game.getPlayer(0).getUnit().setHitPoints(-1);
+        
+        game.endRound();
+    }
+    
+    @Test
+    public void testClean() {
+        game.clean();
+        assertTrue(game.getState() == GameState.INACTIVE);
+    }
+    
+    private boolean called = false;
+    
+    @Test
+    public void testAddPropertyChangeListener() {
+        game.addPropertyChangeListener(new PropertyChangeListener() {
 
-    @Test
-    public void testSteerPlayerUnit(){
-        this.createPlayerZero();
-        
-        testGame.getPlayer(0).getUnit().setSpeed(10);
-        Vector oldDir = testGame.getPlayer(0).getUnitDirection();
-        testGame.steerPlayerUnit(Direction.CLOCKWISE, 0, tpf); // id = 0
-        
-        assertFalse(oldDir.equals(testGame.getPlayer(0).getUnitDirection()));
+            public void propertyChange(PropertyChangeEvent pce) {
+                called = !called;
+            }
+            
+        });
+        game.createPlayer(2);
+        assertTrue(called);
     }
     
     @Test
-    public void testAccelerateUnit(){
-        this.createPlayerZero();
-        testGame.getPlayer(0).getUnit().setSpeed(0);
-        float oldSpeed = testGame.getPlayer(0).getUnit().getVelocity();
-        
-        testGame.acceleratePlayerUnit(0, true);
-        testGame.update(tpf);
-        assertTrue(oldSpeed < testGame.getPlayer(0).getUnit().getVelocity());
-        
-    }
-    
-    @Test
-    public void testUpdate(){
-        this.createPlayerZero();
-        Vector oldPos = testGame.getPlayerPosition(0);
-        this.testGame.getPlayer(0).getUnit().setSpeed(10);
-        
-        testGame.update(tpf);
-        
-        assertFalse(oldPos.equals(testGame.getPlayerPosition(0)));   
-    }
+    public void testRemovePropertyChangeListener() {
+        game.removePropertyChangeListener(new PropertyChangeListener() {
 
-    @Test
-    public void testGetBattlefieldCenter(){
-        
-        Vector center = testGame.getBattlefieldCenter();
-        Vector expected = new Vector(testGame.getBattlefieldPosition());
-        expected.add(new Vector(
-                testGame.getBattlefieldSize(),testGame.getBattlefieldSize()));
-        expected.mult(0.5f);
-        assertTrue(center.equals(expected));
-        
+            public void propertyChange(PropertyChangeEvent pce) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+            
+        });
+        game.createPlayer(3); // Shouldn't throw exception
+    }
+    
+    @Test (expected=UnsupportedOperationException.class)
+    public void testAddUnitListener() {
+        game.createPlayer(0);
+        game.addUnitListener(0, listener); // Should work
+        game.getPlayer(0).getUnit().announceRemoval();
     }
     
     @Test
-    public void testPlaceUnit(){
-        this.createPlayerZero();
-        
-        Vector oldPos = testGame.getPlayerPosition(0);
-        
-        testGame.placeUnit(0, new Vector(0,0));
-        
-        assertFalse(oldPos.equals(testGame.getPlayerPosition(0)));
-    }
-    
-    /**
-     * Test of getNbrOfPlayers method, of class Game.
-     */
-    @Test
-    public void testGetNbrOfPlayers() {
-        System.out.println("getNbrOfPlayers");
-        Game instance = new Game(new Battlefield());
-        assertTrue(instance.getNbrOfPlayers() == 0);
-        instance.createPlayer(0);
-        assertTrue(instance.getNbrOfPlayers() == 1);
-    }
-
-    /**
-     * Test of getPlayerPosition method, of class Game.
-     */
-    @Test
-    public void testGetPlayerPosition() {
-        System.out.println("getPlayerPosition");
-        Game instance = new Game();
-        instance.createPlayer(0);
-        Vector oldVector = instance.getPlayerPosition(0);
-        assertTrue(oldVector.getClass() == Vector.class);
-        instance.getPlayer(0).getUnit().place((float)Math.random(), (float)Math.random());
-        assertFalse(oldVector.equals(instance.getPlayerPosition(0)));
+    public void testRemoveUnitListener() {
+        game.createPlayer(0);
+        game.removeUnitListener(0, listener); // Should not work
     }
 }

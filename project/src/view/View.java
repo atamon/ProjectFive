@@ -13,6 +13,7 @@ import com.jme3.renderer.Camera;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
+import com.jme3.util.SkyFactory;
 import com.jme3.water.WaterFilter;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.elements.Element;
@@ -81,6 +82,8 @@ public class View implements PropertyChangeListener {
         waterPostProcessor.addFilter(water);
         jme3.getViewPort().addProcessor(waterPostProcessor);
 
+        
+        
         // Set up individual cam positions
         Vector bfSize = game.getBattlefieldSize();
         viewports.add(setUpCameraView(MAGICAL_VIEW_ZERO, Util.convertToMonkey3D(Battlefield.getStartingPosition(0, bfSize)), waterPostProcessor));
