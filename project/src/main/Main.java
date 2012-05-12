@@ -30,7 +30,7 @@ public class Main extends SimpleApplication {
     private int width;
     private int height;
     private BitmapText debugInfo;
-
+    private final static boolean FULLSCREEN = false;
     public static void main(String[] args) {
         new Main();
     }
@@ -46,8 +46,9 @@ public class Main extends SimpleApplication {
 
         // Create our own settings so we can customize our app
         AppSettings settings = new AppSettings(true);
-        settings.setFrameRate(60);
-
+        settings.setFrameRate(80);
+        settings.setResolution(1024,768);
+        settings.setFullscreen(FULLSCREEN);
         // Save the dimension so we can supply view with it
         this.width = settings.getWidth();
         this.height = settings.getHeight();

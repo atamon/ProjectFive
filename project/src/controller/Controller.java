@@ -7,9 +7,7 @@ package controller;
 import controller.listeners.GlobalListener;
 import controller.listeners.LeavePlayerListener;
 import controller.listeners.JoinPlayerListener;
-import com.jme3.app.SimpleApplication;
 import com.jme3.input.InputManager;
-import com.jme3.input.controls.ActionListener;
 import model.IGame;
 import view.View;
 
@@ -40,7 +38,7 @@ public class Controller {
         new JoinPlayerListener(game, inputManager);
         new GlobalListener(game, inputManager);
         new LeavePlayerListener(game, inputManager);
-        
+
 
     }
 
