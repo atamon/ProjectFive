@@ -2,18 +2,18 @@ package view;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetManager;
+import com.jme3.effect.ParticleEmitter;
+import com.jme3.effect.ParticleMesh;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
+import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.Ray;
 import com.jme3.math.Vector3f;
 import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.post.FilterPostProcessor;
 import com.jme3.renderer.Camera;
-import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
-import com.jme3.util.SkyFactory;
 import com.jme3.water.WaterFilter;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.elements.Element;
@@ -130,6 +130,20 @@ public class View implements PropertyChangeListener {
         GraphicalBattlefield geoBattlefield = new GraphicalBattlefield(Util.convertToMonkey3D(size),
                 Util.convertToMonkey3D(pos), assetManager);
         rootNode.attachChild(geoBattlefield.getGeometry());
+        
+        ParticleEmitter fog = new ParticleEmitter("Fog", ParticleMesh.Type.Triangle, 10);
+        Material fogMat = new Material(assetManager, "Common/MatDefs/Misc/Particle.j3md");
+        fogMat.setTexture("Texture", assetManager.loadTexture("Effects/Explosion/Debris.png"));
+        fog.setMaterial(fogMat);
+        fog.setImagesX(3);
+        fog.setImagesY(3);
+        fog.setLowLife(100000.0f);
+        fog.setGravity(0, -10, 0);
+        fog.setRotateSpeed(1);
+        fog.setStartColor(ColorRGBA.Red);
+        fog.getParticleInfluencer().setVelocityVariation(0.60f);
+        fog.setLocalTranslation(Vector3f.ZERO);
+        rootNode.attachChild(fog);
     }
 
     private void initLighting() {

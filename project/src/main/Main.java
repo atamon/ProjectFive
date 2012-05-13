@@ -6,15 +6,13 @@ import controller.Controller;
 import com.jme3.app.SimpleApplication;
 import com.jme3.font.BitmapText;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.Vector3f;
 import com.jme3.niftygui.NiftyJmeDisplay;
-import com.jme3.post.FilterPostProcessor;
 import com.jme3.system.AppSettings;
-import com.jme3.water.WaterFilter;
 import controller.SettingsLoader;
 import java.util.logging.Level;
 import model.IGame;
 import model.tools.Settings;
+import org.lwjgl.opengl.Display;
 import view.View;
 
 /**
@@ -30,7 +28,6 @@ public class Main extends SimpleApplication {
     private int width;
     private int height;
     private BitmapText debugInfo;
-    private final static boolean FULLSCREEN = false;
     public static void main(String[] args) {
         new Main();
     }
@@ -46,9 +43,13 @@ public class Main extends SimpleApplication {
 
         // Create our own settings so we can customize our app
         AppSettings settings = new AppSettings(true);
-        settings.setFrameRate(80);
-        settings.setResolution(1024,768);
-        settings.setFullscreen(FULLSCREEN);
+        
+        settings.setWidth(Display.getDesktopDisplayMode().getWidth());
+        settings.setHeight(Display.getDesktopDisplayMode().getHeight());
+        settings.setFrequency(Display.getDesktopDisplayMode().getFrequency());
+        settings.setBitsPerPixel(Display.getDesktopDisplayMode().getBitsPerPixel());
+        settings.setFullscreen(Display.getDesktopDisplayMode().isFullscreenCapable());
+        
         // Save the dimension so we can supply view with it
         this.width = settings.getWidth();
         this.height = settings.getHeight();
@@ -66,7 +67,6 @@ public class Main extends SimpleApplication {
      */
     @Override
     public void simpleInitApp() {
-        this.settings.setFullscreen(true);
         // Create and init NiftyGUI
         NiftyJmeDisplay niftyDisplay = new NiftyJmeDisplay(assetManager, 
                                                             inputManager, 
