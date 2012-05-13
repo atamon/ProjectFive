@@ -22,10 +22,7 @@ import java.util.List;
  *
  * @author Victor Lindhé
  */
-public class GraphicalUnit implements PropertyChangeListener {
-    
-    private Node node;
-//    private Node trackerNode;
+public class GraphicalUnit extends GraphicalAbstract implements PropertyChangeListener {
 
     public GraphicalUnit(int id, ColorRGBA color,
             Vector3f pos,
@@ -39,25 +36,14 @@ public class GraphicalUnit implements PropertyChangeListener {
         Quaternion rot = new Quaternion();
         rot.lookAt(dir, Vector3f.UNIT_Y);
         System.out.println("" + this.node.getChildren().size());
+        
         //We know that node only contains the model of the boat.
         Node boatModelNode = (Node) this.node.getChild(0);
         Geometry sailGeometry = (Geometry) boatModelNode.getChild(1);
         setSailColor(id, sailGeometry);        
         
-        this.updatePosition(pos);
-        this.updateRotation(rot);
-    }
-    
-    public Node getNode() {
-        return this.node;
-    }
-    
-    private void updatePosition(Vector3f pos) {
-        this.node.setLocalTranslation(pos);
-    }
-    
-    private void updateRotation(Quaternion rot) {
-        this.node.setLocalRotation(rot);
+        updatePosition(pos);
+        updateRotation(rot);
     }
     
     public void propertyChange(PropertyChangeEvent pce) {
@@ -66,8 +52,8 @@ public class GraphicalUnit implements PropertyChangeListener {
             Vector3f pos = (Vector3f) pce.getOldValue();
             Quaternion dir = (Quaternion) pce.getNewValue();
             
-            this.updateRotation(dir);
-            this.updatePosition(pos);
+            updateRotation(dir);
+            updatePosition(pos);
         }
         
         if ("Unit removed".equals(pce.getPropertyName())) {

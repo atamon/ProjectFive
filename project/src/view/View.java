@@ -2,38 +2,31 @@ package view;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetManager;
-import com.jme3.effect.ParticleEmitter;
-import com.jme3.effect.ParticleMesh;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
-import com.jme3.light.SpotLight;
 import com.jme3.material.Material;
+import com.jme3.material.RenderState;
+import com.jme3.material.RenderState.BlendMode;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.post.FilterPostProcessor;
-import com.jme3.post.filters.FogFilter;
 import com.jme3.renderer.Camera;
-import com.jme3.renderer.ViewPort;
+import com.jme3.renderer.queue.RenderQueue;
+import com.jme3.renderer.queue.RenderQueue.Bucket;
 import com.jme3.scene.Node;
-import com.jme3.util.SkyFactory;
 import com.jme3.water.WaterFilter;
-import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.tools.SizeValue;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import model.GameState;
 import model.IGame;
 import model.player.Player;
 import model.round.RoundState;
 import math.Vector;
-import model.visual.Battlefield;
 import model.visual.CannonBall;
 import model.visual.Item;
 import util.Util;
@@ -46,14 +39,7 @@ import model.visual.Unit;
 public class View implements PropertyChangeListener {
 
     public static final String BLEND_PATH = "Blends/P5Ship_export.blend";
-    public static final String NIFTY_XML_PATH = "xml/main.xml";
-    public static final float[] MAGICAL_VIEW_ZERO = {0.06f, 0.45f, 0.60f, 0.95f};
-    public static final float[] MAGICAL_VIEW_ONE = {0.56f, 0.95f, 0.15f, 0.50f};
-    public static final float[] MAGICAL_VIEW_TWO = {0.06f, 0.45f, 0.15f, 0.50f};
-    public static final float[] MAGICAL_VIEW_THREE = {0.56f, 0.95f, 0.60f, 0.95f};
-    private final List<ViewPort> viewports = new LinkedList<ViewPort>();
     private final Map<Element, Unit> hpBars = new HashMap<Element, Unit>();
-    private final Nifty nifty;
     private final Node blenderUnit;
     private final IGame game;
     private final SimpleApplication jme3;
@@ -62,6 +48,8 @@ public class View implements PropertyChangeListener {
     private GameState lastGameState;
     private RoundState lastRoundState;
 
+    private GUIController guiControl;
+    
     public View(SimpleApplication jme3, IGame game,
             int windowWidth, int windowHeight, NiftyJmeDisplay niftyGUI) {
 
@@ -72,52 +60,25 @@ public class View implements PropertyChangeListener {
 
         // Create scene
         this.createScene();
-
-
+        
         // Register a BlenderLoader with our assetManager so it supports .blend
         BlenderImporter.registerBlender(assetManager);
 
         blenderUnit = BlenderImporter.loadModel(assetManager, BLEND_PATH);
-        
         
         // Create water effects
         FilterPostProcessor waterPostProcessor = new FilterPostProcessor(assetManager);
         WaterFilter water = new WaterFilter(rootNode, new Vector3f(0, -1, 1));
         water.setWaterHeight(4f);
         waterPostProcessor.addFilter(water);
+        
                 
         jme3.getViewPort().addProcessor(waterPostProcessor);        
+        guiControl = new GUIController(niftyGUI, game, waterPostProcessor, jme3);
         
-        // Set up individual cam positions
-        Vector bfSize = game.getBattlefieldSize();
-        viewports.add(setUpCameraView(MAGICAL_VIEW_ZERO, Util.convertToMonkey3D(Battlefield.getStartingPosition(0, bfSize)), waterPostProcessor));
-        viewports.add(setUpCameraView(MAGICAL_VIEW_ONE, Util.convertToMonkey3D(Battlefield.getStartingPosition(1, bfSize)), waterPostProcessor));
-        viewports.add(setUpCameraView(MAGICAL_VIEW_TWO, Util.convertToMonkey3D(Battlefield.getStartingPosition(2, bfSize)), waterPostProcessor));
-        viewports.add(setUpCameraView(MAGICAL_VIEW_THREE, Util.convertToMonkey3D(Battlefield.getStartingPosition(3, bfSize)), waterPostProcessor));
-
-        // Init GUI JoinScreen
-        nifty = niftyGUI.getNifty();
-        nifty.fromXml(NIFTY_XML_PATH, "join", new JoinScreen());
-        nifty.addXml("xml/HUD.xml");
-
         // We need to fetch first gamestates right away
         lastGameState = game.getState();
         lastRoundState = game.getRoundState();
-    }
-
-    private ViewPort setUpCameraView(float[] vpPos, Vector3f unitPos, FilterPostProcessor fpp) {
-        // .clone() works for us now since we will use same aspect ratio as window.
-        Vector3f position = unitPos.add(0, 25f, -10f);
-        Camera camera = jme3.getCamera().clone();
-        camera.setViewPort(vpPos[0], vpPos[1], vpPos[2], vpPos[3]);
-        camera.setLocation(position);
-        camera.lookAt(unitPos, Vector3f.UNIT_Y);
-
-        ViewPort viewport = jme3.getRenderManager().createMainView("PiP", camera);
-        viewport.setClearFlags(true, true, true);
-        viewport.attachScene(rootNode);
-        viewport.addProcessor(fpp);
-        return viewport;
     }
 
     /**
@@ -133,6 +94,17 @@ public class View implements PropertyChangeListener {
     private void initGround(Vector size, Vector pos) {
         GraphicalBattlefield geoBattlefield = new GraphicalBattlefield(Util.convertToMonkey3D(size),
                 Util.convertToMonkey3D(pos), assetManager);
+        
+        GraphicalBattlefield layerPlane = new GraphicalBattlefield(
+                new Vector3f(size.getX()+100, 0.1f, size.getZ()), 
+                new Vector3f(pos.getX()-50, 15f, pos.getZ()), assetManager);
+      /*  Material newMat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+        newMat.setTexture("ColorMap", assetManager.loadTexture("lines.png"));
+        newMat.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
+        
+        layerPlane.getGeometry().setMaterial(newMat);
+        layerPlane.getGeometry().setQueueBucket(Bucket.Transparent);
+        rootNode.attachChild(layerPlane.getGeometry());*/
         rootNode.attachChild(geoBattlefield.getGeometry());
     }
     
@@ -157,11 +129,11 @@ public class View implements PropertyChangeListener {
     public void update(float tpf) {
         boolean stateHasChanged = !(lastGameState == game.getState() && lastRoundState == game.getRoundState());
         // No need to set viewstate if game has not changed
-        updateGui(stateHasChanged);
+        guiControl.updateGui(stateHasChanged);
 
         lastGameState = game.getState();
         lastRoundState = game.getRoundState();
-
+        
         if (lastRoundState == RoundState.PLAYING) {
             for (Element bar : hpBars.keySet()) {
                 Vector3f screenPos = jme3.getCamera().getScreenCoordinates(Util.convertToMonkey3D(hpBars.get(bar).getPosition()));
@@ -178,40 +150,6 @@ public class View implements PropertyChangeListener {
                 SizeValue hp = new SizeValue(hpBars.get(bar).getHitPoints() + "%");
                 bar.setConstraintWidth(hp);
             }
-        }
-    }
-
-    private void updateGui(boolean stateChanged) {
-        if (stateChanged) {
-            // Handle which GUI shall be shown
-            if (game.getState() == GameState.INACTIVE) {
-                // Show joinscreen
-                for (ViewPort vp : viewports) {
-                    vp.setEnabled(true);
-                }
-                nifty.gotoScreen("join");
-            }
-            if (game.getState() == GameState.ACTIVE) {
-                // Hide joinscreen
-                for (ViewPort vp : viewports) {
-                    vp.setEnabled(false);
-                }
-                // Display HUD
-                nifty.gotoScreen("HUD");
-            }
-            if (game.getRoundState() == RoundState.PAUSED) {
-                nifty.gotoScreen("pause");
-            }
-        }
-    }
-
-    private Element getHealthBarElement(int playerID) {
-        // Since this is done only a few times per game no need to optimize resources
-        Element elem = nifty.getScreen("HUD").findElementByName("" + playerID);
-        if (elem == null) {
-            throw new IllegalArgumentException("ERROR: No such Element in Nifty-XML, cannot get HP-bar :)");
-        } else {
-            return elem;
         }
     }
 
@@ -260,7 +198,7 @@ public class View implements PropertyChangeListener {
 
                 // If a player is created we need to start listening to it so we can know when it shoots
                 player.addPropertyChangeListener(this);
-                Element bar = getHealthBarElement(playerID);
+                Element bar = guiControl.getHealthBarElement(playerID);
                 bar.getParent().setVisible(true);
                 hpBars.put(bar, game.getPlayer(playerID).getUnit());
 

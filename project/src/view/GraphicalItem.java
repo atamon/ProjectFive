@@ -20,10 +20,8 @@ import java.beans.PropertyChangeListener;
  *
  * @author jnes
  */
-public class GraphicalItem implements PropertyChangeListener{
+public class GraphicalItem extends GraphicalAbstract implements PropertyChangeListener{
 
-    private Node node;
-    
     public GraphicalItem(ColorRGBA color,
                          Vector3f pos,
                          Vector3f size,
@@ -42,17 +40,6 @@ public class GraphicalItem implements PropertyChangeListener{
         this.updatePosition(pos);
     }
     
-    private void updatePosition(Vector3f pos) {
-        this.node.setLocalTranslation(pos);
-    }
-
-    private void updateRotation(Quaternion rot) {
-        this.node.setLocalRotation(rot);
-    }
-    
-    public Node getNode() {
-        return this.node;
-    }
     
     public void propertyChange(PropertyChangeEvent pce) {
         if("Physical Update".equals(pce.getPropertyName())) {
