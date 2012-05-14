@@ -43,12 +43,13 @@ public class Main extends SimpleApplication {
 
         // Create our own settings so we can customize our app
         AppSettings settings = new AppSettings(true);
+        settings.setFrameRate(60);
         
-        settings.setWidth(Display.getDesktopDisplayMode().getWidth());
+       /* settings.setWidth(Display.getDesktopDisplayMode().getWidth());
         settings.setHeight(Display.getDesktopDisplayMode().getHeight());
         settings.setFrequency(Display.getDesktopDisplayMode().getFrequency());
         settings.setBitsPerPixel(Display.getDesktopDisplayMode().getBitsPerPixel());
-        settings.setFullscreen(Display.getDesktopDisplayMode().isFullscreenCapable());
+        settings.setFullscreen(Display.getDesktopDisplayMode().isFullscreenCapable());*/
         
         // Save the dimension so we can supply view with it
         this.width = settings.getWidth();
@@ -58,7 +59,6 @@ public class Main extends SimpleApplication {
         this.setShowSettings(false);
         this.setSettings(settings);
         this.start();
-
     }
 
     /**

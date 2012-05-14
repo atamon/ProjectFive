@@ -85,9 +85,9 @@ public class JMEPhysicsHandler implements PhysicsCollisionListener {
         PhysicsRigidBody bodyA = (PhysicsRigidBody) event.getObjectA();
         PhysicsRigidBody bodyB = (PhysicsRigidBody) event.getObjectB();
         
-        Vector3f collision = bodyA.getLinearVelocity().cross(Vector3f.UNIT_Y).normalize().mult(event.getAppliedImpulse());
+        Vector3f collision = bodyA.getLinearVelocity().cross(Vector3f.UNIT_Y).mult(event.getAppliedImpulse());
 
-        boolean isGrinding = event.getLifeTime() > 2;
+        boolean isGrinding = event.getLifeTime() > 1;
         float impulseA = isGrinding ? 0 : collision.cross(bodyA.getLinearVelocity()).length();
         float impulseB = isGrinding ? 0 : collision.cross(bodyB.getLinearVelocity()).length();
 
