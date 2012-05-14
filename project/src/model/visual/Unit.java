@@ -24,6 +24,7 @@ public class Unit extends MoveableAbstract implements IObservable {
     private boolean isAccelerating = false;
     private Direction steerDirection = new Direction();
     private IPowerUp powerUp = new PUEmpty();
+    private boolean inWater = false;
 
     /**
      * Create a unit
@@ -45,8 +46,11 @@ public class Unit extends MoveableAbstract implements IObservable {
      * @param tpf Updatefrequency, i.e. time since last frame
      */
     public void update(final float tpf) {
-        this.accelerate(this.isAccelerating, tpf);
-        this.steer(tpf);
+        if (inWater) {   
+            this.accelerate(this.isAccelerating, tpf);
+            this.steer(tpf);
+            inWater = false;
+        }
         if (this.powerUp != null) {
             if (powerUp.isActive()) {
                 this.powerUp.update(tpf);
@@ -177,6 +181,10 @@ public class Unit extends MoveableAbstract implements IObservable {
 
         if (obj instanceof IProjectile) {
             this.hitPoints -= ((IProjectile) obj).getDamage();
+        }
+        
+        if (obj instanceof Battlefield) {
+            this.inWater = true;
         }
     }
 

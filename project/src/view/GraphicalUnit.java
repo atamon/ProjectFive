@@ -61,7 +61,7 @@ public class GraphicalUnit extends GraphicalAbstract implements PropertyChangeLi
         }
     }
     
-    private void setSailColor(int id, Geometry sail) {
+    private static void setSailColor(int id, Geometry sail) {
         switch(id) {
             case 0:
                 sail.getMaterial().setColor("Ambient", ColorRGBA.Cyan);

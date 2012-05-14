@@ -56,7 +56,7 @@ public class View implements PropertyChangeListener {
         this.game = game;
         this.assetManager = jme3.getAssetManager();
         this.rootNode = jme3.getRootNode();
-
+        
         // Create scene
         this.createScene();
         
@@ -197,13 +197,29 @@ public class View implements PropertyChangeListener {
 
                 // If a player is created we need to start listening to it so we can know when it shoots
                 player.addPropertyChangeListener(this);
+                
                 Element bar = guiControl.getHealthBarElement(playerID);
                 bar.getParent().setVisible(true);
                 hpBars.put(bar, game.getPlayer(playerID).getUnit());
+                
+                // Show leave button
+                guiControl.playerActive(playerID, true);
+                
+                if (game.hasValidAmountOfPlayers()) {
+                    guiControl.gameValid(true);
+                }
 
             } else {
                 throw new RuntimeException(
                         "Unit Created-event sent without correct parameters");
+            }
+        }
+        
+        if ("Player Removed".equals(pce.getPropertyName())) {
+            int id = Integer.parseInt(""+pce.getNewValue());
+            guiControl.playerActive(id, false);
+            if (!game.hasValidAmountOfPlayers()) {
+                guiControl.gameValid(false);
             }
         }
 
@@ -226,6 +242,10 @@ public class View implements PropertyChangeListener {
             rootNode.attachChild(graphicalItem.getNode());
             System.out.println("VIEW: IM CREATING AN ITEM");
             item.addPropertyChangeListener(graphicalItem);
+        }
+        
+        if ("Round Countdown".equals(pce.getPropertyName())) {
+            guiControl.countdown(Float.parseFloat(""+pce.getNewValue()));
         }
     }
 }

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg3566"
+   version="1.1"
+   inkscape:version="0.48.3.1 r9886"
+   sodipodi:docname="count.svg">
+  <defs
+     id="defs3568">
+    <filter
+       inkscape:collect="always"
+       id="filter4614">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="2.3575806"
+         id="feGaussianBlur4616" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="347.91977"
+     inkscape:cy="726.52629"
+     inkscape:document-units="px"
+     inkscape:current-layer="flowRoot3574"
+     showgrid="false"
+     inkscape:window-width="1600"
+     inkscape:window-height="845"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata3571">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       transform="matrix(0.28614695,0,0,0.28614695,128.32765,68.521492)"
+       style="font-size:150px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:0;stroke:#006100;stroke-width:5;stroke-linejoin:miter;stroke-miterlimit:0;stroke-dashoffset:0;stroke-opacity:0.913242;filter:url(#filter4614);font-family:Century Gothic;-inkscape-font-specification:Century Gothic Bold"
+       id="flowRoot3574">
+      <path
+         d="m 331.98166,106.70382 0,20.74324 -77.63896,0 -10.81612,59.41453 c 9.48256,-2.76561 18.02679,-4.1485 25.63272,-4.14864 19.85413,1.4e-4 36.20176,6.66761 49.04294,20.00241 12.93967,13.23626 19.40958,30.22594 19.40972,50.96908 -1.4e-4,14.32278 -3.30917,27.46014 -9.9271,39.41214 -6.61823,11.95207 -15.60695,21.13837 -26.96621,27.55888 -11.26072,6.32174 -24.29932,9.48262 -39.11581,9.48262 -17.68119,0 -32.59655,-5.38336 -44.74612,-16.15009 -12.14963,-10.86548 -19.40975,-24.89185 -21.78039,-42.07913 l 22.37306,0 c 1.67917,8.39611 4.49432,15.21174 8.44544,20.44689 4.04983,5.23524 9.3838,9.48265 16.00194,12.74228 6.71679,3.16089 13.72996,4.74133 21.03956,4.74131 14.32261,2e-5 26.62038,-5.43274 36.89333,-16.29825 10.27271,-10.86546 15.40913,-24.44732 15.40925,-40.74564 -1.2e-4,-14.71773 -4.64265,-26.66978 -13.92759,-35.85616 -9.28518,-9.18617 -21.68171,-13.77932 -37.18966,-13.77945 -12.84112,1.3e-4 -28.39852,3.90183 -46.67227,11.70513 l 20.15057,-108.16115 94.3817,0"
+         style="text-align:center;text-anchor:middle;baseline-shift:baseline;fill:#000000;stroke:#006100;stroke-width:10.11479568;stroke-dashoffset:0;-inkscape-font-specification:Century Gothic Bold"
+         id="path4640"
+         inkscape:connector-curvature="0"
+         inkscape:export-filename="/home/atamon/ProjectFive/project/assets/svg/counter5.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <path
+         d="m 311.97925,480.52652 4.44499,0 0,151.8701 26.37354,0 0,20.8914 -26.37354,0 0,50.67276 -21.78039,0 0,-50.67276 -104.16067,0 121.49607,-172.7615 m -17.3354,151.8701 0,-90.82573 -64.15587,90.82573 64.15587,0"
+         style="text-align:center;text-anchor:middle;baseline-shift:baseline;fill:#000000;stroke:#006100;stroke-width:10.11479568;stroke-dashoffset:0;-inkscape-font-specification:Century Gothic Bold"
+         id="path4642"
+         inkscape:connector-curvature="0"
+         inkscape:export-filename="/home/atamon/ProjectFive/project/assets/svg/counter4.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <path
+         d="m 222.93152,915.83809 -22.22489,0 c 4.04984,-17.97728 11.80386,-31.80609 23.26206,-41.48648 11.45811,-9.67994 24.99059,-14.52003 40.59746,-14.52025 11.3593,2.2e-4 21.92847,2.61781 31.70751,7.8528 9.87761,5.13662 17.48347,12.10041 22.81757,20.89138 5.43261,8.79138 8.14898,17.97766 8.14912,27.55888 -1.4e-4,18.76784 -9.33458,33.6338 -28.00335,44.59795 10.47027,4.24755 19.06388,10.47052 25.78087,18.6689 9.48246,11.55705 14.22377,24.49683 14.22393,38.81953 -1.6e-4,12.3472 -3.25981,24.151 -9.77896,35.4116 -6.51943,11.1619 -15.40939,19.8049 -26.66987,25.9291 -11.26072,6.1242 -23.85481,9.1863 -37.78232,9.1863 -18.76774,0 -34.42393,-5.3834 -46.9686,-16.1501 -12.54473,-10.8655 -20.74326,-26.7686 -24.59556,-47.7095 l 21.33591,0 c 3.7535,14.1252 9.13685,24.3487 16.15009,30.6704 8.98867,8.001 20.44684,12.0014 34.3745,12.0014 15.80427,0 28.49715,-4.7413 38.07865,-14.2239 9.58126,-9.4826 14.37195,-20.595 14.37209,-33.3374 -1.4e-4,-8.4947 -2.42016,-16.4463 -7.26013,-23.85467 -4.74144,-7.4082 -11.16194,-12.98912 -19.26157,-16.74276 -8.00107,-3.75342 -20.447,-6.07468 -37.33782,-6.96379 l 0,-20.0024 c 9.97643,1.3e-4 19.06393,-1.72847 27.26253,-5.18581 8.19841,-3.55584 14.12505,-8.0502 17.77991,-13.4831 3.75342,-5.4326 5.6302,-11.35922 5.63032,-17.77991 -1.2e-4,-9.48244 -3.80306,-17.68095 -11.40878,-24.59555 -7.50718,-6.91423 -17.03918,-10.37142 -28.59604,-10.37163 -9.3839,2.1e-4 -17.48363,2.66719 -24.2992,8.00097 -6.8157,5.23538 -12.59416,14.17473 -17.33543,26.81804"
+         style="text-align:center;text-anchor:middle;baseline-shift:baseline;fill:#000000;stroke:#006100;stroke-width:10.11479568;stroke-dashoffset:0;-inkscape-font-specification:Century Gothic Bold"
+         id="path4644"
+         inkscape:connector-curvature="0"
+         inkscape:export-filename="/home/atamon/ProjectFive/project/assets/svg/counter3.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <path
+         d="m 217.89389,1312.9228 -20.8914,0 c 0.59264,-21.5332 7.75398,-39.2144 21.48405,-53.0434 13.82878,-13.8286 30.86784,-20.743 51.11726,-20.7432 20.05169,2e-4 36.25115,6.4701 48.59844,19.4097 12.44579,12.94 18.66876,28.2011 18.6689,45.7833 -1.4e-4,12.3473 -2.96348,23.9536 -8.88996,34.819 -5.92678,10.7669 -17.43433,25.3859 -34.52267,43.8571 l -54.22873,58.5256 100.60469,0 0,21.0396 -148.0178,0 83.26927,-89.9368 c 16.89082,-18.0761 27.85507,-31.4604 32.89285,-40.1529 5.13627,-8.7911 7.70448,-18.0268 7.70462,-27.7071 -1.4e-4,-12.2482 -4.59327,-22.768 -13.77943,-31.5593 -9.08763,-8.8898 -20.24945,-13.3348 -33.48551,-13.335 -13.92767,2e-4 -25.53399,4.6428 -34.81899,13.9276 -9.18634,9.2853 -14.42154,22.3239 -15.70559,39.1158"
+         style="text-align:center;text-anchor:middle;baseline-shift:baseline;fill:#000000;stroke:#006100;stroke-width:10.11479568;stroke-dashoffset:0;-inkscape-font-specification:Century Gothic Bold"
+         id="path4646"
+         inkscape:connector-curvature="0"
+         inkscape:export-filename="/home/atamon/ProjectFive/project/assets/svg/counter2.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <path
+         d="m 238.93345,1623.9232 42.81996,0 0,217.9521 -21.63223,0 0,-196.6162 -34.22635,0 13.03862,-21.3359"
+         style="text-align:center;text-anchor:middle;baseline-shift:baseline;fill:#000000;stroke:#006100;stroke-width:10.11479568;stroke-dashoffset:0;-inkscape-font-specification:Century Gothic Bold"
+         id="path4648"
+         inkscape:connector-curvature="0"
+         inkscape:export-filename="/home/atamon/ProjectFive/project/assets/svg/counter1.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90" />
+      <text
+         xml:space="preserve"
+         style="font-size:150px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Century Gothic;-inkscape-font-specification:Sans Bold"
+         x="395.9798"
+         y="264.44321"
+         id="text4650"
+         sodipodi:linespacing="125%"
+         transform="matrix(3.4947079,0,0,3.4947079,-448.46765,-239.4626)"
+         inkscape:export-filename="/home/atamon/ProjectFive/project/assets/svg/counter0.png"
+         inkscape:export-xdpi="90"
+         inkscape:export-ydpi="90"><tspan
+           sodipodi:role="line"
+           id="tspan4652"
+           x="395.9798"
+           y="264.44321"
+           style="stroke:#006100;stroke-opacity:0.91324198000000001;fill:#000000;fill-opacity:0">BATTLE!</tspan></text>
+    </g>
+  </g>
+</svg>
