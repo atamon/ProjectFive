@@ -21,17 +21,13 @@ import util.Util;
  *
  * @author victorlindhe
  */
-public class GraphicalCannonBall implements PropertyChangeListener {
-    
-    private Node node;
-    private float yPosition;
+public class GraphicalCannonBall extends GraphicalAbstract implements PropertyChangeListener {
     
     public GraphicalCannonBall(ColorRGBA color,
                          Vector3f pos,
                          Vector3f size,
                          AssetManager assetManager,
                          Node blenderModel) {
-        System.out.println(size.getX());
         Sphere ball = new Sphere(10, 10, size.getX());
         Geometry ballGeo = new Geometry("CannonBall", ball);
         Material mat = new Material(assetManager, 
@@ -42,18 +38,6 @@ public class GraphicalCannonBall implements PropertyChangeListener {
         this.node = new Node();
         this.node.attachChild(ballGeo);
         this.updatePosition(pos);
-    }
-    
-    private void updatePosition(Vector3f pos) {
-        this.node.setLocalTranslation(pos);
-    }
-
-    private void updateRotation(Quaternion rot) {
-        this.node.setLocalRotation(rot);
-    }
-    
-    public Node getNode() {
-        return this.node;
     }
     
     public void propertyChange(PropertyChangeEvent pce) {
