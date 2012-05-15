@@ -45,8 +45,10 @@ public class Unit extends MoveableAbstract implements IObservable {
      * @param tpf Updatefrequency, i.e. time since last frame
      */
     public void update(final float tpf) {
-        this.accelerate(this.isAccelerating, tpf);
-        this.steer(tpf);
+        if (((int)body.getDirection().getY()) == 0) {
+            this.accelerate(this.isAccelerating, tpf);
+            this.steer(tpf);
+        }
         if (this.powerUp != null) {
             if (powerUp.isActive()) {
                 this.powerUp.update(tpf);
@@ -181,10 +183,11 @@ public class Unit extends MoveableAbstract implements IObservable {
     }
 
     /**
-    * A unit is only equal to itself, no man is another man alike.
-    * @param obj Must be == this to be equal
-    * @return Returns true if obj is the same as this.
-    */
+     * A unit is only equal to itself, no man is another man alike.
+     *
+     * @param obj Must be == this to be equal
+     * @return Returns true if obj is the same as this.
+     */
     @Override
     public boolean equals(Object obj) {
         return this == obj;
@@ -203,9 +206,10 @@ public class Unit extends MoveableAbstract implements IObservable {
         return hash;
     }
 
-    public IPowerUp getPowerUp(){
+    public IPowerUp getPowerUp() {
         return this.powerUp;
     }
+
     public void applyPowerUp(IPowerUp power) {
         this.removePowerUp(); //remove old powerUp before adding a new one
         this.powerUp = power;

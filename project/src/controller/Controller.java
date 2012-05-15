@@ -8,7 +8,10 @@ import controller.listeners.GlobalListener;
 import controller.listeners.LeavePlayerListener;
 import controller.listeners.JoinPlayerListener;
 import com.jme3.input.InputManager;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import model.IGame;
+import model.tools.Settings;
 import view.View;
 
 /**

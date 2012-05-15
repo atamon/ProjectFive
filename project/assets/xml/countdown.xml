@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nifty xmlns="http://nifty-gui.sourceforge.net/nifty-1.3.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-gui.sourceforge.net/nifty-1.3.xsd">
+    <screen id="countdown" childLayout="center">
+        <layer childLayout="absolute">
+            <effect>
+                <onEndScreen name="fade" start="#FF" end="#00" />
+                <onStartScreen name="fade" start="#00" end="#FF" />
+            </effect>
+            <panel id="5" width="100%" height="100%" childLayout="center" visible="true">
+                <image filename="svg/counter5.png" />    
+            </panel>
+            <panel id="4" width="100%" height="100%" childLayout="center" visible="false">
+                <image filename="svg/counter4.png" />    
+            </panel>
+            <panel id="3" width="100%" height="100%" childLayout="center" visible="false">
+                <image filename="svg/counter3.png" />    
+            </panel>
+            <panel id="2" width="100%" height="100%" childLayout="center" visible="false">
+                <image filename="svg/counter2.png" />    
+            </panel>
+            <panel id="1" width="100%" height="100%" childLayout="center" visible="false">
+                <image filename="svg/counter1.png" />    
+            </panel>
+            <panel id="0" width="100%" height="100%" childLayout="center" visible="false">
+                <effect>
+                    <onStartScreen name="hide" />
+                </effect>
+                <image filename="svg/counter0.png" />    
+            </panel>
+        </layer>
+    </screen>
+</nifty>

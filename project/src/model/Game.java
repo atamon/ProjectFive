@@ -18,7 +18,7 @@ import model.visual.Item;
 public class Game implements IGame {
 
     
-    // A game is never startable without 2 players at this setVelocity
+    // A game is never startable without 2 players at this point
     public static final int VALID_PLAYER_AMOUNT = 2;
     public static final int LAST_MAN_STANDING = 1;
     
@@ -32,6 +32,8 @@ public class Game implements IGame {
     
     private final ItemFactory itemFactory;
     private float itemTimeout = 5f;
+    
+    private float roundCountdown;
     /**
      * Create a game with given parameters. A game consists of a number of
      * rounds containing a given amount of players. The Game class starts new
@@ -73,7 +75,8 @@ public class Game implements IGame {
      */
     public void update(float tpf) {
         if (gameState == GameState.ACTIVE
-                && roundModel.getRoundState() == RoundState.PLAYING) {
+                && roundModel.getRoundState() == RoundState.PLAYING
+                && (roundCountdown <= 0 || roundCountdown == Settings.getInstance().getSetting("roundDelay"))) {
             if(playerModel.gameOver()) {
                 endRound();
             }
@@ -85,6 +88,12 @@ public class Game implements IGame {
                 this.itemTimeout = 10f;
             }
         }
+        if (roundCountdown > 0) {
+            roundCountdown -= tpf;
+            pcs.firePropertyChange("Round Countdown", null, roundCountdown);
+        }
+        
+
     }
 
     private void createItem(){
@@ -99,6 +108,7 @@ public class Game implements IGame {
 
     public void removePlayer(int id) {
         playerModel.removePlayer(id);
+        pcs.firePropertyChange("Player Removed", null, id);
     }
 
     public boolean hasPlayer(int id) {
@@ -155,7 +165,7 @@ public class Game implements IGame {
         // Since we are not sure the units are correctly placed we do so now
         playerModel.resetUnits();
         playerModel.haltPlayers();
-        System.out.println("Round started!");
+        roundCountdown = Settings.getInstance().getSetting("roundDelay");
     }
 
     /**

@@ -56,7 +56,7 @@ public class View implements PropertyChangeListener {
         this.game = game;
         this.assetManager = jme3.getAssetManager();
         this.rootNode = jme3.getRootNode();
-
+        
         // Create scene
         this.createScene();
         
@@ -69,7 +69,7 @@ public class View implements PropertyChangeListener {
         FilterPostProcessor waterPostProcessor = new FilterPostProcessor(assetManager);
         WaterFilter water = new WaterFilter(rootNode, new Vector3f(0, -1, 1));
         water.setWaterHeight(4f);
-//        waterPostProcessor.addFilter(water);
+        waterPostProcessor.addFilter(water);
         
                 
         jme3.getViewPort().addProcessor(waterPostProcessor);        
@@ -198,13 +198,29 @@ public class View implements PropertyChangeListener {
 
                 // If a player is created we need to start listening to it so we can know when it shoots
                 player.addPropertyChangeListener(this);
+                
                 Element bar = guiControl.getHealthBarElement(playerID);
                 bar.getParent().setVisible(true);
                 hpBars.put(bar, game.getPlayer(playerID).getUnit());
+                
+                // Show leave button
+                guiControl.playerActive(playerID, true);
+                
+                if (game.hasValidAmountOfPlayers()) {
+                    guiControl.gameValid(true);
+                }
 
             } else {
                 throw new RuntimeException(
                         "Unit Created-event sent without correct parameters");
+            }
+        }
+        
+        if ("Player Removed".equals(pce.getPropertyName())) {
+            int id = Integer.parseInt(""+pce.getNewValue());
+            guiControl.playerActive(id, false);
+            if (!game.hasValidAmountOfPlayers()) {
+                guiControl.gameValid(false);
             }
         }
 
@@ -225,8 +241,13 @@ public class View implements PropertyChangeListener {
                     Util.convertToMonkey3D(item.getSize()),
                     this.assetManager, null);
             rootNode.attachChild(graphicalItem.getNode());
-            System.out.println("VIEW: IM CREATING AN ITEM");
             item.addPropertyChangeListener(graphicalItem);
+        }
+        
+        if ("Round Countdown".equals(pce.getPropertyName())) {
+            float counter = Float.parseFloat(""+pce.getNewValue());
+            guiControl.countdown(counter);
+            
         }
     }
 }
