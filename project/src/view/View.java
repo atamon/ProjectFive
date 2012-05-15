@@ -240,12 +240,13 @@ public class View implements PropertyChangeListener {
                     Util.convertToMonkey3D(item.getSize()),
                     this.assetManager, null);
             rootNode.attachChild(graphicalItem.getNode());
-            System.out.println("VIEW: IM CREATING AN ITEM");
             item.addPropertyChangeListener(graphicalItem);
         }
         
         if ("Round Countdown".equals(pce.getPropertyName())) {
-            guiControl.countdown(Float.parseFloat(""+pce.getNewValue()));
+            float counter = Float.parseFloat(""+pce.getNewValue());
+            guiControl.countdown(counter);
+            
         }
     }
 }

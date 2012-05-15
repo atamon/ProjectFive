@@ -24,7 +24,6 @@ public class Unit extends MoveableAbstract implements IObservable {
     private boolean isAccelerating = false;
     private Direction steerDirection = new Direction();
     private IPowerUp powerUp = new PUEmpty();
-    private boolean inWater = false;
 
     /**
      * Create a unit
@@ -46,10 +45,9 @@ public class Unit extends MoveableAbstract implements IObservable {
      * @param tpf Updatefrequency, i.e. time since last frame
      */
     public void update(final float tpf) {
-        if (inWater) {   
+        if (((int)body.getDirection().getY()) == 0) {
             this.accelerate(this.isAccelerating, tpf);
             this.steer(tpf);
-            inWater = false;
         }
         if (this.powerUp != null) {
             if (powerUp.isActive()) {
@@ -182,17 +180,14 @@ public class Unit extends MoveableAbstract implements IObservable {
         if (obj instanceof IProjectile) {
             this.hitPoints -= ((IProjectile) obj).getDamage();
         }
-        
-        if (obj instanceof Battlefield) {
-            this.inWater = true;
-        }
     }
 
     /**
-    * A unit is only equal to itself, no man is another man alike.
-    * @param obj Must be == this to be equal
-    * @return Returns true if obj is the same as this.
-    */
+     * A unit is only equal to itself, no man is another man alike.
+     *
+     * @param obj Must be == this to be equal
+     * @return Returns true if obj is the same as this.
+     */
     @Override
     public boolean equals(Object obj) {
         return this == obj;
@@ -211,9 +206,10 @@ public class Unit extends MoveableAbstract implements IObservable {
         return hash;
     }
 
-    public IPowerUp getPowerUp(){
+    public IPowerUp getPowerUp() {
         return this.powerUp;
     }
+
     public void applyPowerUp(IPowerUp power) {
         this.removePowerUp(); //remove old powerUp before adding a new one
         this.powerUp = power;

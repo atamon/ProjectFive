@@ -1,20 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <nifty xmlns="http://nifty-gui.sourceforge.net/nifty-1.3.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://niftygui.sourceforge.net/nifty-1.3.xsd http://nifty-gui.sourceforge.net/nifty-1.3.xsd">
     <screen id="blank" backgroundColor="#0000"></screen>
-    <screen id="countdown" childLayout="center">
-        <layer id="counter" childLayout="center">
-            <effect>
-                <onEndScreen name="fade" start="#FF" end="#00" />
-                <onStartScreen name="fade" start="#00" end="#FF" />
-            </effect>
-            <image id="5" filename="svg/counter5.png" />
-            <image id="4" filename="svg/counter4.png" visible="false" />
-            <image id="3" filename="svg/counter3.png" visible="false" />
-            <image id="2" filename="svg/counter2.png" visible="false" />
-            <image id="1" filename="svg/counter1.png" visible="false" />
-            <image id="0" filename="svg/counter0.png" visible="false" />
-        </layer>
-    </screen>
     <screen id="join" backgroundColor="00CF">
         <layer id="joinCams" childLayout="absolute">
             <effect>

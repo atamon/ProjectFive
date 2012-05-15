@@ -41,6 +41,7 @@ public class GUIController {
         nifty = niftyGUI.getNifty();
         nifty.fromXml(NIFTY_XML_PATH, "join");
         nifty.addXml("xml/HUD.xml");
+        nifty.addXml("xml/countdown.xml");
     }
 
     public void updateGui(boolean stateChanged) {
@@ -49,7 +50,7 @@ public class GUIController {
             if (game.getState() == GameState.INACTIVE) {
                 nifty.gotoScreen("join");
             }
-            if (game.getState() == GameState.ACTIVE) {
+            if (game.getRoundState() == RoundState.PLAYING) {
                 // Display HUD
                 nifty.gotoScreen("HUD");
             }
@@ -61,15 +62,24 @@ public class GUIController {
 
     public void countdown(float counter) {
         int count = (int)counter;
+        
         if (lastCount != count) {
             Screen screen = nifty.getScreen("countdown");
+            
+            if (nifty.getCurrentScreen() != screen) {
+                nifty.gotoScreen("countdown");
+            }
+            
             Element shownElem = screen.findElementByName("" + (count + 1));
             if (shownElem != null) {
                 shownElem.setVisible(false);
             }
+            
             Element counterElem = screen.findElementByName("" + count);
-            System.out.println(counterElem.getId());
             counterElem.setVisible(true);
+        }
+        if (count <= 0) {
+            nifty.gotoScreen("HUD");
         }
         lastCount = count;
     }
