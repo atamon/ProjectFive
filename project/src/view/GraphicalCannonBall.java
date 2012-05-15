@@ -5,6 +5,8 @@
 package view;
 
 import com.jme3.asset.AssetManager;
+import com.jme3.effect.ParticleEmitter;
+import com.jme3.effect.ParticleMesh;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
@@ -23,11 +25,14 @@ import util.Util;
  */
 public class GraphicalCannonBall extends GraphicalAbstract implements PropertyChangeListener {
     
+    private final AssetManager assetManager;
+    
     public GraphicalCannonBall(ColorRGBA color,
                          Vector3f pos,
                          Vector3f size,
                          AssetManager assetManager,
                          Node blenderModel) {
+        this.assetManager = assetManager;
         Sphere ball = new Sphere(10, 10, size.getX());
         Geometry ballGeo = new Geometry("CannonBall", ball);
         Material mat = new Material(assetManager, 

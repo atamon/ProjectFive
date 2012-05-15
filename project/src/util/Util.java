@@ -4,7 +4,9 @@
  */
 package util;
 
+import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
+import java.awt.Color;
 import math.Vector;
 
 /**
@@ -23,5 +25,9 @@ public abstract class Util {
 
     public static Vector3f getCenterPosition(Vector3f sizeVector) {
         return new Vector3f( sizeVector.getX()/2, sizeVector.getY()/2, sizeVector.getZ()/2 );
+    }
+
+    public static ColorRGBA convertToMonkeyColor(Color color) {
+        return new ColorRGBA(color.getRed(),color.getGreen(),color.getBlue(),color.getAlpha());
     }
 }

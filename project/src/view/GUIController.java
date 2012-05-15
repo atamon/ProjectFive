@@ -13,20 +13,26 @@ import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.elements.Element;
+import de.lessvoid.nifty.elements.render.TextRenderer;
+import java.awt.Color;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import math.Vector;
 import model.GameState;
 import model.IGame;
 import model.round.RoundState;
 import model.visual.Battlefield;
+import model.visual.StatusBox;
 import util.Util;
 
 /**
  *
  * @author victorlindhe
  */
-public class GUIController {
+public class GUIController implements PropertyChangeListener {
     
     public static final String NIFTY_XML_PATH = "xml/main.xml";
     public static final float[] MAGICAL_VIEW_ZERO = {0.06f, 0.45f, 0.60f, 0.95f};
@@ -51,6 +57,9 @@ public class GUIController {
         nifty.fromXml(NIFTY_XML_PATH, "join");
         nifty.addXml("xml/HUD.xml");
         
+        // Listen to StatusBox
+        StatusBox.getInstance().addPropertyChangeListener(this);
+        
         // Set up individual cam positions
         Vector bfSize = game.getBattlefieldSize();
         viewports.add(setUpCameraView(MAGICAL_VIEW_ZERO, Util.convertToMonkey3D(Battlefield.getStartingPosition(0, bfSize)), waterPostProcessor));
@@ -66,11 +75,11 @@ public class GUIController {
                     // Show joinscreen
                     for (ViewPort vp : viewports) {
                         vp.setEnabled(true);
-                    }
+                    } 
                     nifty.gotoScreen("join");
                 }
                 if (game.getState() == GameState.ACTIVE) {
-                    // Hide joinscreen
+                    // Hide joinscreen  
                     for (ViewPort vp : viewports) {
                         vp.setEnabled(false);
                     }
@@ -106,6 +115,24 @@ public class GUIController {
             throw new IllegalArgumentException("ERROR: No such Element in Nifty-XML, cannot get HP-bar :)");
         } else {
             return elem;
+        }
+    }
+
+    public void propertyChange(PropertyChangeEvent pce) {
+        if ("StatusBox Message".equals(pce.getPropertyName())){
+            // TODO: Add last 2-5 messages to the status box.
+            // Since this happens on every message update. maybe just add latest and remove oldest if limit reached
+            Map<Color, String> messages = (Map<Color, String>) pce.getNewValue();
+            this.nifty.getScreen("HUD").findElementByName(NIFTY_XML_PATH);
+        }
+        if ("StatusBox Cleared".equals(pce.getPropertyName())){
+            // TODO: clear visible statusbox
+        }
+        if ("StatusBox Visible".equals(pce.getPropertyName())){
+            // TODO: make sure its visible
+        }
+        if ("StatusBox Hidden".equals(pce.getPropertyName())){
+            // TODO: make sure its hidden, i.e. move outside screen
         }
     }
 }

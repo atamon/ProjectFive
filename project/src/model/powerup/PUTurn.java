@@ -22,7 +22,7 @@ public class PUTurn extends AbstractPowerUp {
 
     public void update(final float tpf) {
         if (lifeTime <= 0) {
-            this.isActive = false;
+            this.active = false;
         } else {
             this.lifeTime -= tpf;
         }

@@ -35,12 +35,11 @@ public class GraphicalUnit extends GraphicalAbstract implements PropertyChangeLi
         blenderModel.setLocalScale(size);
         Quaternion rot = new Quaternion();
         rot.lookAt(dir, Vector3f.UNIT_Y);
-        System.out.println("" + this.node.getChildren().size());
         
         //We know that node only contains the model of the boat.
         Node boatModelNode = (Node) this.node.getChild(0);
         Geometry sailGeometry = (Geometry) boatModelNode.getChild(1);
-        setSailColor(id, sailGeometry);        
+        setSailColor(color, sailGeometry);        
         
         updatePosition(pos);
         updateRotation(rot);
@@ -61,20 +60,7 @@ public class GraphicalUnit extends GraphicalAbstract implements PropertyChangeLi
         }
     }
     
-    private void setSailColor(int id, Geometry sail) {
-        switch(id) {
-            case 0:
-                sail.getMaterial().setColor("Ambient", ColorRGBA.Cyan);
-                break;
-            case 1:
-                sail.getMaterial().setColor("Ambient", ColorRGBA.Magenta);
-                break;
-            case 2:
-                sail.getMaterial().setColor("Ambient", ColorRGBA.Orange);
-                break;
-            case 3:
-                sail.getMaterial().setColor("Ambient", ColorRGBA.Pink);
-                break;
-        }
+    private void setSailColor(final ColorRGBA color, final Geometry sail) {
+        sail.getMaterial().setColor("Ambient", color);
     }
 }

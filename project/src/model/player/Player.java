@@ -1,8 +1,11 @@
 package model.player;
 
+import java.awt.Color;
 import math.Vector;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
+import java.util.List;
 import model.tools.Settings;
 import model.visual.CannonBall;
 import model.visual.Unit;
@@ -14,21 +17,36 @@ import model.visual.Unit;
  */
 public class Player {
 
+    public final static List<Color> PLAYER_COLORS = new ArrayList<Color>(){
+        {
+            this.add(Color.CYAN);    // 0
+            this.add(Color.MAGENTA); // 1
+            this.add(Color.ORANGE);  // 2
+            this.add(Color.PINK);    // 3
+        }
+    };
+
     private final int playerId;
     private Unit playerUnit;
     private float firePower = 0;
-    private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
-
+    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+    private final Color color;
     /**
      * Creates a player with a specific number 1-4.
      *
      * @param int playerNumber
      */
-    public Player(int playerID) {
+    public Player(final int playerID) {
         this.playerId = playerID;
+        this.color = (PLAYER_COLORS.size() >= playerID) ? // player should be created with any id
+                PLAYER_COLORS.get(playerID) : Color.WHITE; // but only id 0-3 have color
         
     }
 
+    public Color getColor(){
+        return this.color;
+    }
+    
     /**
      * Gets the unit for a specific player.
      *

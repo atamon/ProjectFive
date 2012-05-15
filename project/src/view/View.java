@@ -69,7 +69,7 @@ public class View implements PropertyChangeListener {
         FilterPostProcessor waterPostProcessor = new FilterPostProcessor(assetManager);
         WaterFilter water = new WaterFilter(rootNode, new Vector3f(0, -1, 1));
         water.setWaterHeight(4f);
-        waterPostProcessor.addFilter(water);
+//        waterPostProcessor.addFilter(water);
         
                 
         jme3.getViewPort().addProcessor(waterPostProcessor);        
@@ -192,8 +192,9 @@ public class View implements PropertyChangeListener {
                 Vector size = unit.getSize();
                 // Also send playerID so it knows which unit to listen to.
                 int playerID = player.getId();
-
-                this.createGraphicalUnit(playerID, pos, dir, size, ColorRGBA.randomColor());
+                
+                final ColorRGBA color = Util.convertToMonkeyColor(player.getColor());
+                this.createGraphicalUnit(playerID, pos, dir, size, color);
 
                 // If a player is created we need to start listening to it so we can know when it shoots
                 player.addPropertyChangeListener(this);

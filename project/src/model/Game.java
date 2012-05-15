@@ -10,7 +10,6 @@ import model.tools.Settings;
 import math.Vector;
 import model.visual.Battlefield;
 import model.visual.Item;
-import model.visual.Unit;
 
 /**
  * Represents a Game consisting of rounds and players that compete to win!

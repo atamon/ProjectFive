@@ -19,7 +19,7 @@ public abstract class AbstractPowerUp implements IPowerUp {
     protected int hitPointsMax;
     protected int damage;
 
-    protected boolean isActive = true;
+    protected boolean active = true;
     
     @Override
     public int getAcceleration() {
@@ -57,11 +57,11 @@ public abstract class AbstractPowerUp implements IPowerUp {
     }
     
     public boolean isActive() {
-        return isActive;
+        return active;
     }
     
     public void setActive(final boolean active) {
-        this.isActive = active;
+        this.active = active;
     }
     
 }

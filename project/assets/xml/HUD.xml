@@ -35,6 +35,12 @@
                 </panel>
             </panel>
         </layer>
+        <layer id="statusBox" backgroundColor="#0000" childLayout="center">
+		<panel id="info" backgroundColor="#AAA7" width="60%" height="10%" valign="bottom" childLayout="vertical" align="center">
+			<text font="Interface/Fonts/Default.fnt" text="Status Messages Goes Here" textHAlign="left" valign="bottom" /> 
+			<text font="Interface/Fonts/Default.fnt" text="Latest Message Here" textHAlign="left" valign="bottom" /> 
+		</panel>
+	</layer>
     </screen>
     <screen id="pause">
         <layer childLayout="center" width="100%" height="100%" backgroundColor="#1112">
