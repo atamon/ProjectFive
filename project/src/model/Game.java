@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.Color;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
@@ -105,7 +106,7 @@ public class Game implements IGame {
         Item item = this.itemFactory.createNewItem(this.getBattlefieldSize());
         this.battlefield.addToBattlefield(item);
         pcs.firePropertyChange("Item Created", null, item);
-        StatusBox.getInstance().message(item.getPowerUp().getName()+": A strange bottle appeared..");
+        StatusBox.getInstance().message(Color.ORANGE,item.getPowerUp().getName()+": A strange bottle appeared..");
     }
     
     public Vector getBattlefieldPosition() {
@@ -155,6 +156,7 @@ public class Game implements IGame {
 
     public void start() {
         gameState = GameState.ACTIVE;
+        StatusBox.getInstance().message(Color.GREEN,"Round "+(roundModel.playedRounds()+1)+" started!");
         nextRound();
     }
 
@@ -198,8 +200,7 @@ public class Game implements IGame {
     private void endRound() {
         roundModel.endRound(playerModel.findRoundWinner());
 
-        System.out.println("This rounds winner is .... "
-                + roundModel.getWinner());
+        StatusBox.getInstance().message(roundModel.getWinner().getColor(), "Winner: Player "+roundModel.getWinner().getId()+" !");
         if (Settings.getInstance().getSetting("numberOfRounds") 
                 <= roundModel.playedRounds()) {
             endGame();
