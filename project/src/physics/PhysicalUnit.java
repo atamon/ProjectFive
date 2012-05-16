@@ -51,6 +51,6 @@ public class PhysicalUnit extends PhysicalAbstractBody {
 
         // Adjust the linear velocity to always travel in the boats direction
         float speed = body.getLinearVelocity().length();
-        body.setLinearVelocity(getSteeringDirection().mult(speed));
+        body.setLinearVelocity(getSteeringDirection().mult(speed).setY(0));
     }
 }
