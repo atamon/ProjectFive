@@ -48,7 +48,7 @@ public abstract class PhysicalAbstractBody implements IPhysicalBody {
     @Override
     public void accelerate(float tpf) {
         float acceleration = tpf * owner.getAcceleration();
-        body.applyCentralForce(getSteeringDirection().mult(acceleration));
+        body.applyCentralForce(getSteeringDirection().mult(acceleration).setY(0));
     }
 
     protected Vector3f getSteeringDirection() {

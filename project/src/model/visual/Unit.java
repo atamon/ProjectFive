@@ -28,6 +28,9 @@ public class Unit extends MoveableAbstract implements IObservable {
     private IPowerUp powerUp = new PUEmpty();
     private final IPhysicalBody body;
     private final PropertyChangeSupport pcs;
+    private float fireDelay = Settings.getInstance().getSetting("fireDelay");
+
+
     /**
      * Create a unit
      *
@@ -51,10 +54,8 @@ public class Unit extends MoveableAbstract implements IObservable {
      * @param tpf Updatefrequency, i.e. time since last frame
      */
     public void update(final float tpf) {
-        if (((int)body.getDirection().getY()) == 0) {
-            this.accelerate(this.isAccelerating, tpf);
-            this.steer(tpf);
-        }
+        this.accelerate(this.isAccelerating, tpf);
+        this.steer(tpf);
         if (this.powerUp != null) {
             if (powerUp.isActive()) {
                 this.powerUp.update(tpf);
@@ -62,6 +63,7 @@ public class Unit extends MoveableAbstract implements IObservable {
                 this.removePowerUp();
             }
         }
+        this.fireDelay = fireDelay <= 0 ? 0 : fireDelay - tpf;
     }
 
     /**
@@ -232,6 +234,14 @@ public class Unit extends MoveableAbstract implements IObservable {
         this.maxSpeed -= powerUp.getMaxSpeed();
         this.steerAngle -= powerUp.getSteerAngle();
         this.powerUp = new PUEmpty();
+    }
+    
+    public boolean canFire() {
+        return fireDelay <= 0;
+    }
+    
+    public void reload(float delay) {
+        this.fireDelay = delay;
     }
 
     @Override
