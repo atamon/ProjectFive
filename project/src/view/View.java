@@ -12,8 +12,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.post.FilterPostProcessor;
 import com.jme3.renderer.Camera;
-import com.jme3.renderer.queue.RenderQueue;
-import com.jme3.renderer.queue.RenderQueue.Bucket;
+import com.jme3.renderer.RendererException;
 import com.jme3.scene.Node;
 import com.jme3.water.WaterFilter;
 import de.lessvoid.nifty.elements.Element;
@@ -71,8 +70,7 @@ public class View implements PropertyChangeListener {
         FilterPostProcessor waterPostProcessor = new FilterPostProcessor(assetManager);
         WaterFilter water = new WaterFilter(rootNode, new Vector3f(0, -1, 1));
         water.setWaterHeight(4f);
-        waterPostProcessor.addFilter(water);
-        
+//        waterPostProcessor.addFilter(water);
                 
         jme3.getViewPort().addProcessor(waterPostProcessor);        
         guiControl = new GUIController(niftyGUI, game, waterPostProcessor, jme3);

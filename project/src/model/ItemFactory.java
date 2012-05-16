@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import math.Vector;
 import model.powerup.*;
-import model.visual.Battlefield;
 import model.visual.Item;
 
 /**
@@ -36,7 +35,7 @@ public class ItemFactory {
         final float randXPos = (float)Math.random() * (fieldSize.getX()-MARGINS[0]-MARGINS[1]) + MARGINS[1];
         final float randZPos = (float)Math.random() * (fieldSize.getZ()-MARGINS[2]-MARGINS[3]) + MARGINS[3];
         // TODO REMOVE STATIC UGLY NUMBER
-        final Item item = new Item(powerUps.get(randNumber), new Vector(randXPos, ITEM_SPAWNHEIGHT, randZPos));
+        final Item item = new Item(powerUps.get(randNumber).clone() , new Vector(randXPos, ITEM_SPAWNHEIGHT, randZPos));
         item.getPowerUp().setActive(true);
         return item;
     }

@@ -13,11 +13,15 @@ public class PUTurn extends AbstractPowerUp {
     private String name = "Turn";
     private String message = "Ya drank so much so ya do not give a crap about"
             + " the safety of yer crew! Fast turns won't be a problem matey!";
-
+    
     public PUTurn() {
         super();
         this.steerAngle = 3;
         this.lifeTime = 10;
+    }
+
+    private PUTurn(PUTurn that) {
+        super(that);
     }
 
     public void update(final float tpf) {
@@ -34,5 +38,10 @@ public class PUTurn extends AbstractPowerUp {
 
     public String getName() {
         return this.name;
+    }
+
+    @Override
+    public IPowerUp clone() {
+        return new PUTurn(this);
     }
 }

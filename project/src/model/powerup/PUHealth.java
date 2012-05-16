@@ -19,6 +19,10 @@ public class PUHealth extends AbstractPowerUp {
         super();
         this.hitPoints = Settings.getInstance().getSetting("hitPointsMax");
     }
+
+    private PUHealth(PUHealth that) {
+        super(that);
+    }
     
     public void update(float tpf) {
         //Nothing should be done here since it's an instant PowerUp
@@ -30,6 +34,11 @@ public class PUHealth extends AbstractPowerUp {
 
     public String getName() {
         return this.name;
+    }
+
+    @Override
+    public IPowerUp clone() {
+        return new PUHealth(this);
     }
     
 }

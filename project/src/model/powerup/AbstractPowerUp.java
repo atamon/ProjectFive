@@ -21,6 +21,25 @@ public abstract class AbstractPowerUp implements IPowerUp {
 
     protected boolean active = true;
     
+    public AbstractPowerUp(){}
+    
+    /**
+     * copy constructor
+     * @param that IPowerUp to be copied
+     */
+    public AbstractPowerUp(IPowerUp that){
+        this.lifeTime = that.getLifeTime();
+        this.maxSpeed = that.getMaxSpeed();
+        this.acceleration = that.getAcceleration();
+        this.retardation = that.getRetardation();
+        this.steerAngle = that.getSteerAngle();
+        this.hitPoints = that.getHitPoints();
+        this.hitPointsMax = that.getHitPointsMax();
+        this.damage = that.getDamage();
+    }
+    
+    public abstract IPowerUp clone();
+    
     @Override
     public int getAcceleration() {
         return acceleration;
@@ -56,6 +75,10 @@ public abstract class AbstractPowerUp implements IPowerUp {
         return steerAngle;
     }
     
+    public int getDamage(){
+        return damage;
+    }
+    
     public boolean isActive() {
         return active;
     }
@@ -63,5 +86,6 @@ public abstract class AbstractPowerUp implements IPowerUp {
     public void setActive(final boolean active) {
         this.active = active;
     }
+    
     
 }

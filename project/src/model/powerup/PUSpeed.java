@@ -15,6 +15,10 @@ public final class PUSpeed extends AbstractPowerUp {
         this.acceleration = 10000;
         this.lifeTime = 10;
     }
+
+    private PUSpeed(PUSpeed that) {
+        super(that);
+    }
     
     public void update(final float tpf) {
         if(lifeTime <= 0){
@@ -30,6 +34,11 @@ public final class PUSpeed extends AbstractPowerUp {
 
     public String getName() {
         return this.name;
+    }
+
+    @Override
+    public IPowerUp clone() {
+        return new PUSpeed(this);
     }
 
 }
