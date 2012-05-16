@@ -5,7 +5,7 @@ package model.powerup;
  *
  * @author jnes
  */
-public interface IPowerUp {
+public interface IPowerUp extends Cloneable {
     public void update(final float tpf); // i.e. update lifetime
     public String getMessage();
     public String getName();
@@ -27,5 +27,9 @@ public interface IPowerUp {
     public int getSteerAngle();
     
     public void setActive(final boolean active);
-        
+
+    public int getDamage();
+
+    public IPowerUp clone();
+
 }

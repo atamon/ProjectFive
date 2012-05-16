@@ -1,5 +1,6 @@
 package model.visual;
 
+import java.beans.PropertyChangeSupport;
 import math.Direction;
 import math.Vector;
 import model.powerup.IPowerUp;
@@ -7,6 +8,7 @@ import model.powerup.PUEmpty;
 import observable.IObservable;
 import model.settings.Settings;
 import physics.ICollideable;
+import physics.IPhysicalBody;
 import physics.PhysicalUnit;
 
 /**
@@ -22,8 +24,10 @@ public class Unit extends MoveableAbstract implements IObservable {
     private int hitPoints = hitPointsMax;
     private float hullStrength = Settings.getInstance().getSetting("hullStrength");
     private boolean isAccelerating = false;
-    private Direction steerDirection = new Direction();
+    private final Direction steerDirection = new Direction();
     private IPowerUp powerUp = new PUEmpty();
+    private final IPhysicalBody body;
+    private final PropertyChangeSupport pcs;
     private float fireDelay = Settings.getInstance().getSetting("fireDelay");
 
 
@@ -34,10 +38,13 @@ public class Unit extends MoveableAbstract implements IObservable {
      * @param dir initial direction
      */
     public Unit(Vector pos, Vector dir, Vector size, float mass) {
-        this.body = new PhysicalUnit(this, pos, dir, size, mass);
         if (hitPointsMax <= 0) {
             throw new IllegalArgumentException("hit points must be positive");
         }
+        
+        this.body = new PhysicalUnit(this, pos, dir, size, mass);
+        super.setBody(body);
+        this.pcs = super.getPropertyChangeSupport();
     }
 
     /**

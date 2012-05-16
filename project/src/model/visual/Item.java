@@ -4,11 +4,10 @@
  */
 package model.visual;
 
+import java.beans.PropertyChangeSupport;
 import model.powerup.IPowerUp;
 import math.Vector;
-import physics.ICollideable;
-import physics.IPhysicalModel;
-import physics.PhysicalItem;
+import physics.*;
 
 /**
  * A class to represent an immutable Item.
@@ -22,6 +21,9 @@ public final class Item extends MoveableAbstract {
     private float lifeTime=10;
     private final Vector pointingDir = new Vector(1,1,1);
     private final float mass = 0.1f;
+    private final IPhysicalBody body;
+    private final PropertyChangeSupport pcs;
+    
     /**
      * Creates an Item of a given type and at a given position.
      *
@@ -30,8 +32,11 @@ public final class Item extends MoveableAbstract {
      * @param position Vector
      */
     public Item(final IPowerUp powerUp, final Vector position) {
-        this.body = new PhysicalItem(this, position, pointingDir, size, mass);
         this.powerUp = powerUp;
+        
+        this.body = new PhysicalItem(this, position, pointingDir, size, mass);
+        super.setBody(body);
+        this.pcs = super.getPropertyChangeSupport();
     }
 
     /**

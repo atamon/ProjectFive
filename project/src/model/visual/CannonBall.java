@@ -4,9 +4,11 @@
  */
 package model.visual;
 
+import java.beans.PropertyChangeSupport;
 import observable.IObservable;
 import math.Vector;
 import physics.ICollideable;
+import physics.IPhysicalBody;
 import physics.IPhysicalModel;
 import physics.PhysicalCannonBall;
 
@@ -17,6 +19,8 @@ import physics.PhysicalCannonBall;
  */
 public class CannonBall extends MoveableAbstract implements IObservable, IProjectile {
     private final Unit owner;
+    private final IPhysicalBody body;
+    private final PropertyChangeSupport pcs;
     
     /**
      * Creates a CannonBall.
@@ -33,6 +37,8 @@ public class CannonBall extends MoveableAbstract implements IObservable, IProjec
             final float speed,
             final Unit owner) {
         this.body = new PhysicalCannonBall(this, position, direction, size, mass, speed);
+        super.setBody(body);
+        this.pcs = super.getPropertyChangeSupport();
         this.owner = owner;
     }
 

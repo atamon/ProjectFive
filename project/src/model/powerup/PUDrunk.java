@@ -14,7 +14,11 @@ public class PUDrunk extends AbstractPowerUp {
 
     private String name = "Drunk";
     private String message = "Yer drunk!!!!!!!! Inverted steering";
-
+    
+    private PUDrunk(PUDrunk that) {
+        super(that);
+    }
+    
     public PUDrunk() {
         super();
         this.steerAngle = -Settings.getInstance().getSetting("steerAngle")*2;
@@ -36,4 +40,10 @@ public class PUDrunk extends AbstractPowerUp {
     public String getName() {
         return this.name;
     }
+
+    @Override
+    public IPowerUp clone() {
+        return new PUDrunk(this);
+    }
+
 }

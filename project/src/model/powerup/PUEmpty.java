@@ -13,6 +13,10 @@ public class PUEmpty extends AbstractPowerUp {
     public PUEmpty() {
         super();
     }
+
+    private PUEmpty(PUEmpty that) {
+        super(that);
+    }
     
     public void update(final float tpf) {
         // nothing to be done here..
@@ -24,6 +28,11 @@ public class PUEmpty extends AbstractPowerUp {
 
     public String getName() {
         return "Empty";
+    }
+
+    @Override
+    public IPowerUp clone() {
+        return new PUEmpty(this);
     }
     
 }

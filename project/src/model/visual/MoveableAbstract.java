@@ -10,7 +10,7 @@ import model.settings.Settings;
 import math.Vector;
 import physics.ICollideable;
 import physics.IPhysicalBody;
-import physics.IPhysicalModel;
+import physics.PhysicalUnit;
 
 /**
  *
@@ -20,8 +20,9 @@ public abstract class MoveableAbstract implements IMoveable {
 
     protected int maxSpeed = Settings.getInstance().getSetting("maxSpeed");
     protected int acceleration = Settings.getInstance().getSetting("acceleration");
-    protected PropertyChangeSupport pcs = new PropertyChangeSupport(this);
-    protected IPhysicalBody body;
+    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+
+    private IPhysicalBody body;
 
     /**
      * Sets the position of the moveable
@@ -43,6 +44,9 @@ public abstract class MoveableAbstract implements IMoveable {
         this.setPosition(new Vector(x, y, z));
     }
 
+    public void setBody(final IPhysicalBody body) {
+        this.body = body;
+    }
     /**
      * Sets our movable's direction.
      *
@@ -60,6 +64,9 @@ public abstract class MoveableAbstract implements IMoveable {
         return body.getPosition();
     }
 
+    public PropertyChangeSupport getPropertyChangeSupport() {
+        return this.pcs;
+    }
     /**
      *
      * @return The unit's acceleration
@@ -152,4 +159,5 @@ public abstract class MoveableAbstract implements IMoveable {
 
     public abstract void announceRemoval();
     public abstract void collidedWith(ICollideable obj, float objImpactSpeed);
+
 }
