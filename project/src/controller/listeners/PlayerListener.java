@@ -42,7 +42,8 @@ public class PlayerListener implements ActionListener, AnalogListener {
     }
 
     public void onAction(String name, boolean isPressed, float tpf) {
-        if (!isPressed && game.getRoundState() == RoundState.PLAYING) {
+        if (!isPressed && game.getRoundState() == RoundState.PLAYING
+                && game.getPlayer(player.getId()).canUnitFire()) {
             if (name.equals(this.layout.getLeftFireMap())) {
                 this.player.fireLeft();
             }
@@ -63,14 +64,17 @@ public class PlayerListener implements ActionListener, AnalogListener {
         if (name.equals(this.layout.getRightMap())) {
             this.player.steerUnitClockWise(isPressed);
         }
-
     }
 
     public void onAnalog(String name, float value, float tpf) {
-        
-        if (game.getRoundState() == RoundState.PLAYING) {
-            if (name.equals(this.layout.getLeftFireMap()) || name.equals(this.layout.getRightFireMap())) {
-                this.player.increaseFirePower(value);
+
+        if (game.getRoundState() == RoundState.PLAYING 
+                && game.getPlayer(player.getId()).canUnitFire()) {
+            if (name.equals(this.layout.getLeftFireMap())) {
+                this.player.increaseFirePowerLeft(value);
+            }
+            if (name.equals(this.layout.getRightFireMap())) {
+                this.player.increaseFirePowerRight(value);
             }
         }
     }

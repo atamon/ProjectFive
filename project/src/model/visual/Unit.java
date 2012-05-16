@@ -24,6 +24,8 @@ public class Unit extends MoveableAbstract implements IObservable {
     private boolean isAccelerating = false;
     private Direction steerDirection = new Direction();
     private IPowerUp powerUp = new PUEmpty();
+    private float fireDelay = Settings.getInstance().getSetting("fireDelay");
+
 
     /**
      * Create a unit
@@ -56,6 +58,7 @@ public class Unit extends MoveableAbstract implements IObservable {
                 this.removePowerUp();
             }
         }
+        this.fireDelay = fireDelay <= 0 ? 0 : fireDelay - tpf;
     }
 
     /**
@@ -226,6 +229,14 @@ public class Unit extends MoveableAbstract implements IObservable {
         this.maxSpeed -= powerUp.getMaxSpeed();
         this.steerAngle -= powerUp.getSteerAngle();
         this.powerUp = new PUEmpty();
+    }
+    
+    public boolean canFire() {
+        return fireDelay <= 0;
+    }
+    
+    public void reload(float delay) {
+        this.fireDelay = delay;
     }
 
     @Override

@@ -18,7 +18,8 @@ import model.visual.Unit;
  */
 public class Player implements IObservable {
 
-    public final static List<Color> PLAYER_COLORS = new ArrayList<Color>(){
+    public final static List<Color> PLAYER_COLORS = new ArrayList<Color>() {
+
         {
             this.add(Color.CYAN);    // 0
             this.add(Color.MAGENTA); // 1
@@ -26,12 +27,13 @@ public class Player implements IObservable {
             this.add(Color.PINK);    // 3
         }
     };
-
     private final int playerId;
     private Unit playerUnit;
-    private float firePower = 0;
+    private float firePowerLeft = Settings.getInstance().getSetting("cannonBallMinimumFirePower");
+    private float firePowerRight = Settings.getInstance().getSetting("cannonBallMinimumFirePower");
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private final Color color;
+
     /**
      * Creates a player with a specific number 1-4.
      *
@@ -41,13 +43,13 @@ public class Player implements IObservable {
         this.playerId = playerID;
         this.color = (PLAYER_COLORS.size() >= playerID) ? // player should be created with any id
                 PLAYER_COLORS.get(playerID) : Color.WHITE; // but only id 0-3 have color
-        
+
     }
 
-    public Color getColor(){
+    public Color getColor() {
         return this.color;
     }
-    
+
     /**
      * Gets the unit for a specific player.
      *
@@ -67,41 +69,64 @@ public class Player implements IObservable {
             this.playerUnit = boat;
         }
     }
-    
-    public void increaseFirePower(float value) {
+
+    public void increaseFirePowerLeft(float value) {
+        System.out.println("Value: " + value);
         if (value < 0) {
             throw new IllegalArgumentException("ERROR: Tried to increase firepower with negative value! Exiting");
         }
-        firePower += value;
+        firePowerLeft += value;
+
+        System.out.println("FirePower: " + firePowerLeft);
+
+        if (firePowerLeft > 2) {
+            firePowerLeft = Settings.getInstance().getSetting("cannonBallMaximumFirePower");
+        }
+    }
+
+    public void increaseFirePowerRight(float value) {
+        System.out.println("Value: " + value);
+        if (value < 0) {
+            throw new IllegalArgumentException("ERROR: Tried to increase firepower with negative value! Exiting");
+        }
+        firePowerRight += value;
+
+        System.out.println("FirePower: " + firePowerRight);
+
+        if (firePowerRight > 2) {
+            firePowerRight = Settings.getInstance().getSetting("cannonBallMaximumFirePower");
+        }
     }
 
     // TODO COMBINE FIRELEFT AND FIRERIGHT INTO ONE!
     public void fireLeft() {
         Vector unitDirection = playerUnit.getDirection();
         Vector ballDirection = new Vector(unitDirection.getZ(), 0,
-               unitDirection.getX() * -1);
-        this.fire(ballDirection);
+                unitDirection.getX() * -1);
+        this.fire(ballDirection, firePowerLeft);
+        firePowerLeft = Settings.getInstance().getSetting("cannonBallMinimumFirePower");
     }
 
     public void fireRight() {
         Vector unitDirection = playerUnit.getDirection();
         Vector ballDirection = new Vector(unitDirection.getZ() * -1, 0,
                 unitDirection.getX());
-        this.fire(ballDirection);
+        this.fire(ballDirection, firePowerRight);
+        firePowerRight = Settings.getInstance().getSetting("cannonBallMinimumFirePower");
     }
 
-    private void fire(Vector direction) {
+    private void fire(Vector direction, float firePower) {
         // Magical 10f is to reduce size from int >= 1 in settings
         float size = Settings.getInstance().getSetting("cannonBallSize") / 10f;
-        
+
         CannonBall cBall = new CannonBall(this.getCannonBallPos(direction),
-                                          direction,
-                                          new Vector(size, size, size),
-                                          (float)(Settings.getInstance().getSetting("cannonBallMass")),
-                                          (float)(Settings.getInstance().getSetting("cannonBallSpeed"))*firePower, this.playerUnit);
-        
+                direction,
+                new Vector(size, size, size),
+                (float) (Settings.getInstance().getSetting("cannonBallMass")),
+                (float) (Settings.getInstance().getSetting("cannonBallSpeed")) * firePower, this.playerUnit);
+
         this.pcs.firePropertyChange("CannonBall Created", null, cBall);
-        firePower = 0;
+        this.playerUnit.reload(Settings.getInstance().getSetting("fireDelay"));
     }
 
     private Vector getCannonBallPos(Vector ballDir) {
@@ -109,10 +134,10 @@ public class Player implements IObservable {
         Vector dir = new Vector(ballDir);
         dir.normalize();
         dir.mult(5.0f);
-        Vector newPosition = new Vector(pos.getX()+dir.getX(), pos.getY()+dir.getY(), pos.getZ()+dir.getZ());
+        Vector newPosition = new Vector(pos.getX() + dir.getX(), pos.getY() + dir.getY(), pos.getZ() + dir.getZ());
         return newPosition;
     }
-    
+
     /**
      * Accelerates this player's unit.
      *
@@ -149,6 +174,10 @@ public class Player implements IObservable {
      */
     public int getId() {
         return this.playerId;
+    }
+
+    public boolean canUnitFire() {
+        return playerUnit.canFire();
     }
 
     public void addUnitListener(PropertyChangeListener pl) {
