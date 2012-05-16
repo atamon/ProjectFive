@@ -25,6 +25,7 @@ import math.Vector;
 import model.visual.CannonBall;
 import model.visual.Item;
 import math.MonkeyConverter;
+import model.visual.StatusBox;
 import model.visual.Unit;
 
 /**

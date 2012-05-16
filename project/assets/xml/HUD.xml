@@ -37,8 +37,10 @@
         </layer>
         <layer id="statusBox" backgroundColor="#0000" childLayout="center">
 		<panel id="info" backgroundColor="#AAA7" width="60%" height="10%" valign="bottom" childLayout="vertical" align="center">
-			<text font="Interface/Fonts/Default.fnt" text="Status Messages Goes Here" textHAlign="left" valign="bottom" /> 
-			<text font="Interface/Fonts/Default.fnt" text="Latest Message Here" textHAlign="left" valign="bottom" /> 
+			<text id="1" font="Interface/Fonts/Default.fnt" text=" " textHAlign="left" /> 
+			<text id="2" font="Interface/Fonts/Default.fnt" text=" " textHAlign="left" /> 
+			<text id="3" font="Interface/Fonts/Default.fnt" text=" " textHAlign="left" /> 
+			<text id="4" font="Interface/Fonts/Default.fnt" text=" " textHAlign="left" /> 
 		</panel>
 	</layer>
     </screen>

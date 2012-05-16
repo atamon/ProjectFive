@@ -7,7 +7,9 @@ package model.visual;
 import java.awt.Color;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.List;
 import java.util.Map;
+import model.visual.StatusBox.Message;
 import org.junit.*;
 import static org.junit.Assert.*;
 
@@ -51,18 +53,22 @@ public class StatusBoxTest {
      */
     @Test
     public void testMessage_String() {
+        StatusBox.getInstance().clear();
         final String message = "testMessage";
         PropertyChangeListener pcl = new PropertyChangeListener() {
 
             public void propertyChange(PropertyChangeEvent evt) {
                 if("StatusBox Message".equals(evt.getPropertyName())){
-                   Map<Color,String> messages = (Map<Color, String>)evt.getNewValue();
-                   assertTrue(messages.containsValue(message) && messages.containsKey(StatusBox.STATUS_MESSAGE_COLOR));
+                   List<Message> messages = (List<Message>)evt.getNewValue();
+                   Message expected = messages.get(0);
+                   assertEquals(expected.getMessage(),message);
+                   assertEquals(expected.getColor(),StatusBox.STATUS_MESSAGE_COLOR);
                 }
             }
         };
         StatusBox.getInstance().addPropertyChangeListener(pcl);
         StatusBox.getInstance().message(message);
+        StatusBox.getInstance().removePropertyChangeListener(pcl);
         
     }
 
@@ -71,18 +77,22 @@ public class StatusBoxTest {
      */
     @Test
     public void testMessage_Color_String() {
+        StatusBox.getInstance().clear();
         final String message = "testMessage";
         PropertyChangeListener pcl = new PropertyChangeListener() {
 
             public void propertyChange(PropertyChangeEvent evt) {
                 if("StatusBox Message".equals(evt.getPropertyName())){
-                   Map<Color,String> messages = (Map<Color, String>)evt.getNewValue();
-                   assertTrue(messages.containsValue(message) && messages.containsKey(Color.BLACK));
+                   List<Message> messages = (List<Message>)evt.getNewValue();
+                   Message expected = messages.get(0);
+                   assertEquals(expected.getMessage(),message);
+                   assertEquals(expected.getColor(),Color.BLACK);
                 }
             }
         };
         StatusBox.getInstance().addPropertyChangeListener(pcl);
         StatusBox.getInstance().message(Color.BLACK, message);
+        StatusBox.getInstance().removePropertyChangeListener(pcl);
     }
 
     /**
@@ -95,8 +105,8 @@ public class StatusBoxTest {
 
             public void propertyChange(PropertyChangeEvent evt) {
                 if("StatusBox Cleared".equals(evt.getPropertyName())){
-                   Map<Color,String> messages = (Map<Color, String>)evt.getNewValue();
-                   assertFalse(messages.containsValue(message));
+                   List<Message> messages = (List<Message>)evt.getNewValue();
+                   assertEquals(messages.size(),0);
                 }
             }
         };
@@ -105,6 +115,7 @@ public class StatusBoxTest {
         StatusBox.getInstance().message(message);
         StatusBox.getInstance().clear();
         assertEquals(StatusBox.getInstance().getMessages().size(), 0);
+        StatusBox.getInstance().removePropertyChangeListener(pcl);
     }
 
     /**

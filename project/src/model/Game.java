@@ -11,6 +11,7 @@ import math.Vector;
 import model.settings.SettingsLoader;
 import model.visual.Battlefield;
 import model.visual.Item;
+import model.visual.StatusBox;
 
 /**
  * Represents a Game consisting of rounds and players that compete to win!
@@ -104,6 +105,7 @@ public class Game implements IGame {
         Item item = this.itemFactory.createNewItem(this.getBattlefieldSize());
         this.battlefield.addToBattlefield(item);
         pcs.firePropertyChange("Item Created", null, item);
+        StatusBox.getInstance().message(item.getPowerUp().getName()+": A strange bottle appeared..");
     }
     
     public Vector getBattlefieldPosition() {
