@@ -13,7 +13,7 @@ import model.powerup.PUHealth;
 import model.settings.Settings;
 import org.junit.*;
 import static org.junit.Assert.*;
-import test.Utils;
+import test.Util;
 
 /**
  *
@@ -109,7 +109,7 @@ public class ItemTest {
     @Test
     public void testUpdate(){
         float old = this.testInstance.getLifeTime();
-        this.testInstance.update(Utils.simulateTpf());
+        this.testInstance.update(Util.simulateTpf());
         assertFalse(old == this.testInstance.getLifeTime());
         PropertyChangeListener pcl = new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
@@ -118,7 +118,7 @@ public class ItemTest {
         };
         this.testInstance.addPropertyChangeListener(pcl);
         while(this.testInstance.getLifeTime() > 0){
-            this.testInstance.update(Utils.simulateTpf());
+            this.testInstance.update(Util.simulateTpf());
         }
         
     }

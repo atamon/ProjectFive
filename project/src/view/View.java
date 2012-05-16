@@ -40,6 +40,7 @@ public class View implements PropertyChangeListener {
 
     private final Map<Element, Unit> hpBars = new HashMap<Element, Unit>();
     private final Node blenderUnit;
+    private final Node blenderBottle;
     private final IGame game;
     private final SimpleApplication jme3;
     private AssetManager assetManager;
@@ -64,6 +65,7 @@ public class View implements PropertyChangeListener {
         BlenderImporter.registerBlender(assetManager);
 
         blenderUnit = BlenderImporter.loadModel(assetManager, BlenderImporter.BOAT_PATH);
+        blenderBottle = BlenderImporter.loadModel(assetManager, BlenderImporter.BOTTLE_PATH);
 
         // Create water effects
         FilterPostProcessor waterPostProcessor = new FilterPostProcessor(assetManager);
@@ -239,7 +241,7 @@ public class View implements PropertyChangeListener {
             GraphicalItem graphicalItem = new GraphicalItem(ColorRGBA.randomColor(),
                     MonkeyConverter.convertToMonkey3D(item.getPosition()),
                     MonkeyConverter.convertToMonkey3D(item.getSize()),
-                    this.assetManager, null);
+                    this.assetManager, blenderBottle.clone(true));
             rootNode.attachChild(graphicalItem.getNode());
             item.addPropertyChangeListener(graphicalItem);
         }

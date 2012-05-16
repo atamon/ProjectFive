@@ -8,7 +8,7 @@ package test;
  *
  * @author Anton Lindgren
  */
-public class Utils {
+public class Util {
 
     /**
      * Simulates the tpf the game runs on at 60fps

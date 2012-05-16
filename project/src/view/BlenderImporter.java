@@ -21,6 +21,7 @@ import java.util.List;
 public abstract class BlenderImporter {
 
     public static String BOAT_PATH = "Blends/P5Ship_export.blend"; 
+    public static String BOTTLE_PATH = "Blends/P5Bottle.blend"; 
     
     public static void registerBlender(AssetManager assetManager) {
         assetManager.registerLoader(BlenderModelLoader.class, "blend");

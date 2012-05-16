@@ -28,15 +28,14 @@ public class GraphicalItem extends GraphicalAbstract implements PropertyChangeLi
                          AssetManager assetManager,
                          Node blenderModel) {
 
-        Box box = new Box(Vector3f.ZERO, size);
-        Geometry boxGeo = new Geometry("Item", box);
-        Material mat = new Material(assetManager, 
-                                    "Common/MatDefs/Misc/Unshaded.j3md");
-        mat.setColor("Color", color);
-        boxGeo.setMaterial(mat);
-        
-        this.node = new Node();
-        this.node.attachChild(boxGeo);
+//        Box box = new Box(Vector3f.ZERO, size);
+//        Geometry boxGeo = new Geometry("Item", box);
+//        Material mat = new Material(assetManager, 
+//                                    "Common/MatDefs/Misc/Unshaded.j3md");
+//        mat.setColor("Color", color);
+//        boxGeo.setMaterial(mat);
+//        
+        this.node = blenderModel;
         this.updatePosition(pos);
     }
     
