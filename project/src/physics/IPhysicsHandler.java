@@ -4,7 +4,7 @@
  */
 package physics;
 
-import model.tools.IObservable;
+import observable.IObservable;
 import math.Vector;
 
 /**

@@ -12,7 +12,7 @@ import java.util.Map;
 import math.Vector;
 import model.player.Player;
 import model.round.WinnerNotFoundException;
-import model.tools.Settings;
+import model.settings.Settings;
 import model.visual.Battlefield;
 import model.visual.Unit;
 

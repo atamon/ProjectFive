@@ -7,15 +7,15 @@ package model.visual;
 import java.awt.Color;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import observable.IObservable;
 
 /**
  * Singleton Status Box that can show information about what's happening in the game
  * @author jnes
  */
-public final class StatusBox  {
+public final class StatusBox implements IObservable  {
 
     private static StatusBox instance;
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);

@@ -20,7 +20,7 @@ import java.util.Map;
 import math.Vector;
 import model.visual.Battlefield;
 import model.visual.StatusBox;
-import util.Util;
+import math.MonkeyConverter;
 import de.lessvoid.nifty.screen.Screen;
 import model.GameState;
 import model.IGame;

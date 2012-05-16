@@ -4,7 +4,7 @@
  */
 package model.powerup;
 
-import model.tools.Settings;
+import model.settings.Settings;
 
 /**
  *

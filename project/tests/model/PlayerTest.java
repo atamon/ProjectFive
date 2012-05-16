@@ -4,8 +4,8 @@
  */
 package model;
 
-import controller.SettingsLoader;
-import model.tools.Settings;
+import model.settings.SettingsLoader;
+import model.settings.Settings;
 import org.junit.Before;
 import model.player.Player;
 import java.beans.PropertyChangeEvent;

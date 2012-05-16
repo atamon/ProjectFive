@@ -11,7 +11,7 @@ import com.jme3.math.Vector3f;
 import java.beans.PropertyChangeListener;
 import math.Vector;
 import math.Direction;
-import util.Util;
+import math.MonkeyConverter;
 
 /**
  * A body to represent our models in the physical world

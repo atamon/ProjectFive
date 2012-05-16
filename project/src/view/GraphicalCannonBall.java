@@ -17,7 +17,7 @@ import com.jme3.scene.shape.Sphere;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import math.Vector;
-import util.Util;
+import math.MonkeyConverter;
 
 /**
  *

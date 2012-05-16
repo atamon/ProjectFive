@@ -6,14 +6,14 @@ package physics;
 
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import java.beans.PropertyChangeListener;
-import math.Direction;
 import math.Vector;
+import observable.IObservable;
 
 /**
  *
  * @author victorlindhe
  */
-public interface IPhysicalBody {
+public interface IPhysicalBody extends IObservable {
 
     /**
      * Accelerates the body with an applied force.

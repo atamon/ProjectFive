@@ -43,8 +43,6 @@ public class Battlefield implements PropertyChangeListener, ICollideable {
             throw new NumberFormatException("Size must be > 0");
         }
 
-        physHandler.addPropertyChangeListener(this);
-
         // Set up ocean floor
         physHandler.createGround(this.size, this);
     }

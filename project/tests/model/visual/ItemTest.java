@@ -4,13 +4,13 @@
  */
 package model.visual;
 
-import controller.SettingsLoader;
+import model.settings.SettingsLoader;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import math.Vector;
 import model.powerup.IPowerUp;
 import model.powerup.PUHealth;
-import model.tools.Settings;
+import model.settings.Settings;
 import org.junit.*;
 import static org.junit.Assert.*;
 import test.Utils;

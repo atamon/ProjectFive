@@ -4,8 +4,8 @@
  */
 package model;
 
-import controller.SettingsLoader;
-import model.tools.Settings;
+import model.settings.SettingsLoader;
+import model.settings.Settings;
 import math.Vector;
 import model.visual.Item;
 import org.junit.Test;

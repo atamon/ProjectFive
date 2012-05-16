@@ -13,7 +13,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import math.Direction;
 import math.Vector;
-import util.Util;
+import math.MonkeyConverter;
 
 /**
  *
@@ -29,7 +29,7 @@ public abstract class PhysicalAbstractBody implements IPhysicalBody {
     public PhysicalAbstractBody(IPhysicalModel owner, Vector startPos,
             Vector startDir, Vector size, float mass) {
         Vector correctSize = new Vector(size);
-        BoxCollisionShape shape = new BoxCollisionShape(Util.convertToMonkey3D(correctSize));
+        BoxCollisionShape shape = new BoxCollisionShape(MonkeyConverter.convertToMonkey3D(correctSize));
         body = new PhysicsRigidBody(shape, mass);
 
         place(startPos);
@@ -63,7 +63,7 @@ public abstract class PhysicalAbstractBody implements IPhysicalBody {
      */
     @Override
     public void place(Vector pos) {
-        body.setPhysicsLocation(Util.convertToMonkey3D(pos));
+        body.setPhysicsLocation(MonkeyConverter.convertToMonkey3D(pos));
     }
 
     /**
@@ -74,7 +74,7 @@ public abstract class PhysicalAbstractBody implements IPhysicalBody {
     @Override
     public void point(Vector dir) {
         Quaternion quat = new Quaternion();
-        quat.lookAt(Util.convertToMonkey3D(dir), Vector3f.UNIT_Y);
+        quat.lookAt(MonkeyConverter.convertToMonkey3D(dir), Vector3f.UNIT_Y);
         body.setPhysicsRotation(quat);
     }
 
@@ -106,13 +106,13 @@ public abstract class PhysicalAbstractBody implements IPhysicalBody {
 
     @Override
     public Vector getPosition() {
-        return new Vector(Util.convertFromMonkey3D(body.getPhysicsLocation()));
+        return new Vector(MonkeyConverter.convertFromMonkey3D(body.getPhysicsLocation()));
     }
 
     @Override
     public Vector getDirection() {
         Matrix3f rot = body.getPhysicsRotationMatrix();
-        return new Vector(Util.convertFromMonkey3D(rot.mult(new Vector3f(0, 0, 1))));
+        return new Vector(MonkeyConverter.convertFromMonkey3D(rot.mult(new Vector3f(0, 0, 1))));
     }
 
     @Override

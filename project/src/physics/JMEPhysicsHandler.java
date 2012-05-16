@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 import math.Vector;
 import model.visual.Unit;
-import util.Util;
+import math.MonkeyConverter;
 
 /**
  * Holds the physicsworld
@@ -25,7 +25,6 @@ public class JMEPhysicsHandler implements PhysicsCollisionListener {
     private BulletAppState bulletAppState;
     private List<PhysicsRigidBody> rigidBodies =
             new LinkedList<PhysicsRigidBody>();
-    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private PhysicsRigidBody ground;
 
     public JMEPhysicsHandler() {
@@ -43,9 +42,9 @@ public class JMEPhysicsHandler implements PhysicsCollisionListener {
     public void createGround(Vector size, ICollideable model) {
         Vector position = new Vector(size);
         position.mult(0.5f);
-        this.ground = new PhysicsRigidBody(new BoxCollisionShape(Util.convertToMonkey3D(size).mult(0.5f)), 0);
+        this.ground = new PhysicsRigidBody(new BoxCollisionShape(MonkeyConverter.convertToMonkey3D(size).mult(0.5f)), 0);
         ground.setUserObject(model);
-        ground.setPhysicsLocation(Util.convertToMonkey3D(position));
+        ground.setPhysicsLocation(MonkeyConverter.convertToMonkey3D(position));
         bulletAppState.getPhysicsSpace().addCollisionObject(ground);
     }
 
@@ -94,13 +93,5 @@ public class JMEPhysicsHandler implements PhysicsCollisionListener {
         
         modelA.collidedWith(modelB, impulseB);
         modelB.collidedWith(modelA, impulseA);
-    }
-    
-    public void addPropertyChangeListener(PropertyChangeListener ls) {
-        this.pcs.addPropertyChangeListener(ls);
-    }
-
-    public void removePropertyChangeListener(PropertyChangeListener ls) {
-        this.pcs.removePropertyChangeListener(ls);
     }
 }

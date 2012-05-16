@@ -8,10 +8,10 @@ import com.jme3.font.BitmapText;
 import com.jme3.math.ColorRGBA;
 import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.system.AppSettings;
-import controller.SettingsLoader;
+import model.settings.SettingsLoader;
 import java.util.logging.Level;
 import model.IGame;
-import model.tools.Settings;
+import model.settings.Settings;
 import org.lwjgl.opengl.Display;
 import view.View;
 
@@ -73,12 +73,9 @@ public class Main extends SimpleApplication {
                                                             audioRenderer, 
                                                             guiViewPort);
         guiViewPort.addProcessor(niftyDisplay);
-        
-        // init settings
-        Settings.getInstance().loadSettings(SettingsLoader.readSettings("assets/settings"));
-        
+                
         // Create MVC and make connections
-        this.game = new Game(new Battlefield());
+        this.game = new Game();
         this.view = new View(this, game, width, height, niftyDisplay);
         this.controller = new Controller(this.getInputManager(), view, game);
 

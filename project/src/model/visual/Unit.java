@@ -4,8 +4,8 @@ import math.Direction;
 import math.Vector;
 import model.powerup.IPowerUp;
 import model.powerup.PUEmpty;
-import model.tools.IObservable;
-import model.tools.Settings;
+import observable.IObservable;
+import model.settings.Settings;
 import physics.ICollideable;
 import physics.PhysicalUnit;
 

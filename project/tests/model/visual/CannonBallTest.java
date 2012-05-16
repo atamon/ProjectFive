@@ -4,11 +4,11 @@
  */
 package model.visual;
 
-import controller.SettingsLoader;
+import model.settings.SettingsLoader;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import math.Vector;
-import model.tools.Settings;
+import model.settings.Settings;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import physics.IPhysicalModel;

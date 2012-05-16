@@ -29,7 +29,7 @@ import model.round.RoundState;
 import math.Vector;
 import model.visual.CannonBall;
 import model.visual.Item;
-import util.Util;
+import math.MonkeyConverter;
 import model.visual.Unit;
 
 /**
@@ -91,8 +91,8 @@ public class View implements PropertyChangeListener {
     }
 
     private void initGround(Vector size, Vector pos) {
-        GraphicalBattlefield geoBattlefield = new GraphicalBattlefield(Util.convertToMonkey3D(size),
-                Util.convertToMonkey3D(pos), assetManager);
+        GraphicalBattlefield geoBattlefield = new GraphicalBattlefield(MonkeyConverter.convertToMonkey3D(size),
+                MonkeyConverter.convertToMonkey3D(pos), assetManager);
         
         GraphicalBattlefield layerPlane = new GraphicalBattlefield(
                 new Vector3f(size.getX()+100, 0.1f, size.getZ()), 
@@ -122,7 +122,7 @@ public class View implements PropertyChangeListener {
     private void initCamera() {
         Camera cam = jme3.getCamera();
         cam.setLocation(new Vector3f(this.game.getBattlefieldCenter().getX(), 110, 0));
-        cam.lookAt(Util.convertToMonkey3D(this.game.getBattlefieldCenter()).setZ(42), Vector3f.UNIT_Y);
+        cam.lookAt(MonkeyConverter.convertToMonkey3D(this.game.getBattlefieldCenter()).setZ(42), Vector3f.UNIT_Y);
     }
 
     public void update(float tpf) {
@@ -135,7 +135,7 @@ public class View implements PropertyChangeListener {
         
         if (lastRoundState == RoundState.PLAYING) {
             for (Element bar : hpBars.keySet()) {
-                Vector3f screenPos = jme3.getCamera().getScreenCoordinates(Util.convertToMonkey3D(hpBars.get(bar).getPosition()));
+                Vector3f screenPos = jme3.getCamera().getScreenCoordinates(MonkeyConverter.convertToMonkey3D(hpBars.get(bar).getPosition()));
                 Element placeHolder = bar.getParent();
 
                 // X needs an offset and Y needs to be inverted across the screen and an offset
@@ -162,9 +162,9 @@ public class View implements PropertyChangeListener {
      */
     public void createGraphicalUnit(int playerID, Vector pos, Vector dir,
             Vector size, ColorRGBA color) {
-        Vector3f gPos = Util.convertToMonkey3D(pos);
-        Vector3f gDir = Util.convertToMonkey3D(dir);
-        Vector3f gSize = Util.convertToMonkey3D(size);
+        Vector3f gPos = MonkeyConverter.convertToMonkey3D(pos);
+        Vector3f gDir = MonkeyConverter.convertToMonkey3D(dir);
+        Vector3f gSize = MonkeyConverter.convertToMonkey3D(size);
 
         GraphicalUnit gUnit = new GraphicalUnit(playerID, color,
                 gPos,
@@ -193,7 +193,7 @@ public class View implements PropertyChangeListener {
                 // Also send playerID so it knows which unit to listen to.
                 int playerID = player.getId();
                 
-                final ColorRGBA color = Util.convertToMonkeyColor(player.getColor());
+                final ColorRGBA color = MonkeyConverter.convertToMonkeyColor(player.getColor());
                 this.createGraphicalUnit(playerID, pos, dir, size, color);
 
                 // If a player is created we need to start listening to it so we can know when it shoots
@@ -227,8 +227,8 @@ public class View implements PropertyChangeListener {
         if ("CannonBall Created".equals(pce.getPropertyName())) {
             CannonBall cannonBall = (CannonBall) pce.getNewValue();
             GraphicalCannonBall graphicalBall = new GraphicalCannonBall(ColorRGBA.Orange,
-                    Util.convertToMonkey3D(cannonBall.getPosition()),
-                    Util.convertToMonkey3D(cannonBall.getSize()), this.assetManager,
+                    MonkeyConverter.convertToMonkey3D(cannonBall.getPosition()),
+                    MonkeyConverter.convertToMonkey3D(cannonBall.getSize()), this.assetManager,
                     null);
             rootNode.attachChild(graphicalBall.getNode());
             cannonBall.addPropertyChangeListener(graphicalBall);
@@ -237,8 +237,8 @@ public class View implements PropertyChangeListener {
         if ("Item Created".equals(pce.getPropertyName())) {
             Item item = (Item) pce.getNewValue();
             GraphicalItem graphicalItem = new GraphicalItem(ColorRGBA.randomColor(),
-                    Util.convertToMonkey3D(item.getPosition()),
-                    Util.convertToMonkey3D(item.getSize()),
+                    MonkeyConverter.convertToMonkey3D(item.getPosition()),
+                    MonkeyConverter.convertToMonkey3D(item.getSize()),
                     this.assetManager, null);
             rootNode.attachChild(graphicalItem.getNode());
             item.addPropertyChangeListener(graphicalItem);

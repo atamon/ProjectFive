@@ -7,7 +7,7 @@ package model;
 import java.util.Map;
 import math.Vector;
 import model.player.Player;
-import model.tools.IObservable;
+import observable.IObservable;
 
 /**
  *

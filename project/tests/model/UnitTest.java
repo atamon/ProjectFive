@@ -4,11 +4,11 @@
  */
 package model;
 
-import controller.SettingsLoader;
+import model.settings.SettingsLoader;
 import model.visual.Unit;
 import math.Direction;
 import math.Vector;
-import model.tools.Settings;
+import model.settings.Settings;
 import model.visual.Battlefield;
 import org.junit.Test;
 import static org.junit.Assert.*;

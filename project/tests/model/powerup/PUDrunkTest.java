@@ -4,8 +4,8 @@
  */
 package model.powerup;
 
-import controller.SettingsLoader;
-import model.tools.Settings;
+import model.settings.SettingsLoader;
+import model.settings.Settings;
 import org.junit.*;
 import static org.junit.Assert.*;
 

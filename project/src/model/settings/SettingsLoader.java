@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller;
+package model.settings;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

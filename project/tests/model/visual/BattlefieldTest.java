@@ -1,7 +1,7 @@
 package model.visual;
 
-import controller.SettingsLoader;
-import model.tools.Settings;
+import model.settings.SettingsLoader;
+import model.settings.Settings;
 import math.Vector;
 import org.junit.Before;
 import org.junit.Test;

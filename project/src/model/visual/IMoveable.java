@@ -7,12 +7,13 @@ package model.visual;
 import java.beans.PropertyChangeListener;
 import physics.IPhysicalModel;
 import math.Vector;
+import observable.IObservable;
 
 /**
  *
  * @author Johannes
  */
-public interface IMoveable extends IPhysicalModel {
+public interface IMoveable extends IPhysicalModel, IObservable {
     public void setPosition(Vector pos);
     public void setDirection(Vector dir);
     public Vector getPosition();

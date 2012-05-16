@@ -11,7 +11,7 @@ import com.jme3.input.InputManager;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import model.IGame;
-import model.tools.Settings;
+import model.settings.Settings;
 import view.View;
 
 /**

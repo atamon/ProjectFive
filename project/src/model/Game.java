@@ -6,8 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 import model.player.Player;
 import model.round.*;
-import model.tools.Settings;
+import model.settings.Settings;
 import math.Vector;
+import model.settings.SettingsLoader;
 import model.visual.Battlefield;
 import model.visual.Item;
 
@@ -43,6 +44,9 @@ public class Game implements IGame {
      * @param battlefield The battlefield passed from Model which we'll play on.
      */
     public Game(final Battlefield battlefield) {
+        Settings.getInstance().loadSettings(SettingsLoader.readSettings("assets/settings"));
+
+        
         this.battlefield = battlefield;
         this.itemFactory = new ItemFactory();
         this.roundModel = new SimpleRoundModel();

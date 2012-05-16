@@ -4,7 +4,7 @@
  */
 package model.visual;
 
-import model.tools.IObservable;
+import observable.IObservable;
 import math.Vector;
 import physics.ICollideable;
 import physics.IPhysicalModel;

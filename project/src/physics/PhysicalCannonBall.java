@@ -11,7 +11,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import math.Vector;
 import math.Direction;
-import util.Util;
+import math.MonkeyConverter;
 
 /**
  * A body to represent our models in the physical world

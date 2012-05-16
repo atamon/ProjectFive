@@ -4,7 +4,7 @@
  */
 package model;
 
-import controller.SettingsLoader;
+import model.settings.SettingsLoader;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import math.Vector;
@@ -12,7 +12,7 @@ import model.player.Player;
 import model.round.RoundModel;
 import model.round.RoundState;
 import model.round.SimpleRoundModel;
-import model.tools.Settings;
+import model.settings.Settings;
 import model.visual.Unit;
 import org.junit.*;
 import static org.junit.Assert.*;

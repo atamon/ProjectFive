@@ -6,7 +6,8 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
-import model.tools.Settings;
+import observable.IObservable;
+import model.settings.Settings;
 import model.visual.CannonBall;
 import model.visual.Unit;
 
@@ -15,7 +16,7 @@ import model.visual.Unit;
  *
  * @author John Hult @tested Victor Lindhé @modified Victor Lindhé
  */
-public class Player {
+public class Player implements IObservable {
 
     public final static List<Color> PLAYER_COLORS = new ArrayList<Color>(){
         {
