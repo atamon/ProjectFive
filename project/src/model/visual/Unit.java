@@ -45,10 +45,8 @@ public class Unit extends MoveableAbstract implements IObservable {
      * @param tpf Updatefrequency, i.e. time since last frame
      */
     public void update(final float tpf) {
-        if (((int)body.getDirection().getY()) == 0) {
-            this.accelerate(this.isAccelerating, tpf);
-            this.steer(tpf);
-        }
+        this.accelerate(this.isAccelerating, tpf);
+        this.steer(tpf);
         if (this.powerUp != null) {
             if (powerUp.isActive()) {
                 this.powerUp.update(tpf);
