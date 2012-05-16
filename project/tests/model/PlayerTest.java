@@ -80,10 +80,25 @@ public class PlayerTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testIncreasePower() {
-        player.increaseFirePower(10f);
+    public void testIncreaseFirePowerLeft() {
+        player.increaseFirePowerLeft(10f);
         assertTrue(true);
-        player.increaseFirePower(-0.1f);
+        player.increaseFirePowerLeft(-0.1f);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testIncreaseFirePowerRight() {
+        player.increaseFirePowerRight(10f);
+        assertTrue(true);
+        player.increaseFirePowerRight(-0.1f);
+    }
+    
+    @Test
+    public void testCanUnitFire() {
+        player.getUnit().update(10);
+        assertTrue(player.canUnitFire());
+        player.fireLeft();
+        assertFalse(player.canUnitFire());
     }
 
     /**
