@@ -16,6 +16,7 @@ import model.player.Player;
 public class SimpleRoundModel implements RoundModel {
     private Round currentRound;
     private final Map<Integer, Round> playedRounds = new HashMap<Integer, Round>();
+    private float roundCountdown;
     
     public RoundState getRoundState() {
         if (currentRound == null) {
@@ -68,5 +69,13 @@ public class SimpleRoundModel implements RoundModel {
     
     public Collection<Round> getPlayedRounds() {
         return playedRounds.values();
+    }
+    
+    public void setCountDown(float cd) {
+        roundCountdown = cd;
+    }
+    
+    public float getCountDown() {
+        return roundCountdown;
     }
 }

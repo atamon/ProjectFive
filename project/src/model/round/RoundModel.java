@@ -24,4 +24,7 @@ public interface RoundModel {
     public int playedRounds();
     public Player getWinner();
     public RoundState getRoundState();
+    
+    public float getCountDown();
+    public void setCountDown(float cd);
 }
