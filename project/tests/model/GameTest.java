@@ -13,6 +13,7 @@ import model.round.RoundModel;
 import model.round.RoundState;
 import model.round.SimpleRoundModel;
 import model.settings.Settings;
+import model.visual.Item;
 import model.visual.Unit;
 import org.junit.*;
 import static org.junit.Assert.*;
@@ -35,9 +36,8 @@ public class GameTest {
     private PropertyChangeListener itemListener = new PropertyChangeListener() {
 
         public void propertyChange(PropertyChangeEvent pce) {
-            if(pce.getPropertyName().equals("Item Created")) {
+            if(pce.getPropertyName().equals("Round Countdown"))
                 throw new UnsupportedOperationException("Not supported yet.");
-            }
         }
         
     };
@@ -113,11 +113,11 @@ public class GameTest {
     public void testUpdate() {
         game.createPlayer(0);
         game.createPlayer(1);
-        game.start();
-        game.update(1.0f);
+        
         game.addPropertyChangeListener(itemListener);
-        game.update(10.0f); // Should result in the creation of an item
-                            // which leads to an exception
+        game.start();
+        
+        game.update(1.0f); // Round countdown => exception
     }
     
     @Test

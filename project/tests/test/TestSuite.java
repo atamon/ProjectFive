@@ -8,7 +8,9 @@ import model.*;
 import model.powerup.*;
 import model.round.RoundTest;
 import model.visual.BattlefieldTest;
+import model.visual.CannonBallTest;
 import model.visual.ItemTest;
+import model.visual.StatusBoxTest;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -31,7 +33,12 @@ import org.junit.runners.Suite;
                      PUSpeedTest.class,
                      PUTurnTest.class,
                      ItemTest.class,
-                     RoundTest.class })
+                     RoundTest.class,
+                     GameTest.class,
+                     ItemFactoryTest.class,
+                     BattlefieldTest.class,
+                     CannonBallTest.class,
+                     StatusBoxTest.class})
 public class TestSuite {
 
     @BeforeClass
