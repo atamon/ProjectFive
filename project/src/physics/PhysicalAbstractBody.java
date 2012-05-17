@@ -55,6 +55,11 @@ public abstract class PhysicalAbstractBody implements IPhysicalBody {
         Matrix3f rot = body.getPhysicsRotationMatrix();
         return rot.multLocal(new Vector3f(0, 0, 1));
     }
+    
+    @Override
+    public void applyForce(Vector pos, Vector force) {
+        body.applyForce(MonkeyConverter.convertToMonkey3D(force), MonkeyConverter.convertToMonkey3D(pos));
+    }
 
     /**
      * Places the body at a given point in the physical world.

@@ -17,42 +17,49 @@ public interface IPhysicalBody extends IObservable {
 
     /**
      * Accelerates the body with an applied force.
+     *
      * @param tpf
      */
-    void accelerate(float tpf);
+    public void accelerate(float tpf);
 
-    void addPropertyChangeListener(PropertyChangeListener pcl);
-    
-    void removePropertyChangeListener(PropertyChangeListener pcl);
+    public void applyForce(Vector pos, Vector force);
 
-    Vector getDirection();
+    public void addPropertyChangeListener(PropertyChangeListener pcl);
 
-    float getMass();
+    public void removePropertyChangeListener(PropertyChangeListener pcl);
 
-    Vector getPosition();
+    public Vector getDirection();
 
-    Vector getSize();
+    public float getMass();
 
-    float getSpeed();
+    public Vector getPosition();
 
-    void halt();
-    
-    PhysicsRigidBody getBody();
+    public Vector getSize();
+
+    public float getSpeed();
+
+    public void halt();
+
+    public PhysicsRigidBody getBody();
 
     /**
      * Places the body at a given point in the physical world.
+     *
      * @param pos
      */
     void place(Vector pos);
 
     /**
      * Points the body in a given direction in the physical world.
+     *
      * @param dir
      */
     void point(Vector dir);
 
     /**
-     * Steers the body with an applied force in a crossproduct direction of velocity.
+     * Steers the body with an applied force in a crossproduct direction of
+     * velocity.
+     *
      * @param dir
      * @param tpf
      */

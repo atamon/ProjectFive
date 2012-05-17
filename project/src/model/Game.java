@@ -11,7 +11,8 @@ import model.settings.Settings;
 import math.Vector;
 import model.settings.SettingsLoader;
 import model.visual.Battlefield;
-import model.visual.Item;
+import model.visual.Bottle;
+import model.visual.Molotov;
 import model.visual.StatusBox;
 
 /**
@@ -103,10 +104,15 @@ public class Game implements IGame {
     }
 
     private void createItem(){
-        Item item = this.itemFactory.createNewItem(this.getBattlefieldSize());
-        this.battlefield.addToBattlefield(item);
-        pcs.firePropertyChange("Item Created", null, item);
-        StatusBox.getInstance().message(Color.ORANGE,item.getPowerUp().getName()+": A strange bottle appeared..");
+        Bottle bottle;
+        if (Math.random() * 100 < Settings.getInstance().getSetting("molotovPercent")) {
+            bottle = new Molotov(ItemFactory.randomizeBottlePosition(battlefield.getSize()));
+        } else {
+            bottle = this.itemFactory.createNewItem(this.getBattlefieldSize());
+        }
+        this.battlefield.addToBattlefield(bottle);
+        pcs.firePropertyChange("Bottle Created", null, bottle);
+        StatusBox.getInstance().message(Color.ORANGE," A strange bottle appeared..");
     }
     
     public Vector getBattlefieldPosition() {

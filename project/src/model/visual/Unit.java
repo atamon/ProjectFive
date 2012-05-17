@@ -17,8 +17,10 @@ import physics.PhysicalUnit;
  * @author Johannes Wikner @modified Victor Lindhé, johnhu
  */
 public class Unit extends MoveableAbstract implements IObservable {
-
+    
+    public final static float FLYING_HEIGHT = 4.000f;
     private final static int MAX_STEER_SPEED = 10;
+
     private float steerAngle = Settings.getInstance().getSetting("steerAngle");
     private int hitPointsMax = Settings.getInstance().getSetting("hitPointsMax");
     private int hitPoints = hitPointsMax;
@@ -26,7 +28,7 @@ public class Unit extends MoveableAbstract implements IObservable {
     private boolean isAccelerating = false;
     private final Direction steerDirection = new Direction();
     private IPowerUp powerUp = new PUEmpty();
-    private final IPhysicalBody body;
+    private final PhysicalUnit body;
     private final PropertyChangeSupport pcs;
     private float fireDelay = Settings.getInstance().getSetting("fireDelay");
 
@@ -54,8 +56,12 @@ public class Unit extends MoveableAbstract implements IObservable {
      * @param tpf Updatefrequency, i.e. time since last frame
      */
     public void update(final float tpf) {
-        this.accelerate(this.isAccelerating, tpf);
-        this.steer(tpf);
+        // TODO IMPLEMENT body.canNavigate() correctly and use it here to prevent all steering and acceleration
+        // when a unit is either too high, has tipped or is pointing to the sky/ground.
+        if (getPosition().getY() < FLYING_HEIGHT) {
+            this.accelerate(this.isAccelerating, tpf);
+            this.steer(tpf);
+        }
         if (this.powerUp != null) {
             if (powerUp.isActive()) {
                 this.powerUp.update(tpf);
@@ -88,7 +94,6 @@ public class Unit extends MoveableAbstract implements IObservable {
     }
 
     /**
-     * TODO IS THIS REALLY USED SOMEWHERE? IF SO ADD TEST Determines how much a
      * unit can steer depending on its speed
      *
      * @return a steerAngle
@@ -186,7 +191,11 @@ public class Unit extends MoveableAbstract implements IObservable {
         }
 
         if (obj instanceof IProjectile) {
-            this.hitPoints -= ((IProjectile) obj).getDamage();
+            int damage = ((IProjectile)obj).getDamage();
+            if (obj instanceof Bottle) {
+                damage = (int)getSpeed() * damage;
+            }
+            this.hitPoints -= damage;
         }
     }
 

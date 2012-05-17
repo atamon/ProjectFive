@@ -1,4 +1,4 @@
-package model;
+package model.math;
 
 import math.Vector;
 import org.junit.Test;

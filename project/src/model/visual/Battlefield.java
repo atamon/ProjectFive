@@ -193,9 +193,9 @@ public class Battlefield implements PropertyChangeListener, ICollideable {
             this.removeBuffer.add(cb);
         }
         
-        if ("Item Removed".equals(evt.getPropertyName())){
-            IMoveable item = (Item)(evt.getNewValue());
-            this.removeBuffer.add(item);
+        if ("Bottle Removed".equals(evt.getPropertyName())){
+            IMoveable bottle = (IMoveable)(evt.getNewValue());
+            this.removeBuffer.add(bottle);
         }
     }
 

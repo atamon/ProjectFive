@@ -23,9 +23,8 @@ import model.player.Player;
 import model.round.RoundState;
 import math.Vector;
 import model.visual.CannonBall;
-import model.visual.Item;
 import math.MonkeyConverter;
-import model.visual.StatusBox;
+import model.visual.Bottle;
 import model.visual.Unit;
 
 /**
@@ -66,7 +65,7 @@ public class View implements PropertyChangeListener {
         FilterPostProcessor waterPostProcessor = new FilterPostProcessor(assetManager);
         WaterFilter water = new WaterFilter(rootNode, new Vector3f(0, -1, 1));
         water.setWaterHeight(4f);
-  //      waterPostProcessor.addFilter(water);
+        waterPostProcessor.addFilter(water);
 
         jme3.getViewPort().addProcessor(waterPostProcessor);
         guiControl = new GUIController(niftyGUI, game, waterPostProcessor, jme3);
@@ -90,19 +89,6 @@ public class View implements PropertyChangeListener {
         GraphicalBattlefield geoBattlefield = new GraphicalBattlefield(MonkeyConverter.convertToMonkey3D(size),
                 MonkeyConverter.convertToMonkey3D(pos), assetManager);
 
-        GraphicalBattlefield layerPlane = new GraphicalBattlefield(
-                new Vector3f(size.getX() + 100, 0.1f, size.getZ()),
-                new Vector3f(pos.getX() - 50, 15f, pos.getZ()), assetManager);
-        /*
-         * Material newMat = new Material(assetManager,
-         * "Common/MatDefs/Misc/Unshaded.j3md"); newMat.setTexture("ColorMap",
-         * assetManager.loadTexture("lines.png"));
-         * newMat.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
-         *
-         * layerPlane.getGeometry().setMaterial(newMat);
-         * layerPlane.getGeometry().setQueueBucket(Bucket.Transparent);
-        rootNode.attachChild(layerPlane.getGeometry());
-         */
         rootNode.attachChild(geoBattlefield.getGeometry());
     }
 
@@ -221,13 +207,13 @@ public class View implements PropertyChangeListener {
         cannonBall.addPropertyChangeListener(graphicalBall);
     }
 
-    private void createItem(Item item) {
-        GraphicalItem graphicalItem = new GraphicalItem(ColorRGBA.randomColor(),
-                MonkeyConverter.convertToMonkey3D(item.getPosition()),
-                MonkeyConverter.convertToMonkey3D(item.getSize()),
+    private void createItem(Bottle bottle) {
+        GraphicalBottle graphicalItem = new GraphicalBottle(ColorRGBA.randomColor(),
+                MonkeyConverter.convertToMonkey3D(bottle.getPosition()),
+                MonkeyConverter.convertToMonkey3D(bottle.getSize()),
                 this.assetManager, blenderBottle.clone(true));
         rootNode.attachChild(graphicalItem.getNode());
-        item.addPropertyChangeListener(graphicalItem);
+        bottle.addPropertyChangeListener(graphicalItem);
     }
 
     public void propertyChange(PropertyChangeEvent pce) {
@@ -253,9 +239,9 @@ public class View implements PropertyChangeListener {
             createCannonBall(cannonBall);
         }
 
-        if ("Item Created".equals(pce.getPropertyName())) {
-            Item item = (Item) pce.getNewValue();
-            createItem(item);
+        if ("Bottle Created".equals(pce.getPropertyName())) {
+            Bottle bottle = (Bottle) pce.getNewValue();
+            createItem(bottle);
         }
 
         if ("Round Countdown".equals(pce.getPropertyName())) {

@@ -20,21 +20,14 @@ import java.beans.PropertyChangeListener;
  *
  * @author jnes
  */
-public class GraphicalItem extends GraphicalAbstract implements PropertyChangeListener{
+public class GraphicalBottle extends GraphicalAbstract implements PropertyChangeListener{
 
-    public GraphicalItem(ColorRGBA color,
+    public GraphicalBottle(ColorRGBA color,
                          Vector3f pos,
                          Vector3f size,
                          AssetManager assetManager,
                          Node blenderModel) {
 
-//        Box box = new Box(Vector3f.ZERO, size);
-//        Geometry boxGeo = new Geometry("Item", box);
-//        Material mat = new Material(assetManager, 
-//                                    "Common/MatDefs/Misc/Unshaded.j3md");
-//        mat.setColor("Color", color);
-//        boxGeo.setMaterial(mat);
-//        
         this.node = blenderModel;
         this.updatePosition(pos);
     }
@@ -45,7 +38,7 @@ public class GraphicalItem extends GraphicalAbstract implements PropertyChangeLi
             this.updatePosition((Vector3f)pce.getOldValue());
             this.updateRotation((Quaternion)pce.getNewValue());
         }
-        if("Item Removed".equals(pce.getPropertyName()) && this.node.getParent() != null) {
+        if("Bottle Removed".equals(pce.getPropertyName()) && this.node.getParent() != null) {
             this.node.getParent().detachChild(node);
         }
     }    
