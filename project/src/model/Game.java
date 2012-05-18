@@ -205,9 +205,17 @@ public class Game implements IGame {
      * winner and clears the battlefield.
      */
     private void endRound() {
-        roundModel.endRound(playerModel.findRoundWinner());
+        Player winner = playerModel.findRoundWinner();
+        roundModel.endRound(winner);
 
-        StatusBox.getInstance().message(roundModel.getWinner().getColor(), "Winner: Player "+roundModel.getWinner().getId()+" !");
+        Color color = roundModel.getWinner().getColor();
+        String message;
+        if (winner != Player.NONE) {
+            message = "Winner: Player "+roundModel.getWinner().getId()+" !";
+        } else {
+            message = "The game is a Tie, You're all losers!";
+        }
+        StatusBox.getInstance().message(color, message);
         if (Settings.getInstance().getSetting("numberOfRounds") 
                 <= roundModel.playedRounds()) {
             endGame();
@@ -215,11 +223,9 @@ public class Game implements IGame {
     }
 
     private void endGame() {
-        // TODO Replace with real GUI
-        System.out.println("Game over!");
+        StatusBox.getInstance().message("Game over!");
 
         // Calculate statistics
-        // TODO Add real GUI-listeners to this.
         Map<Player, Integer> playerWins = new HashMap<Player, Integer>();
         for (Player player : playerModel.getPlayerMap().values()) {
             playerWins.put(player, 0);
@@ -237,7 +243,7 @@ public class Game implements IGame {
         }
 
         for (Player player : playerWins.keySet()) {
-            System.out.println(player.getId() + " won " + playerWins.get(player) + "rounds!");
+            StatusBox.getInstance().message(player.getId() + " won " + playerWins.get(player) + " rounds!");
         }
         // We have ended the game so it is now STATS
         gameState = GameState.STATS;

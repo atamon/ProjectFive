@@ -17,6 +17,8 @@ import model.visual.Unit;
  * @author John Hult @tested Victor Lindhé @modified Victor Lindhé
  */
 public class Player implements IObservable {
+    
+    public static final Player NONE = new Player();
 
     public final static List<Color> PLAYER_COLORS = new ArrayList<Color>() {
 
@@ -44,6 +46,11 @@ public class Player implements IObservable {
         this.color = (PLAYER_COLORS.size() >= playerID) ? // player should be created with any id
                 PLAYER_COLORS.get(playerID) : Color.WHITE; // but only id 0-3 have color
 
+    }
+    
+    private Player() {
+        playerId = -1;
+        color = Color.RED;
     }
 
     public Color getColor() {

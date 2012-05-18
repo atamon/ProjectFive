@@ -157,6 +157,7 @@ public class PiratePlayerModel implements PlayerModel {
     }
     /**
      * Returns the winner, I.E. the player last man standing.
+     * @return The last man standing, or NULL if the round is a tie.
      */
     public Player findRoundWinner() {
         Player winner = null;
@@ -169,7 +170,7 @@ public class PiratePlayerModel implements PlayerModel {
             }
         }
         if (winner == null) {
-            throw new WinnerNotFoundException("No winner for the active round was found!");
+            winner = Player.NONE;
         }
         return winner;
     }
