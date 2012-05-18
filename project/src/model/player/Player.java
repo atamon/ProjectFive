@@ -125,7 +125,7 @@ public class Player implements IObservable {
                 (float) (Settings.getInstance().getSetting("cannonBallMass")),
                 (float) (Settings.getInstance().getSetting("cannonBallSpeed")) * firePower, this.playerUnit);
 
-        this.pcs.firePropertyChange("CannonBall Created", null, cBall);
+        pcs.firePropertyChange("CannonBall Created", null, cBall);
         this.playerUnit.reload(Settings.getInstance().getSetting("fireDelay"));
     }
 
@@ -144,8 +144,8 @@ public class Player implements IObservable {
      * @param accelUp Should unit accelerate up or retardate?
      */
     public void accelerateUnit(boolean accelUp) {
-        if (this.playerUnit != null) {
-            this.playerUnit.setIsAccelerating(accelUp);
+        if (playerUnit != null) {
+            playerUnit.setIsAccelerating(accelUp);
         }
     }
 
@@ -156,14 +156,14 @@ public class Player implements IObservable {
      * @param tpf Time per frame
      */
     public void steerUnitClockWise(boolean bool) {
-        if (this.playerUnit != null) {
-            this.playerUnit.steerClockWise(bool);
+        if (playerUnit != null) {
+            playerUnit.steerClockWise(bool);
         }
     }
 
     public void steerUnitAntiClockWise(boolean bool) {
-        if (this.playerUnit != null) {
-            this.playerUnit.steerAntiClockWise(bool);
+        if (playerUnit != null) {
+            playerUnit.steerAntiClockWise(bool);
         }
     }
 
@@ -181,16 +181,16 @@ public class Player implements IObservable {
     }
 
     public void addUnitListener(PropertyChangeListener pl) {
-        this.playerUnit.addPropertyChangeListener(pl);
+        playerUnit.addPropertyChangeListener(pl);
     }
 
     public void removeUnitListener(PropertyChangeListener pl) {
-        this.playerUnit.removePropertyChangeListener(pl);
+        playerUnit.removePropertyChangeListener(pl);
     }
 
     @Override
     public String toString() {
-        if (this.playerUnit != null) {
+        if (playerUnit != null) {
             return "Player: " + this.playerId + " Unit: " + this.playerUnit.toString();
         } else {
             return "Player: " + this.playerId + " Unit: NONE";

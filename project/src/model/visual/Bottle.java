@@ -30,18 +30,18 @@ public abstract class Bottle extends MoveableAbstract {
 
     @Override
     public void announceRemoval() {
-        this.pcs.firePropertyChange("Bottle Removed", null, this);
+        pcs.firePropertyChange("Bottle Removed", null, this);
     }
 
     public float getLifeTime() {
-        return this.lifeTime;
+        return lifeTime;
     }
 
     public void update(final float tpf) {
 
-        this.lifeTime -= tpf;
-        if (this.lifeTime <= 0) {
-            this.announceRemoval();
+        lifeTime -= tpf;
+        if (lifeTime <= 0) {
+            announceRemoval();
         }
     }
 }

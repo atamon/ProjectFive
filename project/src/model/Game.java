@@ -64,7 +64,7 @@ public class Game implements IGame {
     }
 
     public GameState getState() {
-        return this.gameState;
+        return gameState;
     }
 
     public RoundState getRoundState() {
@@ -72,7 +72,7 @@ public class Game implements IGame {
     }
 
     public Vector getBattlefieldCenter() {
-        return this.battlefield.getCenter();
+        return battlefield.getCenter();
     }
 
     /**
@@ -109,7 +109,7 @@ public class Game implements IGame {
         if (Math.random() * 100 < Settings.getInstance().getSetting("molotovPercent")) {
             bottle = new Molotov(ItemFactory.randomizeBottlePosition(battlefield.getSize()));
         } else {
-            bottle = this.itemFactory.createNewItem(this.getBattlefieldSize());
+            bottle = itemFactory.createNewItem(getBattlefieldSize());
         }
         this.battlefield.addToBattlefield(bottle);
         pcs.firePropertyChange("Bottle Created", null, bottle);
@@ -188,10 +188,10 @@ public class Game implements IGame {
      */
     @Override
     public void switchPauseState() {
-        RoundState roundState = this.getRoundState();
+        RoundState roundState = getRoundState();
         if (gameState == GameState.ACTIVE && (roundState == RoundState.PLAYING
                 || roundState == RoundState.PAUSED)) {
-            if (this.getRoundState() == RoundState.PAUSED) {
+            if (getRoundState() == RoundState.PAUSED) {
                 roundModel.unPause();
             } else {
                 roundModel.pause();

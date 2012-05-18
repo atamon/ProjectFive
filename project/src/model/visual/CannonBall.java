@@ -60,7 +60,7 @@ public class CannonBall extends MoveableAbstract implements IObservable, IProjec
      * Removes the CannonBall from any instance that has it.
      */
     public void announceRemoval() {
-        this.pcs.firePropertyChange("CannonBall Removed", null, this);
+        pcs.firePropertyChange("CannonBall Removed", null, this);
     }
 
     public Unit getOwner() {

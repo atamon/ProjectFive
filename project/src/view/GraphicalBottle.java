@@ -28,18 +28,18 @@ public class GraphicalBottle extends GraphicalAbstract implements PropertyChange
                          AssetManager assetManager,
                          Node blenderModel) {
 
-        this.node = blenderModel;
-        this.updatePosition(pos);
+        node = blenderModel;
+        updatePosition(pos);
     }
     
     
     public void propertyChange(PropertyChangeEvent pce) {
         if("Physical Update".equals(pce.getPropertyName())) {
-            this.updatePosition((Vector3f)pce.getOldValue());
-            this.updateRotation((Quaternion)pce.getNewValue());
+            updatePosition((Vector3f)pce.getOldValue());
+            updateRotation((Quaternion)pce.getNewValue());
         }
-        if("Bottle Removed".equals(pce.getPropertyName()) && this.node.getParent() != null) {
-            this.node.getParent().detachChild(node);
+        if("Bottle Removed".equals(pce.getPropertyName()) && node.getParent() != null) {
+            node.getParent().detachChild(node);
         }
     }    
 }

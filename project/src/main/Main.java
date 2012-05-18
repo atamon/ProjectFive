@@ -25,8 +25,6 @@ public class Main extends SimpleApplication {
     private Controller controller;
     private View view;
     private IGame game;
-    private int width;
-    private int height;
     private BitmapText debugInfo;
     public static void main(String[] args) {
         new Main();
@@ -44,16 +42,6 @@ public class Main extends SimpleApplication {
         // Create our own settings so we can customize our app
         AppSettings settings = new AppSettings(true);
         settings.setFrameRate(60);
-        
-       /* settings.setWidth(Display.getDesktopDisplayMode().getWidth());
-        settings.setHeight(Display.getDesktopDisplayMode().getHeight());
-        settings.setFrequency(Display.getDesktopDisplayMode().getFrequency());
-        settings.setBitsPerPixel(Display.getDesktopDisplayMode().getBitsPerPixel());
-        settings.setFullscreen(Display.getDesktopDisplayMode().isFullscreenCapable());*/
-        
-        // Save the dimension so we can supply view with it
-        this.width = settings.getWidth();
-        this.height = settings.getHeight();
 
         // Set settings and start
         this.setShowSettings(false);
@@ -75,12 +63,12 @@ public class Main extends SimpleApplication {
         guiViewPort.addProcessor(niftyDisplay);
                 
         // Create MVC and make connections
-        this.game = new Game();
-        this.view = new View(this, game, width, height, niftyDisplay);
-        this.controller = new Controller(this.getInputManager(), view, game);
+        game = new Game();
+        view = new View(this, game, niftyDisplay);
+        controller = new Controller(getInputManager(), view, game);
 
+        setDisplayStatView(false);
         // Set up debug game-state
-        this.setDisplayStatView(false);
         java.util.logging.Logger.getLogger("").setLevel(Level.SEVERE);
         debugInfo = new BitmapText(guiFont, false);
         debugInfo.setSize(guiFont.getCharSet().getRenderedSize());      // font size

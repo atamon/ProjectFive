@@ -32,10 +32,10 @@ public class Controller {
         this.inputManager = inpManager;
 
         // clear inpManager's pre-defined triggers and keys
-        this.inputManager.clearMappings();
+        inputManager.clearMappings();
 
         // Register view with our game as a listener
-        this.game.addPropertyChangeListener(view);
+        game.addPropertyChangeListener(view);
 
         // Create listeners
         new JoinPlayerListener(game, inputManager);
@@ -46,7 +46,7 @@ public class Controller {
     }
 
     public void update(float tpf) {
-        this.game.update(tpf);
-        this.view.update(tpf);
+        game.update(tpf);
+        view.update(tpf);
     }
 }

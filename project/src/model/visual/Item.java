@@ -66,7 +66,7 @@ public final class Item extends Bottle {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 43 * hash + (this.powerUp != null ? this.powerUp.hashCode() : 0);
+        hash = 43 * hash + (powerUp != null ? powerUp.hashCode() : 0);
         return hash + super.hashCode();
     }
     

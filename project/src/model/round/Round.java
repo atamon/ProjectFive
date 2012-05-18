@@ -19,7 +19,7 @@ public class Round {
         if (roundState == RoundState.PLAYING) {
             throw new RoundAlreadyStartedException();
         }
-        this.roundState = RoundState.PLAYING;
+        roundState = RoundState.PLAYING;
     }
     
     /**
@@ -32,7 +32,7 @@ public class Round {
             throw new RoundAlreadyEndedException();
         }
         this.winner = winner;
-        this.roundState = RoundState.POST;
+        roundState = RoundState.POST;
     }
     
     /**
@@ -64,6 +64,6 @@ public class Round {
      * @return RoundState
      */
     public RoundState getState() {
-        return this.roundState;
+        return roundState;
     }
 }

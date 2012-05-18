@@ -37,7 +37,7 @@ public abstract class PhysicalAbstractBody implements IPhysicalBody {
 
         body.setUserObject(owner);
         this.owner = owner;
-        this.initSize = correctSize;
+        initSize = correctSize;
     }
 
     /**

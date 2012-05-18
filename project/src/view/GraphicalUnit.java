@@ -27,7 +27,7 @@ public class GraphicalUnit extends GraphicalAbstract implements PropertyChangeLi
             AssetManager assetManager,
             Node blenderModel) {
         
-        this.node = blenderModel;
+        node = blenderModel;
         blenderModel.setLocalScale(size);
         Quaternion rot = new Quaternion();
         rot.lookAt(dir, Vector3f.UNIT_Y);

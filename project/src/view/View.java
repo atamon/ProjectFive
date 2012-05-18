@@ -44,8 +44,7 @@ public class View implements PropertyChangeListener {
     private RoundState lastRoundState;
     private GUIController guiControl;
 
-    public View(SimpleApplication jme3, IGame game,
-            int windowWidth, int windowHeight, NiftyJmeDisplay niftyGUI) {
+    public View(SimpleApplication jme3, IGame game, NiftyJmeDisplay niftyGUI) {
 
         this.jme3 = jme3;
         this.game = game;
@@ -53,7 +52,7 @@ public class View implements PropertyChangeListener {
         this.rootNode = jme3.getRootNode();
 
         // Create scene
-        this.createScene();
+        createScene();
 
         // Register a BlenderLoader with our assetManager so it supports .blend
         BlenderImporter.registerBlender(assetManager);
@@ -107,7 +106,7 @@ public class View implements PropertyChangeListener {
     private void initCamera() {
         Camera cam = jme3.getCamera();
         cam.setLocation(new Vector3f(this.game.getBattlefieldCenter().getX(), 110, 0));
-        cam.lookAt(MonkeyConverter.convertToMonkey3D(this.game.getBattlefieldCenter()).setZ(42), Vector3f.UNIT_Y);
+        cam.lookAt(MonkeyConverter.convertToMonkey3D(game.getBattlefieldCenter()).setZ(42), Vector3f.UNIT_Y);
     }
 
     public void update(float tpf) {
@@ -145,7 +144,7 @@ public class View implements PropertyChangeListener {
      * @param dir
      * @param color
      */
-    public void createGraphicalUnit(int playerID, Vector pos, Vector dir,
+    public void createUnit(int playerID, Vector pos, Vector dir,
             Vector size, ColorRGBA color) {
         Vector3f gPos = MonkeyConverter.convertToMonkey3D(pos);
         Vector3f gDir = MonkeyConverter.convertToMonkey3D(dir);
@@ -158,7 +157,7 @@ public class View implements PropertyChangeListener {
                 assetManager,
                 blenderUnit.clone(true));
         // Set it to start listening to its unit
-        this.game.addUnitListener(playerID, gUnit);
+        game.addUnitListener(playerID, gUnit);
 
         // Attach it
         rootNode.attachChild(gUnit.getNode());
@@ -174,7 +173,7 @@ public class View implements PropertyChangeListener {
         int playerID = player.getId();
 
         final ColorRGBA color = MonkeyConverter.convertToMonkeyColor(player.getColor());
-        this.createGraphicalUnit(playerID, pos, dir, size, color);
+        this.createUnit(playerID, pos, dir, size, color);
 
         // If a player is created we need to start listening to it so we can know when it shoots
         player.addPropertyChangeListener(this);

@@ -18,7 +18,7 @@ import physics.PhysicalUnit;
  */
 public class Unit extends MoveableAbstract implements IObservable {
 
-    public final static float FLYING_HEIGHT = 4.000f;
+    public final static float FLYING_HEIGHT = 4.05f;
     private final static int MAX_STEER_SPEED = 10;
     private float steerAngle = Settings.getInstance().getSetting("steerAngle");
     private int hitPointsMax = Settings.getInstance().getSetting("hitPointsMax");
@@ -56,8 +56,8 @@ public class Unit extends MoveableAbstract implements IObservable {
     public void update(final float tpf) {
         if (getPosition().getY() < FLYING_HEIGHT) {
             if (body.canNavigate()) {
-                this.accelerate(this.isAccelerating, tpf);
-                this.steer(tpf);
+                accelerate(isAccelerating, tpf);
+                steer(tpf);
             } else {
                 hitPoints -= tpf / hullStrength;
             }
@@ -99,15 +99,15 @@ public class Unit extends MoveableAbstract implements IObservable {
      * @return a steerAngle
      */
     private float currentSteerAngle() {
-        if (this.getSpeed() <= 0) {
+        if (getSpeed() <= 0) {
             return 0;
         }
 
-        if (this.getSpeed() > MAX_STEER_SPEED) {
-            return this.getSteerAngle();
+        if (getSpeed() > MAX_STEER_SPEED) {
+            return getSteerAngle();
         }
 
-        return this.getSpeed() * this.getSteerAngle() / MAX_STEER_SPEED;
+        return getSpeed() * getSteerAngle() / MAX_STEER_SPEED;
     }
 
     /**
@@ -121,15 +121,15 @@ public class Unit extends MoveableAbstract implements IObservable {
     }
 
     public float getSteerAngle() {
-        return this.steerAngle;
+        return steerAngle;
     }
 
     public void steerClockWise(boolean bool) {
-        this.steerDirection.steerClockWise(bool);
+        steerDirection.steerClockWise(bool);
     }
 
     public void steerAntiClockWise(boolean bool) {
-        this.steerDirection.steerAntiClockWise(bool);
+        steerDirection.steerAntiClockWise(bool);
     }
 
     /**
@@ -137,7 +137,7 @@ public class Unit extends MoveableAbstract implements IObservable {
      * @param value Are we accelerating true of false
      */
     public void setIsAccelerating(boolean value) {
-        this.isAccelerating = value;
+        isAccelerating = value;
     }
 
     /**
@@ -181,13 +181,13 @@ public class Unit extends MoveableAbstract implements IObservable {
     }
 
     public void announceRemoval() {
-        this.pcs.firePropertyChange("Unit removed", null, null);
+        pcs.firePropertyChange("Unit removed", null, null);
     }
 
     public void collidedWith(ICollideable obj, float objImpactSpeed) {
         // Two units crashing
         if (obj instanceof Unit) {
-            this.hitPoints -= Math.abs(objImpactSpeed / hullStrength);
+            hitPoints -= Math.abs(objImpactSpeed / hullStrength);
         }
 
         if (obj instanceof IProjectile) {
@@ -195,7 +195,7 @@ public class Unit extends MoveableAbstract implements IObservable {
             if (obj instanceof Bottle) {
                 damage = (int) getSpeed() * damage;
             }
-            this.hitPoints -= damage;
+            hitPoints -= damage;
         }
     }
 
@@ -230,16 +230,16 @@ public class Unit extends MoveableAbstract implements IObservable {
     public void applyPowerUp(IPowerUp power) {
         this.removePowerUp(); //remove old powerUp before adding a new one
         this.powerUp = power;
-        this.hitPointsMax += powerUp.getHitPointsMax();
+        hitPointsMax += powerUp.getHitPointsMax();
         this.setHitPoints(this.getHitPoints() + powerUp.getHitPoints());
-        this.acceleration += powerUp.getAcceleration();
+        acceleration += powerUp.getAcceleration();
         this.setMaxSpeed(this.getMaxSpeed() + powerUp.getMaxSpeed());
         this.setSteerAngle(this.getSteerAngle() + powerUp.getSteerAngle());
     }
 
     public void removePowerUp() {
-        this.hitPointsMax -= powerUp.getHitPointsMax();
-        this.acceleration -= powerUp.getAcceleration();
+        hitPointsMax -= powerUp.getHitPointsMax();
+        acceleration -= powerUp.getAcceleration();
         this.maxSpeed -= powerUp.getMaxSpeed();
         this.steerAngle -= powerUp.getSteerAngle();
         this.powerUp = new PUEmpty();

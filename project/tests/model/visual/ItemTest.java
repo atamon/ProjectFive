@@ -76,7 +76,7 @@ public class ItemTest {
             }
         };
         this.testInstance.addPropertyChangeListener(pcl);
-        this.testInstance.announceRemoval();
+        testInstance.announceRemoval();
         this.testInstance.removePropertyChangeListener(pcl);
     }
     @Test
@@ -109,7 +109,7 @@ public class ItemTest {
     @Test
     public void testUpdate(){
         float old = this.testInstance.getLifeTime();
-        this.testInstance.update(Util.simulateTpf());
+        testInstance.update(Util.simulateTpf());
         assertFalse(old == this.testInstance.getLifeTime());
         PropertyChangeListener pcl = new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
@@ -118,7 +118,7 @@ public class ItemTest {
         };
         this.testInstance.addPropertyChangeListener(pcl);
         while(this.testInstance.getLifeTime() > 0){
-            this.testInstance.update(Util.simulateTpf());
+            testInstance.update(Util.simulateTpf());
         }
     }
 }
