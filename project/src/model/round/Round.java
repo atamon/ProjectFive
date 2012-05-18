@@ -39,7 +39,7 @@ public class Round {
      * Pauses the Round.
      */
     public void pause() {
-        this.roundState = RoundState.PAUSED;
+        roundState = RoundState.PAUSED;
     }
     
     
@@ -47,7 +47,7 @@ public class Round {
      * Unpauses the Round.
      */
     public void unPause() {
-        this.roundState = RoundState.PLAYING;
+        roundState = RoundState.PLAYING;
     }
     
     

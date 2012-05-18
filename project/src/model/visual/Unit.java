@@ -79,7 +79,7 @@ public class Unit extends MoveableAbstract implements IObservable {
      */
     private void accelerate(boolean isAccelerating, float tpf) {
         if (getSpeed() < getMaxSpeed() && isAccelerating) {
-            this.body.accelerate(tpf);
+            body.accelerate(tpf);
         }
     }
 

@@ -224,10 +224,10 @@ public class Player implements IObservable {
     }
 
     public void addPropertyChangeListener(PropertyChangeListener pcl) {
-        this.pcs.addPropertyChangeListener(pcl);
+        pcs.addPropertyChangeListener(pcl);
     }
 
     public void removePropertyChangeListener(PropertyChangeListener pcl) {
-        this.pcs.removePropertyChangeListener(pcl);
+        pcs.removePropertyChangeListener(pcl);
     }
 }

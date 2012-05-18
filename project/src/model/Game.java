@@ -111,7 +111,7 @@ public class Game implements IGame {
         } else {
             bottle = itemFactory.createNewItem(getBattlefieldSize());
         }
-        this.battlefield.addToBattlefield(bottle);
+        battlefield.addToBattlefield(bottle);
         pcs.firePropertyChange("Bottle Created", null, bottle);
         StatusBox.getInstance().message(Color.ORANGE," A strange bottle appeared..");
     }
