@@ -30,7 +30,7 @@ public abstract class MoveableAbstract implements IMoveable {
      * @param pos Vector with coordinates where to position the unit
      */
     public void setPosition(Vector pos) {
-        this.body.place(pos);
+        body.place(pos);
     }
 
     /**
@@ -41,7 +41,7 @@ public abstract class MoveableAbstract implements IMoveable {
      * @param z New position in z-axis
      */
     public void setPosition(float x, float y, float z) {
-        this.setPosition(new Vector(x, y, z));
+        setPosition(new Vector(x, y, z));
     }
 
     public void setBody(final IPhysicalBody body) {
@@ -80,7 +80,7 @@ public abstract class MoveableAbstract implements IMoveable {
      * @return Movable object's maximum speed
      */
     public float getMaxSpeed() {
-        return this.maxSpeed;
+        return maxSpeed;
     }
 
     /**
@@ -153,7 +153,7 @@ public abstract class MoveableAbstract implements IMoveable {
     }
     
     public IPhysicalBody getPhysicalObject() {
-        return this.body;
+        return body;
     }
 
     public abstract void announceRemoval();

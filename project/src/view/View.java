@@ -105,8 +105,8 @@ public class View implements PropertyChangeListener {
 
     private void initCamera() {
         Camera cam = jme3.getCamera();
-        cam.setLocation(new Vector3f(this.game.getBattlefieldCenter().getX(), 110, 0));
         cam.lookAt(MonkeyConverter.convertToMonkey3D(game.getBattlefieldCenter()).setZ(42), Vector3f.UNIT_Y);
+        cam.setLocation(new Vector3f(game.getBattlefieldCenter().getX(), 110, 0));
     }
 
     public void update(float tpf) {
@@ -173,7 +173,7 @@ public class View implements PropertyChangeListener {
         int playerID = player.getId();
 
         final ColorRGBA color = MonkeyConverter.convertToMonkeyColor(player.getColor());
-        this.createUnit(playerID, pos, dir, size, color);
+        createUnit(playerID, pos, dir, size, color);
 
         // If a player is created we need to start listening to it so we can know when it shoots
         player.addPropertyChangeListener(this);
@@ -200,7 +200,7 @@ public class View implements PropertyChangeListener {
     private void createCannonBall(CannonBall cannonBall) {
         GraphicalCannonBall graphicalBall = new GraphicalCannonBall(ColorRGBA.Orange,
                 MonkeyConverter.convertToMonkey3D(cannonBall.getPosition()),
-                MonkeyConverter.convertToMonkey3D(cannonBall.getSize()), this.assetManager,
+                MonkeyConverter.convertToMonkey3D(cannonBall.getSize()), assetManager,
                 null);
         rootNode.attachChild(graphicalBall.getNode());
         cannonBall.addPropertyChangeListener(graphicalBall);
@@ -210,7 +210,7 @@ public class View implements PropertyChangeListener {
         GraphicalBottle graphicalItem = new GraphicalBottle(ColorRGBA.randomColor(),
                 MonkeyConverter.convertToMonkey3D(bottle.getPosition()),
                 MonkeyConverter.convertToMonkey3D(bottle.getSize()),
-                this.assetManager, blenderBottle.clone(true));
+                assetManager, blenderBottle.clone(true));
         rootNode.attachChild(graphicalItem.getNode());
         bottle.addPropertyChangeListener(graphicalItem);
     }

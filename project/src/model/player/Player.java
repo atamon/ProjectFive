@@ -119,7 +119,7 @@ public class Player implements IObservable {
         // Magical 10f is to reduce size from int >= 1 in settings
         float size = Settings.getInstance().getSetting("cannonBallSize") / 10f;
 
-        CannonBall cBall = new CannonBall(this.getCannonBallPos(direction),
+        CannonBall cBall = new CannonBall(getCannonBallPos(direction),
                 direction,
                 new Vector(size, size, size),
                 (float) (Settings.getInstance().getSetting("cannonBallMass")),
@@ -191,9 +191,9 @@ public class Player implements IObservable {
     @Override
     public String toString() {
         if (playerUnit != null) {
-            return "Player: " + this.playerId + " Unit: " + this.playerUnit.toString();
+            return "Player: " + playerId + " Unit: " + playerUnit.toString();
         } else {
-            return "Player: " + this.playerId + " Unit: NONE";
+            return "Player: " + playerId + " Unit: NONE";
         }
     }
 

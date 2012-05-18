@@ -52,8 +52,8 @@ public class Game implements IGame {
         
         this.battlefield = battlefield;
         this.itemFactory = new ItemFactory();
-        this.roundModel = new SimpleRoundModel();
-        this.playerModel = new PiratePlayerModel(battlefield);
+        roundModel = new SimpleRoundModel();
+        playerModel = new PiratePlayerModel(battlefield);
     }
 
     /**
@@ -256,12 +256,12 @@ public class Game implements IGame {
     }
 
     public void addPropertyChangeListener(PropertyChangeListener pl) {
-        this.pcs.addPropertyChangeListener(pl);
+        pcs.addPropertyChangeListener(pl);
         playerModel.addPropertyChangeListener(pl);
     }
 
     public void removePropertyChangeListener(PropertyChangeListener pl) {
-        this.pcs.addPropertyChangeListener(pl);
+        pcs.addPropertyChangeListener(pl);
         playerModel.addPropertyChangeListener(pl);
     }
 }

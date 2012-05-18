@@ -25,7 +25,7 @@ public class PlayerListener implements ActionListener, AnalogListener {
 
     public PlayerListener(Player player, InputManager inpManager, IGame game) {
         this.player = player;
-        this.layout = KeyFactory.getPlayerKeys(player);
+        layout = KeyFactory.getPlayerKeys(player);
         this.game = game;
 
         inpManager.addMapping(layout.getUpMap(), new KeyTrigger(layout.getForwardKey()));

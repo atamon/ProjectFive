@@ -20,14 +20,14 @@ public abstract class GraphicalAbstract {
     }
     
     public Node getNode() {
-        return this.node;
+        return node;
     }
     
     protected void updatePosition(Vector3f pos) {
-        this.node.setLocalTranslation(pos);
+        node.setLocalTranslation(pos);
     }
     
     protected void updateRotation(Quaternion rot) {
-        this.node.setLocalRotation(rot);
+        node.setLocalRotation(rot);
     }
 }

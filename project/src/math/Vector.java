@@ -32,9 +32,9 @@ public class Vector {
      * @param v Another Vector
      */
     public Vector(Vector v) {
-        this.x = v.getX();
-        this.y = v.getY();
-        this.z = v.getZ();
+        x = v.getX();
+        y = v.getY();
+        z = v.getZ();
     }
     
     /**
@@ -42,7 +42,7 @@ public class Vector {
      * @return x
      */
     public float getX() {
-        return this.x;
+        return x;
     }
     
     /**
@@ -50,7 +50,7 @@ public class Vector {
      * @return y
      */
     public float getY() {
-        return this.y;
+        return y;
     }
     
     /**
@@ -58,7 +58,7 @@ public class Vector {
      * @return z
      */
     public float getZ() {
-        return this.z;
+        return z;
     }
     
     /**
@@ -90,9 +90,9 @@ public class Vector {
      * @param vec 
      */
     public void add(Vector vec) {
-        this.x += vec.getX();
-        this.y += vec.getY();
-        this.z += vec.getZ();
+        x += vec.getX();
+        y += vec.getY();
+        z += vec.getZ();
     }
     
     /**
@@ -100,9 +100,9 @@ public class Vector {
      * @param vec The vector to multiply with
      */
     public void mult(Vector vec) {
-        this.x = this.x*vec.getX();
-        this.y = this.y*vec.getY();
-        this.z = this.z*vec.getZ();
+        x = x*vec.getX();
+        y = y*vec.getY();
+        z = z*vec.getZ();
     }
     
     /**
@@ -110,9 +110,9 @@ public class Vector {
      * @param number The number to multiply x and y and z with
      */
     public void mult(float number) {
-        this.x = this.x*number;
-        this.y = this.y*number;
-        this.z = this.z*number;
+        x = x*number;
+        y = y*number;
+        z = z*number;
     }
     
     /**
@@ -121,12 +121,12 @@ public class Vector {
      */
     public void normalize() throws ArithmeticException {
         if (x != 0 || y != 0 || z != 0) {
-            float length = this.getLength();
-            this.x = this.x/length;
-            this.y = this.y/length;
-            this.z = this.z/length;
-            if(this.getLength() != 1){
-                this.normalize();
+            float length = getLength();
+            x = x/length;
+            y = y/length;
+            z = z/length;
+            if(getLength() != 1){
+                normalize();
             }
         } else {
             throw new ArithmeticException(
@@ -139,7 +139,7 @@ public class Vector {
      * @return 
      */
     public float getLength() {        
-        return (float) Math.sqrt(this.x*this.x + this.y*this.y + this.z*this.z);
+        return (float) Math.sqrt(x*x + y*y + z*z);
     }
     
     /**
@@ -148,9 +148,9 @@ public class Vector {
      */
     public void rotateXY(float radian){
         // Save original x since it is changed before y and used in new y's calculation
-        float orgX = this.x;
-        this.x = (float)( Math.cos(radian)*x - Math.sin(radian)*y);
-        this.y = (float)( Math.sin(radian)*orgX + Math.cos(radian)*y);
+        float orgX = x;
+        x = (float)( Math.cos(radian)*x - Math.sin(radian)*y);
+        y = (float)( Math.sin(radian)*orgX + Math.cos(radian)*y);
     }
     
     /**
@@ -159,7 +159,7 @@ public class Vector {
      */
     @Override
     public String toString() {
-        return "X = " + this.x + ", Y = " + this.y + ", Z = " + this.z;
+        return "X = " + x + ", Y = " + y + ", Z = " + z;
     }
     
     /**
@@ -170,19 +170,19 @@ public class Vector {
      */
     @Override
     public boolean equals(Object obj) {
-        if(obj == null || obj.getClass() != this.getClass()) {
+        if(obj == null || obj.getClass() != getClass()) {
             return false;
         }
         Vector v = (Vector)obj;
-        return this.x == v.getX() && this.y == v.getY() && this.z == v.getZ();
+        return x == v.getX() && y == v.getY() && z == v.getZ();
     }
 
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 53 * hash + Float.floatToIntBits(this.x);
-        hash = 53 * hash + Float.floatToIntBits(this.y);
-        hash = 53 * hash + Float.floatToIntBits(this.z);
+        hash = 53 * hash + Float.floatToIntBits(x);
+        hash = 53 * hash + Float.floatToIntBits(y);
+        hash = 53 * hash + Float.floatToIntBits(z);
         return hash;
     }
 

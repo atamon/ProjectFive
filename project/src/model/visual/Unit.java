@@ -8,7 +8,6 @@ import model.powerup.PUEmpty;
 import observable.IObservable;
 import model.settings.Settings;
 import physics.ICollideable;
-import physics.IPhysicalBody;
 import physics.PhysicalUnit;
 
 /**
@@ -69,6 +68,7 @@ public class Unit extends MoveableAbstract implements IObservable {
                 this.removePowerUp();
             }
         }
+        this.isUpsideDown();
         this.fireDelay = fireDelay <= 0 ? 0 : fireDelay - tpf;
     }
 
@@ -259,5 +259,9 @@ public class Unit extends MoveableAbstract implements IObservable {
                 + "hitPointsMax=" + hitPointsMax + ", acceleration="
                 + acceleration + ", hitPoints=" + hitPoints + ", isAccelerating="
                 + isAccelerating + ", steerDirection=" + steerDirection + '}';
+    }
+    
+    public void isUpsideDown() {
+        System.out.println(this.body.getBody().getPhysicsRotation());
     }
 }
