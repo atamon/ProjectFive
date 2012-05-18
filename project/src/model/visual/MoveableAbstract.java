@@ -133,7 +133,7 @@ public abstract class MoveableAbstract implements IMoveable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 59 * hash + Float.floatToIntBitsthis.maxSpeed);
+        hash = 59 * hash + Float.floatToIntBits(maxSpeed);
         hash = 59 * hash + (body != null ? body.hashCode() : 0);
         return hash;
     }

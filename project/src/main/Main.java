@@ -44,9 +44,9 @@ public class Main extends SimpleApplication {
         settings.setFrameRate(60);
 
         // Set settings and start
-        this.setShowSettings(false);
-        this.setSettings(settings);
-        this.start();
+        setShowSettings(false);
+        setSettings(settings);
+        start();
     }
 
     /**
