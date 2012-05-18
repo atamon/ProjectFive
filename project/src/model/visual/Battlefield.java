@@ -120,7 +120,7 @@ public class Battlefield implements PropertyChangeListener, ICollideable {
         return position.getX() < 0
                 || position.getX() > this.size.getX()
                 || position.getZ() < 0
-                || position.getZ() > this.size.getZ();
+                || position.getZ() > size.getZ();
     }
 
     public void clearForNewRound() {

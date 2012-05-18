@@ -36,7 +36,7 @@ public class CannonBall extends MoveableAbstract implements IObservable, IProjec
             final float mass,
             final float speed,
             final Unit owner) {
-        this.body = new PhysicalCannonBall(this, position, direction, size, mass, speed);
+        body = new PhysicalCannonBall(this, position, direction, size, mass, speed);
         super.setBody(body);
         this.pcs = super.getPropertyChangeSupport();
         this.owner = owner;
@@ -64,7 +64,7 @@ public class CannonBall extends MoveableAbstract implements IObservable, IProjec
     }
 
     public Unit getOwner() {
-        return this.owner;
+        return owner;
     }
     
     public void collidedWith(ICollideable obj, float objImpactSpeed) {

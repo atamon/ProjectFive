@@ -45,7 +45,7 @@ public class GUIController implements PropertyChangeListener {
             FilterPostProcessor waterPostProcessor,
             SimpleApplication jme3) {
         this.game = game;
-        this.rootNode = jme3.getRootNode();
+        rootNode = jme3.getRootNode();
 
         // Start listen
         StatusBox.getInstance().addPropertyChangeListener(this);

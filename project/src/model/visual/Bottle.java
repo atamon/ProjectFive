@@ -7,7 +7,6 @@ package model.visual;
 import java.beans.PropertyChangeSupport;
 import math.Vector;
 import model.settings.Settings;
-import physics.IPhysicalBody;
 import physics.PhysicalItem;
 
 /**
