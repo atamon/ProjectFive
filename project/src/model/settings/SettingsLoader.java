@@ -43,7 +43,11 @@ public abstract class SettingsLoader {
         }
 
         // Read stream into map.
-        Map<String, Integer> map = new HashMap<String, Integer>();
+        return readToMap(reader);
+    }
+    
+    private static Map<String, Integer> readToMap(BufferedReader reader) {
+                Map<String, Integer> map = new HashMap<String, Integer>();
         String line;
         // Find start of default settings
         try {

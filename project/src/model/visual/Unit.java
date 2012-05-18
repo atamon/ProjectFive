@@ -57,7 +57,7 @@ public class Unit extends MoveableAbstract implements IObservable {
     public void update(final float tpf) {
         // TODO IMPLEMENT body.canNavigate() correctly and use it here to prevent all steering and acceleration
         // when a unit is either too high, has tipped or is pointing to the sky/ground.
-        if (getPosition().getY() < FLYING_HEIGHT) {
+        if (getPosition().getY() < FLYING_HEIGHT && body.canNavigate()) {
             this.accelerate(this.isAccelerating, tpf);
             this.steer(tpf);
         }
