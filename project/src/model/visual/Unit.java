@@ -17,10 +17,9 @@ import physics.PhysicalUnit;
  * @author Johannes Wikner @modified Victor Lindhé, johnhu
  */
 public class Unit extends MoveableAbstract implements IObservable {
-    
+
     public final static float FLYING_HEIGHT = 4.000f;
     private final static int MAX_STEER_SPEED = 10;
-
     private float steerAngle = Settings.getInstance().getSetting("steerAngle");
     private int hitPointsMax = Settings.getInstance().getSetting("hitPointsMax");
     private int hitPoints = hitPointsMax;
@@ -32,7 +31,6 @@ public class Unit extends MoveableAbstract implements IObservable {
     private final PropertyChangeSupport pcs;
     private float fireDelay = Settings.getInstance().getSetting("fireDelay");
 
-
     /**
      * Create a unit
      *
@@ -43,7 +41,7 @@ public class Unit extends MoveableAbstract implements IObservable {
         if (hitPointsMax <= 0) {
             throw new IllegalArgumentException("hit points must be positive");
         }
-        
+
         this.body = new PhysicalUnit(this, pos, dir, size, mass);
         super.setBody(body);
         this.pcs = super.getPropertyChangeSupport();
@@ -56,11 +54,13 @@ public class Unit extends MoveableAbstract implements IObservable {
      * @param tpf Updatefrequency, i.e. time since last frame
      */
     public void update(final float tpf) {
-        // TODO IMPLEMENT body.canNavigate() correctly and use it here to prevent all steering and acceleration
-        // when a unit is either too high, has tipped or is pointing to the sky/ground.
-        if (getPosition().getY() < FLYING_HEIGHT && body.canNavigate()) {
-            this.accelerate(this.isAccelerating, tpf);
-            this.steer(tpf);
+        if (getPosition().getY() < FLYING_HEIGHT) {
+            if (body.canNavigate()) {
+                this.accelerate(this.isAccelerating, tpf);
+                this.steer(tpf);
+            } else {
+                hitPoints -= tpf / hullStrength;
+            }
         }
         if (this.powerUp != null) {
             if (powerUp.isActive()) {
@@ -191,9 +191,9 @@ public class Unit extends MoveableAbstract implements IObservable {
         }
 
         if (obj instanceof IProjectile) {
-            int damage = ((IProjectile)obj).getDamage();
+            int damage = ((IProjectile) obj).getDamage();
             if (obj instanceof Bottle) {
-                damage = (int)getSpeed() * damage;
+                damage = (int) getSpeed() * damage;
             }
             this.hitPoints -= damage;
         }
@@ -244,11 +244,11 @@ public class Unit extends MoveableAbstract implements IObservable {
         this.steerAngle -= powerUp.getSteerAngle();
         this.powerUp = new PUEmpty();
     }
-    
+
     public boolean canFire() {
         return fireDelay <= 0;
     }
-    
+
     public void reload(float delay) {
         this.fireDelay = delay;
     }

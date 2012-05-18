@@ -60,14 +60,16 @@ public class PhysicalUnit extends PhysicalAbstractBody {
      */
     public boolean canNavigate() {
         Quaternion rot = body.getPhysicsRotation();
-        System.out.println("<<<<<<<<"+this+">>>>>>>>");
-        System.out.println(rot.getX() +" || " + rot.getY() + " || " + rot.getZ() + " || " + rot.getW());
-//        if (Math.abs(rot.getX()) > 0.2) {
-//            return false;
-//        }
-//        if (Math.abs(rot.getW()) > 0.5) {
-//            return false;
-//        }
+//        System.out.println("<<<<<<<<"+this+">>>>>>>>");
+//        System.out.println(rot.getX() +" || " + rot.getY() + " || " + rot.getZ() + " || " + rot.getW());
+        if (Math.abs(rot.getX()) > 0.35) {
+            System.out.println("NOTE: " + rot.getX() + " > " + 0.35);
+            return false;
+        }
+        if (Math.abs(rot.getZ()) > 0.35) {
+            System.out.println("NOTE: " + rot.getZ() + " > " + 0.35);
+            return false;
+        }
         return true;
     }
             
