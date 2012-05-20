@@ -28,7 +28,7 @@ public class Unit extends MoveableAbstract implements IObservable {
     private IPowerUp powerUp = new PUEmpty();
     private final PhysicalUnit body;
     private final PropertyChangeSupport pcs;
-    private float fireDelay = Settings.getInstance().getSetting("fireDelay");
+    private float fireDelay = Settings.getInstance().getSetting("fireDelay") / 1000f;
 
     /**
      * Create a unit
@@ -250,7 +250,7 @@ public class Unit extends MoveableAbstract implements IObservable {
     }
 
     public void reload(float delay) {
-        this.fireDelay = delay;
+        this.fireDelay = delay / 1000f;
     }
 
     @Override

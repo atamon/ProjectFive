@@ -18,7 +18,8 @@ cannonBallSpeed:25
 cannonBallSize:8
 cannonBallMinimumFirePower:1
 cannonBallMaximumFirePower:3
-fireDelay:1
+// fireDelay in milliseconds
+fireDelay:180
 hullStrength:1000
 itemLifeTime:10
 molotovPercent:50

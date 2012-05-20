@@ -22,10 +22,7 @@ import java.beans.PropertyChangeListener;
  */
 public class GraphicalBottle extends GraphicalAbstract implements PropertyChangeListener{
 
-    public GraphicalBottle(ColorRGBA color,
-                         Vector3f pos,
-                         Vector3f size,
-                         AssetManager assetManager,
+    public GraphicalBottle(Vector3f pos,
                          Node blenderModel) {
 
         node = blenderModel;

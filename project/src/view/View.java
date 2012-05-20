@@ -25,6 +25,7 @@ import math.Vector;
 import model.visual.CannonBall;
 import math.MonkeyConverter;
 import model.visual.Bottle;
+import model.visual.Molotov;
 import model.visual.Unit;
 
 /**
@@ -207,10 +208,13 @@ public class View implements PropertyChangeListener {
     }
 
     private void createItem(Bottle bottle) {
-        GraphicalBottle graphicalItem = new GraphicalBottle(ColorRGBA.randomColor(),
-                MonkeyConverter.convertToMonkey3D(bottle.getPosition()),
-                MonkeyConverter.convertToMonkey3D(bottle.getSize()),
-                assetManager, blenderBottle.clone(true));
+        GraphicalBottle graphicalItem;
+        if (bottle instanceof Molotov) {
+            graphicalItem = new GraphicalMolotov(MonkeyConverter.convertToMonkey3D(bottle.getPosition()), blenderBottle.clone(true));
+        } else {
+            graphicalItem = new GraphicalBottle(MonkeyConverter.convertToMonkey3D(bottle.getPosition()),
+                    blenderBottle.clone(true));
+        }
         rootNode.attachChild(graphicalItem.getNode());
         bottle.addPropertyChangeListener(graphicalItem);
     }
