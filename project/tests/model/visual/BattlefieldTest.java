@@ -68,7 +68,7 @@ public class BattlefieldTest {
     @Test
     public void testGetCenter() {
         Vector expFirstSize = new Vector(50, 1, 50);
-        assertTrue(expFirstSize.equals(this.bField.getCenter()));
+        assertTrue(expFirstSize.equals(bField.getCenter()));
     }
 
     /**
@@ -77,8 +77,8 @@ public class BattlefieldTest {
     @Test
     public void testEquals() {
         Battlefield secondBField = new Battlefield(new Vector(50.0f, 1, 50.0f));
-        assertTrue(this.bField.equals(this.bField));
-        assertFalse(this.bField.equals(secondBField));
+        assertTrue(bField.equals(bField));
+        assertFalse(bField.equals(secondBField));
     }
 
     /**
@@ -87,7 +87,7 @@ public class BattlefieldTest {
     @Test
     public void testHashCode() {
         Battlefield secondBField = new Battlefield(new Vector(50.0f, 1, 50.0f));
-        assertFalse(this.bField.hashCode() == secondBField.hashCode());
+        assertFalse(bField.hashCode() == secondBField.hashCode());
     }
 
     /**

@@ -5,6 +5,7 @@ import model.math.VectorTest;
 import model.player.PlayerTest;
 import model.powerup.*;
 import model.round.RoundTest;
+import model.round.SimpleRoundModelTest;
 import model.visual.*;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -21,6 +22,7 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({BattlefieldTest.class,
                      PlayerTest.class,
                      UnitTest.class,
+                     GameTest.class,
                      VectorTest.class,
                      PUDrunkTest.class,
                      PUEmptyTest.class,
@@ -30,7 +32,8 @@ import org.junit.runners.Suite;
                      ItemTest.class,
                      MolotovTest.class,
                      RoundTest.class,
-                     GameTest.class,
+                     SimpleRoundModelTest.class,
+                     PiratePlayerModelTest.class,
                      ItemFactoryTest.class,
                      BattlefieldTest.class,
                      CannonBallTest.class,

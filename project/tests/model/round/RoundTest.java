@@ -17,7 +17,7 @@ public class RoundTest {
     private Round round;
     
     public RoundTest() {
-        this.round = new Round();
+        round = new Round();
     }
     
     /**
@@ -26,8 +26,8 @@ public class RoundTest {
      */
     @Test (expected=RoundAlreadyStartedException.class)
     public void testStart() throws RoundAlreadyStartedException {
-        this.round.start();
-        this.round.start();
+        round.start();
+        round.start();
     }
     
     /**
@@ -36,10 +36,10 @@ public class RoundTest {
      */
     @Test
     public void testPausing() {
-        this.round.pause();
-        assertTrue(this.round.getState() == RoundState.PAUSED);
-        this.round.unPause();
-        assertTrue(this.round.getState() == RoundState.PLAYING);
+        round.pause();
+        assertTrue(round.getState() == RoundState.PAUSED);
+        round.unPause();
+        assertTrue(round.getState() == RoundState.PLAYING);
     }
     
     /**
@@ -49,9 +49,9 @@ public class RoundTest {
      */
     @Test (expected=RoundAlreadyEndedException.class)
     public void testEndAndGetWinner() throws RoundAlreadyEndedException {
-        this.round.end(new Player(1));
-        assertTrue(this.round.getWinner().getId() == 1);
-        this.round.end(new Player(2));
+        round.end(new Player(1));
+        assertTrue(round.getWinner().getId() == 1);
+        round.end(new Player(2));
     }
    
 }

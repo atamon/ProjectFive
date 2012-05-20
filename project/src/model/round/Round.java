@@ -11,6 +11,10 @@ public class Round {
     private RoundState roundState;
     private Player winner;
     
+    public Round() {
+        roundState = RoundState.PAUSED;
+    }
+    
     /**
      * Starts this round.
      * @throws RoundAlreadyStartedException Thrown if already started.

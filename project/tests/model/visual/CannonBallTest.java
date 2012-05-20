@@ -63,9 +63,11 @@ public class CannonBallTest {
             }
         };
 
-        this.ball.addPropertyChangeListener(pListener);
-        ball.announceRemoval();
-        assertTrue(this.removeWorked);
+
+        ball.addPropertyChangeListener(pListener);
+        this.ball.announceRemoval();
+        assertTrue(removeWorked);
+
     }
 
     /**
