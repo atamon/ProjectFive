@@ -328,6 +328,158 @@
        x2="471.73576"
        y2="410.93362"
        gradientUnits="userSpaceOnUse" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient6199-5"
+       id="radialGradient6205-6"
+       cx="422.2793"
+       cy="424.69821"
+       fx="422.2793"
+       fy="424.69821"
+       r="47.650497"
+       gradientTransform="matrix(1,0,0,0.84475584,0,65.931913)"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient6199-5">
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1;"
+         offset="0"
+         id="stop6201-1" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0;"
+         offset="1"
+         id="stop6203-6" />
+    </linearGradient>
+    <filter
+       color-interpolation-filters="sRGB"
+       inkscape:collect="always"
+       id="filter6183-7">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="0.802234"
+         id="feGaussianBlur6185-0" />
+    </filter>
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient6199-5"
+       id="radialGradient6209-5"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,0.84475584,0,65.931913)"
+       cx="422.2793"
+       cy="424.69821"
+       fx="422.2793"
+       fy="424.69821"
+       r="47.650497" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient6199-5"
+       id="radialGradient6207-4"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,0.84475584,0,65.931913)"
+       cx="422.2793"
+       cy="424.69821"
+       fx="422.2793"
+       fy="424.69821"
+       r="47.650497" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient6199-5"
+       id="radialGradient6211-8"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,0.84475584,0,65.931913)"
+       cx="422.2793"
+       cy="424.69821"
+       fx="422.2793"
+       fy="424.69821"
+       r="47.650497" />
+    <radialGradient
+       r="47.650497"
+       fy="424.69821"
+       fx="422.2793"
+       cy="424.69821"
+       cx="422.2793"
+       gradientTransform="matrix(1,0,0,0.84475584,0,65.931913)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient3284"
+       xlink:href="#linearGradient6199-5"
+       inkscape:collect="always" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient6199-6-9"
+       id="radialGradient6205-4-3"
+       cx="422.2793"
+       cy="424.69821"
+       fx="422.2793"
+       fy="424.69821"
+       r="47.650497"
+       gradientTransform="matrix(1,0,0,0.84475584,0,65.931913)"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient6199-6-9">
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1;"
+         offset="0"
+         id="stop6201-4-2" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0;"
+         offset="1"
+         id="stop6203-1-7" />
+    </linearGradient>
+    <filter
+       color-interpolation-filters="sRGB"
+       inkscape:collect="always"
+       id="filter6183-2-0">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="0.802234"
+         id="feGaussianBlur6185-6-7" />
+    </filter>
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient6199-6-9"
+       id="radialGradient6209-7-8"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,0.84475584,0,65.931913)"
+       cx="422.2793"
+       cy="424.69821"
+       fx="422.2793"
+       fy="424.69821"
+       r="47.650497" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient6199-6-9"
+       id="radialGradient6207-1-9"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,0.84475584,0,65.931913)"
+       cx="422.2793"
+       cy="424.69821"
+       fx="422.2793"
+       fy="424.69821"
+       r="47.650497" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient6199-6-9"
+       id="radialGradient6211-9-2"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,0.84475584,0,65.931913)"
+       cx="422.2793"
+       cy="424.69821"
+       fx="422.2793"
+       fy="424.69821"
+       r="47.650497" />
+    <radialGradient
+       r="47.650497"
+       fy="424.69821"
+       fx="422.2793"
+       cy="424.69821"
+       cx="422.2793"
+       gradientTransform="matrix(1,0,0,0.84475584,0,65.931913)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient3378"
+       xlink:href="#linearGradient6199-6-9"
+       inkscape:collect="always" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -336,9 +488,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.8"
-     inkscape:cx="246.16598"
-     inkscape:cy="289.74629"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="175.82111"
+     inkscape:cy="718.04514"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -372,7 +524,10 @@
        sodipodi:rx="138.57143"
        sodipodi:ry="138.57143"
        d="m 459.99998,410.93362 a 138.57143,138.57143 0 1 1 -277.14285,0 138.57143,138.57143 0 1 1 277.14285,0 z"
-       transform="matrix(0.81656213,0.57725755,-0.57725755,0.81656213,-200.96615,-255.88057)" />
+       transform="matrix(0.81656213,0.57725755,-0.57725755,0.81656213,-200.96615,-255.88057)"
+       inkscape:export-filename="/home/atamon/ProjectFive/project/assets/xml/join0.png"
+       inkscape:export-xdpi="90.129707"
+       inkscape:export-ydpi="90.129707" />
     <flowRoot
        xml:space="preserve"
        id="flowRoot6149"
@@ -422,7 +577,10 @@
        sodipodi:rx="138.57143"
        sodipodi:ry="138.57143"
        d="m 459.99998,410.93362 a 138.57143,138.57143 0 1 1 -277.14285,0 138.57143,138.57143 0 1 1 277.14285,0 z"
-       transform="matrix(0.81656213,0.57725755,-0.57725755,0.81656213,-193.82328,125.548)" />
+       transform="matrix(0.81656213,0.57725755,-0.57725755,0.81656213,-193.82328,125.548)"
+       inkscape:export-filename="/home/atamon/ProjectFive/project/assets/xml/leave0.png"
+       inkscape:export-xdpi="90.509117"
+       inkscape:export-ydpi="90.509117" />
     <rect
        style="fill:#49d4c8;fill-opacity:0.76255709;stroke:#ee3348;stroke-width:1.94288623;stroke-miterlimit:4;stroke-opacity:0.80821922;stroke-dasharray:none"
        id="rect7600-9"
@@ -452,5 +610,57 @@
            y="358.07648"
            style="fill:#ff0000;fill-opacity:1;stroke:url(#radialGradient6207-1);stroke-width:4.05823231;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" /></flowRegion><flowPara
          id="flowPara6163-8"
-         style="font-size:100px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ff0000;fill-opacity:1;stroke:url(#radialGradient6211-9);stroke-width:4.05823231;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Century Gothic;-inkscape-font-specification:Century Gothic Bold">S</flowPara></flowRoot>  </g>
+         style="font-size:100px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ff0000;fill-opacity:1;stroke:url(#radialGradient6211-9);stroke-width:4.05823231;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Century Gothic;-inkscape-font-specification:Century Gothic Bold">S</flowPara></flowRoot>    <text
+       xml:space="preserve"
+       style="font-size:150px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Century Gothic;-inkscape-font-specification:Sans Bold"
+       x="121.42857"
+       y="770.21936"
+       id="text3235"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3237"></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:150px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Century Gothic;-inkscape-font-specification:Sans Bold"
+       x="146.47212"
+       y="804.87482"
+       id="text3239"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3241"></tspan></text>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot6157-4"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:url(#radialGradient3284);stroke-width:4.05823231;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;filter:url(#filter6183-7);font-family:Sans"
+       transform="matrix(2.0146674,0,0,2.0146674,-1027.7295,-591.02723)"
+       inkscape:export-filename="/home/atamon/ProjectFive/project/assets/xml/join0.png"
+       inkscape:export-xdpi="90.129707"
+       inkscape:export-ydpi="90.129707"><flowRegion
+         id="flowRegion6159-4"
+         style="stroke:url(#radialGradient6209-5)"><rect
+           id="rect6161-15"
+           width="111.4286"
+           height="151.42857"
+           x="374.28571"
+           y="358.07648"
+           style="stroke:url(#radialGradient6207-4);stroke-width:4.05823231;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" /></flowRegion><flowPara
+         id="flowPara6163-85"
+         style="font-size:100px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;stroke:url(#radialGradient6211-8);stroke-width:4.05823231;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Century Gothic;-inkscape-font-specification:Century Gothic Bold">W</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot6157-0-6"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;opacity:0.51851849;fill:#ff0000;fill-opacity:1;stroke:url(#radialGradient3378);stroke-width:4.05823231;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;filter:url(#filter6183-2-0);font-family:Sans"
+       transform="matrix(2.3609376,0,0,2.3609376,-1108.1207,-352.86955)"
+       inkscape:export-filename="/home/atamon/ProjectFive/project/assets/xml/leave0.png"
+       inkscape:export-xdpi="90.509117"
+       inkscape:export-ydpi="90.509117"><flowRegion
+         id="flowRegion6159-3-6"
+         style="stroke:url(#radialGradient6209-7-8)"><rect
+           id="rect6161-1-5"
+           width="111.4286"
+           height="151.42857"
+           x="374.28571"
+           y="358.07648"
+           style="fill:#ff0000;fill-opacity:1;stroke:url(#radialGradient6207-1-9);stroke-width:4.05823231;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" /></flowRegion><flowPara
+         id="flowPara6163-8-3"
+         style="font-size:100px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ff0000;fill-opacity:1;stroke:url(#radialGradient6211-9-2);stroke-width:4.05823231;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Century Gothic;-inkscape-font-specification:Century Gothic Bold">S</flowPara></flowRoot>  </g>
 </svg>

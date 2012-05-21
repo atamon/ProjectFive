@@ -26,11 +26,9 @@ public class LeavePlayerListener implements ActionListener {
 
     private final Map<Integer, KeyTrigger> leaveKeys = new HashMap<Integer, KeyTrigger>();
     private final IGame game;
-    private final InputManager inpManager;
 
     public LeavePlayerListener(IGame game, InputManager inpManager) {
         this.game = game;
-        this.inpManager = inpManager;
 
         // Set up join keys for all supported players and add them to manager
         leaveKeys.put(0, new KeyTrigger(PlayerZeroKeys.KEY_LEAVE));
@@ -53,7 +51,6 @@ public class LeavePlayerListener implements ActionListener {
     @Override
     public void onAction(String name, boolean isPressed, float tpf) {
         if (isPressed && game.getState() == GameState.INACTIVE) {
-            // Add check for roundstate 
             int id = -1;
             String stringID = name.replace("leave", "");
             try {
