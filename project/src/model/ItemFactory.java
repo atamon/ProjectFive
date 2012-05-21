@@ -32,11 +32,15 @@ public class ItemFactory {
     public Item createNewItem(final Vector fieldSize) {
         final int randNumber = (int)(Math.random()*this.powerUps.size());
         
-        final float randXPos = (float)Math.random() * (fieldSize.getX()-MARGINS[0]-MARGINS[1]) + MARGINS[1];
-        final float randZPos = (float)Math.random() * (fieldSize.getZ()-MARGINS[2]-MARGINS[3]) + MARGINS[3];
         // TODO REMOVE STATIC UGLY NUMBER
-        final Item item = new Item(powerUps.get(randNumber).clone() , new Vector(randXPos, ITEM_SPAWNHEIGHT, randZPos));
+        final Item item = new Item(powerUps.get(randNumber).clone() , randomizeBottlePosition(fieldSize));
         item.getPowerUp().setActive(true);
         return item;
+    }
+    
+    public static Vector randomizeBottlePosition(Vector bounds) {
+        final float randXPos = (float)Math.random() * (bounds.getX()-MARGINS[0]-MARGINS[1]) + MARGINS[1];
+        final float randZPos = (float)Math.random() * (bounds.getZ()-MARGINS[2]-MARGINS[3]) + MARGINS[3];
+        return new Vector(randXPos, ITEM_SPAWNHEIGHT, randZPos);
     }
 }

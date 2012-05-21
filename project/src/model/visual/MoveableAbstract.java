@@ -30,7 +30,7 @@ public abstract class MoveableAbstract implements IMoveable {
      * @param pos Vector with coordinates where to position the unit
      */
     public void setPosition(Vector pos) {
-        this.body.place(pos);
+        body.place(pos);
     }
 
     /**
@@ -41,7 +41,7 @@ public abstract class MoveableAbstract implements IMoveable {
      * @param z New position in z-axis
      */
     public void setPosition(float x, float y, float z) {
-        this.setPosition(new Vector(x, y, z));
+        setPosition(new Vector(x, y, z));
     }
 
     public void setBody(final IPhysicalBody body) {
@@ -72,7 +72,7 @@ public abstract class MoveableAbstract implements IMoveable {
      * @return The unit's acceleration
      */
     public int getAcceleration() {
-        return this.acceleration;
+        return acceleration;
     }
 
     /**
@@ -80,7 +80,7 @@ public abstract class MoveableAbstract implements IMoveable {
      * @return Movable object's maximum speed
      */
     public float getMaxSpeed() {
-        return this.maxSpeed;
+        return maxSpeed;
     }
 
     /**
@@ -96,8 +96,7 @@ public abstract class MoveableAbstract implements IMoveable {
      * @param maxSpeed How fast a unit can move 
      */
     public void setMaxSpeed(float speed) {
-        // TODO REVIEW WHAT TO DO WITH FLOAT VS INT SETTINGS VS POWERUPS
-        this.maxSpeed = (int)speed;
+        maxSpeed = (int)speed;
     }
 
     public void hide() {
@@ -122,10 +121,10 @@ public abstract class MoveableAbstract implements IMoveable {
             return false;
         }
         final MoveableAbstract other = (MoveableAbstract) obj;
-        if (Float.floatToIntBits(this.maxSpeed) != Float.floatToIntBits(other.maxSpeed)) {
+        if (Float.floatToIntBits(maxSpeed) != Float.floatToIntBits(other.maxSpeed)) {
             return false;
         }
-        if (this.body != other.body && (this.body == null || !this.body.equals(other.body))) {
+        if (body != other.body && (body == null || !body.equals(other.body))) {
             return false;
         }
         return true;
@@ -134,8 +133,8 @@ public abstract class MoveableAbstract implements IMoveable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 59 * hash + Float.floatToIntBits(this.maxSpeed);
-        hash = 59 * hash + (this.body != null ? this.body.hashCode() : 0);
+        hash = 59 * hash + Float.floatToIntBits(maxSpeed);
+        hash = 59 * hash + (body != null ? body.hashCode() : 0);
         return hash;
     }
 
@@ -146,15 +145,15 @@ public abstract class MoveableAbstract implements IMoveable {
 
     public void addPropertyChangeListener(PropertyChangeListener ls) {
         body.addPropertyChangeListener(ls);
-        this.pcs.addPropertyChangeListener(ls);
+        pcs.addPropertyChangeListener(ls);
     }
 
     public void removePropertyChangeListener(PropertyChangeListener ls) {
-        this.pcs.removePropertyChangeListener(ls);
+        pcs.removePropertyChangeListener(ls);
     }
     
     public IPhysicalBody getPhysicalObject() {
-        return this.body;
+        return body;
     }
 
     public abstract void announceRemoval();

@@ -53,4 +53,24 @@ public class PhysicalUnit extends PhysicalAbstractBody {
         float speed = body.getLinearVelocity().length();
         body.setLinearVelocity(getSteeringDirection().mult(speed).setY(0));
     }
+    
+    /**
+     * Returns true if the unit is able to navigate in the physics space
+     * @return True if the unit is pointing parallell to the battlefield without a rotation
+     */
+    public boolean canNavigate() {
+        Quaternion rot = body.getPhysicsRotation();
+//        System.out.println("<<<<<<<<"+this+">>>>>>>>");
+//        System.out.println(rot.getX() +" || " + rot.getY() + " || " + rot.getZ() + " || " + rot.getW());
+        if (Math.abs(rot.getX()) > 0.35) {
+            System.out.println("NOTE: " + rot.getX() + " > " + 0.35);
+            return false;
+        }
+        if (Math.abs(rot.getZ()) > 0.35) {
+            System.out.println("NOTE: " + rot.getZ() + " > " + 0.35);
+            return false;
+        }
+        return true;
+    }
+            
 }

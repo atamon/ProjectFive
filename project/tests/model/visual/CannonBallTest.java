@@ -31,13 +31,13 @@ public class CannonBallTest {
 
     public CannonBallTest() {
         Settings.getInstance().loadSettings(SettingsLoader.readSettings("assets/settings"));
-        this.posOfBall = new Vector(1, 1, 1);
-        this.dirOfBall = new Vector(-1, 1, -1);
-        this.sizeOfBall = new Vector(0.1f, 0.1f, 0.1f);
-        this.massOfBall = 1f;
-        this.speedOfBall = 20;
-        this.owner = new Unit(new Vector(1, 1, 1), new Vector(1, 0, 1), new Vector(3, 3, 3), 5f);
-        this.ball = new CannonBall(posOfBall, dirOfBall, sizeOfBall, massOfBall, speedOfBall, owner);
+        posOfBall = new Vector(1, 1, 1);
+        dirOfBall = new Vector(-1, 1, -1);
+        sizeOfBall = new Vector(0.1f, 0.1f, 0.1f);
+        massOfBall = 1f;
+        speedOfBall = 20;
+        owner = new Unit(new Vector(1, 1, 1), new Vector(1, 0, 1), new Vector(3, 3, 3), 5f);
+        ball = new CannonBall(posOfBall, dirOfBall, sizeOfBall, massOfBall, speedOfBall, owner);
     }
 
     /**
@@ -63,9 +63,11 @@ public class CannonBallTest {
             }
         };
 
-        this.ball.addPropertyChangeListener(pListener);
+
+        ball.addPropertyChangeListener(pListener);
         this.ball.announceRemoval();
-        assertTrue(this.removeWorked);
+        assertTrue(removeWorked);
+
     }
 
     /**
@@ -73,7 +75,7 @@ public class CannonBallTest {
      */
     @Test
     public void testGetDamage() {
-        assert (this.ball.getDamage() > 0);
+        assert (ball.getDamage() > 0);
     }
 
     /**
@@ -81,7 +83,7 @@ public class CannonBallTest {
      */
     @Test
     public void testGetOwner() {
-        assert (this.ball.getOwner() == this.owner);
+        assert (ball.getOwner() == owner);
     }
 
     @Test

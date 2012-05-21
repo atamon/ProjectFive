@@ -3,6 +3,7 @@ package model;
 import java.awt.Color;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import model.player.Player;
@@ -11,7 +12,8 @@ import model.settings.Settings;
 import math.Vector;
 import model.settings.SettingsLoader;
 import model.visual.Battlefield;
-import model.visual.Item;
+import model.visual.Bottle;
+import model.visual.Molotov;
 import model.visual.StatusBox;
 
 /**
@@ -36,7 +38,6 @@ public class Game implements IGame {
     private final ItemFactory itemFactory;
     private float itemTimeout = 5f;
     
-    private float roundCountdown;
     /**
      * Create a game with given parameters. A game consists of a number of
      * rounds containing a given amount of players. The Game class starts new
@@ -51,8 +52,8 @@ public class Game implements IGame {
         
         this.battlefield = battlefield;
         this.itemFactory = new ItemFactory();
-        this.roundModel = new SimpleRoundModel();
-        this.playerModel = new PiratePlayerModel(battlefield);
+        roundModel = new SimpleRoundModel();
+        playerModel = new PiratePlayerModel(battlefield);
     }
 
     /**
@@ -63,7 +64,7 @@ public class Game implements IGame {
     }
 
     public GameState getState() {
-        return this.gameState;
+        return gameState;
     }
 
     public RoundState getRoundState() {
@@ -71,7 +72,7 @@ public class Game implements IGame {
     }
 
     public Vector getBattlefieldCenter() {
-        return this.battlefield.getCenter();
+        return battlefield.getCenter();
     }
 
     /**
@@ -82,7 +83,8 @@ public class Game implements IGame {
     public void update(float tpf) {
         if (gameState == GameState.ACTIVE
                 && roundModel.getRoundState() == RoundState.PLAYING
-                && (roundCountdown <= 0 || roundCountdown == Settings.getInstance().getSetting("roundDelay"))) {
+                && (roundModel.getCountDown() <= 0 || roundModel.getCountDown() 
+                == Settings.getInstance().getSetting("roundDelay"))) {
             if(playerModel.gameOver()) {
                 endRound();
             }
@@ -94,19 +96,24 @@ public class Game implements IGame {
                 this.itemTimeout = Settings.getInstance().getSetting("itemTimeout");
             }
         }
-        if (roundCountdown > 0) {
-            roundCountdown -= tpf;
-            pcs.firePropertyChange("Round Countdown", null, roundCountdown);
+        if (roundModel.getCountDown() > 0) {
+            roundModel.setCountDown(roundModel.getCountDown() - tpf);
+            pcs.firePropertyChange("Round Countdown", null, roundModel.getCountDown());
         }
         
-
+        
     }
 
     private void createItem(){
-        Item item = this.itemFactory.createNewItem(this.getBattlefieldSize());
-        this.battlefield.addToBattlefield(item);
-        pcs.firePropertyChange("Item Created", null, item);
-        StatusBox.getInstance().message(Color.ORANGE,item.getPowerUp().getName()+": A strange bottle appeared..");
+        Bottle bottle;
+        if (Math.random() * 100 < Settings.getInstance().getSetting("molotovPercent")) {
+            bottle = new Molotov(ItemFactory.randomizeBottlePosition(battlefield.getSize()));
+        } else {
+            bottle = itemFactory.createNewItem(getBattlefieldSize());
+        }
+        battlefield.addToBattlefield(bottle);
+        pcs.firePropertyChange("Bottle Created", null, bottle);
+        StatusBox.getInstance().message(Color.ORANGE," A strange bottle appeared..");
     }
     
     public Vector getBattlefieldPosition() {
@@ -175,7 +182,7 @@ public class Game implements IGame {
         // Since we are not sure the units are correctly placed we do so now
         playerModel.resetUnits();
         playerModel.haltPlayers();
-        roundCountdown = Settings.getInstance().getSetting("roundDelay");
+        roundModel.setCountDown(Settings.getInstance().getSetting("roundDelay"));
     }
 
     /**
@@ -183,10 +190,10 @@ public class Game implements IGame {
      */
     @Override
     public void switchPauseState() {
-        RoundState roundState = this.getRoundState();
+        RoundState roundState = getRoundState();
         if (gameState == GameState.ACTIVE && (roundState == RoundState.PLAYING
                 || roundState == RoundState.PAUSED)) {
-            if (this.getRoundState() == RoundState.PAUSED) {
+            if (getRoundState() == RoundState.PAUSED) {
                 roundModel.unPause();
             } else {
                 roundModel.pause();
@@ -200,9 +207,17 @@ public class Game implements IGame {
      * winner and clears the battlefield.
      */
     private void endRound() {
-        roundModel.endRound(playerModel.findRoundWinner());
+        Player winner = playerModel.findRoundWinner();
+        roundModel.endRound(winner);
 
-        StatusBox.getInstance().message(roundModel.getWinner().getColor(), "Winner: Player "+roundModel.getWinner().getId()+" !");
+        Color color = roundModel.getWinner().getColor();
+        String message;
+        if (winner != Player.NONE) {
+            message = "Winner: Player "+roundModel.getWinner().getId()+" !";
+        } else {
+            message = "The game is a Tie, You're all losers!";
+        }
+        StatusBox.getInstance().message(color, message);
         if (Settings.getInstance().getSetting("numberOfRounds") 
                 <= roundModel.playedRounds()) {
             endGame();
@@ -210,11 +225,9 @@ public class Game implements IGame {
     }
 
     private void endGame() {
-        // TODO Replace with real GUI
-        System.out.println("Game over!");
+        StatusBox.getInstance().message("Game over!");
 
         // Calculate statistics
-        // TODO Add real GUI-listeners to this.
         Map<Player, Integer> playerWins = new HashMap<Player, Integer>();
         for (Player player : playerModel.getPlayerMap().values()) {
             playerWins.put(player, 0);
@@ -232,7 +245,7 @@ public class Game implements IGame {
         }
 
         for (Player player : playerWins.keySet()) {
-            System.out.println(player.getId() + " won " + playerWins.get(player) + "rounds!");
+            StatusBox.getInstance().message(player.getId() + " won " + playerWins.get(player) + " rounds!");
         }
         // We have ended the game so it is now STATS
         gameState = GameState.STATS;
@@ -251,12 +264,12 @@ public class Game implements IGame {
     }
 
     public void addPropertyChangeListener(PropertyChangeListener pl) {
-        this.pcs.addPropertyChangeListener(pl);
+        pcs.addPropertyChangeListener(pl);
         playerModel.addPropertyChangeListener(pl);
     }
 
     public void removePropertyChangeListener(PropertyChangeListener pl) {
-        this.pcs.addPropertyChangeListener(pl);
+        pcs.addPropertyChangeListener(pl);
         playerModel.addPropertyChangeListener(pl);
     }
 }

@@ -8,7 +8,6 @@ import model.powerup.PUEmpty;
 import observable.IObservable;
 import model.settings.Settings;
 import physics.ICollideable;
-import physics.IPhysicalBody;
 import physics.PhysicalUnit;
 
 /**
@@ -18,6 +17,7 @@ import physics.PhysicalUnit;
  */
 public class Unit extends MoveableAbstract implements IObservable {
 
+    public final static float FLYING_HEIGHT = 4.05f;
     private final static int MAX_STEER_SPEED = 10;
     private float steerAngle = Settings.getInstance().getSetting("steerAngle");
     private int hitPointsMax = Settings.getInstance().getSetting("hitPointsMax");
@@ -26,10 +26,9 @@ public class Unit extends MoveableAbstract implements IObservable {
     private boolean isAccelerating = false;
     private final Direction steerDirection = new Direction();
     private IPowerUp powerUp = new PUEmpty();
-    private final IPhysicalBody body;
+    private final PhysicalUnit body;
     private final PropertyChangeSupport pcs;
-    private float fireDelay = Settings.getInstance().getSetting("fireDelay");
-
+    private float fireDelay = Settings.getInstance().getSetting("fireDelay") / 1000f;
 
     /**
      * Create a unit
@@ -41,7 +40,7 @@ public class Unit extends MoveableAbstract implements IObservable {
         if (hitPointsMax <= 0) {
             throw new IllegalArgumentException("hit points must be positive");
         }
-        
+
         this.body = new PhysicalUnit(this, pos, dir, size, mass);
         super.setBody(body);
         this.pcs = super.getPropertyChangeSupport();
@@ -54,8 +53,14 @@ public class Unit extends MoveableAbstract implements IObservable {
      * @param tpf Updatefrequency, i.e. time since last frame
      */
     public void update(final float tpf) {
-        this.accelerate(this.isAccelerating, tpf);
-        this.steer(tpf);
+        if (getPosition().getY() < FLYING_HEIGHT) {
+            if (body.canNavigate()) {
+                accelerate(isAccelerating, tpf);
+                steer(tpf);
+            } else {
+                hitPoints -= tpf / hullStrength;
+            }
+        }
         if (this.powerUp != null) {
             if (powerUp.isActive()) {
                 this.powerUp.update(tpf);
@@ -63,6 +68,7 @@ public class Unit extends MoveableAbstract implements IObservable {
                 this.removePowerUp();
             }
         }
+        this.isUpsideDown();
         this.fireDelay = fireDelay <= 0 ? 0 : fireDelay - tpf;
     }
 
@@ -73,7 +79,7 @@ public class Unit extends MoveableAbstract implements IObservable {
      */
     private void accelerate(boolean isAccelerating, float tpf) {
         if (getSpeed() < getMaxSpeed() && isAccelerating) {
-            this.body.accelerate(tpf);
+            body.accelerate(tpf);
         }
     }
 
@@ -84,21 +90,20 @@ public class Unit extends MoveableAbstract implements IObservable {
     }
 
     /**
-     * TODO IS THIS REALLY USED SOMEWHERE? IF SO ADD TEST Determines how much a
      * unit can steer depending on its speed
      *
      * @return a steerAngle
      */
     private float currentSteerAngle() {
-        if (this.getSpeed() <= 0) {
+        if (getSpeed() <= 0) {
             return 0;
         }
 
-        if (this.getSpeed() > MAX_STEER_SPEED) {
-            return this.getSteerAngle();
+        if (getSpeed() > MAX_STEER_SPEED) {
+            return getSteerAngle();
         }
 
-        return this.getSpeed() * this.getSteerAngle() / MAX_STEER_SPEED;
+        return getSpeed() * getSteerAngle() / MAX_STEER_SPEED;
     }
 
     /**
@@ -112,15 +117,15 @@ public class Unit extends MoveableAbstract implements IObservable {
     }
 
     public float getSteerAngle() {
-        return this.steerAngle;
+        return steerAngle;
     }
 
     public void steerClockWise(boolean bool) {
-        this.steerDirection.steerClockWise(bool);
+        steerDirection.steerClockWise(bool);
     }
 
     public void steerAntiClockWise(boolean bool) {
-        this.steerDirection.steerAntiClockWise(bool);
+        steerDirection.steerAntiClockWise(bool);
     }
 
     /**
@@ -128,7 +133,7 @@ public class Unit extends MoveableAbstract implements IObservable {
      * @param value Are we accelerating true of false
      */
     public void setIsAccelerating(boolean value) {
-        this.isAccelerating = value;
+        isAccelerating = value;
     }
 
     /**
@@ -172,20 +177,20 @@ public class Unit extends MoveableAbstract implements IObservable {
     }
 
     public void announceRemoval() {
-        this.pcs.firePropertyChange("Unit removed", null, null);
+        pcs.firePropertyChange("Unit removed", null, null);
     }
 
     public void collidedWith(ICollideable obj, float objImpactSpeed) {
         // Two units crashing
         if (obj instanceof Unit) {
-            this.hitPoints -= Math.abs(objImpactSpeed / hullStrength);
+            hitPoints -= Math.abs(objImpactSpeed / hullStrength);
         }
 
         if (obj instanceof IProjectile) {
-            final float damage = ((IProjectile) obj).getDamage();
-            this.hitPoints -= damage;
-            StatusBox.getInstance().message("Cannonball hit and dealt "+damage+" damage!!" );
+            int damage = ((IProjectile) obj).getDamage();
             
+            hitPoints -= damage;
+            StatusBox.getInstance().message("Cannonball hit and dealt "+damage+" damage!!" );
         }
     }
 
@@ -221,27 +226,27 @@ public class Unit extends MoveableAbstract implements IObservable {
         this.removePowerUp(); //remove old powerUp before adding a new one
         this.powerUp = power;
         StatusBox.getInstance().message(powerUp.getMessage());
-        this.hitPointsMax += powerUp.getHitPointsMax();
+        hitPointsMax += powerUp.getHitPointsMax();
         this.setHitPoints(this.getHitPoints() + powerUp.getHitPoints());
-        this.acceleration += powerUp.getAcceleration();
+        acceleration += powerUp.getAcceleration();
         this.setMaxSpeed(this.getMaxSpeed() + powerUp.getMaxSpeed());
         this.setSteerAngle(this.getSteerAngle() + powerUp.getSteerAngle());
     }
 
     public void removePowerUp() {
-        this.hitPointsMax -= powerUp.getHitPointsMax();
-        this.acceleration -= powerUp.getAcceleration();
+        hitPointsMax -= powerUp.getHitPointsMax();
+        acceleration -= powerUp.getAcceleration();
         this.maxSpeed -= powerUp.getMaxSpeed();
         this.steerAngle -= powerUp.getSteerAngle();
         this.powerUp = new PUEmpty();
     }
-    
+
     public boolean canFire() {
         return fireDelay <= 0;
     }
-    
+
     public void reload(float delay) {
-        this.fireDelay = delay;
+        this.fireDelay = delay / 1000f;
     }
 
     @Override
@@ -250,5 +255,9 @@ public class Unit extends MoveableAbstract implements IObservable {
                 + "hitPointsMax=" + hitPointsMax + ", acceleration="
                 + acceleration + ", hitPoints=" + hitPoints + ", isAccelerating="
                 + isAccelerating + ", steerDirection=" + steerDirection + '}';
+    }
+    
+    public void isUpsideDown() {
+        System.out.println(this.body.getBody().getPhysicsRotation());
     }
 }

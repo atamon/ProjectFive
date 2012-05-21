@@ -38,7 +38,7 @@ public class JoinPlayerListener implements ActionListener {
         joinKeys.put(2, new KeyTrigger(PlayerTwoKeys.KEY_JOIN));
         joinKeys.put(3, new KeyTrigger(PlayerThreeKeys.KEY_JOIN));
 
-        this.setKeys(inpManager);
+        setKeys(inpManager);
 
     }
 

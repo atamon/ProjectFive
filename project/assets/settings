@@ -18,8 +18,16 @@ cannonBallSpeed:25
 cannonBallSize:8
 cannonBallMinimumFirePower:1
 cannonBallMaximumFirePower:3
-fireDelay:1
+// fireDelay in milliseconds
+fireDelay:180
 hullStrength:1000
+<<<<<<< HEAD
 itemTimeout:10
+=======
+itemLifeTime:10
+molotovPercent:50
+molotovDamage:1
+molotovForce:250
+>>>>>>> b2b65534c5eaf49ae180f5722d1ea932b7d6ad75
 
 [MODDED]

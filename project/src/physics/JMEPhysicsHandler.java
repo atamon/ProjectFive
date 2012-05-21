@@ -1,18 +1,16 @@
 package physics;
 
 import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.PhysicsSpace;
 import com.jme3.bullet.collision.PhysicsCollisionEvent;
 import com.jme3.bullet.collision.PhysicsCollisionListener;
 import com.jme3.bullet.collision.PhysicsCollisionObject;
 import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.math.Vector3f;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.LinkedList;
 import java.util.List;
 import math.Vector;
-import model.visual.Unit;
 import math.MonkeyConverter;
 
 /**
@@ -22,15 +20,16 @@ import math.MonkeyConverter;
  */
 public class JMEPhysicsHandler implements PhysicsCollisionListener {
 
-    private BulletAppState bulletAppState;
+    private BulletAppState bulletAppState = new BulletAppState();
+    private PhysicsSpace physicsSpace;
     private List<PhysicsRigidBody> rigidBodies =
             new LinkedList<PhysicsRigidBody>();
     private PhysicsRigidBody ground;
 
     public JMEPhysicsHandler() {
-        this.bulletAppState = new BulletAppState();
-        this.bulletAppState.initialize(null, null);
-        this.bulletAppState.getPhysicsSpace().addCollisionListener(this);
+        bulletAppState.initialize(null, null);
+        physicsSpace = bulletAppState.getPhysicsSpace();
+        physicsSpace.addCollisionListener(this);
     }
 
     /**
@@ -42,27 +41,27 @@ public class JMEPhysicsHandler implements PhysicsCollisionListener {
     public void createGround(Vector size, ICollideable model) {
         Vector position = new Vector(size);
         position.mult(0.5f);
-        this.ground = new PhysicsRigidBody(new BoxCollisionShape(MonkeyConverter.convertToMonkey3D(size).mult(0.5f)), 0);
+        ground = new PhysicsRigidBody(new BoxCollisionShape(MonkeyConverter.convertToMonkey3D(size).mult(0.5f)), 0);
         ground.setUserObject(model);
         ground.setPhysicsLocation(MonkeyConverter.convertToMonkey3D(position));
-        bulletAppState.getPhysicsSpace().addCollisionObject(ground);
+        physicsSpace.addCollisionObject(ground);
     }
 
     public void addToWorld(IPhysicalBody object) {
         PhysicsRigidBody body = object.getBody();
         body.setGravity(new Vector3f(0, -1, 0));
-        this.rigidBodies.add(body);
-        this.bulletAppState.getPhysicsSpace().addCollisionObject(body);
+        rigidBodies.add(body);
+        physicsSpace.addCollisionObject(body);
     }
 
     public void removeFromWorld(IPhysicalBody object) {
-        this.bulletAppState.getPhysicsSpace().removeCollisionObject(object.getBody());
+        physicsSpace.removeCollisionObject(object.getBody());
         rigidBodies.remove(object);
     }
 
     public void update(float tpf) {
-        this.bulletAppState.getPhysicsSpace().update(tpf);
-        this.bulletAppState.update(tpf);
+        physicsSpace.update(tpf);
+        bulletAppState.update(tpf);
 
         for (PhysicsRigidBody body : rigidBodies) {
             IPhysicalModel unit = (IPhysicalModel) body.getUserObject();

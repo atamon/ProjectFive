@@ -45,7 +45,7 @@ public class GUIController implements PropertyChangeListener {
             FilterPostProcessor waterPostProcessor,
             SimpleApplication jme3) {
         this.game = game;
-        this.rootNode = jme3.getRootNode();
+        rootNode = jme3.getRootNode();
 
         // Start listen
         StatusBox.getInstance().addPropertyChangeListener(this);
@@ -83,13 +83,16 @@ public class GUIController implements PropertyChangeListener {
                 nifty.gotoScreen("countdown");
             }
             
+            // Check for null if countdown timer is higher than what the gui can display
             Element shownElem = screen.findElementByName("" + (count + 1));
             if (shownElem != null) {
                 shownElem.setVisible(false);
             }
             
             Element counterElem = screen.findElementByName("" + count);
-            counterElem.setVisible(true);
+            if (counterElem != null) {
+                counterElem.setVisible(true);
+            }
         }
         if (count <= 0) {
             nifty.gotoScreen("HUD");

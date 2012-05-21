@@ -7,6 +7,7 @@ package model.visual;
 import java.beans.PropertyChangeSupport;
 import model.powerup.IPowerUp;
 import math.Vector;
+import model.settings.Settings;
 import physics.*;
 
 /**
@@ -14,15 +15,9 @@ import physics.*;
  *
  * @author Victor Lindhé
  */
-public final class Item extends MoveableAbstract {
+public final class Item extends Bottle {
 
     private final IPowerUp powerUp;
-    private final Vector size = new Vector(2f, 2f, 2f);
-    private float lifeTime=10;
-    private final Vector pointingDir = new Vector(1,1,1);
-    private final float mass = 0.1f;
-    private final IPhysicalBody body;
-    private final PropertyChangeSupport pcs;
     
     /**
      * Creates an Item of a given type and at a given position.
@@ -32,11 +27,8 @@ public final class Item extends MoveableAbstract {
      * @param position Vector
      */
     public Item(final IPowerUp powerUp, final Vector position) {
-        this.powerUp = powerUp;
-        
-        body = new PhysicalItem(this, position, pointingDir, size, mass);
-        super.setBody(body);
-        pcs = super.getPropertyChangeSupport();
+        super(position);
+        this.powerUp = powerUp;        
     }
 
     /**
@@ -49,26 +41,10 @@ public final class Item extends MoveableAbstract {
     }
 
     @Override
-    public void announceRemoval() {
-        pcs.firePropertyChange("Item Removed", null, this);
-    }
-
-    @Override
     public void collidedWith(final ICollideable obj, final float objImpactSpeed) {
         if(obj instanceof Unit){
             announceRemoval();
             ((Unit)obj).applyPowerUp(powerUp);
-        }
-    }
-
-    public float getLifeTime(){
-        return lifeTime;
-    }
-    public void update(final float tpf) {
-        
-        lifeTime -= tpf;
-        if(lifeTime <= 0){
-            announceRemoval();
         }
     }
 
@@ -84,35 +60,14 @@ public final class Item extends MoveableAbstract {
         if (this.powerUp != other.powerUp && (this.powerUp == null || !this.powerUp.equals(other.powerUp))) {
             return false;
         }
-        if (this.size != other.size && (this.size == null || !this.size.equals(other.size))) {
-            return false;
-        }
-        if (Float.floatToIntBits(this.lifeTime) != Float.floatToIntBits(other.lifeTime)) {
-            return false;
-        }
-        if (this.pointingDir != other.pointingDir && (this.pointingDir == null || !this.pointingDir.equals(other.pointingDir))) {
-            return false;
-        }
-        if (Float.floatToIntBits(this.mass) != Float.floatToIntBits(other.mass)) {
-            return false;
-        }
-        return true;
+        return super.equals(obj);
     }
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 79 * hash + (this.powerUp != null ? this.powerUp.hashCode() : 0);
-        hash = 79 * hash + (this.size != null ? this.size.hashCode() : 0);
-        hash = 79 * hash + Float.floatToIntBits(this.lifeTime);
-        hash = 79 * hash + (this.pointingDir != null ? this.pointingDir.hashCode() : 0);
-        hash = 79 * hash + Float.floatToIntBits(this.mass);
-        return hash;
-    }
-
-    @Override
-    public String toString() {
-        return "Item{" + "powerUp=" + powerUp + ", size=" + size + ", lifeTime=" + lifeTime + ", pointingDir=" + pointingDir + ", mass=" + mass + '}';
+        int hash = 3;
+        hash = 43 * hash + (powerUp != null ? powerUp.hashCode() : 0);
+        return hash + super.hashCode();
     }
     
     

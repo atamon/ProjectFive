@@ -30,7 +30,9 @@ public class ItemFactoryTest {
     @Test
     public void testCreateNewItem() {
         ItemFactory iFac = new ItemFactory();
-        Item testItem = iFac.createNewItem(Vector.ZERO_VECTOR);
-        assertTrue(testItem != null && testItem.getPosition().equals(Vector.ZERO_VECTOR));
+        Item testItem = iFac.createNewItem(new Vector(100,1,100));
+        assertTrue(testItem != null);
+        assertTrue(testItem.getPosition().getX() > 0 && testItem.getPosition().getX() < 100);
+        assertTrue(testItem.getPosition().getY() > 0 && testItem.getPosition().getY() < 100);
     }
 }

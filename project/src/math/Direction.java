@@ -18,11 +18,11 @@ public class Direction {
     private boolean steeringAntiClockWise;
     
     public void steerClockWise(boolean bool) {
-        this.steeringClockWise = bool;
+        steeringClockWise = bool;
     }
     
     public void steerAntiClockWise(boolean bool) {
-        this.steeringAntiClockWise = bool;
+        steeringAntiClockWise = bool;
     }
 
     public int getValue() {
@@ -42,10 +42,10 @@ public class Direction {
             return false;
         }
         final Direction other = (Direction) obj;
-        if (this.steeringClockWise != other.steeringClockWise) {
+        if (steeringClockWise != other.steeringClockWise) {
             return false;
         }
-        if (this.steeringAntiClockWise != other.steeringAntiClockWise) {
+        if (steeringAntiClockWise != other.steeringAntiClockWise) {
             return false;
         }
         return true;
@@ -54,8 +54,8 @@ public class Direction {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 53 * hash + (this.steeringClockWise ? 1 : 0);
-        hash = 53 * hash + (this.steeringAntiClockWise ? 1 : 0);
+        hash = 53 * hash + (steeringClockWise ? 1 : 0);
+        hash = 53 * hash + (steeringAntiClockWise ? 1 : 0);
         return hash;
     }
 

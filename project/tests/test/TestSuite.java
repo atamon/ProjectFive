@@ -1,14 +1,12 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package test;
 
 import model.*;
+import model.math.VectorTest;
+import model.player.PlayerTest;
 import model.powerup.*;
 import model.round.RoundTest;
-import model.visual.BattlefieldTest;
-import model.visual.ItemTest;
+import model.round.SimpleRoundModelTest;
+import model.visual.*;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -24,6 +22,7 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({BattlefieldTest.class,
                      PlayerTest.class,
                      UnitTest.class,
+                     GameTest.class,
                      VectorTest.class,
                      PUDrunkTest.class,
                      PUEmptyTest.class,
@@ -31,7 +30,14 @@ import org.junit.runners.Suite;
                      PUSpeedTest.class,
                      PUTurnTest.class,
                      ItemTest.class,
-                     RoundTest.class })
+                     MolotovTest.class,
+                     RoundTest.class,
+                     SimpleRoundModelTest.class,
+                     PiratePlayerModelTest.class,
+                     ItemFactoryTest.class,
+                     BattlefieldTest.class,
+                     CannonBallTest.class,
+                     StatusBoxTest.class})
 public class TestSuite {
 
     @BeforeClass

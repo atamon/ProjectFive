@@ -37,7 +37,7 @@ public abstract class PhysicalAbstractBody implements IPhysicalBody {
 
         body.setUserObject(owner);
         this.owner = owner;
-        this.initSize = correctSize;
+        initSize = correctSize;
     }
 
     /**
@@ -54,6 +54,11 @@ public abstract class PhysicalAbstractBody implements IPhysicalBody {
     protected Vector3f getSteeringDirection() {
         Matrix3f rot = body.getPhysicsRotationMatrix();
         return rot.multLocal(new Vector3f(0, 0, 1));
+    }
+    
+    @Override
+    public void applyForce(Vector pos, Vector force) {
+        body.applyForce(MonkeyConverter.convertToMonkey3D(force), MonkeyConverter.convertToMonkey3D(pos));
     }
 
     /**

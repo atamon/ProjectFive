@@ -50,7 +50,7 @@ public class PiratePlayerModel implements PlayerModel {
     }
     
     public Player getPlayer(int playerID) {
-        Player player = this.playerMap.get(playerID);
+        Player player = playerMap.get(playerID);
         if (player == null) {
             throw new IllegalArgumentException("ERROR getPlayer: player with id "
                     + playerID + " does not exist! ;/");
@@ -65,7 +65,7 @@ public class PiratePlayerModel implements PlayerModel {
         }
         Player player = new Player(id);
         player.addPropertyChangeListener(battlefield);
-        this.playerMap.put(id, player);
+        playerMap.put(id, player);
         
         // Add unit
         Vector position = Battlefield.getStartingPosition(id, battlefield.getSize());
@@ -77,14 +77,14 @@ public class PiratePlayerModel implements PlayerModel {
                 Settings.getInstance().getSetting("unitMass"));
         player.setUnit(unit);
         
-        this.battlefield.addToBattlefield(unit);
+        battlefield.addToBattlefield(unit);
         
         // Let listeners (views) know that we've created a player
-        this.pcs.firePropertyChange("Player Created", null, player);
+        pcs.firePropertyChange("Player Created", null, player);
     }
     
     private void placeUnit(int id, Vector position, Vector direction) {
-        Unit unit = this.playerMap.get(id).getUnit();
+        Unit unit = playerMap.get(id).getUnit();
         unit.setPosition(position);
         unit.setDirection(direction);
     }
@@ -97,7 +97,7 @@ public class PiratePlayerModel implements PlayerModel {
         Collection<Player> players = playerMap.values();
         for (Player player : players) {
             int id = player.getId();
-            this.placeUnit(player.getId(),
+            placeUnit(player.getId(),
                     Battlefield.getStartingPosition(id, battlefield.getSize()),
                     Battlefield.getStartingDir(id));
             Unit unit = player.getUnit();
@@ -112,11 +112,11 @@ public class PiratePlayerModel implements PlayerModel {
     }
 
     public void addPropertyChangeListener(PropertyChangeListener pl) {
-        this.pcs.addPropertyChangeListener(pl);
+        pcs.addPropertyChangeListener(pl);
     }
 
     public void removePropertyChangeListener(PropertyChangeListener pl) {
-        this.pcs.removePropertyChangeListener(pl);
+        pcs.removePropertyChangeListener(pl);
     }
     
     public boolean gameOver() {
@@ -157,6 +157,7 @@ public class PiratePlayerModel implements PlayerModel {
     }
     /**
      * Returns the winner, I.E. the player last man standing.
+     * @return The last man standing, or NULL if the round is a tie.
      */
     public Player findRoundWinner() {
         Player winner = null;
@@ -169,7 +170,7 @@ public class PiratePlayerModel implements PlayerModel {
             }
         }
         if (winner == null) {
-            throw new WinnerNotFoundException("No winner for the active round was found!");
+            winner = Player.NONE;
         }
         return winner;
     }

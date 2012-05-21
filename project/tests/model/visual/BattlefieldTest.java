@@ -22,7 +22,7 @@ public class BattlefieldTest {
     @Before
     public void setUp() {
         Settings.getInstance().loadSettings(SettingsLoader.readSettings("assets/settings"));
-        this.bField = new Battlefield();
+        bField = new Battlefield();
         int uSize = Settings.getInstance().getSetting("unitSize");
         unit = new Unit(Battlefield.getStartingPosition(0, bField.getSize()),
                                                         Battlefield.getStartingDir(0),
@@ -68,7 +68,7 @@ public class BattlefieldTest {
     @Test
     public void testGetCenter() {
         Vector expFirstSize = new Vector(50, 1, 50);
-        assertTrue(expFirstSize.equals(this.bField.getCenter()));
+        assertTrue(expFirstSize.equals(bField.getCenter()));
     }
 
     /**
@@ -77,8 +77,8 @@ public class BattlefieldTest {
     @Test
     public void testEquals() {
         Battlefield secondBField = new Battlefield(new Vector(50.0f, 1, 50.0f));
-        assertTrue(this.bField.equals(this.bField));
-        assertFalse(this.bField.equals(secondBField));
+        assertTrue(bField.equals(bField));
+        assertFalse(bField.equals(secondBField));
     }
 
     /**
@@ -87,7 +87,7 @@ public class BattlefieldTest {
     @Test
     public void testHashCode() {
         Battlefield secondBField = new Battlefield(new Vector(50.0f, 1, 50.0f));
-        assertFalse(this.bField.hashCode() == secondBField.hashCode());
+        assertFalse(bField.hashCode() == secondBField.hashCode());
     }
 
     /**

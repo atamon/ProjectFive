@@ -11,6 +11,10 @@ public class Round {
     private RoundState roundState;
     private Player winner;
     
+    public Round() {
+        roundState = RoundState.PAUSED;
+    }
+    
     /**
      * Starts this round.
      * @throws RoundAlreadyStartedException Thrown if already started.
@@ -19,7 +23,7 @@ public class Round {
         if (roundState == RoundState.PLAYING) {
             throw new RoundAlreadyStartedException();
         }
-        this.roundState = RoundState.PLAYING;
+        roundState = RoundState.PLAYING;
     }
     
     /**
@@ -32,14 +36,14 @@ public class Round {
             throw new RoundAlreadyEndedException();
         }
         this.winner = winner;
-        this.roundState = RoundState.POST;
+        roundState = RoundState.POST;
     }
     
     /**
      * Pauses the Round.
      */
     public void pause() {
-        this.roundState = RoundState.PAUSED;
+        roundState = RoundState.PAUSED;
     }
     
     
@@ -47,7 +51,7 @@ public class Round {
      * Unpauses the Round.
      */
     public void unPause() {
-        this.roundState = RoundState.PLAYING;
+        roundState = RoundState.PLAYING;
     }
     
     
@@ -64,6 +68,6 @@ public class Round {
      * @return RoundState
      */
     public RoundState getState() {
-        return this.roundState;
+        return roundState;
     }
 }

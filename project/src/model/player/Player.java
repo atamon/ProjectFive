@@ -17,6 +17,8 @@ import model.visual.Unit;
  * @author John Hult @tested Victor Lindhé @modified Victor Lindhé
  */
 public class Player implements IObservable {
+    
+    public static final Player NONE = new Player();
 
     public final static List<Color> PLAYER_COLORS = new ArrayList<Color>() {
 
@@ -44,6 +46,11 @@ public class Player implements IObservable {
         this.color = (PLAYER_COLORS.size() >= playerID) ? // player should be created with any id
                 PLAYER_COLORS.get(playerID) : Color.WHITE; // but only id 0-3 have color that isn't white
 
+    }
+    
+    private Player() {
+        playerId = -1;
+        color = Color.RED;
     }
 
     public Color getColor() {
@@ -119,13 +126,13 @@ public class Player implements IObservable {
         // Magical 10f is to reduce size from int >= 1 in settings
         float size = Settings.getInstance().getSetting("cannonBallSize") / 10f;
 
-        CannonBall cBall = new CannonBall(this.getCannonBallPos(direction),
+        CannonBall cBall = new CannonBall(getCannonBallPos(direction),
                 direction,
                 new Vector(size, size, size),
                 (float) (Settings.getInstance().getSetting("cannonBallMass")),
                 (float) (Settings.getInstance().getSetting("cannonBallSpeed")) * firePower, this.playerUnit);
 
-        this.pcs.firePropertyChange("CannonBall Created", null, cBall);
+        pcs.firePropertyChange("CannonBall Created", null, cBall);
         this.playerUnit.reload(Settings.getInstance().getSetting("fireDelay"));
     }
 
@@ -144,8 +151,8 @@ public class Player implements IObservable {
      * @param accelUp Should unit accelerate up or retardate?
      */
     public void accelerateUnit(boolean accelUp) {
-        if (this.playerUnit != null) {
-            this.playerUnit.setIsAccelerating(accelUp);
+        if (playerUnit != null) {
+            playerUnit.setIsAccelerating(accelUp);
         }
     }
 
@@ -156,14 +163,14 @@ public class Player implements IObservable {
      * @param tpf Time per frame
      */
     public void steerUnitClockWise(boolean bool) {
-        if (this.playerUnit != null) {
-            this.playerUnit.steerClockWise(bool);
+        if (playerUnit != null) {
+            playerUnit.steerClockWise(bool);
         }
     }
 
     public void steerUnitAntiClockWise(boolean bool) {
-        if (this.playerUnit != null) {
-            this.playerUnit.steerAntiClockWise(bool);
+        if (playerUnit != null) {
+            playerUnit.steerAntiClockWise(bool);
         }
     }
 
@@ -181,19 +188,19 @@ public class Player implements IObservable {
     }
 
     public void addUnitListener(PropertyChangeListener pl) {
-        this.playerUnit.addPropertyChangeListener(pl);
+        playerUnit.addPropertyChangeListener(pl);
     }
 
     public void removeUnitListener(PropertyChangeListener pl) {
-        this.playerUnit.removePropertyChangeListener(pl);
+        playerUnit.removePropertyChangeListener(pl);
     }
 
     @Override
     public String toString() {
-        if (this.playerUnit != null) {
-            return "Player: " + this.playerId + " Unit: " + this.playerUnit.toString();
+        if (playerUnit != null) {
+            return "Player: " + playerId + " Unit: " + playerUnit.toString();
         } else {
-            return "Player: " + this.playerId + " Unit: NONE";
+            return "Player: " + playerId + " Unit: NONE";
         }
     }
 
@@ -224,10 +231,10 @@ public class Player implements IObservable {
     }
 
     public void addPropertyChangeListener(PropertyChangeListener pcl) {
-        this.pcs.addPropertyChangeListener(pcl);
+        pcs.addPropertyChangeListener(pcl);
     }
 
     public void removePropertyChangeListener(PropertyChangeListener pcl) {
-        this.pcs.removePropertyChangeListener(pcl);
+        pcs.removePropertyChangeListener(pcl);
     }
 }

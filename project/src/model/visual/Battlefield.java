@@ -60,7 +60,7 @@ public class Battlefield implements PropertyChangeListener, ICollideable {
     }
 
     public void removeFromBattlefield(final IMoveable mov) {
-        this.physHandler.removeFromWorld(mov.getPhysicalObject());
+        physHandler.removeFromWorld(mov.getPhysicalObject());
         mov.removePropertyChangeListener(this);
         moveables.remove(mov);
     }
@@ -120,7 +120,7 @@ public class Battlefield implements PropertyChangeListener, ICollideable {
         return position.getX() < 0
                 || position.getX() > this.size.getX()
                 || position.getZ() < 0
-                || position.getZ() > this.size.getZ();
+                || position.getZ() > size.getZ();
     }
 
     public void clearForNewRound() {
@@ -142,7 +142,7 @@ public class Battlefield implements PropertyChangeListener, ICollideable {
      * @return Vector
      */
     public Vector getCenter() {
-        return new Vector(this.size.getX() / 2, this.size.getY(), this.size.getZ() / 2);
+        return new Vector(size.getX() / 2, size.getY(), size.getZ() / 2);
     }
 
     /**
@@ -185,7 +185,7 @@ public class Battlefield implements PropertyChangeListener, ICollideable {
 
         if ("CannonBall Created".equals(evt.getPropertyName())) {
             IMoveable cb = (IMoveable) evt.getNewValue();
-            this.addToBattlefield(cb);
+            addToBattlefield(cb);
         }
 
         if ("CannonBall Removed".equals(evt.getPropertyName())) {
@@ -193,9 +193,9 @@ public class Battlefield implements PropertyChangeListener, ICollideable {
             this.removeBuffer.add(cb);
         }
         
-        if ("Item Removed".equals(evt.getPropertyName())){
-            IMoveable item = (Item)(evt.getNewValue());
-            this.removeBuffer.add(item);
+        if ("Bottle Removed".equals(evt.getPropertyName())){
+            IMoveable bottle = (IMoveable)(evt.getNewValue());
+            removeBuffer.add(bottle);
         }
     }
 
