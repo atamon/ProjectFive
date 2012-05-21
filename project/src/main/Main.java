@@ -43,6 +43,8 @@ public class Main extends SimpleApplication {
         final AppSettings settings = new AppSettings(true);
         settings.setFrameRate(60);
         settings.setTitle("Battle For The Bottle 0.001 alpha");
+        settings.setResolution(1024, 768);
+//        settings.setFullscreen(true);
         // Set settings and start
         setShowSettings(false);
         setSettings(settings);

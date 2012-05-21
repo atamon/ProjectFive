@@ -27,7 +27,7 @@ public class Battlefield implements PropertyChangeListener, ICollideable {
      * Creates a Battlefield with default size (100,100) and an Item.
      */
     public Battlefield() {
-        this(new Vector(100.0f, 1.0f, 100.0f));
+        this(new Vector(120.0f, 1.0f, 120.0f));
     }
 
     /**

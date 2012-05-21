@@ -23,24 +23,24 @@ public class Controller {
 
     private IGame game;
     private View view;
-    private InputManager inputManager;
+    private InputManager inpManager;
 
     public Controller(InputManager inpManager, View view, IGame game) {
         // Save instances
         this.view = view;
         this.game = game;
-        this.inputManager = inpManager;
+        this.inpManager = inpManager;
 
         // clear inpManager's pre-defined triggers and keys
-        inputManager.clearMappings();
+        inpManager.clearMappings();
 
         // Register view with our game as a listener
         game.addPropertyChangeListener(view);
 
         // Create listeners
-        new JoinPlayerListener(game, inputManager);
-        new GlobalListener(game, inputManager);
-        new LeavePlayerListener(game, inputManager);
+        new JoinPlayerListener(game, inpManager);
+        new GlobalListener(game, inpManager);
+        new LeavePlayerListener(game, inpManager);
 
 
     }
