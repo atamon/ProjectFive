@@ -13,7 +13,7 @@ import model.settings.Settings;
 public class PUHealth extends AbstractPowerUp {
 
     private final String name = "Health";
-    private final String message = "Yaarrrr! Ye health is replenished from the bottle o' rum!";
+    private final String message = "Ye health is replenished from the bottle o' rum!";
     
     public PUHealth() {
         super();

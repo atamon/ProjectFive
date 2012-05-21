@@ -187,10 +187,10 @@ public class Unit extends MoveableAbstract implements IObservable {
         }
 
         if (obj instanceof IProjectile) {
-            int damage = ((IProjectile) obj).getDamage();
+            final int damage = ((IProjectile) obj).getDamage();
             
             hitPoints -= damage;
-            StatusBox.getInstance().message("Cannonball hit and dealt "+damage+" damage!!" );
+            StatusBox.getInstance().message("Dang!! "+damage+" damage!!" );
         }
     }
 

@@ -130,18 +130,20 @@ public class GUIController implements PropertyChangeListener {
         if ("StatusBox Message".equals(pce.getPropertyName())){
             // this code should be optimized..
             final List<Message> messages = (List<Message>) pce.getNewValue();
-            final List<Element> output = nifty.getScreen("HUD").findElementByName("info").getElements();
-            final Iterator<Element> iterEle = output.iterator();
+            final List<Element> output = nifty.getScreen("HUD").findElementByName("statusMessage").getElements();
+            
+            final ListIterator<Element> iterEle = output.listIterator(output.size());
             final ListIterator<Message> iterStr = messages.listIterator(messages.size());
-            while(iterEle.hasNext() && iterStr.hasPrevious()){
-                final Element eleMsg = iterEle.next();
+            
+            while(iterEle.hasPrevious() && iterStr.hasPrevious()){
+                final Element eleMsg = iterEle.previous();
                 final Message strMsg = iterStr.previous();
                 eleMsg.getRenderer(TextRenderer.class).setText(strMsg.getMessage());
                 eleMsg.getRenderer(TextRenderer.class).setColor(new de.lessvoid.nifty.tools.Color(strMsg.getColor().getRGB()));
             }
         }
         if ("StatusBox Cleared".equals(pce.getPropertyName())){
-            final List<Element> output = nifty.getScreen("HUD").findElementByName("info").getElements();
+            final List<Element> output = nifty.getScreen("HUD").findElementByName("statusMessage").getElements();
             final Iterator<Element> iterEle = output.iterator();
             while(iterEle.hasNext()){
                 final Element eleMsg = iterEle.next();
@@ -149,10 +151,10 @@ public class GUIController implements PropertyChangeListener {
             }
         }
         if ("StatusBox Visible".equals(pce.getPropertyName())){
-            nifty.getScreen("HUD").findElementByName("info").setVisible(true);
+            nifty.getScreen("HUD").findElementByName("statusMessage").setVisible(true);
         }
         if ("StatusBox Hidden".equals(pce.getPropertyName())){
-            nifty.getScreen("HUD").findElementByName("info").setVisible(false);
+            nifty.getScreen("HUD").findElementByName("statusMessage").setVisible(false);
         }
     }
 }

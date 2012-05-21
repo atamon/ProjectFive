@@ -25,7 +25,7 @@ public class Main extends SimpleApplication {
     private Controller controller;
     private View view;
     private IGame game;
-    private BitmapText debugInfo;
+
     public static void main(String[] args) {
         new Main();
     }
@@ -40,9 +40,9 @@ public class Main extends SimpleApplication {
         super();
 
         // Create our own settings so we can customize our app
-        AppSettings settings = new AppSettings(true);
+        final AppSettings settings = new AppSettings(true);
         settings.setFrameRate(60);
-
+        settings.setTitle("Battle For The Bottle 0.001 alpha");
         // Set settings and start
         setShowSettings(false);
         setSettings(settings);
@@ -60,21 +60,20 @@ public class Main extends SimpleApplication {
                                                             inputManager, 
                                                             audioRenderer, 
                                                             guiViewPort);
-        guiViewPort.addProcessor(niftyDisplay);
-                
+        
+        guiViewPort.addProcessor(niftyDisplay);        
+        
+        // clear gui from status-info such as fps
+        setDisplayStatView(false);
+        this.guiNode.detachAllChildren(); 
+        
         // Create MVC and make connections
         game = new Game();
         view = new View(this, game, niftyDisplay);
         controller = new Controller(getInputManager(), view, game);
-
-        setDisplayStatView(false);
-        // Set up debug game-state
+        
+        // Don't show all log info.. 
         java.util.logging.Logger.getLogger("").setLevel(Level.SEVERE);
-        debugInfo = new BitmapText(guiFont, false);
-        debugInfo.setSize(guiFont.getCharSet().getRenderedSize());      // font size
-        debugInfo.setColor(ColorRGBA.Blue);                             // font color
-        debugInfo.setLocalTranslation(300, debugInfo.getLineHeight(), 0); // position
-        guiNode.attachChild(debugInfo);
     }
 
     /**
@@ -85,8 +84,5 @@ public class Main extends SimpleApplication {
     @Override
     public void simpleUpdate(float tpf) {
         controller.update(tpf);
-
-        //Print game-states for debug
-        debugInfo.setText(game.getState() + "\t||\t" + game.getRoundState());             // the text
     }
 }

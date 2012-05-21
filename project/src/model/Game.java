@@ -113,7 +113,7 @@ public class Game implements IGame {
         }
         battlefield.addToBattlefield(bottle);
         pcs.firePropertyChange("Bottle Created", null, bottle);
-        StatusBox.getInstance().message(Color.ORANGE," A strange bottle appeared..");
+        StatusBox.getInstance().message(Color.ORANGE,"A strange bottle appeared..");
     }
     
     public Vector getBattlefieldPosition() {
