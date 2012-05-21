@@ -11,9 +11,9 @@ public final class PUSpeed extends AbstractPowerUp {
     
     public PUSpeed(){
         super();
-        this.maxSpeed = 20;
-        this.acceleration = 10000;
-        this.lifeTime = 10;
+        maxSpeed = 20;
+        acceleration = 10000;
+        lifeTime = 10;
     }
 
     private PUSpeed(PUSpeed that) {
@@ -22,18 +22,18 @@ public final class PUSpeed extends AbstractPowerUp {
     
     public void update(final float tpf) {
         if(lifeTime <= 0){
-            this.active = false;
+            active = false;
         } else {
-            this.lifeTime -= tpf;
+            lifeTime -= tpf;
         }
     }
 
     public String getMessage() {
-        return this.message;
+        return message;
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     @Override

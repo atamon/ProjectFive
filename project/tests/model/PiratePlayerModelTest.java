@@ -100,7 +100,7 @@ public class PiratePlayerModelTest {
         pModel.createPlayer(1);
         Player winner = pModel.getPlayer(1);
         assertFalse(pModel.gameOver());
-        pModel.getPlayer(0).getUnit().damage(10000000); // Should kill it
+        pModel.getPlayer(0).getUnit().setHitPoints(0); // Should kill it
         assertTrue(pModel.gameOver());
         assertTrue(pModel.findRoundWinner().equals(winner));
     }

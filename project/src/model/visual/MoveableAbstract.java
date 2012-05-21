@@ -65,7 +65,7 @@ public abstract class MoveableAbstract implements IMoveable {
     }
 
     public PropertyChangeSupport getPropertyChangeSupport() {
-        return this.pcs;
+        return pcs;
     }
     /**
      *

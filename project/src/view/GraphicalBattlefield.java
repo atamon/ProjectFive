@@ -33,11 +33,11 @@ public class GraphicalBattlefield {
                 "Common/MatDefs/Misc/Unshaded.j3md");
         mat.setColor("Color", ColorRGBA.Blue);
         groundGeometry.setMaterial(mat);
-        this.groundGeometry.setLocalTranslation(position);
+        groundGeometry.setLocalTranslation(position);
     }
     
     public Geometry getGeometry(){
-        return this.groundGeometry;
+        return groundGeometry;
     }
     
 }

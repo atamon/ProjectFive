@@ -37,13 +37,13 @@ public final class Item extends Bottle {
      * @return ItemTypes
      */
     public IPowerUp getPowerUp() {
-        return this.powerUp; // immutable class => no copy necessary 
+        return powerUp;
     }
-    
+
     @Override
     public void collidedWith(final ICollideable obj, final float objImpactSpeed) {
         if(obj instanceof Unit){
-            this.announceRemoval();
+            announceRemoval();
             ((Unit)obj).applyPowerUp(powerUp);
         }
     }

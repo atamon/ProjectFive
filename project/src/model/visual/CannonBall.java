@@ -69,11 +69,7 @@ public class CannonBall extends MoveableAbstract implements IObservable, IProjec
     
     public void collidedWith(ICollideable obj, float objImpactSpeed) {
         // On crash we just disappear, Unit takes care of damage
-        if (obj instanceof Unit) {
-            announceRemoval();
-        }
-        
-        if (obj instanceof Battlefield) {
+        if (!(obj instanceof Item)){
             announceRemoval();
         }
     }

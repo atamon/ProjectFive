@@ -75,9 +75,9 @@ public class ItemTest {
                 assertTrue("Bottle Removed".equals(evt.getPropertyName()) && evt.getNewValue() instanceof Item);
             }
         };
-        this.testInstance.addPropertyChangeListener(pcl);
+        testInstance.addPropertyChangeListener(pcl);
         testInstance.announceRemoval();
-        this.testInstance.removePropertyChangeListener(pcl);
+        testInstance.removePropertyChangeListener(pcl);
     }
     @Test
     public void testCollidedWith() {
@@ -86,7 +86,7 @@ public class ItemTest {
                 assertTrue("Bottle Removed".equals(evt.getPropertyName()));
             }
         };
-        this.testInstance.addPropertyChangeListener(pcl);
+        testInstance.addPropertyChangeListener(pcl);
         int uSize = Settings.getInstance().getSetting("unitSize");
         
         final Unit testUnit = new Unit(Battlefield.getStartingPosition(0, new Vector(100, 1, 100)),
@@ -97,27 +97,27 @@ public class ItemTest {
         IPowerUp puOld = testUnit.getPowerUp();
         
         
-        this.testInstance.collidedWith(testUnit, 1); // unit collides, remove item
-        this.testInstance.removePropertyChangeListener(pcl);
+        testInstance.collidedWith(testUnit, 1); // unit collides, remove item
+        testInstance.removePropertyChangeListener(pcl);
         
        assertFalse(puOld.equals(testUnit.getPowerUp()));
-       assertTrue(testUnit.getPowerUp().equals(this.testInstance.getPowerUp()));
+       assertTrue(testUnit.getPowerUp().equals(testInstance.getPowerUp()));
         // collision with other, i.e cannonball nothing should happen to model.
         
     }
     
     @Test
     public void testUpdate(){
-        float old = this.testInstance.getLifeTime();
+        float old = testInstance.getLifeTime();
         testInstance.update(Util.simulateTpf());
-        assertFalse(old == this.testInstance.getLifeTime());
+        assertFalse(old == testInstance.getLifeTime());
         PropertyChangeListener pcl = new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
                 assertTrue("Bottle Removed".equals(evt.getPropertyName()));
             }
         };
-        this.testInstance.addPropertyChangeListener(pcl);
-        while(this.testInstance.getLifeTime() > 0){
+        testInstance.addPropertyChangeListener(pcl);
+        while(testInstance.getLifeTime() > 0){
             testInstance.update(Util.simulateTpf());
         }
     }

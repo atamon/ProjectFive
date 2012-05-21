@@ -40,8 +40,8 @@ public class GraphicalCannonBall extends GraphicalAbstract implements PropertyCh
         mat.setColor("Color", color);
         ballGeo.setMaterial(mat);
         
-        this.node = new Node();
-        this.node.attachChild(ballGeo);
+        node = new Node();
+        node.attachChild(ballGeo);
         updatePosition(pos);
     }
     
@@ -50,8 +50,8 @@ public class GraphicalCannonBall extends GraphicalAbstract implements PropertyCh
             updatePosition((Vector3f)pce.getOldValue());
             updateRotation((Quaternion)pce.getNewValue());
         }
-        if("CannonBall Removed".equals(pce.getPropertyName()) && this.node.getParent() != null) {
-            this.node.getParent().detachChild(node);
+        if("CannonBall Removed".equals(pce.getPropertyName()) && node.getParent() != null) {
+            node.getParent().detachChild(node);
         }
     }
 }

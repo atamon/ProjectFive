@@ -88,10 +88,6 @@ public class Unit extends MoveableAbstract implements IObservable {
         }
     }
 
-    public void damage(int damage) {
-        this.setHitPoints(hitPoints - damage);
-    }
-
     /**
      * unit can steer depending on its speed
      *
@@ -191,10 +187,9 @@ public class Unit extends MoveableAbstract implements IObservable {
 
         if (obj instanceof IProjectile) {
             int damage = ((IProjectile) obj).getDamage();
-            if (obj instanceof Bottle) {
-                damage = (int) getSpeed() * damage;
-            }
+            
             hitPoints -= damage;
+            StatusBox.getInstance().message("Cannonball hit and dealt "+damage+" damage!!" );
         }
     }
 
@@ -229,6 +224,7 @@ public class Unit extends MoveableAbstract implements IObservable {
     public void applyPowerUp(IPowerUp power) {
         this.removePowerUp(); //remove old powerUp before adding a new one
         this.powerUp = power;
+        StatusBox.getInstance().message(powerUp.getMessage());
         hitPointsMax += powerUp.getHitPointsMax();
         this.setHitPoints(this.getHitPoints() + powerUp.getHitPoints());
         acceleration += powerUp.getAcceleration();

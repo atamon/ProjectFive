@@ -123,7 +123,7 @@ public class GameTest {
     @Test
     public void endingRound() {
         runGame();
-        game.getPlayer(0).getUnit().damage(10000);
+        game.getPlayer(0).getUnit().setHitPoints(0);
         game.update(15.0f);
         assertTrue(game.getRoundState() == RoundState.POST);
     }

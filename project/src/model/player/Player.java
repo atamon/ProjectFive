@@ -23,8 +23,8 @@ public class Player implements IObservable {
     public final static List<Color> PLAYER_COLORS = new ArrayList<Color>() {
 
         {
-            this.add(Color.CYAN);    // 0
-            this.add(Color.MAGENTA); // 1
+            this.add(Color.CYAN);    // player 0
+            this.add(Color.MAGENTA); // -''- 1
             this.add(Color.ORANGE);  // 2
             this.add(Color.PINK);    // 3
         }
@@ -44,7 +44,7 @@ public class Player implements IObservable {
     public Player(final int playerID) {
         this.playerId = playerID;
         this.color = (PLAYER_COLORS.size() >= playerID) ? // player should be created with any id
-                PLAYER_COLORS.get(playerID) : Color.WHITE; // but only id 0-3 have color
+                PLAYER_COLORS.get(playerID) : Color.WHITE; // but only id 0-3 have color that isn't white
 
     }
     
