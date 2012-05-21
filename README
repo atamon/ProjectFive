@@ -1,4 +1,4 @@
-Battle for the Bottles
+Battle for the Bottle
 README
 
 Starting the game:
@@ -8,3 +8,21 @@ least 2 players are required in order to start a game. Maximum number of players
 are 4.
 - Press space to start the game.
 - After the countdown, start accelerating by using the start button.
+
+Ending the game:
+- ESCAPE-key will instantly exit the game.
+
+FAQ
+q:
+  Game crashes on launch using on Linux
+a:
+  The game uses S3 Texture Compression. Some Linux systems using Mesa OpenGL driver may need an additional
+  library in order to play the game. See http://cgit.freedesktop.orgmareko/libtxc_dxtn/ 
+  precompiled files (debian) can be found at http://www.deb-multimedia.org/ 
+
+q:
+  Unable to steer when many players are interracting
+a:
+  Some keyboards have certain key combinations that cannot be pressed together. This is because the 
+  manufacturer is looking for a way to save on costs, and they think that certain key combos would 
+  very rarely be used. 
