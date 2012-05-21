@@ -31,7 +31,6 @@ public class PhysicalCannonBall extends PhysicalAbstractBody {
         vec.normalizeLocal();
         body.setLinearVelocity(vec.mult(speed));
         body.setDamping(0, 0.1f);
-        System.out.println(getSpeed());
     }
 
     @Override

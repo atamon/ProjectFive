@@ -24,8 +24,6 @@ public class GraphicalBattlefield {
         
         Vector3f sizeVector = new Vector3f(size.x,size.y,size.z);
         
-        System.out.println("Graphical battlefield dimensions: "+size);
-        
         Box groundShape = new Box(Vector3f.ZERO, sizeVector);
         
         groundGeometry = new Geometry("Box", groundShape);

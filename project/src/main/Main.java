@@ -22,6 +22,7 @@ import view.View;
  */
 public class Main extends SimpleApplication {
 
+    private final static String version = "0.1-a1";
     private Controller controller;
     private View view;
     private IGame game;
@@ -42,7 +43,7 @@ public class Main extends SimpleApplication {
         // Create our own settings so we can customize our app
         final AppSettings settings = new AppSettings(true);
         settings.setFrameRate(60);
-        settings.setTitle("Battle For The Bottle 0.001 alpha");
+        settings.setTitle("Battle For The Bottle "+version);
         // Set settings and start
         setShowSettings(false);
         setSettings(settings);

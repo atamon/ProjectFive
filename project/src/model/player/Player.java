@@ -78,13 +78,10 @@ public class Player implements IObservable {
     }
 
     public void increaseFirePowerLeft(float value) {
-        System.out.println("Value: " + value);
         if (value < 0) {
             throw new IllegalArgumentException("ERROR: Tried to increase firepower with negative value! Exiting");
         }
         firePowerLeft += value;
-
-        System.out.println("FirePower: " + firePowerLeft);
 
         if (firePowerLeft > 2) {
             firePowerLeft = Settings.getInstance().getSetting("cannonBallMaximumFirePower");
@@ -92,13 +89,10 @@ public class Player implements IObservable {
     }
 
     public void increaseFirePowerRight(float value) {
-        System.out.println("Value: " + value);
         if (value < 0) {
             throw new IllegalArgumentException("ERROR: Tried to increase firepower with negative value! Exiting");
         }
         firePowerRight += value;
-
-        System.out.println("FirePower: " + firePowerRight);
 
         if (firePowerRight > 2) {
             firePowerRight = Settings.getInstance().getSetting("cannonBallMaximumFirePower");

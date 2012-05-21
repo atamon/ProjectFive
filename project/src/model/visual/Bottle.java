@@ -23,7 +23,6 @@ public abstract class Bottle extends MoveableAbstract {
 
     public Bottle(Vector position) {
         super.setBody(new PhysicalItem(this, position, pointingDir, size, mass));
-        System.out.println("BOTTLE CREATED" + getPhysicalObject());
         pcs = getPropertyChangeSupport();
     }
 
