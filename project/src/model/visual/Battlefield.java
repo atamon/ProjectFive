@@ -8,6 +8,7 @@ import java.util.List;
 import physics.JMEPhysicsHandler;
 import math.Vector;
 import physics.ICollideable;
+import physics.IPhysicsHandler;
 
 /**
  * A class to represent a Battlefield.
@@ -18,7 +19,7 @@ public class Battlefield implements PropertyChangeListener, ICollideable {
 
     private final Vector size;
     private final Vector pos = new Vector(0, 0, 0);
-    private final JMEPhysicsHandler physHandler = new JMEPhysicsHandler();
+    private final IPhysicsHandler physHandler = new JMEPhysicsHandler();
     private final List<IMoveable> moveables = new LinkedList<IMoveable>();
     private final List<IMoveable> removeBuffer = new LinkedList<IMoveable>();
     

@@ -46,11 +46,7 @@
     </screen>
     <screen id="pause">
         <layer childLayout="center" width="100%" height="100%" backgroundColor="#1112">
-            <effect>
-                <onStartScreen name="fade" start="#00" end="#FF" />
-                <onEndScreen name="fade" start="#FF" end="#00" />
-            </effect>
-            <text font="aurulent-sans-16.fnt" text="Game Paused" color="#AA3A" />
+            <text font="Interface/Fonts/Default.fnt" text="Game Paused" color="#AA3A" />
         </layer>
     </screen>
 </nifty>

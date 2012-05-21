@@ -41,7 +41,7 @@ public class Main extends SimpleApplication {
 
         // Create our own settings so we can customize our app
         AppSettings settings = new AppSettings(true);
-        settings.setFrameRate(60);
+        settings.setFullscreen(true);
 
         // Set settings and start
         setShowSettings(false);

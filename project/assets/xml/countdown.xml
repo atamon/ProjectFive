@@ -7,25 +7,25 @@
                 <onStartScreen name="fade" start="#00" end="#FF" />
             </effect>
             <panel id="5" width="100%" height="100%" childLayout="center" visible="true">
-                <image filename="svg/counter5.png" />    
+                <image filename="xml/counter5.png" />    
             </panel>
             <panel id="4" width="100%" height="100%" childLayout="center" visible="false">
-                <image filename="svg/counter4.png" />    
+                <image filename="xml/counter4.png" />    
             </panel>
             <panel id="3" width="100%" height="100%" childLayout="center" visible="false">
-                <image filename="svg/counter3.png" />    
+                <image filename="xml/counter3.png" />    
             </panel>
             <panel id="2" width="100%" height="100%" childLayout="center" visible="false">
-                <image filename="svg/counter2.png" />    
+                <image filename="xml/counter2.png" />    
             </panel>
             <panel id="1" width="100%" height="100%" childLayout="center" visible="false">
-                <image filename="svg/counter1.png" />    
+                <image filename="xml/counter1.png" />    
             </panel>
             <panel id="0" width="100%" height="100%" childLayout="center" visible="false">
                 <effect>
                     <onStartScreen name="hide" />
                 </effect>
-                <image filename="svg/counter0.png" />    
+                <image filename="xml/counter0.png" />    
             </panel>
         </layer>
     </screen>

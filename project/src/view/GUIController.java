@@ -10,6 +10,7 @@ import com.jme3.post.FilterPostProcessor;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.effects.EffectEventId;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.elements.render.TextRenderer;
 import java.awt.Color;
@@ -35,7 +36,9 @@ import model.visual.StatusBox.Message;
  */
 public class GUIController implements PropertyChangeListener {
 
-    public static final String NIFTY_XML_PATH = "xml/main2.xml";
+    public static final String NIFTY_JOIN = "xml/main.xml";
+    public static final String NIFTY_COUNT = "xml/countdown.xml";
+    public static final String NIFTY_HUD = "xml/HUD.xml";
     private final Nifty nifty;
     private final IGame game;
     private final Node rootNode;
@@ -52,9 +55,9 @@ public class GUIController implements PropertyChangeListener {
         
         // Init GUI JoinScreen
         nifty = niftyGUI.getNifty();
-        nifty.fromXml(NIFTY_XML_PATH, "join");
-        nifty.addXml("xml/HUD.xml");
-        nifty.addXml("xml/countdown.xml");
+        nifty.fromXml(NIFTY_JOIN, "join");
+        nifty.addXml(NIFTY_COUNT);
+        nifty.addXml(NIFTY_HUD);
     }
 
     public void updateGui(boolean stateChanged) {
@@ -106,8 +109,8 @@ public class GUIController implements PropertyChangeListener {
         Element hideButton = nifty.getScreen("join").findElementByName(hide + playerID);
         hideButton.setVisible(true);
         // Display the correct gui
-        String name = joined ? "join" : "leave";
-        Element button = nifty.getScreen("join").findElementByName(name + playerID);
+        String show = joined ? "join" : "leave";
+        Element button = nifty.getScreen("join").findElementByName(show + playerID);
         button.setVisible(false);
     }
 
