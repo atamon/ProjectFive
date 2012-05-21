@@ -1,67 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <nifty xmlns="http://nifty-gui.sourceforge.net/nifty-1.3.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://niftygui.sourceforge.net/nifty-1.3.xsd http://nifty-gui.sourceforge.net/nifty-1.3.xsd">
-    <useControls filename="nifty-default-controls.xml" />
-    <useStyles filename="nifty-default-styles.xml" />
     <screen id="blank" backgroundColor="#0000"></screen>
-    <screen id="join" controller="view.JoinScreen" backgroundColor="00CF">
-        <layer id="joinCams" childLayout="vertical">
+    <screen id="join" backgroundColor="00CF">
+        <layer id="joinCams" childLayout="absolute">
             <effect>
                 <onEndScreen name="fade" start="#FF" end="#00" />
+                <onStartScreen name="fade" start="#00" end="#FF" />
             </effect>
-            <panel id="joinCamsUpper" valign="top" childLayout="horizontal" width="100%" height="45%">
-                <panel padding="12%" width="50%" height="100%" align="left" childLayout="center">
-                    <panel id="joinCamZero" width="100%" height="100%" align="center" childLayout="center">
-                        <text id="joinTextZero" font="aurulent-sans-16.fnt" color="#000C" text="Press W to Join" />
-                        <text id="activeTextZero" font="aurulent-sans-16.fnt" color="#000C" text="Press S to Leave" />
-                        <effect>
-                            <onActive name="border" border="5px" color="#000D" timeType="infinite" />
-                        </effect>
-                    </panel>
-                </panel>
-                <panel padding="12%" width="50%" height="100%" align="left" childLayout="center">
-                    <panel id="joinCamOne" width="100%" height="100%" align="center" childLayout="center">
-                        <text id="joinTextOne" font="aurulent-sans-16.fnt" color="#000C" text="Press Up to Join" />
-                        <text id="activeTextOne" font="aurulent-sans-16.fnt" color="#000C" text="Press Down to Leave" />
-                        <effect>
-                            <onActive name="border" border="5px" color="#000D" timeType="infinite" />
-                        </effect>
-                    </panel>
-                </panel>        
-            </panel>
-            <panel id="joinCamsLower" valign="top" childLayout="horizontal" width="100%" height="45%">
-                <panel padding="12%" width="50%" height="100%" align="left" childLayout="center">
-                    <panel id="joinCamTwo" width="100%" height="100%" align="center" childLayout="center">
-                        <text id="joinTextTwo" font="aurulent-sans-16.fnt" color="#000C" text="Press Y to Join" />
-                        <text id="activeTextTwo" font="aurulent-sans-16.fnt" color="#000C" text="Press H to Leave" />
-                        <effect>
-                            <onActive name="border" border="5px" color="#000D" timeType="infinite" />
-                        </effect>
-                    </panel>
-                </panel>
-                <panel padding="12%" width="50%" height="100%" align="left" childLayout="center">
-                    <panel id="joinCamThree" width="100%" height="100%" align="center" childLayout="center">
-                        <text id="joinTextThree" font="aurulent-sans-16.fnt" color="#000C" text="Press Numpad 8 to Join" />
-                        <text id="activeTextThree" font="aurulent-sans-16.fnt" color="#000C" text="Press Numpad 5 to Leave" />
-                        <effect>
-                            <onActive name="border" border="5px" color="#000D" timeType="infinite" />
-                        </effect>
-                    </panel>
-                </panel>        
-            </panel>
-        </layer>
-        <layer id="settingsLayerRight" childLayout="vertical" backgroundColor="#0000">
-            <panel paddingTop="80%" paddingLeft="10%" align="left" width="50%" height="100%" backgroundColor="#0000" childLayout="center">
-                <panel id="settingsButton" width="75px" height="20px" align="left" backgroundColor="#0F0A">
+            <image id="join0" width="50px" height="50px" filename="xml/join0.png" visible="true" x="5%" y="5%" />
+            <image id="leave0" width="50px" height="50px" filename="xml/leave0.png" visible="false" x="5%" y="5%" />
                 
-                </panel> 
-            </panel>
-        </layer>
-        <layer id="settingsLayerLeft" childLayout="vertical" backgroundColor="#0000">
-            <panel paddingTop="80%" paddingRight="10%" align="right" width="50%" height="100%" backgroundColor="#0000" childLayout="center">
-                <panel id="exitButton" width="75px" height="20px" align="right" backgroundColor="#F00A">
+            <image id="join1" width="50px" height="50px" filename="xml/join1.png" visible="true" x="90%" y="80%" />
+            <image id="leave1" width="50px" height="50px" filename="xml/leave1.png" visible="false" x="90%" y="80%" />
                 
-                </panel> 
-            </panel>
+            <image id="join2" width="50px" height="50px" filename="xml/join2.png" visible="true" x="5%" y="80%" />
+            <image id="leave2" width="50px" height="50px" filename="xml/leave2.png" visible="false" x="5%" y="80%" />
+                
+            <image id="join3" width="50px" height="50px" filename="xml/join3.png" visible="true" x="90%" y="5%" />
+            <image id="leave3" width="50px" height="50px" filename="xml/leave3.png" visible="false" x="90%" y="5%" />
+        </layer>
+        <layer id="startGame" childLayout="center" >
+            <image id="space" filename="xml/space.png" visible="false">
+                <effect>
+                    <onEndScreen name="fade" start="#FF" end="#00" />
+                    <onStrartScreen name="fade" start="#00" end="#FF" />
+                </effect>    
+            </image>
         </layer>
     </screen>
 </nifty>

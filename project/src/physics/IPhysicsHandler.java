@@ -1,18 +1,19 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package physics;
 
-import observable.IObservable;
 import math.Vector;
 
 /**
  *
- * @author jnes
+ * @author atamon
  */
 public interface IPhysicsHandler {
-    public void addToWorld(IPhysicalBody obj);
-    public void removeFromWorld(IPhysicalBody obj);
-    public void update(float tpf);
+
+    void addToWorld(IPhysicalBody object);
+
+    void createGround(Vector size, ICollideable model);
+
+    void removeFromWorld(IPhysicalBody object);
+
+    void update(float tpf);
+    
 }
