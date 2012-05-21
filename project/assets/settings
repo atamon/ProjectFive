@@ -20,5 +20,6 @@ cannonBallMinimumFirePower:1
 cannonBallMaximumFirePower:3
 fireDelay:1
 hullStrength:1000
+itemTimeout:10
 
 [MODDED]

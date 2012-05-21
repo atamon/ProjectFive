@@ -34,9 +34,9 @@ public final class Item extends MoveableAbstract {
     public Item(final IPowerUp powerUp, final Vector position) {
         this.powerUp = powerUp;
         
-        this.body = new PhysicalItem(this, position, pointingDir, size, mass);
+        body = new PhysicalItem(this, position, pointingDir, size, mass);
         super.setBody(body);
-        this.pcs = super.getPropertyChangeSupport();
+        pcs = super.getPropertyChangeSupport();
     }
 
     /**
@@ -45,30 +45,30 @@ public final class Item extends MoveableAbstract {
      * @return ItemTypes
      */
     public IPowerUp getPowerUp() {
-        return this.powerUp; // immutable class => no copy necessary 
+        return powerUp;
     }
 
     @Override
     public void announceRemoval() {
-        this.pcs.firePropertyChange("Item Removed", null, this);
+        pcs.firePropertyChange("Item Removed", null, this);
     }
 
     @Override
     public void collidedWith(final ICollideable obj, final float objImpactSpeed) {
         if(obj instanceof Unit){
-            this.announceRemoval();
+            announceRemoval();
             ((Unit)obj).applyPowerUp(powerUp);
         }
     }
 
     public float getLifeTime(){
-        return this.lifeTime;
+        return lifeTime;
     }
     public void update(final float tpf) {
         
-        this.lifeTime -= tpf;
-        if(this.lifeTime <= 0){
-            this.announceRemoval();
+        lifeTime -= tpf;
+        if(lifeTime <= 0){
+            announceRemoval();
         }
     }
 

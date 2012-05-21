@@ -83,10 +83,6 @@ public class Unit extends MoveableAbstract implements IObservable {
         }
     }
 
-    public void damage(int damage) {
-        this.setHitPoints(hitPoints - damage);
-    }
-
     /**
      * TODO IS THIS REALLY USED SOMEWHERE? IF SO ADD TEST Determines how much a
      * unit can steer depending on its speed
@@ -186,7 +182,10 @@ public class Unit extends MoveableAbstract implements IObservable {
         }
 
         if (obj instanceof IProjectile) {
-            this.hitPoints -= ((IProjectile) obj).getDamage();
+            final float damage = ((IProjectile) obj).getDamage();
+            this.hitPoints -= damage;
+            StatusBox.getInstance().message("Cannonball hit and dealt "+damage+" damage!!" );
+            
         }
     }
 
@@ -221,6 +220,7 @@ public class Unit extends MoveableAbstract implements IObservable {
     public void applyPowerUp(IPowerUp power) {
         this.removePowerUp(); //remove old powerUp before adding a new one
         this.powerUp = power;
+        StatusBox.getInstance().message(powerUp.getMessage());
         this.hitPointsMax += powerUp.getHitPointsMax();
         this.setHitPoints(this.getHitPoints() + powerUp.getHitPoints());
         this.acceleration += powerUp.getAcceleration();

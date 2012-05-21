@@ -40,18 +40,18 @@ public class GraphicalCannonBall extends GraphicalAbstract implements PropertyCh
         mat.setColor("Color", color);
         ballGeo.setMaterial(mat);
         
-        this.node = new Node();
-        this.node.attachChild(ballGeo);
-        this.updatePosition(pos);
+        node = new Node();
+        node.attachChild(ballGeo);
+        updatePosition(pos);
     }
     
     public void propertyChange(PropertyChangeEvent pce) {
         if("Physical Update".equals(pce.getPropertyName())) {
-            this.updatePosition((Vector3f)pce.getOldValue());
-            this.updateRotation((Quaternion)pce.getNewValue());
+            updatePosition((Vector3f)pce.getOldValue());
+            updateRotation((Quaternion)pce.getNewValue());
         }
-        if("CannonBall Removed".equals(pce.getPropertyName()) && this.node.getParent() != null) {
-            this.node.getParent().detachChild(node);
+        if("CannonBall Removed".equals(pce.getPropertyName()) && node.getParent() != null) {
+            node.getParent().detachChild(node);
         }
     }
 }

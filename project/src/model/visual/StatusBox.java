@@ -33,16 +33,16 @@ public final class StatusBox implements IObservable  {
         }
         
         public String getMessage(){
-            return this.message;
+            return message;
         }
         public Color getColor(){
-            return this.color;
+            return color;
         }
     }
     private static StatusBox instance;
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     
-    List<Message> messages = new ArrayList<Message>();
+    private List<Message> messages = new ArrayList<Message>();
     
     private StatusBox() {}
     
@@ -54,25 +54,25 @@ public final class StatusBox implements IObservable  {
     }
 
     public void message(final String message){
-        this.message(STATUS_MESSAGE_COLOR, message);
+        message(STATUS_MESSAGE_COLOR, message);
     }
     
     public void message(final Color messageColor, final String message){
         if (message != null) {
-            this.messages.add(new Message(messageColor, message));
-            this.pcs.firePropertyChange("StatusBox Message", null, this.messages);
+            messages.add(new Message(messageColor, message));
+            pcs.firePropertyChange("StatusBox Message", null, this.messages);
         }
     }
     public void clear() {
-        this.messages.clear();
-        this.pcs.firePropertyChange("StatusBox Cleared", null, this.messages);
+        messages.clear();
+        pcs.firePropertyChange("StatusBox Cleared", null, this.messages);
     }
     
     public void setVisible(final boolean visible) {
         if (visible) {
-            this.pcs.firePropertyChange("StatusBox Visible", null, null);
+            pcs.firePropertyChange("StatusBox Visible", null, null);
         } else {
-            this.pcs.firePropertyChange("StatusBox Hidden", null, null);
+            pcs.firePropertyChange("StatusBox Hidden", null, null);
         }
     }
 
@@ -85,7 +85,7 @@ public final class StatusBox implements IObservable  {
     }
 
     public List<Message> getMessages() {
-        return this.messages;
+        return messages;
     }
 
 }

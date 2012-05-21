@@ -66,7 +66,7 @@ public class View implements PropertyChangeListener {
         FilterPostProcessor waterPostProcessor = new FilterPostProcessor(assetManager);
         WaterFilter water = new WaterFilter(rootNode, new Vector3f(0, -1, 1));
         water.setWaterHeight(4f);
-  //      waterPostProcessor.addFilter(water);
+        waterPostProcessor.addFilter(water);
 
         jme3.getViewPort().addProcessor(waterPostProcessor);
         guiControl = new GUIController(niftyGUI, game, waterPostProcessor, jme3);

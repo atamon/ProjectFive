@@ -49,14 +49,6 @@ public class UnitTest {
         assertFalse(pos.equals(unit.getPosition()) || dir.equals(unit.getDirection()));
     }
 
-    @Test
-    public void testDamage() {
-        int hp = unit.getHitPoints();
-        unit.damage(10);
-
-        assertTrue(hp > unit.getHitPoints());
-    }
-
     /**
      * Test of setSteerAngle method, of class Unit.
      */

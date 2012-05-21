@@ -19,23 +19,37 @@ import static org.junit.Assert.*;
  */
 public class StatusBoxTest {
     
-    public StatusBoxTest() {
-    }
-
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
-    
+    private boolean testSuccess = false;
+    private String eventString ="";
+    private String message= "";
+    private PropertyChangeListener pcl;
+    private Color messageColor;
     @Before
     public void setUp() {
+        pcl = new PropertyChangeListener() {
+
+            public void propertyChange(PropertyChangeEvent evt) {
+                if(eventString.equals(evt.getPropertyName())){
+                    if("StatusBox Message".equals(eventString)){
+                        List<Message> messages = (List<Message>)evt.getNewValue();
+                        Message expected = messages.get(0);
+                        testSuccess = (expected.getMessage().equals(message) && expected.getColor().equals(messageColor));
+                    } else if("StatusBox Cleared".equals(evt.getPropertyName())){
+                        testSuccess = StatusBox.getInstance().getMessages().size() == 0;
+                    } else if("StatusBox Hidden".equals(evt.getPropertyName())){
+                        testSuccess = "StatusBox Hidden".equals(eventString);
+                    } else if("StatusBox Visible".equals(evt.getPropertyName())){
+                        testSuccess = "StatusBox Visible".equals(eventString);
+                    }
+                }
+            }
+        };
+        StatusBox.getInstance().addPropertyChangeListener(pcl);
     }
     
     @After
     public void tearDown() {
+        StatusBox.getInstance().removePropertyChangeListener(pcl);
     }
 
     /**
@@ -53,23 +67,13 @@ public class StatusBoxTest {
      */
     @Test
     public void testMessage_String() {
+        testSuccess=false;
         StatusBox.getInstance().clear();
-        final String message = "testMessage";
-        PropertyChangeListener pcl = new PropertyChangeListener() {
-
-            public void propertyChange(PropertyChangeEvent evt) {
-                if("StatusBox Message".equals(evt.getPropertyName())){
-                   List<Message> messages = (List<Message>)evt.getNewValue();
-                   Message expected = messages.get(0);
-                   assertEquals(expected.getMessage(),message);
-                   assertEquals(expected.getColor(),StatusBox.STATUS_MESSAGE_COLOR);
-                }
-            }
-        };
-        StatusBox.getInstance().addPropertyChangeListener(pcl);
+        message = "testMessage";
+        eventString = "StatusBox Message";
+        messageColor = StatusBox.STATUS_MESSAGE_COLOR;
         StatusBox.getInstance().message(message);
-        StatusBox.getInstance().removePropertyChangeListener(pcl);
-        
+        assertTrue(testSuccess);
     }
 
     /**
@@ -77,22 +81,13 @@ public class StatusBoxTest {
      */
     @Test
     public void testMessage_Color_String() {
+        testSuccess=false;
         StatusBox.getInstance().clear();
-        final String message = "testMessage";
-        PropertyChangeListener pcl = new PropertyChangeListener() {
-
-            public void propertyChange(PropertyChangeEvent evt) {
-                if("StatusBox Message".equals(evt.getPropertyName())){
-                   List<Message> messages = (List<Message>)evt.getNewValue();
-                   Message expected = messages.get(0);
-                   assertEquals(expected.getMessage(),message);
-                   assertEquals(expected.getColor(),Color.BLACK);
-                }
-            }
-        };
-        StatusBox.getInstance().addPropertyChangeListener(pcl);
-        StatusBox.getInstance().message(Color.BLACK, message);
-        StatusBox.getInstance().removePropertyChangeListener(pcl);
+        message = "testMessage";
+        eventString = "StatusBox Message";
+        messageColor = Color.BLACK;
+        StatusBox.getInstance().message(messageColor, message);
+        assertTrue(testSuccess);
     }
 
     /**
@@ -100,22 +95,14 @@ public class StatusBoxTest {
      */
     @Test
     public void testClear() {
-        final String message = "anotherTestMessage";
-        PropertyChangeListener pcl = new PropertyChangeListener() {
-
-            public void propertyChange(PropertyChangeEvent evt) {
-                if("StatusBox Cleared".equals(evt.getPropertyName())){
-                   List<Message> messages = (List<Message>)evt.getNewValue();
-                   assertEquals(messages.size(),0);
-                }
-            }
-        };
+        testSuccess = false;
+        message = "anotherTestMessage";
+        eventString = "StatusBox Cleared";
         
-        StatusBox.getInstance().addPropertyChangeListener(pcl);
         StatusBox.getInstance().message(message);
         StatusBox.getInstance().clear();
         assertEquals(StatusBox.getInstance().getMessages().size(), 0);
-        StatusBox.getInstance().removePropertyChangeListener(pcl);
+        assertTrue(testSuccess);
     }
 
     /**
@@ -123,25 +110,15 @@ public class StatusBoxTest {
      */
     @Test
     public void testSetVisible() {
-        
-        PropertyChangeListener pcl = new PropertyChangeListener() {
-
-            public void propertyChange(PropertyChangeEvent evt) {
-                assertEquals("StatusBox Visible", evt.getPropertyName());
-            }
-        };
-        StatusBox.getInstance().addPropertyChangeListener(pcl);
+        testSuccess = false;
+        eventString = "StatusBox Visible";
         StatusBox.getInstance().setVisible(true);
-        StatusBox.getInstance().removePropertyChangeListener(pcl);
+        assertTrue(testSuccess);
         
-        PropertyChangeListener pcl2 = new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent evt) {
-                assertEquals("StatusBox Hidden", evt.getPropertyName());
-            }
-        };
-        
-        StatusBox.getInstance().addPropertyChangeListener(pcl2);
+        testSuccess = false;
+        eventString = "StatusBox Hidden";
         StatusBox.getInstance().setVisible(false);
+        assertTrue(testSuccess);
     }
 
 }

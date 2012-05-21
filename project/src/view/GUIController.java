@@ -125,32 +125,31 @@ public class GUIController implements PropertyChangeListener {
 
     public void propertyChange(PropertyChangeEvent pce) {
         if ("StatusBox Message".equals(pce.getPropertyName())){
-            // TODO: Add last 2-5 messages to the status box.
-            // Since this happens on every message update. maybe just add latest and remove oldest if limit reached
-            List<Message> messages = (List<Message>) pce.getNewValue();
-            List<Element> output = this.nifty.getScreen("HUD").findElementByName("info").getElements();
-            Iterator<Element> iterEle = output.iterator();
-            ListIterator<Message> iterStr = messages.listIterator(messages.size());
+            // this code should be optimized..
+            final List<Message> messages = (List<Message>) pce.getNewValue();
+            final List<Element> output = nifty.getScreen("HUD").findElementByName("info").getElements();
+            final Iterator<Element> iterEle = output.iterator();
+            final ListIterator<Message> iterStr = messages.listIterator(messages.size());
             while(iterEle.hasNext() && iterStr.hasPrevious()){
-                Element eleMsg = iterEle.next();
-                Message strMsg = iterStr.previous();
+                final Element eleMsg = iterEle.next();
+                final Message strMsg = iterStr.previous();
                 eleMsg.getRenderer(TextRenderer.class).setText(strMsg.getMessage());
                 eleMsg.getRenderer(TextRenderer.class).setColor(new de.lessvoid.nifty.tools.Color(strMsg.getColor().getRGB()));
             }
         }
         if ("StatusBox Cleared".equals(pce.getPropertyName())){
-            List<Element> output = this.nifty.getScreen("HUD").findElementByName("info").getElements();
-            Iterator<Element> iterEle = output.iterator();
+            final List<Element> output = nifty.getScreen("HUD").findElementByName("info").getElements();
+            final Iterator<Element> iterEle = output.iterator();
             while(iterEle.hasNext()){
-                Element eleMsg = iterEle.next();
+                final Element eleMsg = iterEle.next();
                 eleMsg.getRenderer(TextRenderer.class).setText("");
             }
         }
         if ("StatusBox Visible".equals(pce.getPropertyName())){
-            this.nifty.getScreen("HUD").findElementByName("info").setVisible(true);
+            nifty.getScreen("HUD").findElementByName("info").setVisible(true);
         }
         if ("StatusBox Hidden".equals(pce.getPropertyName())){
-            this.nifty.getScreen("HUD").findElementByName("info").setVisible(false);
+            nifty.getScreen("HUD").findElementByName("info").setVisible(false);
         }
     }
 }

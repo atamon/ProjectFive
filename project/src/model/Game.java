@@ -91,7 +91,7 @@ public class Game implements IGame {
             this.itemTimeout -= tpf;
             if(itemTimeout <= 0 ){
                 this.createItem();
-                this.itemTimeout = 10f;
+                this.itemTimeout = Settings.getInstance().getSetting("itemTimeout");
             }
         }
         if (roundCountdown > 0) {
@@ -156,7 +156,6 @@ public class Game implements IGame {
 
     public void start() {
         gameState = GameState.ACTIVE;
-        StatusBox.getInstance().message(Color.GREEN,"Round "+(roundModel.playedRounds()+1)+" started!");
         nextRound();
     }
 
@@ -167,6 +166,9 @@ public class Game implements IGame {
     public void nextRound() {
 
         battlefield.clearForNewRound();
+        StatusBox.getInstance().clear();
+        
+        StatusBox.getInstance().message(Color.GREEN,"Round "+(roundModel.playedRounds()+1)+" started!");
         roundModel.newRound();
         roundModel.startRound();
 
