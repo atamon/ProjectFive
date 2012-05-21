@@ -175,10 +175,6 @@ public class Unit extends MoveableAbstract implements IObservable {
         return body.getPosition().equals(Vector.NONE_EXISTANT);
     }
 
-    public void announceRemoval() {
-        pcs.firePropertyChange("Unit removed", null, null);
-    }
-
     public void collidedWith(ICollideable obj, float objImpactSpeed) {
         // Two units crashing
         if (obj instanceof Unit) {
@@ -230,6 +226,7 @@ public class Unit extends MoveableAbstract implements IObservable {
         acceleration += powerUp.getAcceleration();
         this.setMaxSpeed(this.getMaxSpeed() + powerUp.getMaxSpeed());
         this.setSteerAngle(this.getSteerAngle() + powerUp.getSteerAngle());
+        
     }
 
     public void removePowerUp() {

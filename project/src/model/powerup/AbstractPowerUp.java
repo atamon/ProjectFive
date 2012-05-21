@@ -4,6 +4,8 @@
  */
 package model.powerup;
 
+import math.Vector;
+
 /**
  *
  * @author jnes
@@ -18,7 +20,7 @@ public abstract class AbstractPowerUp implements IPowerUp {
     protected int hitPoints;
     protected int hitPointsMax;
     protected int damage;
-
+    protected Vector size = Vector.ZERO_VECTOR;
     protected boolean active = true;
     
     public AbstractPowerUp(){}

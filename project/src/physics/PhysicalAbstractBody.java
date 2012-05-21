@@ -28,8 +28,7 @@ public abstract class PhysicalAbstractBody implements IPhysicalBody {
 
     public PhysicalAbstractBody(IPhysicalModel owner, Vector startPos,
             Vector startDir, Vector size, float mass) {
-        Vector correctSize = new Vector(size);
-        BoxCollisionShape shape = new BoxCollisionShape(MonkeyConverter.convertToMonkey3D(correctSize));
+        BoxCollisionShape shape = new BoxCollisionShape(MonkeyConverter.convertToMonkey3D(size));
         body = new PhysicsRigidBody(shape, mass);
 
         place(startPos);
@@ -37,7 +36,7 @@ public abstract class PhysicalAbstractBody implements IPhysicalBody {
 
         body.setUserObject(owner);
         this.owner = owner;
-        initSize = correctSize;
+        initSize = size;
     }
 
     /**
@@ -104,6 +103,13 @@ public abstract class PhysicalAbstractBody implements IPhysicalBody {
         return initSize;
     }
 
+    public void scale(float scalar){
+        Vector3f scaleVec = new Vector3f(scalar,scalar,scalar);
+        body.getCollisionShape().setScale(scaleVec);
+        pcs.firePropertyChange("Physical Rescale", null, scaleVec);
+        
+    }
+    
     @Override
     public float getMass() {
         return body.getMass();

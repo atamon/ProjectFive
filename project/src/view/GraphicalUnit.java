@@ -41,22 +41,7 @@ public class GraphicalUnit extends GraphicalAbstract implements PropertyChangeLi
         updateRotation(rot);
     }
     
-    public void propertyChange(PropertyChangeEvent pce) {
-        
-        if ("Physical Update".equals(pce.getPropertyName())) {
-            Vector3f pos = (Vector3f) pce.getOldValue();
-            Quaternion dir = (Quaternion) pce.getNewValue();
-            
-            updateRotation(dir);
-            updatePosition(pos);
-        }
-        
-        if ("Unit removed".equals(pce.getPropertyName())) {
-            node.removeFromParent();
-        }
-    }
-    
-    private void setSailColor(final ColorRGBA color, final Geometry sail) {
+    private static void setSailColor(final ColorRGBA color, final Geometry sail) {
         sail.getMaterial().setColor("Ambient", color);
     }
 }

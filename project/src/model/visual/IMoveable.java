@@ -21,6 +21,4 @@ public interface IMoveable extends IPhysicalModel, IObservable {
     public void update(float tpf);
     public void hide();
     public void announceRemoval();
-    public void addPropertyChangeListener(PropertyChangeListener ls);
-    public void removePropertyChangeListener(PropertyChangeListener ls);
 }

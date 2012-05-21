@@ -26,11 +26,6 @@ public abstract class Bottle extends MoveableAbstract {
         pcs = getPropertyChangeSupport();
     }
 
-    @Override
-    public void announceRemoval() {
-        pcs.firePropertyChange("Bottle Removed", null, this);
-    }
-
     public float getLifeTime() {
         return lifeTime;
     }

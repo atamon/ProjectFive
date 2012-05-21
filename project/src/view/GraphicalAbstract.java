@@ -7,12 +7,14 @@ package view;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 /**
  *
  * @author victorlindhe
  */
-public abstract class GraphicalAbstract {
+public abstract class GraphicalAbstract implements PropertyChangeListener{
     protected Node node;
     
     protected void setNode(Node node) {
@@ -29,5 +31,20 @@ public abstract class GraphicalAbstract {
     
     protected void updateRotation(Quaternion rot) {
         node.setLocalRotation(rot);
+    }
+
+    public void propertyChange(PropertyChangeEvent pce) {
+        if("Physical Update".equals(pce.getPropertyName())) {
+            updatePosition((Vector3f)pce.getOldValue());
+            updateRotation((Quaternion)pce.getNewValue());
+        }
+        
+        if("Physical Rescaled".equals(pce.getPropertyName())){
+            node.setLocalScale((Vector3f)pce.getNewValue());
+        }
+        
+        if("Visual Removed".equals(pce.getPropertyName())){
+            node.removeFromParent();
+        }
     }
 }

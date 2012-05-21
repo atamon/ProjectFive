@@ -56,13 +56,6 @@ public class CannonBall extends MoveableAbstract implements IObservable, IProjec
         return (int)(body.getMass()*body.getSpeed());
     }
 
-    /**
-     * Removes the CannonBall from any instance that has it.
-     */
-    public void announceRemoval() {
-        pcs.firePropertyChange("CannonBall Removed", null, this);
-    }
-
     public Unit getOwner() {
         return owner;
     }

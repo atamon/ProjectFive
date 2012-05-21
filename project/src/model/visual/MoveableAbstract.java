@@ -156,7 +156,9 @@ public abstract class MoveableAbstract implements IMoveable {
         return body;
     }
 
-    public abstract void announceRemoval();
+    public void announceRemoval(){
+        pcs.firePropertyChange("Visual Removed", null, this);
+    }
     public abstract void collidedWith(ICollideable obj, float objImpactSpeed);
 
 }

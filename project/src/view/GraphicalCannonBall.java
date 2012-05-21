@@ -44,14 +44,4 @@ public class GraphicalCannonBall extends GraphicalAbstract implements PropertyCh
         node.attachChild(ballGeo);
         updatePosition(pos);
     }
-    
-    public void propertyChange(PropertyChangeEvent pce) {
-        if("Physical Update".equals(pce.getPropertyName())) {
-            updatePosition((Vector3f)pce.getOldValue());
-            updateRotation((Quaternion)pce.getNewValue());
-        }
-        if("CannonBall Removed".equals(pce.getPropertyName()) && node.getParent() != null) {
-            node.getParent().detachChild(node);
-        }
-    }
 }

@@ -47,14 +47,14 @@ public interface IPhysicalBody extends IObservable {
      *
      * @param pos
      */
-    void place(Vector pos);
+    public void place(Vector pos);
 
     /**
      * Points the body in a given direction in the physical world.
      *
      * @param dir
      */
-    void point(Vector dir);
+    public void point(Vector dir);
 
     /**
      * Steers the body with an applied force in a crossproduct direction of
@@ -63,7 +63,7 @@ public interface IPhysicalBody extends IObservable {
      * @param dir
      * @param tpf
      */
-    void steer(float angle, float tpf);
+    public void steer(float angle, float tpf);
 
-    void updated();
+    public void updated();
 }
