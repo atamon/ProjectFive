@@ -4,6 +4,7 @@
  */
 package controller.listeners;
 
+import com.jme3.app.SimpleApplication;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
@@ -19,17 +20,17 @@ import model.round.RoundState;
 public class GlobalListener implements ActionListener {
 
     private IGame game;
-    private InputManager inpManager;
 
     public GlobalListener(IGame game, InputManager inpManager) {
         this.game = game;
-        this.inpManager = inpManager;
 
         inpManager.addMapping("Pause", new KeyTrigger(KeyInput.KEY_P));
         inpManager.addMapping("Start", new KeyTrigger(KeyInput.KEY_SPACE));
-
+        inpManager.addMapping("Exit", new KeyTrigger(KeyInput.KEY_ESCAPE));
+        
         inpManager.addListener(this, "Pause");
         inpManager.addListener(this, "Start");
+        inpManager.addListener(this, "Exit");
     }
 
     public void onAction(String name, boolean isPressed, float tpf) {
@@ -57,6 +58,10 @@ public class GlobalListener implements ActionListener {
                     // Game has been played. Clean it!
                     game.clean();
                 }
+            }
+            
+            if ("Exit".equals(name)) {
+                System.exit(0);
             }
         }
     }

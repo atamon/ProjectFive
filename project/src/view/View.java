@@ -10,6 +10,7 @@ import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.post.FilterPostProcessor;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;
+import com.jme3.util.SkyFactory;
 import com.jme3.water.WaterFilter;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.tools.SizeValue;
@@ -83,6 +84,9 @@ public class View implements PropertyChangeListener {
         initGround(this.game.getBattlefieldSize(), this.game.getBattlefieldPosition());
         initCamera();
         initLighting();
+
+        rootNode.attachChild(SkyFactory.createSky(
+                assetManager, "Textures/Sky/Bright/BrightSky.dds", false));
     }
 
     private void initGround(Vector size, Vector pos) {
@@ -107,7 +111,7 @@ public class View implements PropertyChangeListener {
     private void initCamera() {
         Camera cam = jme3.getCamera();
         cam.setLocation(new Vector3f(game.getBattlefieldCenter().getX(), 110, 0));
-        cam.lookAt(MonkeyConverter.convertToMonkey3D(game.getBattlefieldCenter()).setZ(42), Vector3f.UNIT_Y);
+        cam.lookAt(MonkeyConverter.convertToMonkey3D(game.getBattlefieldCenter()).setZ(50), Vector3f.UNIT_Y);
     }
 
     public void update(float tpf) {
