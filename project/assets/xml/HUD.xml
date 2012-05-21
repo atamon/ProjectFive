@@ -36,11 +36,13 @@
             </panel>
         </layer>
         <layer id="statusBox" backgroundColor="#0000" childLayout="center">
-		<panel id="statusMessage" backgroundColor="#AAA7" width="60%" height="10%" valign="bottom" childLayout="vertical" align="center">
+		<panel id="statusMessage" backgroundColor="#777A" width="60%" height="10%" valign="bottom" childLayout="vertical" align="center">
 			<text id="statusM1" font="console.fnt" text=" " textHAlign="left" wrap="true" width="100%" height="25%"/> 
 			<text id="statusM2" font="console.fnt" text=" " textHAlign="left" wrap="true" width="100%" height="25%"/> 
 			<text id="statusM3" font="console.fnt" text=" " textHAlign="left" wrap="true" width="100%" height="25%"/> 
 			<text id="statusM4" font="console.fnt" text=" " textHAlign="left" wrap="true" width="100%" height="25%"/> 
+			<text id="statusM5" font="console.fnt" text=" " textHAlign="left" wrap="true" width="100%" height="25%"/>
+			<text id="statusM6" font="console.fnt" text=" " textHAlign="left" wrap="true" width="100%" height="25%"/>  
 		</panel>
 	</layer>
     </screen>
