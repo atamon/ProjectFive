@@ -19,7 +19,9 @@ import java.beans.PropertyChangeListener;
  * @author Victor Lindhé
  */
 public class GraphicalUnit extends GraphicalAbstract implements PropertyChangeListener {
-
+    
+    private float depthSunk = 0;
+    
     public GraphicalUnit(int id, ColorRGBA color,
             Vector3f pos,
             Vector3f dir,
@@ -39,6 +41,20 @@ public class GraphicalUnit extends GraphicalAbstract implements PropertyChangeLi
         
         updatePosition(pos);
         updateRotation(rot);
+    }
+    
+    @Override
+    public void updatePosition(Vector3f pos) {
+        super.updatePosition(pos.subtract(0, depthSunk, 0));
+    }
+    
+    @Override
+    public void propertyChange(PropertyChangeEvent pce) {
+        super.propertyChange(pce);
+        
+        if("Unit sinking".equals(pce.getPropertyName())) {
+            depthSunk += (Float) pce.getNewValue() * 5;
+        }
     }
     
     private static void setSailColor(final ColorRGBA color, final Geometry sail) {
