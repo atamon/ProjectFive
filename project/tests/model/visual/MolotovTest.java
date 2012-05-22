@@ -54,7 +54,7 @@ public class MolotovTest {
 
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
-                if ("Bottle Removed".equals(evt.getPropertyName()) && mol.equals(evt.getNewValue())) {
+                if ("Visual Removed".equals(evt.getPropertyName()) && mol.equals(evt.getNewValue())) {
                     passed = true;
                 }
             }

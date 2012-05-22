@@ -72,7 +72,7 @@ public class ItemTest {
         // cannot test remove
         PropertyChangeListener pcl = new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
-                assertTrue("Bottle Removed".equals(evt.getPropertyName()) && evt.getNewValue() instanceof Item);
+                assertTrue("Visual Removed".equals(evt.getPropertyName()) && evt.getNewValue() instanceof Item);
             }
         };
         testInstance.addPropertyChangeListener(pcl);
@@ -83,7 +83,7 @@ public class ItemTest {
     public void testCollidedWith() {
         PropertyChangeListener pcl = new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
-                assertTrue("Bottle Removed".equals(evt.getPropertyName()));
+                assertTrue("Visual Removed".equals(evt.getPropertyName()));
             }
         };
         testInstance.addPropertyChangeListener(pcl);
@@ -113,7 +113,7 @@ public class ItemTest {
         assertFalse(old == testInstance.getLifeTime());
         PropertyChangeListener pcl = new PropertyChangeListener() {
             public void propertyChange(PropertyChangeEvent evt) {
-                assertTrue("Bottle Removed".equals(evt.getPropertyName()));
+                assertTrue("Visual Removed".equals(evt.getPropertyName()));
             }
         };
         testInstance.addPropertyChangeListener(pcl);

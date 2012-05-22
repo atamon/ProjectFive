@@ -57,7 +57,7 @@ public class CannonBallTest {
         PropertyChangeListener pListener = new PropertyChangeListener() {
 
             public void propertyChange(PropertyChangeEvent pce) {
-                if ("CannonBall Removed".equals(pce.getPropertyName())) {
+                if ("Visual Removed".equals(pce.getPropertyName())) {
                     removeWorked = true;
                 }
             }
@@ -91,7 +91,7 @@ public class CannonBallTest {
         PropertyChangeListener pListener = new PropertyChangeListener() {
 
             public void propertyChange(PropertyChangeEvent pce) {
-                if ("CannonBall Removed".equals(pce.getPropertyName())) {
+                if ("Visual Removed".equals(pce.getPropertyName())) {
                     collidedAndRemoved = true;
                 }
             }

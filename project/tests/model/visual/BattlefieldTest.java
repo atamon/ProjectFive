@@ -22,7 +22,7 @@ public class BattlefieldTest {
     @Before
     public void setUp() {
         Settings.getInstance().loadSettings(SettingsLoader.readSettings("assets/settings"));
-        bField = new Battlefield();
+        bField = new Battlefield(new Vector(100, 1, 100));
         int uSize = Settings.getInstance().getSetting("unitSize");
         unit = new Unit(Battlefield.getStartingPosition(0, bField.getSize()),
                                                         Battlefield.getStartingDir(0),
