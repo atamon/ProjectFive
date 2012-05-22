@@ -13,8 +13,6 @@ import physics.IPhysicsHandler;
 
 /**
  * A class to represent a Battlefield.
- *
- * @author Victor Lindhé @modified johnnes
  */
 public class Battlefield implements PropertyChangeListener, ICollideable {
 
@@ -47,7 +45,7 @@ public class Battlefield implements PropertyChangeListener, ICollideable {
         }
 
         // Set up ocean floor
-        physHandler.createGround(this.size, this);
+        physHandler.createGround(size, this);
     }
 
     public void addToBattlefield(final IMoveable mov) {
@@ -59,7 +57,7 @@ public class Battlefield implements PropertyChangeListener, ICollideable {
 
         // Save it for keepsake and listen for removal
         mov.addPropertyChangeListener(this);
-        this.moveables.add(mov);
+        moveables.add(mov);
     }
 
     public void removeFromBattlefield(final IMoveable mov) {
@@ -74,22 +72,22 @@ public class Battlefield implements PropertyChangeListener, ICollideable {
 
             final IMoveable next = iterator.next();
             next.update(tpf);
-            if (next.getClass() == Unit.class && this.isOutOfBounds(next.getPosition())) {
-                this.doMagellanJourney(next);
+            if (next.getClass() == Unit.class && isOutOfBounds(next.getPosition())) {
+                doMagellanJourney(next);
             }
         }
-        this.physHandler.update(tpf);
+        physHandler.update(tpf);
 
         clearRemoveBuffer();
     }
 
     private void clearRemoveBuffer() {
-        Iterator<IMoveable> iterator = this.removeBuffer.iterator();
+        Iterator<IMoveable> iterator = removeBuffer.iterator();
         while (iterator.hasNext()) {
             final IMoveable next = iterator.next();
-            this.removeFromBattlefield(next);
+            removeFromBattlefield(next);
         }
-        this.removeBuffer.clear();
+        removeBuffer.clear();
     }
 
     private void doMagellanJourney(final IMoveable moveable) {
@@ -113,16 +111,16 @@ public class Battlefield implements PropertyChangeListener, ICollideable {
      * @return Vector
      */
     public Vector getSize() {
-        return this.size;
+        return size;
     }
 
     public Vector getPosition() {
-        return new Vector(this.pos);
+        return new Vector(pos);
     }
 
     private boolean isOutOfBounds(final Vector position) {
         return position.getX() < 0
-                || position.getX() > this.size.getX()
+                || position.getX() > size.getX()
                 || position.getZ() < 0
                 || position.getZ() > size.getZ();
     }
@@ -130,15 +128,11 @@ public class Battlefield implements PropertyChangeListener, ICollideable {
     public void clearForNewRound() {
         for (IMoveable mov : hiddenMoveables) {
             mov.announceShow();
-
-            if (!moveables.contains(mov)) {
-                addToBattlefield(mov);
-            }
+            addToBattlefield(mov);
         }
-        moveables.addAll(hiddenMoveables);
         hiddenMoveables.clear();
 
-        final Iterator<IMoveable> iterator = this.moveables.iterator();
+        final Iterator<IMoveable> iterator = moveables.iterator();
         while (iterator.hasNext()) {
             final IMoveable mov = iterator.next();
             // Keep units but remove everything else
@@ -172,10 +166,10 @@ public class Battlefield implements PropertyChangeListener, ICollideable {
             return false;
         }
         final Battlefield other = (Battlefield) obj;
-        if (this.size != other.size && (this.size == null || !this.size.equals(other.size))) {
+        if (size != other.size && (size == null || !size.equals(other.size))) {
             return false;
         }
-        if (this.pos != other.pos && (this.pos == null || !this.pos.equals(other.pos))) {
+        if (pos != other.pos && (pos == null || !pos.equals(other.pos))) {
             return false;
         }
         return true;
@@ -184,8 +178,8 @@ public class Battlefield implements PropertyChangeListener, ICollideable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 37 * hash + (this.size != null ? this.size.hashCode() : 0);
-        hash = 37 * hash + (this.pos != null ? this.pos.hashCode() : 0);
+        hash = 37 * hash + (size != null ? size.hashCode() : 0);
+        hash = 37 * hash + (pos != null ? pos.hashCode() : 0);
         return hash;
     }
 

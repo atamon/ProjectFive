@@ -60,7 +60,7 @@ public class Main extends SimpleApplication {
         
         // clear gui from status-info such as fps
         setDisplayStatView(false);
-        this.guiNode.detachAllChildren(); 
+        guiNode.detachAllChildren(); 
         
         // Create MVC and make connections
         game = new Game();

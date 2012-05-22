@@ -36,7 +36,7 @@ public class CannonBall extends MoveableAbstract implements IObservable, IProjec
             final Unit owner) {
         body = new PhysicalCannonBall(this, position, direction, size, mass, speed);
         super.setBody(body);
-        this.pcs = super.getPropertyChangeSupport();
+        pcs = super.getPropertyChangeSupport();
         this.owner = owner;
     }
 

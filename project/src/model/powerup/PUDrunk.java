@@ -20,24 +20,24 @@ public class PUDrunk extends AbstractPowerUp {
     
     public PUDrunk() {
         super();
-        this.steerAngle = -Settings.getInstance().getSetting("steerAngle")*2;
-        this.lifeTime = 10;
+        steerAngle = -Settings.getInstance().getSetting("steerAngle")*2;
+        lifeTime = 10;
     }
 
     public void update(final float tpf) {
         if (lifeTime <= 0) {
             active = false;
         } else {
-            this.lifeTime -= tpf;
+            lifeTime -= tpf;
         }
     }
 
     public String getMessage() {
-        return this.message;
+        return message;
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     @Override

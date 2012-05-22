@@ -52,8 +52,8 @@ public class PlayerListener implements ActionListener, AnalogListener {
             }
         }
 
-        if (name.equals(this.layout.getUpMap())) {
-            this.player.accelerateUnit(isPressed);
+        if (name.equals(layout.getUpMap())) {
+            player.accelerateUnit(isPressed);
         }
 
         if (name.equals(layout.getLeftMap())) {
@@ -69,11 +69,11 @@ public class PlayerListener implements ActionListener, AnalogListener {
 
         if (game.getRoundState() == RoundState.PLAYING 
                 && game.getPlayer(player.getId()).canUnitFire()) {
-            if (name.equals(this.layout.getLeftFireMap())) {
-                this.player.increaseFirePowerLeft(value);
+            if (name.equals(layout.getLeftFireMap())) {
+                player.increaseFirePowerLeft(value);
             }
-            if (name.equals(this.layout.getRightFireMap())) {
-                this.player.increaseFirePowerRight(value);
+            if (name.equals(layout.getRightFireMap())) {
+                player.increaseFirePowerRight(value);
             }
         }
     }

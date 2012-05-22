@@ -88,11 +88,11 @@ public class Game implements IGame {
                 endRound();
             }
 
-            this.battlefield.update(tpf);
-            this.itemTimeout -= tpf;
+            battlefield.update(tpf);
+            itemTimeout -= tpf;
             if(itemTimeout <= 0 ){
-                this.createItem();
-                this.itemTimeout = Settings.getInstance().getSetting("itemTimeout");
+                createItem();
+                itemTimeout = Settings.getInstance().getSetting("itemTimeout");
             }
         }
         if (roundModel.getCountDown() > 0) {

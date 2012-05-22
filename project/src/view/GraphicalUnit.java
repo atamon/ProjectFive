@@ -33,7 +33,7 @@ public class GraphicalUnit extends GraphicalAbstract implements PropertyChangeLi
         rot.lookAt(dir, Vector3f.UNIT_Y);
         
         //We know that node only contains the model of the boat.
-        Node boatModelNode = (Node) this.node.getChild(0);
+        Node boatModelNode = (Node) node.getChild(0);
         Geometry sailGeometry = (Geometry) boatModelNode.getChild(1);
         setSailColor(color, sailGeometry);        
         

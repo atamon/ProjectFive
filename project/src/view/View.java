@@ -49,8 +49,8 @@ public class View implements PropertyChangeListener {
 
         this.jme3 = jme3;
         this.game = game;
-        this.assetManager = jme3.getAssetManager();
-        this.rootNode = jme3.getRootNode();
+        assetManager = jme3.getAssetManager();
+        rootNode = jme3.getRootNode();
 
         // Create scene
         createScene();
@@ -80,7 +80,7 @@ public class View implements PropertyChangeListener {
      * lighting and a gUint.
      */
     public void createScene() {
-        initGround(this.game.getBattlefieldSize(), this.game.getBattlefieldPosition());
+        initGround(game.getBattlefieldSize(), game.getBattlefieldPosition());
         initCamera();
         initLighting();
 

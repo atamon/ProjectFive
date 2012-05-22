@@ -63,8 +63,8 @@ public class JoinPlayerListener implements ActionListener {
             }
 
             if (!game.hasPlayer(id)) {
-                this.game.createPlayer(id);
-                Player player = this.game.getPlayer(id);
+                game.createPlayer(id);
+                Player player = game.getPlayer(id);
                 new PlayerListener(player, inpManager, game);
             }
         }
