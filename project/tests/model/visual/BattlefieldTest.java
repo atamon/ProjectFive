@@ -31,8 +31,8 @@ public class BattlefieldTest {
         movBall = new CannonBall(new Vector(unit.getPosition()),
                                           new Vector(unit.getDirection()),
                                           new Vector(0.1f, 0.1f, 0.1f),
-                                          (float)(Settings.getInstance().getSetting("cannonBallMass")),
-                                          (float)(Settings.getInstance().getSetting("cannonBallSpeed"))*1f, unit);
+                                          (Settings.getInstance().getSetting("cannonBallMass")),
+                                          (Settings.getInstance().getSetting("cannonBallSpeed"))*1f, unit);
     }
 
     /**
@@ -153,10 +153,10 @@ public class BattlefieldTest {
     @Test (expected=IllegalArgumentException.class)
     public void testGetStartingPosition() {
         Vector bfSize = new Vector(100, 1, 100);
-        Vector posZero = new Vector(85f, 3.9f, 85f);
-        Vector posOne = new Vector(15f, 3.9f, 15f);
-        Vector posTwo = new Vector(85f, 3.9f, 15f);
-        Vector posThree = new Vector(15f, 3.9f, 85f);
+        Vector posZero = new Vector(85f, 4f, 85f);
+        Vector posOne = new Vector(15f, 4f, 15f);
+        Vector posTwo = new Vector(85f, 4f, 15f);
+        Vector posThree = new Vector(15f, 4f, 85f);
         Vector result = Battlefield.getStartingPosition(0, bfSize);
         assertEquals(posZero, result);
         result = Battlefield.getStartingPosition(1, bfSize);

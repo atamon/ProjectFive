@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import physics.JMEPhysicsHandler;
 import math.Vector;
+import model.settings.Settings;
 import physics.ICollideable;
 import physics.IPhysicsHandler;
 
@@ -188,11 +189,13 @@ public class Battlefield implements PropertyChangeListener, ICollideable {
         return hash;
     }
 
-    public void collidedWith(ICollideable obj, float objImpactSpeed) {
+    @Override
+	public void collidedWith(ICollideable obj, float objImpactSpeed) {
         // Nothing to do here yet, all other objects handle collision with BF atm
     }
 
-    public void propertyChange(final PropertyChangeEvent evt) {
+    @Override
+	public void propertyChange(final PropertyChangeEvent evt) {
 
         if ("CannonBall Created".equals(evt.getPropertyName())) {
             IMoveable cb = (IMoveable) evt.getNewValue();
@@ -212,16 +215,15 @@ public class Battlefield implements PropertyChangeListener, ICollideable {
     }
 
     public static Vector getStartingPosition(int playerID, Vector bfSize) {
-        float corrHeight = bfSize.getY() + 1.9f;
-        Vector upLeft = new Vector(bfSize);
-        Vector downLeft = new Vector(upLeft.getX(), upLeft.getY(), 0);
-        Vector upRight = new Vector(0, upLeft.getY(), upLeft.getX());
-        Vector downRight = new Vector(15f, upLeft.getY() + corrHeight, 15f);
-
-        // We want the starting positions a bit more towards the center
-        upLeft.add(new Vector(-15f, corrHeight, -15f));
-        downLeft.add(new Vector(-15f, corrHeight, 15f));
-        upRight.add(new Vector(15f, corrHeight, -15f));
+        float margin = 15f;
+        float maxX = bfSize.getX();
+        float height = bfSize.getY()+Settings.getInstance().getSetting("unitSize");
+        float maxZ = bfSize.getZ();
+        
+        Vector upLeft = new Vector(maxX-margin,height,maxZ-margin);
+        Vector downLeft = new Vector(maxX-margin, height, margin);
+        Vector upRight = new Vector(margin, height, maxZ- margin);
+        Vector downRight = new Vector(margin, height, margin);
 
         Vector position;
         switch (playerID) {
