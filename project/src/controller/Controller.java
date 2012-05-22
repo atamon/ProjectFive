@@ -8,16 +8,11 @@ import controller.listeners.GlobalListener;
 import controller.listeners.LeavePlayerListener;
 import controller.listeners.JoinPlayerListener;
 import com.jme3.input.InputManager;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import model.IGame;
-import model.settings.Settings;
 import view.View;
 
 /**
- * A class to represent a Controller
- *
- * @author Victor Lindhé @modified johnhu
+ * A class to represent a Controller.
  */
 public class Controller {
 

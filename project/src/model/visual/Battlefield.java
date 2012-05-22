@@ -21,8 +21,9 @@ public class Battlefield implements PropertyChangeListener, ICollideable {
     private final Vector pos = new Vector(0, 0, 0);
     private final IPhysicsHandler physHandler = new JMEPhysicsHandler();
     private final List<IMoveable> moveables = new LinkedList<IMoveable>();
+    private final List<IMoveable> hiddenMoveables = new LinkedList<IMoveable>();
     private final List<IMoveable> removeBuffer = new LinkedList<IMoveable>();
-    
+
     /**
      * Creates a Battlefield with default size (100,100) and an Item.
      */
@@ -65,11 +66,11 @@ public class Battlefield implements PropertyChangeListener, ICollideable {
         mov.removePropertyChangeListener(this);
         moveables.remove(mov);
     }
-    
+
     public void update(final float tpf) {
         Iterator<IMoveable> iterator = moveables.iterator();
         while (iterator.hasNext()) {
-            
+
             final IMoveable next = iterator.next();
             next.update(tpf);
             if (next.getClass() == Unit.class && this.isOutOfBounds(next.getPosition())) {
@@ -77,18 +78,19 @@ public class Battlefield implements PropertyChangeListener, ICollideable {
             }
         }
         this.physHandler.update(tpf);
-        
+
         clearRemoveBuffer();
     }
 
-    private void clearRemoveBuffer(){
-        Iterator<IMoveable> iterator  = this.removeBuffer.iterator();
-        while (iterator.hasNext()){
+    private void clearRemoveBuffer() {
+        Iterator<IMoveable> iterator = this.removeBuffer.iterator();
+        while (iterator.hasNext()) {
             final IMoveable next = iterator.next();
             this.removeFromBattlefield(next);
         }
         this.removeBuffer.clear();
     }
+
     private void doMagellanJourney(final IMoveable moveable) {
         Vector moddedPos = new Vector(moveable.getPosition());
         moddedPos.setX(moddedPos.getX() % size.getX());
@@ -125,13 +127,21 @@ public class Battlefield implements PropertyChangeListener, ICollideable {
     }
 
     public void clearForNewRound() {
+        for (IMoveable mov : hiddenMoveables) {
+            mov.announceShow();
+
+            if (!moveables.contains(mov)) {
+                addToBattlefield(mov);
+            }
+        }
+        moveables.addAll(hiddenMoveables);
+        hiddenMoveables.clear();
+
         final Iterator<IMoveable> iterator = this.moveables.iterator();
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             final IMoveable mov = iterator.next();
             // Keep units but remove everything else
-            if (mov.getClass() == Unit.class) {
-                mov.hide();
-            } else {
+            if (mov.getClass() != Unit.class) {
                 mov.announceRemoval();
             }
         }
@@ -177,7 +187,7 @@ public class Battlefield implements PropertyChangeListener, ICollideable {
         hash = 37 * hash + (this.pos != null ? this.pos.hashCode() : 0);
         return hash;
     }
-    
+
     public void collidedWith(ICollideable obj, float objImpactSpeed) {
         // Nothing to do here yet, all other objects handle collision with BF atm
     }
@@ -189,8 +199,14 @@ public class Battlefield implements PropertyChangeListener, ICollideable {
             addToBattlefield(cb);
         }
 
-        if("Visual Removed".equals(evt.getPropertyName())){
+        if ("Visual Removed".equals(evt.getPropertyName())) {
             IMoveable mov = (IMoveable) evt.getNewValue();
+            removeBuffer.add(mov);
+        }
+
+        if ("Hide Moveable".equals(evt.getPropertyName())) {
+            IMoveable mov = (IMoveable) evt.getNewValue();
+            hiddenMoveables.add(mov);
             removeBuffer.add(mov);
         }
     }

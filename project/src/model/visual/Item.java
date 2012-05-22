@@ -4,16 +4,13 @@
  */
 package model.visual;
 
-import java.beans.PropertyChangeSupport;
 import model.powerup.IPowerUp;
 import math.Vector;
-import model.settings.Settings;
 import physics.*;
 
 /**
  * A class to represent an immutable Item.
  *
- * @author Victor Lindhé
  */
 public final class Item extends Bottle {
 

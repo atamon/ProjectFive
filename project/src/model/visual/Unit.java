@@ -14,7 +14,6 @@ import physics.PhysicalUnit;
 /**
  * A unit. Probably a ship.
  *
- * @author Johannes Wikner @modified Victor Lindhé, johnhu
  */
 public class Unit extends MoveableAbstract implements IObservable {
 
@@ -61,7 +60,6 @@ public class Unit extends MoveableAbstract implements IObservable {
                 steer(tpf);
             } else {
                 hitPoints -= tpf / hullStrength;
-                pcs.firePropertyChange("Unit sinking", null, tpf);
             }
         }
         if (this.powerUp != null) {
@@ -71,6 +69,11 @@ public class Unit extends MoveableAbstract implements IObservable {
                 this.removePowerUp();
             }
         }
+        
+        if (hitPoints <= 0) {
+            announceHide();
+        }
+        
         this.fireDelay = fireDelay <= 0 ? 0 : fireDelay - tpf;
     }
 
@@ -175,7 +178,7 @@ public class Unit extends MoveableAbstract implements IObservable {
      * @return
      */
     public boolean isDeadAndBuried() {
-        return body.getPosition().equals(Vector.NONE_EXISTANT);
+        return hitPoints <= 0;
     }
 
     public void collidedWith(ICollideable obj, float objImpactSpeed) {

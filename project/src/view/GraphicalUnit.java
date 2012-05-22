@@ -14,9 +14,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
- * A class to hold a Mesh.
- *
- * @author Victor Lindhé
+ * A class to represent a graphical unit.
  */
 public class GraphicalUnit extends GraphicalAbstract implements PropertyChangeListener {
     
@@ -46,15 +44,6 @@ public class GraphicalUnit extends GraphicalAbstract implements PropertyChangeLi
     @Override
     public void updatePosition(Vector3f pos) {
         super.updatePosition(pos.subtract(0, depthSunk, 0));
-    }
-    
-    @Override
-    public void propertyChange(PropertyChangeEvent pce) {
-        super.propertyChange(pce);
-        
-        if("Unit sinking".equals(pce.getPropertyName())) {
-            depthSunk += (Float) pce.getNewValue() * 5;
-        }
     }
     
     private static void setSailColor(final ColorRGBA color, final Geometry sail) {

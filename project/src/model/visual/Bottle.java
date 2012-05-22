@@ -10,8 +10,7 @@ import model.settings.Settings;
 import physics.PhysicalItem;
 
 /**
- *
- * @author atamon
+ * Class to represent a bottle.
  */
 public abstract class Bottle extends MoveableAbstract {
 

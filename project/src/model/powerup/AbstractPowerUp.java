@@ -8,9 +8,8 @@ import math.Vector;
 import model.settings.Settings;
 
 /**
- *
- * @author jnes
- */
+ *  Common methods for PowerUps.
+ **/
 public abstract class AbstractPowerUp implements IPowerUp {
     
     protected float lifeTime;

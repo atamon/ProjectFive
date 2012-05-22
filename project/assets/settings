@@ -3,7 +3,7 @@
 // String should be written like a javavariable following all conventions.
 
 [DEFAULT]
-roundDelay:5
+roundDelay:1
 hitPointsMax:100
 numberOfRounds:5
 steerAngle:1
@@ -23,7 +23,7 @@ fireDelay:180
 hullStrength:1000
 itemTimeout:10
 itemLifeTime:10
-molotovPercent:10
+molotovPercent:100
 molotovDamage:1
 molotovForce:250
 

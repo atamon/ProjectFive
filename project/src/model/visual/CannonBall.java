@@ -9,13 +9,11 @@ import observable.IObservable;
 import math.Vector;
 import physics.ICollideable;
 import physics.IPhysicalBody;
-import physics.IPhysicalModel;
 import physics.PhysicalCannonBall;
 
 /**
  * A class to represent a CannonBall.
  *
- * @author victorlindhe
  */
 public class CannonBall extends MoveableAbstract implements IObservable, IProjectile {
     private final Unit owner;
@@ -61,7 +59,7 @@ public class CannonBall extends MoveableAbstract implements IObservable, IProjec
     }
     
     public void collidedWith(ICollideable obj, float objImpactSpeed) {
-        // On crash we just disappear, Unit takes care of damage
+
         if (!(obj instanceof Item)){
             announceRemoval();
         }

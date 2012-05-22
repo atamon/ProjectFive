@@ -24,7 +24,7 @@ import org.junit.BeforeClass;
  * @author victorlindhe
  */
 public class PiratePlayerModelTest {
-    private PlayerModel pModel;
+    private IPlayerModel pModel;
     private Battlefield bField = new Battlefield();
     PropertyChangeListener listener = new PropertyChangeListener() {
 

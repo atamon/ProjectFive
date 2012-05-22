@@ -17,10 +17,9 @@ import model.visual.Battlefield;
 import model.visual.Unit;
 
 /**
- *
- * @author victorlindhe
- */
-public class PiratePlayerModel implements PlayerModel {
+ *  A class to handle players in our pirate game.
+ **/
+public class PiratePlayerModel implements IPlayerModel {
     
     // A game is never startable without 2 players at this setVelocity
     public static final int VALID_PLAYER_AMOUNT = 2;
@@ -39,7 +38,6 @@ public class PiratePlayerModel implements PlayerModel {
             throw new RuntimeException("ERROR: Tried to remove invalid player: " + id);
         }
         Unit unit = playerMap.get(id).getUnit();
-        unit.setPosition(Vector.NONE_EXISTANT);
         unit.announceRemoval();
         battlefield.removeFromBattlefield(unit);
         playerMap.remove(id);
@@ -120,21 +118,7 @@ public class PiratePlayerModel implements PlayerModel {
     }
     
     public boolean gameOver() {
-        return lookForDeadUnits();
-    }
-
-    private boolean lookForDeadUnits() {
-        // Check for Units with 0 HP
-        Collection<Player> players = playerMap.values();
-        for (Player player : players) {
-            Unit unit = player.getUnit();
-            if (unit.getHitPoints() <= 0
-                    && !unit.isDeadAndBuried()) {
-                unit.hide();
-                return lookForLastManStanding(players);
-            }
-        }
-        return false;
+        return lookForLastManStanding((Collection<Player>) playerMap.values());
     }
 
     private boolean lookForLastManStanding(Collection<Player> players) {
@@ -144,7 +128,7 @@ public class PiratePlayerModel implements PlayerModel {
                 alivePlayers++;
             }
         }
-        if (alivePlayers == LAST_MAN_STANDING) {
+        if (alivePlayers == LAST_MAN_STANDING || alivePlayers == 0) {
             return true;
         }
         return false;

@@ -5,9 +5,8 @@
 package model.powerup;
 
 /**
- *
- * @author johnhu
- */
+ *  PowerUp that makes the steering harder.
+ **/
 public class PUTurn extends AbstractPowerUp {
 
     private String name = "Turn";

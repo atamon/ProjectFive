@@ -1,11 +1,8 @@
 package math;
 
 /**
- * A mutable Vector for the room (2 dimensions).
- * @author Victor Lindhé
- * @modified by Anton Lindgren
- * @tested by Anton Lindgren
- */
+ * A mutable Vector for the room (3 dimensions).
+ **/
 public class Vector {
     public static final Vector ZERO_VECTOR = new Vector(0, 0, 0);
     

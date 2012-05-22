@@ -4,14 +4,11 @@
  */
 package model.settings;
 
-import java.util.HashMap;
 import java.util.Map;
-import model.settings.SettingNotFoundException;
 
 /**
- *
- * @author CaptainAwesome
- */
+ *  Singleton class that imports settings.
+ **/
 public class Settings {
     
     private Map<String, Integer> settings;

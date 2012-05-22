@@ -3,8 +3,7 @@ package physics;
 import math.Vector;
 
 /**
- *
- * @author atamon
+ * Necessary methods for using a physics world.
  */
 public interface IPhysicsHandler {
 

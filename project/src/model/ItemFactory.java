@@ -12,7 +12,6 @@ import model.visual.Item;
 
 /**
  * A factory to class that creates a new Item.
- * @author Victor Lindhé
  */
 public class ItemFactory {
     private List<IPowerUp> powerUps = new ArrayList<IPowerUp>();

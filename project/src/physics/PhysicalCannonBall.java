@@ -4,18 +4,12 @@
  */
 package physics;
 
-import com.jme3.bullet.collision.shapes.BoxCollisionShape;
 import com.jme3.bullet.objects.PhysicsRigidBody;
 import com.jme3.math.Vector3f;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import math.Vector;
-import math.Direction;
-import math.MonkeyConverter;
 
 /**
- * A body to represent our models in the physical world
- * @author atamon
+ * A class to represent a physical cannonball.
  */
 public class PhysicalCannonBall extends PhysicalAbstractBody {
     

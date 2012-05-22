@@ -7,10 +7,9 @@ package controller.keymaps;
 import com.jme3.input.KeyInput;
 
 /**
- *
- * @author johnhu
- */
-public class PlayerTwoKeys implements KeyPlayable {
+ * Keys for player 2.
+ **/
+public class PlayerTwoKeys implements IKeyPlayable {
 
     public static final int KEY_JOIN = KeyInput.KEY_Y;
     public static final int KEY_LEAVE = KeyInput.KEY_H;

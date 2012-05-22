@@ -10,9 +10,7 @@ import com.jme3.math.Vector3f;
 import math.Vector;
 
 /**
- * A body to represent our models in the physical world
- *
- * @author atamon
+ * A class to represent a physical unit.
  */
 public class PhysicalUnit extends PhysicalAbstractBody {
     

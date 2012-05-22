@@ -1,8 +1,7 @@
 package physics;
 
 /**
- *
- * @author atamon
+ * Interface for a collideable body.
  */
 public interface ICollideable {
 

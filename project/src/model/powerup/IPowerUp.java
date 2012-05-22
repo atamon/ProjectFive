@@ -2,9 +2,9 @@
 package model.powerup;
 
 /**
- * A powerUp must have these attributes. 
- * @author jnes
- */
+ *  Interface with necessary methods for PowerUps.
+ **/
+
 public interface IPowerUp extends Cloneable {
     public void update(final float tpf); // i.e. update lifetime
     public String getMessage();

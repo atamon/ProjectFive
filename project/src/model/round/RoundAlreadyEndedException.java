@@ -5,9 +5,8 @@
 package model.round;
 
 /**
- *
- * @author atamon
- */
+ * Exception to be thrown if round already ended.
+ **/
 public class RoundAlreadyEndedException extends Exception {
     
     public RoundAlreadyEndedException() {

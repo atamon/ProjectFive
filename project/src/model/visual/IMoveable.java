@@ -4,14 +4,12 @@
  */
 package model.visual;
 
-import java.beans.PropertyChangeListener;
 import physics.IPhysicalModel;
 import math.Vector;
 import observable.IObservable;
 
 /**
- *
- * @author Johannes
+ * Interface with methods to control a moveable unit.
  */
 public interface IMoveable extends IPhysicalModel, IObservable {
     public void setPosition(Vector pos);
@@ -19,6 +17,7 @@ public interface IMoveable extends IPhysicalModel, IObservable {
     public Vector getPosition();
     public Vector getDirection();
     public void update(float tpf);
-    public void hide();
+    public void announceShow();
+    public void announceHide();
     public void announceRemoval();
 }

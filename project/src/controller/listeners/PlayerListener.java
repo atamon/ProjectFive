@@ -8,19 +8,18 @@ import com.jme3.input.InputManager;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.AnalogListener;
 import com.jme3.input.controls.KeyTrigger;
-import controller.keymaps.KeyPlayable;
+import controller.keymaps.IKeyPlayable;
 import model.IGame;
 import model.player.Player;
 import model.round.RoundState;
 
 /**
- *
- * @author victorlindhe @modified johnhu
- */
+ * Listens to a specific Player.
+ **/
 public class PlayerListener implements ActionListener, AnalogListener {
 
     private Player player;
-    private KeyPlayable layout;
+    private IKeyPlayable layout;
     private IGame game;
 
     public PlayerListener(Player player, InputManager inpManager, IGame game) {

@@ -16,7 +16,7 @@ import math.MonkeyConverter;
 
 /**
  *
- * @author atamon
+ * Common stuff for all physical bodies.
  */
 public abstract class PhysicalAbstractBody implements IPhysicalBody {
 
