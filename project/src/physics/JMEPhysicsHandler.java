@@ -59,14 +59,13 @@ public class JMEPhysicsHandler implements PhysicsCollisionListener, IPhysicsHand
     @Override
     public void removeFromWorld(IPhysicalBody object) {
         physicsSpace.removeCollisionObject(object.getBody());
-        rigidBodies.remove(object);
+        rigidBodies.remove(object.getBody());
     }
 
     @Override
     public void update(float tpf) {
         physicsSpace.update(tpf);
         bulletAppState.update(tpf);
-
         for (PhysicsRigidBody body : rigidBodies) {
             IPhysicalModel unit = (IPhysicalModel) body.getUserObject();
             unit.getPhysicalObject().updated();

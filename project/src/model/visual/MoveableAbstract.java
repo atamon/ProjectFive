@@ -99,11 +99,6 @@ public abstract class MoveableAbstract implements IMoveable {
         maxSpeed = (int)speed;
     }
 
-    public void hide() {
-        halt();
-        setPosition(Vector.NONE_EXISTANT);
-    }
-
     public void halt() {
         body.halt();
     }
@@ -154,6 +149,14 @@ public abstract class MoveableAbstract implements IMoveable {
     
     public IPhysicalBody getPhysicalObject() {
         return body;
+    }
+    
+    public void announceShow() {
+        pcs.firePropertyChange("Show Moveable", null, this);
+    }
+    
+    public void announceHide() {
+        pcs.firePropertyChange("Hide Moveable", null, this);
     }
 
     public void announceRemoval(){

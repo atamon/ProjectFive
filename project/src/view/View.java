@@ -166,6 +166,7 @@ public class View implements PropertyChangeListener {
 
         // Attach it
         rootNode.attachChild(gUnit.getNode());
+        gUnit.provideParent(rootNode);
     }
 
     private void createPlayer(Player player) {
@@ -208,6 +209,7 @@ public class View implements PropertyChangeListener {
                 MonkeyConverter.convertToMonkey3D(cannonBall.getSize()), assetManager,
                 null);
         rootNode.attachChild(graphicalBall.getNode());
+        graphicalBall.provideParent(rootNode);
         cannonBall.addPropertyChangeListener(graphicalBall);
     }
 
@@ -220,6 +222,7 @@ public class View implements PropertyChangeListener {
                     blenderBottle.clone(true));
         }
         rootNode.attachChild(graphicalItem.getNode());
+        graphicalItem.provideParent(rootNode);
         bottle.addPropertyChangeListener(graphicalItem);
     }
 

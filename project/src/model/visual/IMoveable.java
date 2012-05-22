@@ -19,6 +19,7 @@ public interface IMoveable extends IPhysicalModel, IObservable {
     public Vector getPosition();
     public Vector getDirection();
     public void update(float tpf);
-    public void hide();
+    public void announceShow();
+    public void announceHide();
     public void announceRemoval();
 }

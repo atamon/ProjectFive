@@ -3,8 +3,8 @@
 // String should be written like a javavariable following all conventions.
 
 [DEFAULT]
-roundDelay:5
-hitPointsMax:100
+roundDelay:1
+hitPointsMax:1
 numberOfRounds:5
 steerAngle:1
 acceleration:3500
