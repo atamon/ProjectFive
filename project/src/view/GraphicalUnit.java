@@ -48,15 +48,6 @@ public class GraphicalUnit extends GraphicalAbstract implements PropertyChangeLi
         super.updatePosition(pos.subtract(0, depthSunk, 0));
     }
     
-    @Override
-    public void propertyChange(PropertyChangeEvent pce) {
-        super.propertyChange(pce);
-        
-        if("Unit sinking".equals(pce.getPropertyName())) {
-            depthSunk += (Float) pce.getNewValue() * 5;
-        }
-    }
-    
     private static void setSailColor(final ColorRGBA color, final Geometry sail) {
         sail.getMaterial().setColor("Ambient", color);
     }
