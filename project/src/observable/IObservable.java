@@ -1,13 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package observable;
 
 import java.beans.PropertyChangeListener;
 
 /**
- * Interface for listenable classes.
+ * Interface for observable classes.
  */
 public interface IObservable {
     

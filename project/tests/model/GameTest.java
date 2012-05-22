@@ -1,27 +1,17 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
 import model.settings.SettingsLoader;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import math.Vector;
 import model.player.Player;
-import model.round.IRoundModel;
 import model.round.RoundState;
-import model.round.SimpleRoundModel;
 import model.settings.Settings;
 import model.visual.Battlefield;
-import model.visual.Item;
-import model.visual.Unit;
 import org.junit.*;
 import static org.junit.Assert.*;
 
 /**
- *
- * @author victorlindhe
+ * Test class for Game
  */
 public class GameTest {
     private Game game;

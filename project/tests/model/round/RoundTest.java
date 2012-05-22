@@ -1,17 +1,11 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package model.round;
 
 import model.player.Player;
 import org.junit.*;
 import static org.junit.Assert.*;
-import model.round.RoundAlreadyStartedException;
 
 /**
  * Tests Round.
- * @author victorlindhe
  */
 public class RoundTest {
     private Round round;

@@ -1,11 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package model.powerup;
-
-import math.Vector;
-import model.settings.Settings;
 
 /**
  *  Common methods for PowerUps.

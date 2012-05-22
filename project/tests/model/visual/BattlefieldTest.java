@@ -8,8 +8,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
- * @author victorlindhe
+ * Test class for Battlefield
  */
 public class BattlefieldTest {
 

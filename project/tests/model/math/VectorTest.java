@@ -7,7 +7,6 @@ import static org.junit.Assert.*;
 /**
  * Test class for Vector.java
  *
- * @author Anton Lindgren
  */
 public class VectorTest {
 
