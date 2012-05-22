@@ -7,9 +7,8 @@ package model.powerup;
 import model.settings.Settings;
 
 /**
- *
- * @author johnhu
- */
+ *  PowerUp that makes crew drunk.
+ **/
 public class PUDrunk extends AbstractPowerUp {
 
     private String name = "Drunk";

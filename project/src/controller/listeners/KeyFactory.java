@@ -4,7 +4,7 @@
  */
 package controller.listeners;
 
-import controller.keymaps.KeyPlayable;
+import controller.keymaps.IKeyPlayable;
 import controller.keymaps.PlayerZeroKeys;
 import controller.keymaps.PlayerTwoKeys;
 import controller.keymaps.PlayerOneKeys;
@@ -13,12 +13,10 @@ import model.player.Player;
 
 
 /**
- *
- * @author victorlindhe
- * @modified johnhu
- */
+ *  Creates IKeyPlayables.
+ **/
 public class KeyFactory {
-    public static KeyPlayable getPlayerKeys(Player player) {
+    public static IKeyPlayable getPlayerKeys(Player player) {
         if(player.getId() == 0) {
             return new PlayerZeroKeys();
         } else if (player.getId() == 1) {

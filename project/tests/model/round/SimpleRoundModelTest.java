@@ -18,7 +18,7 @@ import org.junit.BeforeClass;
  * @author victorlindhe
  */
 public class SimpleRoundModelTest {
-    private RoundModel rModel;
+    private IRoundModel rModel;
 
     @Before
     public void setUp() throws Exception {

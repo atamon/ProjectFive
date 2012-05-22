@@ -3,7 +3,6 @@ package model;
 import java.awt.Color;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import model.player.Player;
@@ -32,8 +31,8 @@ public class Game implements IGame {
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private GameState gameState = GameState.INACTIVE;
 
-    private final RoundModel roundModel;
-    private final PlayerModel playerModel;
+    private final IRoundModel roundModel;
+    private final IPlayerModel playerModel;
     
     private final ItemFactory itemFactory;
     private float itemTimeout = 5f;

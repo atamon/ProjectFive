@@ -7,9 +7,8 @@ package model.powerup;
 import model.settings.Settings;
 
 /**
- *
- * @author johnhu
- */
+ *  PowerUp with health points.
+ **/
 public class PUHealth extends AbstractPowerUp {
 
     private final String name = "Health";

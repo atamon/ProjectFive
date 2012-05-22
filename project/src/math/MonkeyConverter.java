@@ -11,9 +11,7 @@ import math.Vector;
 
 /**
  * A class with tools.
- * @author Victor Lindhé
- * @modified johnhu
- */
+ **/
 public abstract class MonkeyConverter {
     public static Vector3f convertToMonkey3D(Vector vector) {
         return new Vector3f(vector.getX(), vector.getY(), vector.getZ());

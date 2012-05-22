@@ -14,7 +14,6 @@ import java.util.Map;
 /**
  * Loads stored settings from text-file and converts it into a HashMap.
  *
- * @author Anton Lindgren
  */
 public abstract class SettingsLoader {
 

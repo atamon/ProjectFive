@@ -10,7 +10,7 @@ import physics.ICollideable;
 
 /**
  *
- * @author atamon
+ * Class to represent a molotov cocktail on the battlefield.
  */
 public class Molotov extends Bottle implements IProjectile {
     

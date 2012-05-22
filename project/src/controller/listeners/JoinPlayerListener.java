@@ -5,7 +5,6 @@
 package controller.listeners;
 
 import com.jme3.input.InputManager;
-import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
 import controller.keymaps.PlayerOneKeys;
@@ -19,9 +18,8 @@ import model.IGame;
 import model.player.Player;
 
 /**
- *
- * @author atamon
- */
+ * A listener that listens after joining players.
+ **/
 public class JoinPlayerListener implements ActionListener {
 
     private final Map<Integer, KeyTrigger> joinKeys = new HashMap<Integer, KeyTrigger>();

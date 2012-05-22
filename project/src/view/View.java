@@ -30,8 +30,7 @@ import model.visual.Molotov;
 import model.visual.Unit;
 
 /**
- *
- * @author Anton Lindgren @modified johnhu
+ * Main View class. Contains all graphics.
  */
 public class View implements PropertyChangeListener {
 

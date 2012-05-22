@@ -17,10 +17,9 @@ import model.visual.Battlefield;
 import model.visual.Unit;
 
 /**
- *
- * @author victorlindhe
- */
-public class PiratePlayerModel implements PlayerModel {
+ *  A class to handle players in our pirate game.
+ **/
+public class PiratePlayerModel implements IPlayerModel {
     
     // A game is never startable without 2 players at this setVelocity
     public static final int VALID_PLAYER_AMOUNT = 2;

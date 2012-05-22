@@ -5,9 +5,8 @@
 package model.round;
 
 /**
- *
- * @author atamon
- */
+ * Enumeration for round states.
+ **/
 public enum RoundState {
     NONE_EXISTANT (-1),
     PLAYING (0),

@@ -14,9 +14,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
- * A class to hold a Mesh.
- *
- * @author Victor Lindhé
+ * A class to represent a graphical unit.
  */
 public class GraphicalUnit extends GraphicalAbstract implements PropertyChangeListener {
     

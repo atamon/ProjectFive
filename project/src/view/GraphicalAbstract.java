@@ -11,8 +11,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
- *
- * @author victorlindhe
+ * Common stuff for all graphical objects.
  */
 public abstract class GraphicalAbstract implements PropertyChangeListener {
 

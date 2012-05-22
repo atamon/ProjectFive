@@ -8,10 +8,9 @@ import java.util.Collection;
 import model.player.Player;
 
 /**
- *
- * @author victorlindhe
+ * Interface for round handling.
  */
-public interface RoundModel {
+public interface IRoundModel {
     public void newRound();
     public void startRound();
     public void pause();

@@ -5,9 +5,8 @@
 package model.powerup;
 
 /**
- *
- * @author jnes
- */
+ *  PowerUp that has nothing.
+ **/
 public class PUEmpty extends AbstractPowerUp {
 
     public PUEmpty() {

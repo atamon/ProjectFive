@@ -9,12 +9,10 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import observable.IObservable;
 
 /**
  * Singleton Status Box that can show information about what's happening in the game
- * @author jnes
  */
 public final class StatusBox implements IObservable  {
     public static final Color STATUS_MESSAGE_COLOR = Color.GRAY;

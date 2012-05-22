@@ -4,7 +4,6 @@
  */
 package controller.listeners;
 
-import com.jme3.app.SimpleApplication;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
@@ -14,9 +13,8 @@ import model.IGame;
 import model.round.RoundState;
 
 /**
- *
- * @author johnhu
- */
+ * Listener for entire application.
+ **/
 public class GlobalListener implements ActionListener {
 
     private IGame game;

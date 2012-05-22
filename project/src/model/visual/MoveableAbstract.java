@@ -10,11 +10,9 @@ import model.settings.Settings;
 import math.Vector;
 import physics.ICollideable;
 import physics.IPhysicalBody;
-import physics.PhysicalUnit;
 
 /**
- *
- * @author johannes wikner
+ * Abstract class for moveable units on battlefield.
  */
 public abstract class MoveableAbstract implements IMoveable {
 

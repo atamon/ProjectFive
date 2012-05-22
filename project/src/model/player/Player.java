@@ -13,9 +13,7 @@ import model.visual.Unit;
 
 /**
  * A simple class thats meant to bind a unit for each player.
- *
- * @author John Hult @tested Victor Lindhé @modified Victor Lindhé
- */
+ **/
 public class Player implements IObservable {
     
     public static final Player NONE = new Player();

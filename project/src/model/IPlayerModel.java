@@ -5,15 +5,13 @@
 package model;
 
 import java.util.Map;
-import math.Vector;
 import model.player.Player;
 import observable.IObservable;
 
 /**
- *
- * @author victorlindhe
- */
-public interface PlayerModel extends IObservable {
+ *  Interface with necessary methods to control Players.
+ **/
+public interface IPlayerModel extends IObservable {
     public void removePlayer(int id);
     public boolean hasPlayer(int id);
     public Player getPlayer(int playerID);

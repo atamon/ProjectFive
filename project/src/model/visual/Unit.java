@@ -13,7 +13,6 @@ import physics.PhysicalUnit;
 /**
  * A unit. Probably a ship.
  *
- * @author Johannes Wikner @modified Victor Lindhé, johnhu
  */
 public class Unit extends MoveableAbstract implements IObservable {
 

@@ -7,22 +7,14 @@ package view;
 import com.jme3.app.SimpleApplication;
 import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.post.FilterPostProcessor;
-import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import de.lessvoid.nifty.Nifty;
-import de.lessvoid.nifty.effects.EffectEventId;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.elements.render.TextRenderer;
-import java.awt.Color;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import math.Vector;
-import model.visual.Battlefield;
 import model.visual.StatusBox;
-import math.MonkeyConverter;
 import de.lessvoid.nifty.screen.Screen;
 import java.util.*;
 import model.GameState;
@@ -31,8 +23,7 @@ import model.round.RoundState;
 import model.visual.StatusBox.Message;
 
 /**
- *
- * @author victorlindhe
+ * Class to control the GUI.
  */
 public class GUIController implements PropertyChangeListener {
 

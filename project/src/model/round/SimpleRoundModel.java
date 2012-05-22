@@ -10,10 +10,9 @@ import java.util.Map;
 import model.player.Player;
 
 /**
- *
- * @author victorlindhe
- */
-public class SimpleRoundModel implements RoundModel {
+ *  Class to handle rounds in pirate game.
+ **/
+public class SimpleRoundModel implements IRoundModel {
     private Round currentRound;
     private final Map<Integer, Round> playedRounds = new HashMap<Integer, Round>();
     private float roundCountdown;

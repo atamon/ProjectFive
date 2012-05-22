@@ -5,9 +5,8 @@
 package model;
 
 /**
- *
- * @author atamon
- */
+ *  Represents different game states.
+ **/
 public enum GameState {
     ACTIVE (1),
     INACTIVE (0),
