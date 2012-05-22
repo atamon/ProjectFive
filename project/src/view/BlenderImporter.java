@@ -15,7 +15,7 @@ import com.jme3.scene.plugins.blender.BlenderModelLoader;
 import java.util.List;
 
 /**
- * Class to mport Blender files.
+ * Class to import Blender files.
  */
 public abstract class BlenderImporter {
 

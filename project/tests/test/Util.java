@@ -4,10 +4,6 @@
  */
 package test;
 
-/**
- *
- * @author Anton Lindgren
- */
 public class Util {
 
     /**

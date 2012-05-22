@@ -13,8 +13,6 @@ import physics.IPhysicsHandler;
 
 /**
  * A class to represent a Battlefield.
- *
- * @author Victor Lindhé @modified johnnes
  */
 public class Battlefield implements PropertyChangeListener, ICollideable {
 
