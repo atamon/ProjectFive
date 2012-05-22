@@ -36,7 +36,7 @@ public class Game implements IGame {
     private final PlayerModel playerModel;
     
     private final ItemFactory itemFactory;
-    private float itemTimeout = 5f;
+    private float itemTimeout;
     
     /**
      * Create a game with given parameters. A game consists of a number of
@@ -245,7 +245,13 @@ public class Game implements IGame {
         }
 
         for (Player player : playerWins.keySet()) {
-            StatusBox.getInstance().message(player.getId() + " won " + playerWins.get(player) + " rounds!");
+            String message = "";
+            if (player.getId() == -1){
+                message = playerWins.get(player) + " round(s) ended draw";
+            } else {
+                message = player.getId() + " won " + playerWins.get(player) + " rounds!";
+            }
+            StatusBox.getInstance().message(message);
         }
         // We have ended the game so it is now STATS
         gameState = GameState.STATS;

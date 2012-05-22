@@ -2,7 +2,7 @@
 package model.powerup;
 
 /**
- *
+ * A powerUp must have these attributes. 
  * @author jnes
  */
 public interface IPowerUp extends Cloneable {
@@ -29,7 +29,7 @@ public interface IPowerUp extends Cloneable {
     public void setActive(final boolean active);
 
     public int getDamage();
-
+    
     public IPowerUp clone();
 
 }

@@ -1,5 +1,6 @@
 package model.visual;
 
+import com.jme3.cinematic.events.ScaleTrack;
 import java.beans.PropertyChangeSupport;
 import math.Direction;
 import math.Vector;
@@ -53,6 +54,7 @@ public class Unit extends MoveableAbstract implements IObservable {
      * @param tpf Updatefrequency, i.e. time since last frame
      */
     public void update(final float tpf) {
+        System.out.println(body.getPosition());
         if (getPosition().getY() < FLYING_HEIGHT) {
             if (body.canNavigate()) {
                 accelerate(isAccelerating, tpf);
@@ -235,6 +237,7 @@ public class Unit extends MoveableAbstract implements IObservable {
         acceleration -= powerUp.getAcceleration();
         this.maxSpeed -= powerUp.getMaxSpeed();
         this.steerAngle -= powerUp.getSteerAngle();
+        
         this.powerUp = new PUEmpty();
     }
 

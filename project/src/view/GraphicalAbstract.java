@@ -39,10 +39,6 @@ public abstract class GraphicalAbstract implements PropertyChangeListener{
             updateRotation((Quaternion)pce.getNewValue());
         }
         
-        if("Physical Rescaled".equals(pce.getPropertyName())){
-            node.setLocalScale((Vector3f)pce.getNewValue());
-        }
-        
         if("Visual Removed".equals(pce.getPropertyName())){
             node.removeFromParent();
         }
