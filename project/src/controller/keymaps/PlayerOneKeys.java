@@ -27,7 +27,7 @@ public class PlayerOneKeys implements IKeyPlayable {
     }
     
     public int getLeftFireKey() {
-        return KeyInput.KEY_SLASH;
+        return KeyInput.KEY_RCONTROL;
     }
     
     public int getRightFireKey() {
