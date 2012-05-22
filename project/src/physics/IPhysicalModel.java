@@ -1,8 +1,7 @@
 package physics;
 
 /**
- *
- * @author atamon
+ *  Interface for abstract entities holding physical bodies.
  */
 public interface IPhysicalModel extends ICollideable {
     public IPhysicalBody getPhysicalObject();

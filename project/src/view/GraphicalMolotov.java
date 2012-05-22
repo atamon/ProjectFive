@@ -7,8 +7,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 
 /**
- *
- * @author atamon
+ * Class to represent a graphical molotov cocktail.
  */
 public class GraphicalMolotov extends GraphicalBottle {
     

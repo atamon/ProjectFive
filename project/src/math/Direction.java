@@ -5,9 +5,8 @@
 package math;
 
 /**
- *
- * @author Victor Lindhé
- */
+ *  Class representing directions. 
+ **/
 public class Direction {
 
     private static final int CLOCKWISE = 1;

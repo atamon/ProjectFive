@@ -2,9 +2,9 @@
 package model.powerup;
 
 /**
- *
- * @author jnes
- */
+ *  Interface with necessary methods for PowerUps.
+ **/
+
 public interface IPowerUp extends Cloneable {
     public void update(final float tpf); // i.e. update lifetime
     public String getMessage();
@@ -29,7 +29,7 @@ public interface IPowerUp extends Cloneable {
     public void setActive(final boolean active);
 
     public int getDamage();
-
+    
     public IPowerUp clone();
 
 }

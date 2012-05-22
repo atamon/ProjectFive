@@ -8,19 +8,18 @@ import com.jme3.input.InputManager;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.AnalogListener;
 import com.jme3.input.controls.KeyTrigger;
-import controller.keymaps.KeyPlayable;
+import controller.keymaps.IKeyPlayable;
 import model.IGame;
 import model.player.Player;
 import model.round.RoundState;
 
 /**
- *
- * @author victorlindhe @modified johnhu
- */
+ * Listens to a specific Player.
+ **/
 public class PlayerListener implements ActionListener, AnalogListener {
 
     private Player player;
-    private KeyPlayable layout;
+    private IKeyPlayable layout;
     private IGame game;
 
     public PlayerListener(Player player, InputManager inpManager, IGame game) {
@@ -53,8 +52,8 @@ public class PlayerListener implements ActionListener, AnalogListener {
             }
         }
 
-        if (name.equals(this.layout.getUpMap())) {
-            this.player.accelerateUnit(isPressed);
+        if (name.equals(layout.getUpMap())) {
+            player.accelerateUnit(isPressed);
         }
 
         if (name.equals(layout.getLeftMap())) {
@@ -70,11 +69,11 @@ public class PlayerListener implements ActionListener, AnalogListener {
 
         if (game.getRoundState() == RoundState.PLAYING 
                 && game.getPlayer(player.getId()).canUnitFire()) {
-            if (name.equals(this.layout.getLeftFireMap())) {
-                this.player.increaseFirePowerLeft(value);
+            if (name.equals(layout.getLeftFireMap())) {
+                player.increaseFirePowerLeft(value);
             }
-            if (name.equals(this.layout.getRightFireMap())) {
-                this.player.increaseFirePowerRight(value);
+            if (name.equals(layout.getRightFireMap())) {
+                player.increaseFirePowerRight(value);
             }
         }
     }

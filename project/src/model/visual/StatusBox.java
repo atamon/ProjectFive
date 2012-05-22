@@ -9,12 +9,10 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import observable.IObservable;
 
 /**
  * Singleton Status Box that can show information about what's happening in the game
- * @author jnes
  */
 public final class StatusBox implements IObservable  {
     public static final Color STATUS_MESSAGE_COLOR = Color.GRAY;
@@ -27,7 +25,7 @@ public final class StatusBox implements IObservable  {
         }
         
         private Message(Color messageColor, String message){
-            this.color = messageColor;
+            color = messageColor;
             this.message = message;
             
         }
@@ -60,12 +58,12 @@ public final class StatusBox implements IObservable  {
     public void message(final Color messageColor, final String message){
         if (message != null) {
             messages.add(new Message(messageColor, message));
-            pcs.firePropertyChange("StatusBox Message", null, this.messages);
+            pcs.firePropertyChange("StatusBox Message", null, messages);
         }
     }
     public void clear() {
         messages.clear();
-        pcs.firePropertyChange("StatusBox Cleared", null, this.messages);
+        pcs.firePropertyChange("StatusBox Cleared", null, messages);
     }
     
     public void setVisible(final boolean visible) {

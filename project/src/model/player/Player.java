@@ -13,9 +13,7 @@ import model.visual.Unit;
 
 /**
  * A simple class thats meant to bind a unit for each player.
- *
- * @author John Hult @tested Victor Lindhé @modified Victor Lindhé
- */
+ **/
 public class Player implements IObservable {
     
     public static final Player NONE = new Player();
@@ -23,10 +21,10 @@ public class Player implements IObservable {
     public final static List<Color> PLAYER_COLORS = new ArrayList<Color>() {
 
         {
-            this.add(Color.CYAN);    // player 0
-            this.add(Color.MAGENTA); // -''- 1
-            this.add(Color.ORANGE);  // 2
-            this.add(Color.PINK);    // 3
+            add(Color.CYAN);    // player 0
+            add(Color.MAGENTA); // -''- 1
+            add(Color.ORANGE);  // 2
+            add(Color.PINK);    // 3
         }
     };
     private final int playerId;
@@ -43,7 +41,7 @@ public class Player implements IObservable {
      */
     public Player(final int playerID) {
         this.playerId = playerID;
-        this.color = (PLAYER_COLORS.size() >= playerID) ? // player should be created with any id
+        color = (PLAYER_COLORS.size() >= playerID) ? // player should be created with any id
                 PLAYER_COLORS.get(playerID) : Color.WHITE; // but only id 0-3 have color that isn't white
 
     }
@@ -54,7 +52,7 @@ public class Player implements IObservable {
     }
 
     public Color getColor() {
-        return this.color;
+        return color;
     }
 
     /**
@@ -63,7 +61,7 @@ public class Player implements IObservable {
      * @return Unit
      */
     public Unit getUnit() {
-        return this.playerUnit;
+        return playerUnit;
     }
 
     /**
@@ -73,7 +71,7 @@ public class Player implements IObservable {
      */
     public void setUnit(Unit boat) {
         if (boat != null) {
-            this.playerUnit = boat;
+            playerUnit = boat;
         }
     }
 
@@ -104,7 +102,7 @@ public class Player implements IObservable {
         Vector unitDirection = playerUnit.getDirection();
         Vector ballDirection = new Vector(unitDirection.getZ(), 0,
                 unitDirection.getX() * -1);
-        this.fire(ballDirection, firePowerLeft);
+        fire(ballDirection, firePowerLeft);
         firePowerLeft = Settings.getInstance().getSetting("cannonBallMinimumFirePower");
     }
 
@@ -112,7 +110,7 @@ public class Player implements IObservable {
         Vector unitDirection = playerUnit.getDirection();
         Vector ballDirection = new Vector(unitDirection.getZ() * -1, 0,
                 unitDirection.getX());
-        this.fire(ballDirection, firePowerRight);
+        fire(ballDirection, firePowerRight);
         firePowerRight = Settings.getInstance().getSetting("cannonBallMinimumFirePower");
     }
 
@@ -124,10 +122,10 @@ public class Player implements IObservable {
                 direction,
                 new Vector(size, size, size),
                 (float) (Settings.getInstance().getSetting("cannonBallMass")),
-                (float) (Settings.getInstance().getSetting("cannonBallSpeed")) * firePower, this.playerUnit);
+                (float) (Settings.getInstance().getSetting("cannonBallSpeed")) * firePower, playerUnit);
 
         pcs.firePropertyChange("CannonBall Created", null, cBall);
-        this.playerUnit.reload(Settings.getInstance().getSetting("fireDelay"));
+        playerUnit.reload(Settings.getInstance().getSetting("fireDelay"));
     }
 
     private Vector getCannonBallPos(Vector ballDir) {
@@ -174,7 +172,7 @@ public class Player implements IObservable {
      * @return
      */
     public int getId() {
-        return this.playerId;
+        return playerId;
     }
 
     public boolean canUnitFire() {
@@ -207,10 +205,10 @@ public class Player implements IObservable {
             return false;
         }
         final Player other = (Player) obj;
-        if (this.playerId != other.playerId) {
+        if (playerId != other.playerId) {
             return false;
         }
-        if (this.playerUnit != other.playerUnit && (this.playerUnit == null || !this.playerUnit.equals(other.playerUnit))) {
+        if (playerUnit != other.playerUnit && (playerUnit == null || !playerUnit.equals(other.playerUnit))) {
             return false;
         }
         return true;
@@ -219,8 +217,8 @@ public class Player implements IObservable {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 73 * hash + this.playerId;
-        hash = 73 * hash + (this.playerUnit != null ? this.playerUnit.hashCode() : 0);
+        hash = 73 * hash + playerId;
+        hash = 73 * hash + (playerUnit != null ? playerUnit.hashCode() : 0);
         return hash;
     }
 

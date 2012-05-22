@@ -10,8 +10,7 @@ import math.Vector;
 import observable.IObservable;
 
 /**
- *
- * @author victorlindhe
+ * Interface for physical bodies in the physics world.
  */
 public interface IPhysicalBody extends IObservable {
 

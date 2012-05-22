@@ -11,8 +11,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
- *
- * @author victorlindhe
+ * Common stuff for all graphical objects.
  */
 public abstract class GraphicalAbstract implements PropertyChangeListener {
 
@@ -39,10 +38,6 @@ public abstract class GraphicalAbstract implements PropertyChangeListener {
         if ("Physical Update".equals(pce.getPropertyName())) {
             updatePosition((Vector3f) pce.getOldValue());
             updateRotation((Quaternion) pce.getNewValue());
-        }
-
-        if ("Physical Rescaled".equals(pce.getPropertyName())) {
-            node.setLocalScale((Vector3f) pce.getNewValue());
         }
 
         if ("Hide Moveable".equals(pce.getPropertyName())) {

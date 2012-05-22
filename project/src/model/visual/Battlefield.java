@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import physics.JMEPhysicsHandler;
 import math.Vector;
+import model.settings.Settings;
 import physics.ICollideable;
 import physics.IPhysicsHandler;
 
@@ -46,7 +47,7 @@ public class Battlefield implements PropertyChangeListener, ICollideable {
         }
 
         // Set up ocean floor
-        physHandler.createGround(this.size, this);
+        physHandler.createGround(size, this);
     }
 
     public void addToBattlefield(final IMoveable mov) {
@@ -58,7 +59,7 @@ public class Battlefield implements PropertyChangeListener, ICollideable {
 
         // Save it for keepsake and listen for removal
         mov.addPropertyChangeListener(this);
-        this.moveables.add(mov);
+        moveables.add(mov);
     }
 
     public void removeFromBattlefield(final IMoveable mov) {
@@ -73,22 +74,22 @@ public class Battlefield implements PropertyChangeListener, ICollideable {
 
             final IMoveable next = iterator.next();
             next.update(tpf);
-            if (next.getClass() == Unit.class && this.isOutOfBounds(next.getPosition())) {
-                this.doMagellanJourney(next);
+            if (next.getClass() == Unit.class && isOutOfBounds(next.getPosition())) {
+                doMagellanJourney(next);
             }
         }
-        this.physHandler.update(tpf);
+        physHandler.update(tpf);
 
         clearRemoveBuffer();
     }
 
     private void clearRemoveBuffer() {
-        Iterator<IMoveable> iterator = this.removeBuffer.iterator();
+        Iterator<IMoveable> iterator = removeBuffer.iterator();
         while (iterator.hasNext()) {
             final IMoveable next = iterator.next();
-            this.removeFromBattlefield(next);
+            removeFromBattlefield(next);
         }
-        this.removeBuffer.clear();
+        removeBuffer.clear();
     }
 
     private void doMagellanJourney(final IMoveable moveable) {
@@ -112,16 +113,16 @@ public class Battlefield implements PropertyChangeListener, ICollideable {
      * @return Vector
      */
     public Vector getSize() {
-        return this.size;
+        return size;
     }
 
     public Vector getPosition() {
-        return new Vector(this.pos);
+        return new Vector(pos);
     }
 
     private boolean isOutOfBounds(final Vector position) {
         return position.getX() < 0
-                || position.getX() > this.size.getX()
+                || position.getX() > size.getX()
                 || position.getZ() < 0
                 || position.getZ() > size.getZ();
     }
@@ -133,7 +134,7 @@ public class Battlefield implements PropertyChangeListener, ICollideable {
         }
         hiddenMoveables.clear();
 
-        final Iterator<IMoveable> iterator = this.moveables.iterator();
+        final Iterator<IMoveable> iterator = moveables.iterator();
         while (iterator.hasNext()) {
             final IMoveable mov = iterator.next();
             // Keep units but remove everything else
@@ -167,10 +168,10 @@ public class Battlefield implements PropertyChangeListener, ICollideable {
             return false;
         }
         final Battlefield other = (Battlefield) obj;
-        if (this.size != other.size && (this.size == null || !this.size.equals(other.size))) {
+        if (size != other.size && (size == null || !size.equals(other.size))) {
             return false;
         }
-        if (this.pos != other.pos && (this.pos == null || !this.pos.equals(other.pos))) {
+        if (pos != other.pos && (pos == null || !pos.equals(other.pos))) {
             return false;
         }
         return true;
@@ -179,16 +180,18 @@ public class Battlefield implements PropertyChangeListener, ICollideable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 37 * hash + (this.size != null ? this.size.hashCode() : 0);
-        hash = 37 * hash + (this.pos != null ? this.pos.hashCode() : 0);
+        hash = 37 * hash + (size != null ? size.hashCode() : 0);
+        hash = 37 * hash + (pos != null ? pos.hashCode() : 0);
         return hash;
     }
 
-    public void collidedWith(ICollideable obj, float objImpactSpeed) {
+    @Override
+	public void collidedWith(ICollideable obj, float objImpactSpeed) {
         // Nothing to do here yet, all other objects handle collision with BF atm
     }
 
-    public void propertyChange(final PropertyChangeEvent evt) {
+    @Override
+	public void propertyChange(final PropertyChangeEvent evt) {
 
         if ("CannonBall Created".equals(evt.getPropertyName())) {
             IMoveable cb = (IMoveable) evt.getNewValue();
@@ -208,16 +211,15 @@ public class Battlefield implements PropertyChangeListener, ICollideable {
     }
 
     public static Vector getStartingPosition(int playerID, Vector bfSize) {
-        float corrHeight = bfSize.getY() + 1.9f;
-        Vector upLeft = new Vector(bfSize);
-        Vector downLeft = new Vector(upLeft.getX(), upLeft.getY(), 0);
-        Vector upRight = new Vector(0, upLeft.getY(), upLeft.getX());
-        Vector downRight = new Vector(15f, upLeft.getY() + corrHeight, 15f);
-
-        // We want the starting positions a bit more towards the center
-        upLeft.add(new Vector(-15f, corrHeight, -15f));
-        downLeft.add(new Vector(-15f, corrHeight, 15f));
-        upRight.add(new Vector(15f, corrHeight, -15f));
+        float margin = 15f;
+        float maxX = bfSize.getX();
+        float height = bfSize.getY()+Settings.getInstance().getSetting("unitSize");
+        float maxZ = bfSize.getZ();
+        
+        Vector upLeft = new Vector(maxX-margin,height,maxZ-margin);
+        Vector downLeft = new Vector(maxX-margin, height, margin);
+        Vector upRight = new Vector(margin, height, maxZ- margin);
+        Vector downRight = new Vector(margin, height, margin);
 
         Vector position;
         switch (playerID) {

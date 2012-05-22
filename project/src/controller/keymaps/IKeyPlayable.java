@@ -6,10 +6,9 @@ package controller.keymaps;
 
 
 /**
- *
- * @author victorlindhe
- */
-public interface KeyPlayable {
+ * Interface for key mapping.
+ **/
+public interface IKeyPlayable {
     public int getForwardKey();
     public int getLeftKey();
     public int getRightKey();

@@ -4,8 +4,6 @@ import model.player.Player;
 
  /**
  * Class to keep track of the current round.
- * @author johnhu
- * @modified victorlindhe
  */
 public class Round {
     private RoundState roundState;

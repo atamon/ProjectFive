@@ -12,7 +12,6 @@ import model.visual.Item;
 
 /**
  * A factory to class that creates a new Item.
- * @author Victor Lindhé
  */
 public class ItemFactory {
     private List<IPowerUp> powerUps = new ArrayList<IPowerUp>();
@@ -30,7 +29,7 @@ public class ItemFactory {
     }
     
     public Item createNewItem(final Vector fieldSize) {
-        final int randNumber = (int)(Math.random()*this.powerUps.size());
+        final int randNumber = (int)(Math.random()*powerUps.size());
         
         // TODO REMOVE STATIC UGLY NUMBER
         final Item item = new Item(powerUps.get(randNumber).clone() , randomizeBottlePosition(fieldSize));

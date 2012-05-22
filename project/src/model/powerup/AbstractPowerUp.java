@@ -5,11 +5,11 @@
 package model.powerup;
 
 import math.Vector;
+import model.settings.Settings;
 
 /**
- *
- * @author jnes
- */
+ *  Common methods for PowerUps.
+ **/
 public abstract class AbstractPowerUp implements IPowerUp {
     
     protected float lifeTime;
@@ -20,7 +20,6 @@ public abstract class AbstractPowerUp implements IPowerUp {
     protected int hitPoints;
     protected int hitPointsMax;
     protected int damage;
-    protected Vector size = Vector.ZERO_VECTOR;
     protected boolean active = true;
     
     public AbstractPowerUp(){}
@@ -40,6 +39,7 @@ public abstract class AbstractPowerUp implements IPowerUp {
         damage = that.getDamage();
     }
     
+    @Override
     public abstract IPowerUp clone();
     
     @Override

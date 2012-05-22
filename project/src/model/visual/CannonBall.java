@@ -9,13 +9,11 @@ import observable.IObservable;
 import math.Vector;
 import physics.ICollideable;
 import physics.IPhysicalBody;
-import physics.IPhysicalModel;
 import physics.PhysicalCannonBall;
 
 /**
  * A class to represent a CannonBall.
  *
- * @author victorlindhe
  */
 public class CannonBall extends MoveableAbstract implements IObservable, IProjectile {
     private final Unit owner;
@@ -38,7 +36,7 @@ public class CannonBall extends MoveableAbstract implements IObservable, IProjec
             final Unit owner) {
         body = new PhysicalCannonBall(this, position, direction, size, mass, speed);
         super.setBody(body);
-        this.pcs = super.getPropertyChangeSupport();
+        pcs = super.getPropertyChangeSupport();
         this.owner = owner;
     }
 

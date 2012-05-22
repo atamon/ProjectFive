@@ -5,7 +5,6 @@
 package controller.listeners;
 
 import com.jme3.input.InputManager;
-import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
 import controller.keymaps.PlayerOneKeys;
@@ -16,12 +15,11 @@ import java.util.HashMap;
 import java.util.Map;
 import model.GameState;
 import model.IGame;
-import model.player.Player;
+
 
 /**
- *
- * @author atamon
- */
+ * Listens to leaving players.
+ **/
 public class LeavePlayerListener implements ActionListener {
 
     private final Map<Integer, KeyTrigger> leaveKeys = new HashMap<Integer, KeyTrigger>();
@@ -36,7 +34,7 @@ public class LeavePlayerListener implements ActionListener {
         leaveKeys.put(2, new KeyTrigger(PlayerTwoKeys.KEY_LEAVE));
         leaveKeys.put(3, new KeyTrigger(PlayerThreeKeys.KEY_LEAVE));
 
-        this.setKeys(inpManager);
+        setKeys(inpManager);
 
     }
 
@@ -60,7 +58,7 @@ public class LeavePlayerListener implements ActionListener {
                         + " Not a Number!");
             }
             if (game.hasPlayer(id)) {
-                this.game.removePlayer(id);
+                game.removePlayer(id);
             }
         }
     }

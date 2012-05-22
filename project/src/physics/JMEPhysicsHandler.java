@@ -15,8 +15,6 @@ import math.MonkeyConverter;
 
 /**
  * Holds the physicsworld
- *
- * @author jnes
  */
 public class JMEPhysicsHandler implements PhysicsCollisionListener, IPhysicsHandler {
 

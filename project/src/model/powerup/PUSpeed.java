@@ -1,9 +1,8 @@
 package model.powerup;
 
 /**
- *
- * @author jnes
- */
+ *  PowerUp that increases speed.
+ **/
 public final class PUSpeed extends AbstractPowerUp {
 
     private final String name = "Speed";

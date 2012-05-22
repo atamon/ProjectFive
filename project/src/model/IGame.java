@@ -9,12 +9,10 @@ import model.round.RoundState;
 import observable.IObservable;
 import math.Vector;
 import java.beans.PropertyChangeListener;
-import java.util.Map;
 
 /**
- *
- * @author Victor Lindhé
- */
+ *  Interface with necessary methods to create a complete game.
+ **/
 public interface IGame extends IObservable {
     public void createPlayer(int id);
     public void removePlayer(int id);

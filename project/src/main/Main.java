@@ -1,25 +1,17 @@
 package main;
 
-import model.visual.Battlefield;
 import model.Game;
 import controller.Controller;
 import com.jme3.app.SimpleApplication;
-import com.jme3.font.BitmapText;
-import com.jme3.math.ColorRGBA;
 import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.system.AppSettings;
-import model.settings.SettingsLoader;
 import java.util.logging.Level;
 import model.IGame;
-import model.settings.Settings;
-import org.lwjgl.opengl.Display;
 import view.View;
 
 /**
- * Main for our PirateBattle application.
- *
- * @author Anton Lindgren
- */
+ * Main for our application.
+ **/
 public class Main extends SimpleApplication {
 
     private final static String version = "0.1-a1";
@@ -68,7 +60,7 @@ public class Main extends SimpleApplication {
         
         // clear gui from status-info such as fps
         setDisplayStatView(false);
-        this.guiNode.detachAllChildren(); 
+        guiNode.detachAllChildren(); 
         
         // Create MVC and make connections
         game = new Game();

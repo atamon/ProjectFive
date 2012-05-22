@@ -4,12 +4,10 @@
  */
 package physics;
 
-import com.jme3.bullet.objects.PhysicsRigidBody;
 import math.Vector;
 
 /**
- *
- * @author jnes
+ * Body to represent a physical Item.
  */
 public class PhysicalItem extends PhysicalAbstractBody {
 

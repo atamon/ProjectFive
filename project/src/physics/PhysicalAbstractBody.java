@@ -11,13 +11,12 @@ import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import math.Direction;
 import math.Vector;
 import math.MonkeyConverter;
 
 /**
  *
- * @author atamon
+ * Common stuff for all physical bodies.
  */
 public abstract class PhysicalAbstractBody implements IPhysicalBody {
 
@@ -103,13 +102,6 @@ public abstract class PhysicalAbstractBody implements IPhysicalBody {
         return initSize;
     }
 
-    public void scale(float scalar){
-        Vector3f scaleVec = new Vector3f(scalar,scalar,scalar);
-        body.getCollisionShape().setScale(scaleVec);
-        pcs.firePropertyChange("Physical Rescale", null, scaleVec);
-        
-    }
-    
     @Override
     public float getMass() {
         return body.getMass();

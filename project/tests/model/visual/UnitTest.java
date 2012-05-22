@@ -6,7 +6,6 @@ package model.visual;
 
 import model.settings.SettingsLoader;
 import model.visual.Unit;
-import math.Direction;
 import math.Vector;
 import model.settings.Settings;
 import model.visual.Battlefield;
@@ -45,7 +44,7 @@ public class UnitTest {
         unit.setIsAccelerating(true);
         unit.steerClockWise(true);
         // Calls unit.update() and updates physical world
-        bf.update(0.016f);
+        bf.update(0.076f);
         assertFalse(pos.equals(unit.getPosition()) || dir.equals(unit.getDirection()));
     }
 

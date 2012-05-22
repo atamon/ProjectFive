@@ -3,7 +3,6 @@ package model;
 import java.awt.Color;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import model.player.Player;
@@ -32,11 +31,11 @@ public class Game implements IGame {
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private GameState gameState = GameState.INACTIVE;
 
-    private final RoundModel roundModel;
-    private final PlayerModel playerModel;
+    private final IRoundModel roundModel;
+    private final IPlayerModel playerModel;
     
     private final ItemFactory itemFactory;
-    private float itemTimeout = 5f;
+    private float itemTimeout;
     
     /**
      * Create a game with given parameters. A game consists of a number of
@@ -89,11 +88,11 @@ public class Game implements IGame {
                 endRound();
             }
 
-            this.battlefield.update(tpf);
-            this.itemTimeout -= tpf;
+            battlefield.update(tpf);
+            itemTimeout -= tpf;
             if(itemTimeout <= 0 ){
-                this.createItem();
-                this.itemTimeout = Settings.getInstance().getSetting("itemTimeout");
+                createItem();
+                itemTimeout = Settings.getInstance().getSetting("itemTimeout");
             }
         }
         if (roundModel.getCountDown() > 0) {
@@ -245,7 +244,13 @@ public class Game implements IGame {
         }
 
         for (Player player : playerWins.keySet()) {
-            StatusBox.getInstance().message(player.getId() + " won " + playerWins.get(player) + " rounds!");
+            String message = "";
+            if (player.getId() == -1){
+                message = playerWins.get(player) + " round(s) ended draw";
+            } else {
+                message = player.getId() + " won " + playerWins.get(player) + " rounds!";
+            }
+            StatusBox.getInstance().message(message);
         }
         // We have ended the game so it is now STATS
         gameState = GameState.STATS;

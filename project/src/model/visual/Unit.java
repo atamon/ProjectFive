@@ -1,5 +1,6 @@
 package model.visual;
 
+import com.jme3.cinematic.events.ScaleTrack;
 import java.beans.PropertyChangeSupport;
 import math.Direction;
 import math.Vector;
@@ -13,7 +14,6 @@ import physics.PhysicalUnit;
 /**
  * A unit. Probably a ship.
  *
- * @author Johannes Wikner @modified Victor Lindhé, johnhu
  */
 public class Unit extends MoveableAbstract implements IObservable {
 
@@ -41,9 +41,9 @@ public class Unit extends MoveableAbstract implements IObservable {
             throw new IllegalArgumentException("hit points must be positive");
         }
 
-        this.body = new PhysicalUnit(this, pos, dir, size, mass);
+        body = new PhysicalUnit(this, pos, dir, size, mass);
         super.setBody(body);
-        this.pcs = super.getPropertyChangeSupport();
+        pcs = super.getPropertyChangeSupport();
     }
 
     /**
@@ -53,6 +53,7 @@ public class Unit extends MoveableAbstract implements IObservable {
      * @param tpf Updatefrequency, i.e. time since last frame
      */
     public void update(final float tpf) {
+        System.out.println(body.getPosition());
         if (getPosition().getY() < FLYING_HEIGHT) {
             if (body.canNavigate()) {
                 accelerate(isAccelerating, tpf);
@@ -61,11 +62,11 @@ public class Unit extends MoveableAbstract implements IObservable {
                 damage(tpf / hullStrength);
             }
         }
-        if (this.powerUp != null) {
+        if (powerUp != null) {
             if (powerUp.isActive()) {
-                this.powerUp.update(tpf);
+                powerUp.update(tpf);
             } else {
-                this.removePowerUp();
+                removePowerUp();
             }
         }
         
@@ -144,8 +145,8 @@ public class Unit extends MoveableAbstract implements IObservable {
      * hit points
      */
     public void setHitPoints(int hitPoints) {
-        if (hitPoints > this.hitPointsMax) {
-            this.hitPoints = this.hitPointsMax;
+        if (hitPoints > hitPointsMax) {
+            hitPoints = hitPointsMax;
         } else {
             this.hitPoints = hitPoints;
         }
@@ -156,7 +157,7 @@ public class Unit extends MoveableAbstract implements IObservable {
      * @return The unit's current hit points (health)
      */
     public int getHitPoints() {
-        return this.hitPoints;
+        return hitPoints;
     }
 
     /**
@@ -164,7 +165,7 @@ public class Unit extends MoveableAbstract implements IObservable {
      * @return The unit's maximum hit points (health)
      */
     public int getHitPointsMax() {
-        return this.hitPointsMax;
+        return hitPointsMax;
     }
     
     private void damage(float damage) {
@@ -211,38 +212,39 @@ public class Unit extends MoveableAbstract implements IObservable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 23 * hash + Float.floatToIntBits(this.steerAngle);
-        hash = 23 * hash + this.hitPointsMax;
-        hash = 23 * hash + this.hitPoints;
-        hash = 23 * hash + Float.floatToIntBits(this.hullStrength);
-        hash = 23 * hash + (this.isAccelerating ? 1 : 0);
-        hash = 23 * hash + (this.steerDirection != null ? this.steerDirection.hashCode() : 0);
-        hash = 23 * hash + (this.powerUp != null ? this.powerUp.hashCode() : 0);
+        hash = 23 * hash + Float.floatToIntBits(steerAngle);
+        hash = 23 * hash + hitPointsMax;
+        hash = 23 * hash + hitPoints;
+        hash = 23 * hash + Float.floatToIntBits(hullStrength);
+        hash = 23 * hash + (isAccelerating ? 1 : 0);
+        hash = 23 * hash + (steerDirection != null ? steerDirection.hashCode() : 0);
+        hash = 23 * hash + (powerUp != null ? powerUp.hashCode() : 0);
         return hash;
     }
 
     public IPowerUp getPowerUp() {
-        return this.powerUp;
+        return powerUp;
     }
 
     public void applyPowerUp(IPowerUp power) {
-        this.removePowerUp(); //remove old powerUp before adding a new one
-        this.powerUp = power;
+        removePowerUp(); //remove old powerUp before adding a new one
+        powerUp = power;
         StatusBox.getInstance().message(powerUp.getMessage());
         hitPointsMax += powerUp.getHitPointsMax();
-        this.setHitPoints(this.getHitPoints() + powerUp.getHitPoints());
+        setHitPoints(getHitPoints() + powerUp.getHitPoints());
         acceleration += powerUp.getAcceleration();
-        this.setMaxSpeed(this.getMaxSpeed() + powerUp.getMaxSpeed());
-        this.setSteerAngle(this.getSteerAngle() + powerUp.getSteerAngle());
+        setMaxSpeed(getMaxSpeed() + powerUp.getMaxSpeed());
+        setSteerAngle(getSteerAngle() + powerUp.getSteerAngle());
         
     }
 
     public void removePowerUp() {
         hitPointsMax -= powerUp.getHitPointsMax();
         acceleration -= powerUp.getAcceleration();
-        this.maxSpeed -= powerUp.getMaxSpeed();
-        this.steerAngle -= powerUp.getSteerAngle();
-        this.powerUp = new PUEmpty();
+        maxSpeed -= powerUp.getMaxSpeed();
+        steerAngle -= powerUp.getSteerAngle();
+        
+        powerUp = new PUEmpty();
     }
 
     public boolean canFire() {
@@ -250,7 +252,7 @@ public class Unit extends MoveableAbstract implements IObservable {
     }
 
     public void reload(float delay) {
-        this.fireDelay = delay / 1000f;
+        fireDelay = delay / 1000f;
     }
 
     @Override

@@ -7,8 +7,7 @@ package observable;
 import java.beans.PropertyChangeListener;
 
 /**
- *
- * @author johannes wikner
+ * Interface for listenable classes.
  */
 public interface IObservable {
     
