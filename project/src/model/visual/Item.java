@@ -54,7 +54,7 @@ public final class Item extends Bottle {
             return false;
         }
         final Item other = (Item) obj;
-        if (this.powerUp != other.powerUp && (this.powerUp == null || !this.powerUp.equals(other.powerUp))) {
+        if (powerUp != other.powerUp && (powerUp == null || !powerUp.equals(other.powerUp))) {
             return false;
         }
         return super.equals(obj);

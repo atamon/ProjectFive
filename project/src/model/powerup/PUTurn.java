@@ -15,8 +15,8 @@ public class PUTurn extends AbstractPowerUp {
     
     public PUTurn() {
         super();
-        this.steerAngle = 3;
-        this.lifeTime = 10;
+        steerAngle = 3;
+        lifeTime = 10;
     }
 
     private PUTurn(PUTurn that) {
@@ -27,16 +27,16 @@ public class PUTurn extends AbstractPowerUp {
         if (lifeTime <= 0) {
             active = false;
         } else {
-            this.lifeTime -= tpf;
+            lifeTime -= tpf;
         }
     }
 
     public String getMessage() {
-        return this.message;
+        return message;
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     @Override

@@ -34,7 +34,7 @@ public class LeavePlayerListener implements ActionListener {
         leaveKeys.put(2, new KeyTrigger(PlayerTwoKeys.KEY_LEAVE));
         leaveKeys.put(3, new KeyTrigger(PlayerThreeKeys.KEY_LEAVE));
 
-        this.setKeys(inpManager);
+        setKeys(inpManager);
 
     }
 
@@ -58,7 +58,7 @@ public class LeavePlayerListener implements ActionListener {
                         + " Not a Number!");
             }
             if (game.hasPlayer(id)) {
-                this.game.removePlayer(id);
+                game.removePlayer(id);
             }
         }
     }

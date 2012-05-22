@@ -25,7 +25,7 @@ public final class StatusBox implements IObservable  {
         }
         
         private Message(Color messageColor, String message){
-            this.color = messageColor;
+            color = messageColor;
             this.message = message;
             
         }
@@ -58,12 +58,12 @@ public final class StatusBox implements IObservable  {
     public void message(final Color messageColor, final String message){
         if (message != null) {
             messages.add(new Message(messageColor, message));
-            pcs.firePropertyChange("StatusBox Message", null, this.messages);
+            pcs.firePropertyChange("StatusBox Message", null, messages);
         }
     }
     public void clear() {
         messages.clear();
-        pcs.firePropertyChange("StatusBox Cleared", null, this.messages);
+        pcs.firePropertyChange("StatusBox Cleared", null, messages);
     }
     
     public void setVisible(final boolean visible) {

@@ -16,7 +16,7 @@ public class PUHealth extends AbstractPowerUp {
     
     public PUHealth() {
         super();
-        this.hitPoints = Settings.getInstance().getSetting("hitPointsMax");
+        hitPoints = Settings.getInstance().getSetting("hitPointsMax");
     }
 
     private PUHealth(PUHealth that) {
@@ -28,11 +28,11 @@ public class PUHealth extends AbstractPowerUp {
     }
 
     public String getMessage() {
-        return this.message;
+        return message;
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     @Override
