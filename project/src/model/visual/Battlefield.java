@@ -129,12 +129,8 @@ public class Battlefield implements PropertyChangeListener, ICollideable {
     public void clearForNewRound() {
         for (IMoveable mov : hiddenMoveables) {
             mov.announceShow();
-
-            if (!moveables.contains(mov)) {
-                addToBattlefield(mov);
-            }
+            addToBattlefield(mov);
         }
-        moveables.addAll(hiddenMoveables);
         hiddenMoveables.clear();
 
         final Iterator<IMoveable> iterator = this.moveables.iterator();

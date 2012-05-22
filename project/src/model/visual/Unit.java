@@ -58,7 +58,7 @@ public class Unit extends MoveableAbstract implements IObservable {
                 accelerate(isAccelerating, tpf);
                 steer(tpf);
             } else {
-                hitPoints -= tpf / hullStrength;
+                damage(tpf / hullStrength);
             }
         }
         if (this.powerUp != null) {
@@ -67,10 +67,6 @@ public class Unit extends MoveableAbstract implements IObservable {
             } else {
                 this.removePowerUp();
             }
-        }
-        
-        if (hitPoints <= 0) {
-            announceHide();
         }
         
         this.fireDelay = fireDelay <= 0 ? 0 : fireDelay - tpf;
@@ -170,6 +166,13 @@ public class Unit extends MoveableAbstract implements IObservable {
     public int getHitPointsMax() {
         return this.hitPointsMax;
     }
+    
+    private void damage(float damage) {
+        hitPoints -= damage;
+        if (hitPoints <= 0) {
+            announceHide();
+        }
+    }
 
     /**
      * Returns true if and only if the boat has been sent to Davy Jones' locker.
@@ -183,13 +186,13 @@ public class Unit extends MoveableAbstract implements IObservable {
     public void collidedWith(ICollideable obj, float objImpactSpeed) {
         // Two units crashing
         if (obj instanceof Unit) {
-            hitPoints -= Math.abs(objImpactSpeed / hullStrength);
+            damage(Math.max(objImpactSpeed / hullStrength, 0));
         }
 
         if (obj instanceof IProjectile) {
             final int damage = ((IProjectile) obj).getDamage();
             
-            hitPoints -= damage;
+            damage(damage);
             StatusBox.getInstance().message("Dang!! "+damage+" damage!!" );
         }
     }
