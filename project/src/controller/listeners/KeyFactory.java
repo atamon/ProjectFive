@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller.listeners;
 
 import controller.keymaps.IKeyPlayable;
@@ -16,17 +12,25 @@ import model.player.Player;
  *  Creates IKeyPlayables.
  **/
 public class KeyFactory {
-    public static IKeyPlayable getPlayerKeys(Player player) {
-        if(player.getId() == 0) {
-            return new PlayerZeroKeys();
-        } else if (player.getId() == 1) {
-            return new PlayerOneKeys();
-        } else if (player.getId() == 2) {
-            return new PlayerTwoKeys();
-        } else if (player.getId() == 3) {
-            return new PlayerThreeKeys();
-        } else {
-            return null;
+    public static IKeyPlayable getPlayerKeys(final Player player) {
+        final int playerId = player.getId();
+        IKeyPlayable playerKeys = null;
+        switch(playerId){
+            case 0:
+                playerKeys = new PlayerZeroKeys();
+                break;
+            case 1: 
+                playerKeys = new PlayerOneKeys();
+                break;
+            case 2:
+                playerKeys = new PlayerTwoKeys();
+                break;
+            case 3:
+                playerKeys = new PlayerThreeKeys();
+                break;
+            default:
+                throw new IllegalArgumentException("Only player ids 0-3 supported. Received id: "+playerId);
         }
+        return playerKeys;
     }
 }

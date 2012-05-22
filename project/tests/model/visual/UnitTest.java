@@ -1,21 +1,14 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package model.visual;
 
 import model.settings.SettingsLoader;
-import model.visual.Unit;
 import math.Vector;
 import model.settings.Settings;
-import model.visual.Battlefield;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 
 /**
- *
- * @author Anton Lindgren
+ * Test class for Unit
  */
 public class UnitTest {
 

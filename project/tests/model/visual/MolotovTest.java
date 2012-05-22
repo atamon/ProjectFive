@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package model.visual;
 
 import java.beans.PropertyChangeEvent;
@@ -14,8 +10,7 @@ import org.junit.*;
 import static org.junit.Assert.*;
 
 /**
- *
- * @author atamon
+ * Test class for Molovtov
  */
 public class MolotovTest {
 

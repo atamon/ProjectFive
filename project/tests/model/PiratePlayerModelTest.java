@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
 import java.beans.PropertyChangeEvent;
@@ -12,15 +8,12 @@ import model.round.WinnerNotFoundException;
 import model.settings.Settings;
 import model.settings.SettingsLoader;
 import model.visual.Battlefield;
-import model.visual.Unit;
-import org.junit.AfterClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
-import org.junit.BeforeClass;
 
 /**
- *
+ * Test class for PiratePlayerModel
  * @author victorlindhe
  */
 public class PiratePlayerModelTest {

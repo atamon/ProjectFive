@@ -1,13 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package model.player;
 
 import model.settings.SettingsLoader;
 import model.settings.Settings;
 import org.junit.Before;
-import model.player.Player;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import math.Vector;
@@ -17,8 +12,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
- * @author victorlindhe
+ * Test class for Player
  */
 public class PlayerTest {
 

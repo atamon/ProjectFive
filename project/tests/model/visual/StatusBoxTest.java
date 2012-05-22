@@ -1,21 +1,15 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package model.visual;
 
 import java.awt.Color;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
-import java.util.Map;
 import model.visual.StatusBox.Message;
 import org.junit.*;
 import static org.junit.Assert.*;
 
 /**
- *
- * @author jnes
+ * Test class for StatusBox
  */
 public class StatusBoxTest {
     

@@ -53,7 +53,6 @@ public class Unit extends MoveableAbstract implements IObservable {
      * @param tpf Updatefrequency, i.e. time since last frame
      */
     public void update(final float tpf) {
-        System.out.println(body.getPosition());
         if (getPosition().getY() < FLYING_HEIGHT) {
             if (body.canNavigate()) {
                 accelerate(isAccelerating, tpf);
@@ -204,19 +203,6 @@ public class Unit extends MoveableAbstract implements IObservable {
     @Override
     public boolean equals(Object obj) {
         return this == obj;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 23 * hash + Float.floatToIntBits(this.steerAngle);
-        hash = 23 * hash + this.hitPointsMax;
-        hash = 23 * hash + this.hitPoints;
-        hash = 23 * hash + Float.floatToIntBits(this.hullStrength);
-        hash = 23 * hash + (this.isAccelerating ? 1 : 0);
-        hash = 23 * hash + (this.steerDirection != null ? this.steerDirection.hashCode() : 0);
-        hash = 23 * hash + (this.powerUp != null ? this.powerUp.hashCode() : 0);
-        return hash;
     }
 
     public IPowerUp getPowerUp() {

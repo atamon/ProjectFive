@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package model.visual;
 
 import model.settings.SettingsLoader;
@@ -16,8 +12,7 @@ import static org.junit.Assert.*;
 import test.Util;
 
 /**
- *
- * @author jnes
+ * Test class for Item
  */
 public class ItemTest {
     

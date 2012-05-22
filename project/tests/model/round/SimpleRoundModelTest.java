@@ -1,21 +1,14 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package model.round;
 
 import model.player.Player;
 import model.settings.Settings;
 import model.settings.SettingsLoader;
-import org.junit.AfterClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
-import org.junit.BeforeClass;
 
 /**
- *
- * @author victorlindhe
+ * Test class for round
  */
 public class SimpleRoundModelTest {
     private IRoundModel rModel;

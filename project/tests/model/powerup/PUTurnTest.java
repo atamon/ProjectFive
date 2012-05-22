@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package model.powerup;
 
 import model.settings.SettingsLoader;
@@ -10,8 +6,7 @@ import org.junit.*;
 import static org.junit.Assert.*;
 
 /**
- *
- * @author johnhu
+ * Test class for PUTurn
  */
 public class PUTurnTest {
     

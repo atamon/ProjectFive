@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package model.visual;
 
 import model.settings.SettingsLoader;
@@ -14,8 +10,7 @@ import static org.junit.Assert.*;
 import physics.IPhysicalModel;
 
 /**
- *
- * @author victorlindhe
+ * Test class for CannonBall
  */
 public class CannonBallTest {
 
