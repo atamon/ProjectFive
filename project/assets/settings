@@ -4,7 +4,7 @@
 
 [DEFAULT]
 roundDelay:1
-hitPointsMax:1
+hitPointsMax:100
 numberOfRounds:5
 steerAngle:1
 acceleration:3500
@@ -23,7 +23,7 @@ fireDelay:180
 hullStrength:1000
 itemTimeout:10
 itemLifeTime:10
-molotovPercent:10
+molotovPercent:100
 molotovDamage:1
 molotovForce:250
 

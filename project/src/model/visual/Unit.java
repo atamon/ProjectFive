@@ -58,7 +58,6 @@ public class Unit extends MoveableAbstract implements IObservable {
                 steer(tpf);
             } else {
                 hitPoints -= tpf / hullStrength;
-                pcs.firePropertyChange("Unit sinking", null, tpf);
             }
         }
         if (this.powerUp != null) {
