@@ -40,7 +40,7 @@ public class PiratePlayerModel implements IPlayerModel {
     }
     
     public boolean hasPlayer(int id) {
-        return playerMap.containsKey(id);
+        return playerMap.get(id) != null;
     }
     
     public Player getPlayer(int playerID) {

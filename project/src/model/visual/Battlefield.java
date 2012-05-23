@@ -50,7 +50,7 @@ public class Battlefield implements PropertyChangeListener, ICollideable {
 
     public void addToBattlefield(final IMoveable mov) {
         if (moveables.contains(mov)) {
-            throw new IllegalArgumentException("ERROR: We tried to add a moveable to battlefield that already exists: " + mov);
+            removeFromBattlefield(mov);
         }
         //Add to our physical world which controls movement
         physHandler.addToWorld(mov.getPhysicalObject());
@@ -67,6 +67,7 @@ public class Battlefield implements PropertyChangeListener, ICollideable {
     }
 
     public void update(final float tpf) {
+        clearRemoveBuffer();
         Iterator<IMoveable> iterator = moveables.iterator();
         while (iterator.hasNext()) {
 
@@ -78,7 +79,6 @@ public class Battlefield implements PropertyChangeListener, ICollideable {
         }
         physHandler.update(tpf);
 
-        clearRemoveBuffer();
     }
 
     private void clearRemoveBuffer() {

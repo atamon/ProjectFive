@@ -92,11 +92,11 @@ public class BattlefieldTest {
     /**
      * Test of addToBattlefield method, of class Battlefield.
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testAddToBattlefield() {
         Battlefield instance = new Battlefield();
         instance.addToBattlefield(movBall);
-        // Now we crash
+        // This is okay, it should not crash.
         instance.addToBattlefield(movBall);
     }
 
@@ -133,7 +133,7 @@ public class BattlefieldTest {
     /**
      * Test of clearForNewRound method, of class Battlefield.
      */
-    @Test (expected=IllegalArgumentException.class)
+    @Test
     public void testClear() {        
         Battlefield instance = new Battlefield();
         instance.addToBattlefield(unit);
@@ -142,8 +142,6 @@ public class BattlefieldTest {
         instance.clearForNewRound();
         instance.addToBattlefield(movBall);
         assertTrue(true);
-        // Throws exception
-        instance.addToBattlefield(unit);
     }
 
     /**

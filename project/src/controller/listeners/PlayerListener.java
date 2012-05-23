@@ -42,7 +42,7 @@ public class PlayerListener implements ActionListener, AnalogListener {
 
     public void onAction(String name, boolean isPressed, float tpf) {
         if (!isPressed && game.getRoundState() == RoundState.PLAYING
-                && game.getPlayer(player.getId()).canUnitFire()) {
+                && game.hasPlayer(player.getId()) && player.canUnitFire()) {
             if (name.equals(layout.getLeftFireMap())) {
                 player.fireLeft();
             }
@@ -68,7 +68,7 @@ public class PlayerListener implements ActionListener, AnalogListener {
     public void onAnalog(String name, float value, float tpf) {
 
         if (game.getRoundState() == RoundState.PLAYING 
-                && game.getPlayer(player.getId()).canUnitFire()) {
+                && game.hasPlayer(player.getId()) && player.canUnitFire()) {
             if (name.equals(layout.getLeftFireMap())) {
                 player.increaseFirePowerLeft(value);
             }
