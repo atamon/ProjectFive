@@ -183,12 +183,10 @@ public class View implements PropertyChangeListener {
         // If a player is created we need to start listening to it so we can know when it shoots
         player.addPropertyChangeListener(this);
 
-        Element bar = guiControl.getHealthBarElement(playerID);
-        bar.getParent().setVisible(true);
-        hpBars.put(bar, game.getPlayer(playerID).getUnit());
-
         // Show leave button
         guiControl.playerActive(playerID, true);
+        
+        enableHpBar(playerID, true);
 
         if (game.hasValidAmountOfPlayers()) {
             guiControl.gameValid(true);
@@ -197,9 +195,19 @@ public class View implements PropertyChangeListener {
 
     private void removePlayer(int id) {
         guiControl.playerActive(id, false);
+        enableHpBar(id, false);
         if (!game.hasValidAmountOfPlayers()) {
             guiControl.gameValid(false);
         }
+    }
+    
+    private void enableHpBar(int id, boolean enabled) {        
+        Element bar = guiControl.getHealthBarElement(id);
+        bar.getParent().setVisible(enabled);
+        if (enabled) {
+            hpBars.put(bar, game.getPlayer(id).getUnit());
+        }
+
     }
 
     private void createCannonBall(CannonBall cannonBall) {
